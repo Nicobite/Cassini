@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cassini>
+  <fulldata>
+    <associations>
+      <association>
+        <id>1</id>
+        <vehicle>2</vehicle>
+        <driver>1</driver>
+        <proportion>0.42</proportion>
+      </association>
+      <association>
+        <id>2</id>
+        <vehicle>1</vehicle>
+        <driver>1</driver>
+        <proportion>0.58</proportion>
+      </association>
+    </associations>
+    <vehicles path="%globaldir%/vehicles/global_vehicles.xml" />
+    <drivers path="%globaldir%/drivers/global_drivers.xml" />
+  </fulldata>
+</cassini>

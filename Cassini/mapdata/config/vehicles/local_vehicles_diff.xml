@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cassini>
+  <fulldata path="./local_vehicles.xml" />
+  <diffdata>
+    <vehicles />
+  </diffdata>
+</cassini>

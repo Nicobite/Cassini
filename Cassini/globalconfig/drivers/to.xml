@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cassini>
+  <fulldata path="./global_drivers.xml" />
+  <diffdata>
+    <drivers />
+  </diffdata>
+</cassini>

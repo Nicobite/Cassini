@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cassini>
+  <fulldata>
+    <vehicles>
+      <vehicle>
+        <id>1</id>
+        <constructor>Fiot</constructor>
+        <model>Caissasavon</model>
+        <width>160</width>
+        <length>370</length>
+        <height>120</height>
+        <weight>800</weight>
+        <maxspeed>170</maxspeed>
+        <maxacc>2.5</maxacc>
+        <maxdec>4.1</maxdec>
+        <age>3</age>
+      </vehicle>
+      <vehicle>
+        <id>2</id>
+        <constructor>Renault</constructor>
+        <model>Twingoooo</model>
+        <width>140</width>
+        <length>290</length>
+        <height>140</height>
+        <weight>700</weight>
+        <maxspeed>80</maxspeed>
+        <maxacc>1.8</maxacc>
+        <maxdec>3.4</maxdec>
+        <age>15</age>
+      </vehicle>
+    </vehicles>
+  </fulldata>
+</cassini>

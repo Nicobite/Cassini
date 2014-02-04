@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cassini>
+  <fulldata>
+    <drivers>
+      <driver>
+        <id>1</id>
+        <name>Pat</name>
+        <surname>Hat</surname>
+        <age>42</age>
+        <awareness>50</awareness>
+        <kindness>50</kindness>
+        <aggressivity>50</aggressivity>
+        <irritability>50</irritability>
+        <levelOfDriving>50</levelOfDriving>
+      </driver>
+    </drivers>
+  </fulldata>
+</cassini>
