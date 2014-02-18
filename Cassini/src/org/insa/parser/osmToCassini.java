@@ -5,10 +5,11 @@
  */
 
 package org.insa.parser;
-
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import se.kodapan.osm.domain.Node;
+import se.kodapan.osm.domain.Way;
 import se.kodapan.osm.domain.root.PojoRoot;
 import se.kodapan.osm.parser.xml.instantiated.InstantiatedOsmXmlParser;
 
@@ -28,8 +29,9 @@ public class osmToCassini {
     parser.setRoot(root);
 
     parser.parse(new InputStreamReader(getClass().getResourceAsStream("/org/insa/parser/resources/insa.osm.xml"), "UTF8"));
-
-   System.out.println(root.getNodes().size());
+    for(Way n : root.getWays().values()){
+        System.out.println(n.getTags());
+    }
     System.out.println(root.getWays().size());
     System.out.println(root.getRelations().size());
 
