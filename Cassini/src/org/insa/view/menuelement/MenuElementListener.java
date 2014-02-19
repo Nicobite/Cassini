@@ -14,23 +14,16 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.menuelement;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class MainMenu extends VerticalMenu{
+public interface MenuElementListener {
     
     /**
-     * Default constructor
+     * Enable link between view and controller
      */
-    public MainMenu() {
-        super("#FFFFFF", "#E2E5E6", "#B6B6B6", "transparent", "#B3B2B3", "transparent", "#272A2D");
-        
-        this.addMenuElement(new MainMenuElement("Carte"));
-        this.addMenuElement(new MainMenuElement("Configuration"));
-        this.addMenuElement(new MainMenuElement("Simulation"));
-    }
-    
+    public void performAddAction();
 }

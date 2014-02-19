@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.menuelement;
 
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
@@ -24,15 +24,23 @@ import javafx.scene.text.FontWeight;
  *
  * @author Thomas Thiebaud
  */
-public abstract class MenuElement extends Label implements MenuListener{
+public abstract class MenuElement extends Label implements MenuElementListener{
     
     private int height = 50;
     private int width = 200;
     private Font font = Font.font("Vernada", FontWeight.BOLD, USE_PREF_SIZE);
     private String topBorderColor = "transparent";
     private String rightBorderColor = "transparent";
-    private String bottomBorderColor = "#F0F0F0";
+    private String bottomBorderColor = "transparent";
     private String leftBorderColor = "transparent";
+    
+    
+    /**
+     * Default constructor
+     */
+    public MenuElement() {
+        updateMenuElementView();
+    }
     
     /**
      * Constructor

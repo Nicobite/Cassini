@@ -14,31 +14,25 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.menu;
 
-import javafx.scene.layout.BorderPane;
-import org.insa.controller.MainController;
+import org.insa.view.menuelement.MainElement;
+
 /**
  *
  * @author Thomas Thiebaud
  */
-public class MainPanel extends BorderPane{
-    
-    private final BorderPane layout = new BorderPane();
-    private final TitleMenu titleMenu = new TitleMenu();
-    private final MainMenu mainMenu = new MainMenu();
-    private DefaultPanel defaultPanel = new DefaultPanel();
+public class MainMenu extends VerticalMenu{
     
     /**
      * Default constructor
      */
-    public MainPanel() {
-        MainController.getInstance().setMainPanel(this);
+    public MainMenu() {
+        super("#FFFFFF", "#E2E5E6", "#B6B6B6", "transparent", "#B3B2B3", "transparent", "#272A2D");
         
-        layout.setLeft(titleMenu);
-        layout.setCenter(mainMenu);
-        
-        this.setLeft(layout);
-        this.setCenter(defaultPanel);
+        this.addMenuElement(new MainElement("Carte"));
+        this.addMenuElement(new MainElement("Configuration"));
+        this.addMenuElement(new MainElement("Simulation"));
     }
+    
 }

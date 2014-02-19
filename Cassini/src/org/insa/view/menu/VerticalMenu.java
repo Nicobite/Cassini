@@ -14,12 +14,13 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.menu;
 
 import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import org.insa.view.menuelement.MenuElement;
 
 /**
  *

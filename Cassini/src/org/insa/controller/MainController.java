@@ -17,8 +17,9 @@
 package org.insa.controller;
 
 import javafx.scene.control.Label;
-import org.insa.view.DefaultPanel;
-import org.insa.view.MainPanel;
+import org.insa.view.panel.DefaultPanel;
+import org.insa.view.panel.MainPanel;
+import org.insa.view.panel.SimulationPanel;
 
 /**
  *
@@ -29,6 +30,7 @@ public class MainController {
     private static volatile MainController instance = null;
     
     private MainPanel mainPanel = null;
+    private SimulationPanel simulationPanel = null;
     
     /**
      * Default private constructor
@@ -53,26 +55,75 @@ public class MainController {
     }
 
     /**
-     * Add a reference tMainPanelew
-     * @param mainView 
+     * Add a reference to MainPanel
+     * @param mainPanel 
      */
     public void setMainPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
     }
 
+    /**
+     * Display default panel 
+     */
     public void performDisplayDefaultPanel() {
         mainPanel.setCenter(new DefaultPanel());
     }
 
+    /**
+     * Display simulation panel
+     */
     public void performDisplaySimulationPanel() {
-        mainPanel.setCenter(new Label("Test"));
+        //TODO : Simulation panel could be uprade using pattern Singleton
+        simulationPanel = new SimulationPanel();
+        mainPanel.setCenter(simulationPanel);       
     }
 
+    /**
+     * Display configuration panel
+     */
     public void performDisplayConfigurationPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        mainPanel.setCenter(new Label("Not implemented yet"));
     }
 
+    /**
+     * Display map panel
+     */
     public void performDisplayMapPanel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        mainPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Start simulation
+     */
+    public void performPlaySimulation() {
+        simulationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Suspend simulation
+     */
+    public void performPauseSimulation() {
+        simulationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Stop simulation
+     */
+    public void performStopSimulation() {
+        simulationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Increase simulation speed
+     */
+    public void performBackwardSimulation() {
+        simulationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Decrease simulation speed
+     */
+    public void performForwardSimulation() {
+        simulationPanel.setCenter(new Label("Not implemented yet"));
     }
 }

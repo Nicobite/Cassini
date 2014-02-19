@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.panel;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

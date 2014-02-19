@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package org.insa.view;
+package org.insa.view.menuelement;
 
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -24,7 +24,7 @@ import org.insa.controller.MainController;
  *
  * @author Thomas Thiebaud
  */
-public class MainMenuElement extends MenuElement{
+public class MainElement extends MenuElement{
     
     /*
     private final int height = 50;
@@ -38,8 +38,8 @@ public class MainMenuElement extends MenuElement{
      * Constructor
      * @param name Name of the entry into the menu
      */
-    public MainMenuElement(String name) {
-        super(name,50,200,Font.font("Arial", FontWeight.BLACK, 15));
+    public MainElement(String name) {
+        super(name,50,200,Font.font("Arial", FontWeight.BLACK, 15),"transparent","transparent","#F0F0F0","transparent");
     }
     
     @Override
