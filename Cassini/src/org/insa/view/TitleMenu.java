@@ -39,12 +39,12 @@ public class TitleMenu extends BorderPane{
     public TitleMenu() {
         this.setStyle("-fx-background-color: #272A2D;");
         
-        helpLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/help.png"))));
+        helpLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/org/insa/view/help.png"))));
         helpLabel.setPrefWidth(50);
         helpLabel.setPrefHeight(50);
         helpLabel.setAlignment(Pos.CENTER);
         
-        contactLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/contact.png"))));
+        contactLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/org/insa/view/contact.png"))));
         contactLabel.setPrefWidth(50);
         contactLabel.setPrefHeight(50);
         contactLabel.setAlignment(Pos.CENTER);
