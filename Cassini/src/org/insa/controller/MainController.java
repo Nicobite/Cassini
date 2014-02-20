@@ -20,6 +20,8 @@ import javafx.scene.control.Label;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.MainPanel;
+import org.insa.view.panel.MapPanel;
+import org.insa.view.panel.ResultPanel;
 import org.insa.view.panel.SimulationPanel;
 
 /**
@@ -33,6 +35,8 @@ public class MainController {
     private MainPanel mainPanel = null;
     private SimulationPanel simulationPanel = null;
     private ConfigurationPanel configurationPanel = null;
+    private MapPanel mapPanel = null;
+    private ResultPanel resultPanel = null;
     
     /**
      * Default private constructor
@@ -72,6 +76,15 @@ public class MainController {
     }
 
     /**
+     * Display result panel
+     */
+    public void performDisplayResultPanel() {
+        //TODO : Simulation panel could be uprade using pattern Singleton
+        resultPanel = new ResultPanel();
+        mainPanel.setCenter(resultPanel);       
+    }
+    
+    /**
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
@@ -92,7 +105,8 @@ public class MainController {
      * Display map panel
      */
     public void performDisplayMapPanel() {
-        mainPanel.setCenter(new Label("Not implemented yet"));
+        mapPanel = new MapPanel();
+        mainPanel.setCenter(mapPanel);
     }
 
     /**
@@ -142,5 +156,55 @@ public class MainController {
      */
     public void performDisplayModelConfigurationPanel() {
         configurationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display new map panel
+     */
+    public void performDisplayNewMapPanel() {
+        mapPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display open map panel
+     */
+    public void performDisplayOpenMapPanel() {
+        mapPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display open "Open Street Map" (OSM) map panel
+     */
+    public void performDisplayOpenOSMMapPanel() {
+        mapPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display save map panel
+     */
+    public void performDisplaySaveMapPanel() {
+        mapPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display help panel
+     */
+    public void performDisplayHelpPanel() {
+        mainPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display contact panel
+     */
+    public void performDisplayContactPanel() {
+        mainPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    public void performDisplayNoteResultPanel() {
+        resultPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    public void performDisplayGraphResultPanelPanel() {
+        resultPanel.setCenter(new Label("Not implemented yet"));
     }
 }

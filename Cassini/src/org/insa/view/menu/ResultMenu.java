@@ -13,21 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.panel;
+package org.insa.view.menu;
 
-import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.MapMenu;
+import javafx.geometry.Pos;
+import org.insa.view.menuelement.MapElement;
+import org.insa.view.menuelement.ResultElement;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class MapPanel extends BorderPane{
+public class ResultMenu extends HorizontalMenu{
     
     /**
      * Default constructor
      */
-    public MapPanel() {
-        this.setTop(new MapMenu());
+    public ResultMenu() {
+        super("#FFFFFF",Pos.CENTER, "#E2E5E6", "#B6B6B6", "#B3B2B3", "transparent", "#E2E5E6", "transparent");
+        
+        this.addMenuElement(new ResultElement("note","Résumé"));
+        this.addMenuElement(new MapElement("graph","Graphique"));   
     }
 }

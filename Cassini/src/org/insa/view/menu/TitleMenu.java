@@ -16,42 +16,20 @@
 
 package org.insa.view.menu;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import org.insa.view.menuelement.TitleElement;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class TitleMenu extends BorderPane{
-    
-    private final Label helpLabel = new Label();
-    private final Label contactLabel = new Label();
-    private final VBox layout = new VBox();
-    
+public class TitleMenu extends VerticalMenu{
+   
     /**
      * Default constructor
      */
     public TitleMenu() {
-        this.setStyle("-fx-background-color: #272A2D;");
-        
-        helpLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/org/insa/view/image/help.png"))));
-        helpLabel.setPrefWidth(50);
-        helpLabel.setPrefHeight(50);
-        helpLabel.setAlignment(Pos.CENTER);
-        
-        contactLabel.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/org/insa/view/image/contact.png"))));
-        contactLabel.setPrefWidth(50);
-        contactLabel.setPrefHeight(50);
-        contactLabel.setAlignment(Pos.CENTER);
-        
-        layout.getChildren().add(helpLabel);
-        layout.getChildren().add(contactLabel);
-        
-        this.setBottom(layout);
+        super("#272A2D","transparent","#161819");
+        this.addMenuElement(new TitleElement("help"));
+        this.addMenuElement(new TitleElement("contact"));
     }
 }

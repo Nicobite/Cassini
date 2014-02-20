@@ -16,18 +16,18 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.MapMenu;
+import org.insa.view.menu.ResultMenu;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class MapPanel extends BorderPane{
+public class ResultPanel extends BorderPane{
     
     /**
      * Default constructor
      */
-    public MapPanel() {
-        this.setTop(new MapMenu());
+    public ResultPanel() {
+        this.setTop(new ResultMenu());
     }
 }

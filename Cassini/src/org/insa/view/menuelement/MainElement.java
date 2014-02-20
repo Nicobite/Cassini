@@ -54,6 +54,9 @@ public class MainElement extends MenuElement{
             case "Simulation":
                 MainController.getInstance().performDisplaySimulationPanel();
                 break;
+            case "Résultat":
+                MainController.getInstance().performDisplayResultPanel();
+                break;
             default :
                 MainController.getInstance().performDisplayDefaultPanel();
                 break;

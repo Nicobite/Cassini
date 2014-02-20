@@ -16,18 +16,20 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.MapMenu;
+import org.insa.view.menu.TitleMenu;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class MapPanel extends BorderPane{
+public class TitlePanel extends BorderPane {
     
     /**
      * Default constructor
      */
-    public MapPanel() {
-        this.setTop(new MapMenu());
+    public TitlePanel() {
+        this.setStyle("-fx-background-color:#272A2D;");
+        this.setBottom(new TitleMenu());
+        
     }
 }
