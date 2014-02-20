@@ -16,24 +16,21 @@
 package org.insa.view.menu;
 
 import javafx.geometry.Pos;
-import org.insa.view.menuelement.SimulationControlElement;
+import org.insa.view.menuelement.ConfigurationElement;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class SimulationMenu extends HorizontalMenu{
+public class ConfigurationMenu extends HorizontalMenu{
     
     /**
      * Default constructor
      */
-    public SimulationMenu() {
+    public ConfigurationMenu() {
         super("#FFFFFF",Pos.CENTER, "#E2E5E6", "#B6B6B6", "#B3B2B3", "transparent", "#E2E5E6", "transparent");
         
-        this.addMenuElement(new SimulationControlElement("backward"));
-        this.addMenuElement(new SimulationControlElement("play"));
-        this.addMenuElement(new SimulationControlElement("pause"));
-        this.addMenuElement(new SimulationControlElement("stop"));
-        this.addMenuElement(new SimulationControlElement("forward"));
+        this.addMenuElement(new ConfigurationElement("car","Véhicules"));
+        this.addMenuElement(new ConfigurationElement("model","Modèle"));
     }
 }

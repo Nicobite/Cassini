@@ -17,6 +17,7 @@
 package org.insa.controller;
 
 import javafx.scene.control.Label;
+import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.SimulationPanel;
@@ -31,6 +32,7 @@ public class MainController {
     
     private MainPanel mainPanel = null;
     private SimulationPanel simulationPanel = null;
+    private ConfigurationPanel configurationPanel = null;
     
     /**
      * Default private constructor
@@ -82,7 +84,8 @@ public class MainController {
      * Display configuration panel
      */
     public void performDisplayConfigurationPanel() {
-        mainPanel.setCenter(new Label("Not implemented yet"));
+        configurationPanel = new ConfigurationPanel();
+        mainPanel.setCenter(configurationPanel);
     }
 
     /**
@@ -125,5 +128,19 @@ public class MainController {
      */
     public void performForwardSimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display car configuration panel
+     */
+    public void performDisplayCarConfigurationPanel() {
+        configurationPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Display model configuration panel
+     */
+    public void performDisplayModelConfigurationPanel() {
+        configurationPanel.setCenter(new Label("Not implemented yet"));
     }
 }

@@ -15,16 +15,19 @@
  */
 package org.insa.view.panel;
 
+import javafx.scene.layout.BorderPane;
+import org.insa.view.menu.ConfigurationMenu;
+
 /**
  *
  * @author Thomas Thiebaud
  */
-public class ConfigurationPanel {
+public class ConfigurationPanel extends BorderPane{
     
     /**
      * Default constructor
      */
     public ConfigurationPanel() {
-        //Not implemented yet
+        this.setTop(new ConfigurationMenu());
     }
 }

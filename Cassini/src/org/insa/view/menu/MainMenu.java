@@ -28,11 +28,12 @@ public class MainMenu extends VerticalMenu{
      * Default constructor
      */
     public MainMenu() {
-        super("#FFFFFF", "#E2E5E6", "#B6B6B6", "transparent", "#B3B2B3", "transparent", "#272A2D");
+        super("#FFFFFF", "#E2E5E6", "#B6B6B6", "#B3B2B3", "#B3B2B3", "transparent", "#272A2D");
         
         this.addMenuElement(new MainElement("Carte"));
         this.addMenuElement(new MainElement("Configuration"));
         this.addMenuElement(new MainElement("Simulation"));
+        this.addMenuElement(new MainElement("Résultat"));
     }
     
 }

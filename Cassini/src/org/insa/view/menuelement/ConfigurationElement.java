@@ -26,39 +26,39 @@ import org.insa.controller.MainController;
  *
  * @author Thomas Thiebaud
  */
-public class SimulationControlElement extends MenuElement{
+public class ConfigurationElement extends MenuElement{
 
     private String imageName = "default";
-    
+     
     /**
      * Constructor
-     * @param imageName Name of the picture located in org.insa.view.image package 
+     * @param imageName Name of the picture located in org.insa.view.image package
+     * @param name Name of the entry into the menu
      */
-    public SimulationControlElement(String imageName) {
-        super("",40,40,Font.font("Arial", FontWeight.BLACK, 15));
+    public ConfigurationElement(String imageName, String name) {
+        super(name,40,150,Font.font("Arial", FontWeight.BLACK, 15));
         this.imageName = imageName;
 
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
         this.setAlignment(Pos.CENTER);
     }
     
+    /**
+     * Constructor
+     * @param imageName Name of the picture located in org.insa.view.image package
+     */
+    public ConfigurationElement(String imageName) {
+        this(imageName, "");
+    }
+    
     @Override
     public void performAddAction() {
         switch(imageName) {
-            case "play" :
-                MainController.getInstance().performPlaySimulation();
+            case "car" :
+                MainController.getInstance().performDisplayCarConfigurationPanel();
                 break;
-            case "pause" : 
-                MainController.getInstance().performPauseSimulation();
-                break;
-            case "stop" :
-                MainController.getInstance().performStopSimulation();
-                break;
-            case "backward" :
-                MainController.getInstance().performBackwardSimulation();
-                break;
-            case "forward" :
-                MainController.getInstance().performForwardSimulation();
+            case "model" : 
+                MainController.getInstance().performDisplayModelConfigurationPanel();
                 break;
         }
     }
