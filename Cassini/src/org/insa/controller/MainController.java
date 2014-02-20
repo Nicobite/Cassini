@@ -19,6 +19,7 @@ package org.insa.controller;
 import javafx.scene.control.Label;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
+import org.insa.view.panel.HelpPanel;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
@@ -190,7 +191,7 @@ public class MainController {
      * Display help panel
      */
     public void performDisplayHelpPanel() {
-        mainPanel.setCenter(new Label("Not implemented yet"));
+        mainPanel.setCenter(new HelpPanel());
     }
 
     /**
@@ -200,11 +201,17 @@ public class MainController {
         mainPanel.setCenter(new Label("Not implemented yet"));
     }
 
+    /**
+     * Display note result panel
+     */
     public void performDisplayNoteResultPanel() {
         resultPanel.setCenter(new Label("Not implemented yet"));
     }
 
-    public void performDisplayGraphResultPanelPanel() {
+    /**
+     * Display graph result panel
+     */
+    public void performDisplayGraphResultPanel() {
         resultPanel.setCenter(new Label("Not implemented yet"));
     }
 }

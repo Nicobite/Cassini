@@ -16,7 +16,6 @@
 package org.insa.view.menu;
 
 import javafx.geometry.Pos;
-import org.insa.view.menuelement.MapElement;
 import org.insa.view.menuelement.ResultElement;
 
 /**
@@ -32,6 +31,6 @@ public class ResultMenu extends HorizontalMenu{
         super("#FFFFFF",Pos.CENTER, "#E2E5E6", "#B6B6B6", "#B3B2B3", "transparent", "#E2E5E6", "transparent");
         
         this.addMenuElement(new ResultElement("note","Résumé"));
-        this.addMenuElement(new MapElement("graph","Graphique"));   
+        this.addMenuElement(new ResultElement("graph","Graphique"));   
     }
 }
