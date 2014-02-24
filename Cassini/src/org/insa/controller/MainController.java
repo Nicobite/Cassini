@@ -16,7 +16,12 @@
 
 package org.insa.controller;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Label;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+import org.insa.view.form.ContactForm;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.HelpPanel;
@@ -38,6 +43,9 @@ public class MainController {
     private ConfigurationPanel configurationPanel = null;
     private MapPanel mapPanel = null;
     private ResultPanel resultPanel = null;
+    
+    private ContactForm contactForm = null;
+    private ContactDelegate contactDelegate = null;
     
     /**
      * Default private constructor
@@ -198,7 +206,9 @@ public class MainController {
      * Display contact panel
      */
     public void performDisplayContactPanel() {
-        mainPanel.setCenter(new Label("Not implemented yet"));
+        contactForm = new ContactForm();
+        mainPanel.setCenter(contactForm);
+        contactDelegate = new ContactDelegate(this);
     }
 
     /**
@@ -213,5 +223,23 @@ public class MainController {
      */
     public void performDisplayGraphResultPanel() {
         resultPanel.setCenter(new Label("Not implemented yet"));
+    }
+
+    /**
+     * Send a message (email)
+     * @param recipient Remote user
+     * @param subject Subject of the mail
+     * @param message Content of the mail
+     */
+    public void performSendEmail(String recipient, String subject, String message) {
+        try {
+            contactDelegate.sendEmail(recipient, subject, message);
+            contactForm.clearFields();
+        } catch (AddressException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+        } catch (MessagingException e) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
     }
 }
