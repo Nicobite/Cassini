@@ -47,7 +47,7 @@ public class ContactDelegate {
      * @param message Content of the mail
      * @throws MessagingException Raised if a problem occured during mail transfer
      */
-    public void sendEmail(String recipient, String subject, String message) throws MessagingException{
+    public void sendEmail(String recipient, String subject, String message) throws MessagingException {
         final String username = "cassini.insa@gmail.com";
         final String password = "okijuhygtfrd";
         

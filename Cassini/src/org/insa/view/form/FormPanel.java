@@ -17,6 +17,7 @@ package org.insa.view.form;
 
 import org.insa.controller.validator.FormValidator;
 import java.util.ArrayList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -35,6 +36,7 @@ public abstract class FormPanel extends GridPane implements SubmitFormListener{
      */
     public FormPanel() {
         informationLabel.setFont(new Font(20));
+        
         this.add(informationLabel, 0, 0, 2, 1);
     }
     
@@ -46,5 +48,13 @@ public abstract class FormPanel extends GridPane implements SubmitFormListener{
         formFields.add(formField);
         this.add(new Label(formField.getLegend()), 0, formFields.size()+1);
         this.add(formField.getControl(), 1, formFields.size()+1);
+    }
+
+    /**
+     * Set informationLabel text
+     * @param information New text
+     */
+    public void setInformationText(String information) {
+        informationLabel.setText(information);
     }
 }

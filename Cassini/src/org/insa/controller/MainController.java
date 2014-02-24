@@ -18,9 +18,9 @@ package org.insa.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import org.insa.view.form.ContactForm;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
@@ -47,6 +47,8 @@ public class MainController {
     private ContactForm contactForm = null;
     private ContactDelegate contactDelegate = null;
     
+    private final String SEND_MAIL_ERROR = "Une erreur inconnue est survenue lors de l'envoie du message.\n Vérifiez que vous êtes bien connecté à internet et reéssayez.";
+    
     /**
      * Default private constructor
      */
@@ -68,29 +70,29 @@ public class MainController {
         }
         return MainController.instance;
     }
-
+    
     /**
      * Add a reference to MainPanel
-     * @param mainPanel 
+     * @param mainPanel
      */
     public void setMainPanel(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
     }
-
+    
     /**
-     * Display default panel 
+     * Display default panel
      */
     public void performDisplayDefaultPanel() {
         mainPanel.setCenter(new DefaultPanel());
     }
-
+    
     /**
      * Display result panel
      */
     public void performDisplayResultPanel() {
         //TODO : Simulation panel could be uprade using pattern Singleton
         resultPanel = new ResultPanel();
-        mainPanel.setCenter(resultPanel);       
+        mainPanel.setCenter(resultPanel);
     }
     
     /**
@@ -99,9 +101,9 @@ public class MainController {
     public void performDisplaySimulationPanel() {
         //TODO : Simulation panel could be uprade using pattern Singleton
         simulationPanel = new SimulationPanel();
-        mainPanel.setCenter(simulationPanel);       
+        mainPanel.setCenter(simulationPanel);
     }
-
+    
     /**
      * Display configuration panel
      */
@@ -109,7 +111,7 @@ public class MainController {
         configurationPanel = new ConfigurationPanel();
         mainPanel.setCenter(configurationPanel);
     }
-
+    
     /**
      * Display map panel
      */
@@ -117,91 +119,91 @@ public class MainController {
         mapPanel = new MapPanel();
         mainPanel.setCenter(mapPanel);
     }
-
+    
     /**
      * Start simulation
      */
     public void performPlaySimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Suspend simulation
      */
     public void performPauseSimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Stop simulation
      */
     public void performStopSimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Increase simulation speed
      */
     public void performBackwardSimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Decrease simulation speed
      */
     public void performForwardSimulation() {
         simulationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display car configuration panel
      */
     public void performDisplayCarConfigurationPanel() {
         configurationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display model configuration panel
      */
     public void performDisplayModelConfigurationPanel() {
         configurationPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display new map panel
      */
     public void performDisplayNewMapPanel() {
         mapPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display open map panel
      */
     public void performDisplayOpenMapPanel() {
         mapPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display open "Open Street Map" (OSM) map panel
      */
     public void performDisplayOpenOSMMapPanel() {
         mapPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display save map panel
      */
     public void performDisplaySaveMapPanel() {
         mapPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display help panel
      */
     public void performDisplayHelpPanel() {
         mainPanel.setCenter(new HelpPanel());
     }
-
+    
     /**
      * Display contact panel
      */
@@ -210,21 +212,21 @@ public class MainController {
         mainPanel.setCenter(contactForm);
         contactDelegate = new ContactDelegate(this);
     }
-
+    
     /**
      * Display note result panel
      */
     public void performDisplayNoteResultPanel() {
         resultPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Display graph result panel
      */
     public void performDisplayGraphResultPanel() {
         resultPanel.setCenter(new Label("Not implemented yet"));
     }
-
+    
     /**
      * Send a message (email)
      * @param recipient Remote user
@@ -235,11 +237,22 @@ public class MainController {
         try {
             contactDelegate.sendEmail(recipient, subject, message);
             contactForm.clearFields();
-        } catch (AddressException e) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
         } catch (MessagingException e) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, e);
+            this.performDisplayContactFormUnknowError();
         }
-        
+    }
+    
+    /**
+     * Display an unknow error into contact form
+     */
+    public void performDisplayContactFormUnknowError() {
+        if(contactForm != null) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    contactForm.setInformationText(SEND_MAIL_ERROR);
+                }
+            });          
+        }
     }
 }

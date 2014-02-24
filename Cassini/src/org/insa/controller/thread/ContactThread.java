@@ -18,14 +18,14 @@ package org.insa.controller.thread;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Transport;
+import org.insa.controller.MainController;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class ContactThread extends Thread{
+public class ContactThread extends Thread {
     
     private Message message = null;
     
@@ -41,8 +41,8 @@ public class ContactThread extends Thread{
     public void run() {
         try { 
             Transport.send(message);
-        } catch (MessagingException ex) {
-            Logger.getLogger(ContactThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            MainController.getInstance().performDisplayContactFormUnknowError();
         }
     }
 }
