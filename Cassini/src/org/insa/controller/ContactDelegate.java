@@ -66,9 +66,9 @@ public class ContactDelegate {
         
         Message mimeMessage = new MimeMessage(session);
         mimeMessage.setFrom(new InternetAddress("cassini.insa@gmail.com"));
-        mimeMessage.setRecipients(Message.RecipientType.TO,InternetAddress.parse(recipient));
+        mimeMessage.setRecipients(Message.RecipientType.TO,InternetAddress.parse("cassini.insa@gmail.com"));
         mimeMessage.setSubject(subject);
-        mimeMessage.setText(message);
+        mimeMessage.setText("Send by : " + recipient + "\n\n\n" + message);
         
         ContactThread contactThread = new ContactThread(mimeMessage);
         contactThread.start();
