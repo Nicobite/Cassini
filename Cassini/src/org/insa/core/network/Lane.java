@@ -15,11 +15,62 @@
  */
 package org.insa.core.network;
 
+import java.util.ArrayList;
+import org.insa.core.vehicle.Vehicle;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Lane
+ * A lane is a container of vehicles and is located inside a section
  */
 public class Lane {
+    /**
+     * list of vehicle in this lane
+     */
+    private ArrayList<Vehicle> vehicles;
+    /**
+     * section of this lane
+     */
+    private final Section section;
+    
+    /**
+     * possible movement from current lane
+     * i.e All lanes visibles from current lane
+     */
+    private Transition transition;
+    
+    
+    public Lane(Section section){
+        this.section = section;
+    }
 
+    public Section getSection() {
+        return section;
+    }
+    public Transition getTransition() {
+        return transition;
+    }
+
+    public void setTransition(Transition transition) {
+        this.transition = transition;
+    }
+    
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    public ArrayList<Vehicle> getVehicles() {
+        return vehicles;
+    }
+    public void addVehicle(Vehicle v){
+        this.vehicles.add(v);
+    }
+    public void removeVehicle(Vehicle v){
+        this.vehicles.remove(v);
+    }
+    public boolean containsVehicle(Vehicle v){
+        return this.vehicles.contains(v);
+    }
+    
 }

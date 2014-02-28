@@ -19,7 +19,43 @@ package org.insa.core.network;
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Transition
+ * models movement possibility from current lane
+ * section1         section2
+ * --------------+------------
+ * L1            +   L4        
+ * --------------+------------
+ *               +
+ * L2            +   L5
+ *               +
+ * --------------+------------
+ * L3            +   L6
+ * --------------+------------
+ * 
+ * Transistions of L2 : L2->L1 (go to left lane)
+ *                      L2->L3 (go to right lane)
+ *                      L2->L5 (go straight)
  */
 public class Transition {
+    /**
+     * target lane
+     * This is a lane accessible from current lane
+     */
+    private Lane targetLane;
+    
+    //TODO 
+    /*
+    private Constraint constraint
+    */
+    public Transition(Lane target){
+        this.targetLane = target;
+    }
 
+    public void setTargetLane(Lane targetLane) {
+        this.targetLane = targetLane;
+    }
+
+    public Lane getTargetLane() {
+        return targetLane;
+    }
+    
 }
