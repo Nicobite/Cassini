@@ -16,6 +16,9 @@
 package org.insa.core.network;
 
 import java.util.ArrayList;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -34,10 +37,12 @@ public class Section {
     /**
      * source node
      */
+    @Element(name="from")
     private Node sourceNode;
     /**
      *target node
      */
+    @Element(name="to")
     private Node targetNode;
     
     /**
@@ -48,12 +53,14 @@ public class Section {
     /**
      * max speed in this section
      */
+    @Element(required = false)
     private float maxSpeed;
     
     /**
      * lanes in this section
      *
      */
+    @ElementList
     private ArrayList<Lane>lanes;
     
     /**
@@ -61,11 +68,17 @@ public class Section {
      * @param from
      * @param to
      */
-    public Section(Node from, Node to){
+    public Section( Node from, Node to){
         this.sourceNode = from;
         this.targetNode = to;
         this.length = computeLength(from, to);
+        this.lanes = new ArrayList<>();
     }
+
+    public Section() {
+         this.lanes = new ArrayList<>();
+    }
+    
     /*
     * getters ans setters
     */
@@ -134,6 +147,13 @@ public class Section {
         double radiusEarth = 6371; // km
         double distance = radiusEarth * c;
         return (float)distance;
+    }
+    @Commit
+    public void build(){
+        for(Lane l : this.lanes){
+            l.setSection(this);
+        }
+        this.length = computeLength(sourceNode, targetNode);
     }
     
 }

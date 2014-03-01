@@ -13,13 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.xml.writer;
+package org.insa.model;
+
+import java.util.ArrayList;
+import model.road.Road;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
- Class MapXmlWriter
+ Class MapModel
  */
-public class MapXmlWriter {
+@Root
+public class MapModel {
+    /**
+     * roads
+     */
+    @ElementList
+    private ArrayList<Road>roads;
+    
+    public MapModel(){
+        this.roads = new ArrayList<>();
+    }
 
+    public ArrayList<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(ArrayList<Road> roads) {
+        this.roads = roads;
+    }
+    
 }

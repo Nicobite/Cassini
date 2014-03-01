@@ -15,34 +15,43 @@
 */
 package org.insa.core.vehicle;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Vehicle
  */
+@Root
 public class Vehicle {
     /**
      * vehicle max speed
      */
+    @Attribute
     private int maxSpeed;
     
     /**
      * max acceleration
      */
+    @Attribute(name="maxAcc")
     private int maxAcceleration;
     
     /**
      * max deceleration (braking)
      */
+    @Attribute(name="maxDec")
     private int maxDeceleration;
     
     /**
      * vehicle length
      */
+    @Element(required = false)
     private int length;
     
     public Vehicle(){
-        
+      super();  
     }
     public void setMaxAcceleration(int maxAcceleration) {
         this.maxAcceleration = maxAcceleration;

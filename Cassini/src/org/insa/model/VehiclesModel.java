@@ -13,13 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.xml.parser;
+package org.insa.model;
+
+import java.util.ArrayList;
+import org.insa.core.vehicle.Vehicle;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
- Class VehicleXmlParser
+ * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Class VehiclesModel
  */
-public class VehicleXmlParser {
+@Root
+public class VehiclesModel {
+     /**
+     * vehicles
+     */
+    @ElementList
+    private ArrayList<Vehicle>vehicles;
+    
+    public VehiclesModel(){
+        this.vehicles = new ArrayList<>();
+    }
 
+    public ArrayList<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+    
 }

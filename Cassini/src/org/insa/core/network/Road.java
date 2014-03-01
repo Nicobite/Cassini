@@ -16,6 +16,9 @@
 package org.insa.core.network;
 
 import java.util.ArrayList;
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -23,6 +26,7 @@ import java.util.ArrayList;
  * Class Road
  * represent a road way
  */
+@Root
 public class Road {
     /**
      * origine of the way
@@ -37,6 +41,7 @@ public class Road {
     /**
      * list of sections making this road
      */
+    @ElementList
     private ArrayList<Section>segments;
     
     /**
@@ -47,7 +52,13 @@ public class Road {
     public Road(Section from, Section to){
         this.origin = from;
         this.destination = to;
+        this.segments = new ArrayList<>();
     }
+
+    public Road() {
+        this.segments = new ArrayList<>();
+    }
+    
     
     /*
     * getters ans setters
@@ -84,6 +95,11 @@ public class Road {
     }
     public boolean containsSegment(Section s){
         return this.segments.contains(s);
+    }
+    @Commit
+    public void build(){
+        this.origin = this.segments.get(0);
+        this.destination = this.segments.get(this.segments.size()-1);
     }
     
 }

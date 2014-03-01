@@ -17,6 +17,9 @@ package org.insa.core.network;
 
 import java.util.ArrayList;
 import org.insa.core.vehicle.Vehicle;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -24,6 +27,7 @@ import org.insa.core.vehicle.Vehicle;
  * Class Lane
  * A lane is a container of vehicles and is located inside a section
  */
+@Root
 public class Lane {
     /**
      * max vehicles in this lane
@@ -36,22 +40,36 @@ public class Lane {
     /**
      * section of this lane
      */
-    private final Section section;
+    private Section section;
     
     /**
      * possible movement from current lane
      * i.e All lanes visibles from current lane
      */
+    @Element
     private Transition transition;
     
     
-    public Lane(Section section){
-        this.section = section;
+    public Lane(){
+        this.vehicles = new ArrayList<>();
     }
 
     public Section getSection() {
         return section;
     }
+
+    public void setSection(Section section) {
+        this.section = section;
+    }
+    
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+    
     public Transition getTransition() {
         return transition;
     }
@@ -76,5 +94,4 @@ public class Lane {
     public boolean containsVehicle(Vehicle v){
         return this.vehicles.contains(v);
     }
-    
 }

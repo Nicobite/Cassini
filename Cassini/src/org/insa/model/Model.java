@@ -15,11 +15,44 @@
  */
 package org.insa.model;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Model
  */
+@Root(name = "cassini")
 public class Model {
+    /**
+     * roads network
+     */
+    @Element
+    private MapModel roadModel;
+    /**
+     * vehicles
+     */
+    @Element
+    private VehiclesModel vehiclesModel;
+    
+    
+    public Model(){
+    }
 
+    public MapModel getRoadModel() {
+        return roadModel;
+    }
+
+    public void setRoadModel(MapModel roadModel) {
+        this.roadModel = roadModel;
+    }
+
+    public VehiclesModel getVehiclesModel() {
+        return vehiclesModel;
+    }
+
+    public void setVehiclesModel(VehiclesModel vehiclesModel) {
+        this.vehiclesModel = vehiclesModel;
+    }
 }

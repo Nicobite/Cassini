@@ -15,36 +15,46 @@
 */
 package org.insa.core.network;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Node
  * Represent a graph node
  * The simulation model is based on graph
+ * Uses Simple framework to serialize xml
  */
+@Root
 public class Node {
     /**
      * node id (node number)
      */
+    @Attribute(required = false)
     private int id;
     /**
      * longitude
      */
+    @Attribute
     private float longitude;
     /**
      * latitude
      */
+    @Attribute
     private float latitude;
     
     /**
      * whether it is a crossing point
      * We can put traffic light in those points
      */
+    @Attribute(required = false)
     private boolean crossingPoint;
     
     /**
      * whether it contains a traffic light
      */
+    @Attribute(required = false)
     private boolean trafficLight;
     
     /**
@@ -61,6 +71,7 @@ public class Node {
      *  Default constructor
      */
     public Node() {
+        super();
     }
 
     public boolean isCrossingPoint() {
@@ -71,7 +82,7 @@ public class Node {
         return trafficLight;
     }
 
-    public void setTrafficLight(boolean trafficLight) throws Exception{
+    public void setTrafficLight(boolean trafficLight){
         this.trafficLight = trafficLight;
     }
 

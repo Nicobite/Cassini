@@ -15,14 +15,19 @@
  */
 package org.insa.core.vehicle;
 
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Root;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Behavior
  */
+@Root
 public class Behavior {
     /**
      * safe distance gap
      */
+    @Attribute
     private float safetyDistance;
 }

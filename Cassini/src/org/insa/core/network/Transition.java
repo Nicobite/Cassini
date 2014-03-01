@@ -15,6 +15,9 @@
  */
 package org.insa.core.network;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
+
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
@@ -35,19 +38,21 @@ package org.insa.core.network;
  *                      L2->L3 (go to right lane)
  *                      L2->L5 (go straight)
  */
+@Root
 public class Transition {
     /**
      * target lane
      * This is a lane accessible from current lane
      */
+    @Element
     private Lane targetLane;
     
     //TODO 
     /*
     private Constraint constraint
     */
-    public Transition(Lane target){
-        this.targetLane = target;
+    public Transition(){
+        super();
     }
 
     public void setTargetLane(Lane targetLane) {
