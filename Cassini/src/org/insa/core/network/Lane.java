@@ -26,6 +26,10 @@ import org.insa.core.vehicle.Vehicle;
  */
 public class Lane {
     /**
+     * max vehicles in this lane
+     */
+    private int capacity;
+    /**
      * list of vehicle in this lane
      */
     private ArrayList<Vehicle> vehicles;
