@@ -22,6 +22,8 @@ import org.simpleframework.xml.Root;
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Model
+ * Uses Simple framework for xml serialization.
+ * See http://simple.sourceforge.net/ for further details.
  */
 @Root(name = "cassini")
 public class Model {
@@ -29,7 +31,7 @@ public class Model {
      * roads network
      */
     @Element
-    private MapModel roadModel;
+    private RoadsModel roadModel;
     /**
      * vehicles
      */
@@ -40,11 +42,11 @@ public class Model {
     public Model(){
     }
 
-    public MapModel getRoadModel() {
+    public RoadsModel getRoadModel() {
         return roadModel;
     }
 
-    public void setRoadModel(MapModel roadModel) {
+    public void setRoadModel(RoadsModel roadModel) {
         this.roadModel = roadModel;
     }
 

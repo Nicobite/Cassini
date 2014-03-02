@@ -16,7 +16,7 @@
 package org.insa.xml;
 
 import java.io.File;
-import org.insa.model.MapModel;
+import org.insa.model.RoadsModel;
 import org.insa.model.Model;
 import org.insa.model.VehiclesModel;
 import org.simpleframework.xml.Serializer;
@@ -28,10 +28,17 @@ import org.simpleframework.xml.core.Persister;
  Class XmlParser
  */
 public class XmlParser {
+    /**
+     * serializer : see Simple framework for details
+     */
     private final Serializer serializer;
-    
+    /**
+     * openstreetmap data reader
+     */
+    private final OsmParser osmParser;
     public XmlParser(){
         serializer = new Persister();
+        osmParser = new OsmParser();
     }
     
     /**
@@ -77,8 +84,8 @@ public class XmlParser {
      * @return 
      * @throws java.lang.Exception
      */
-    public MapModel readMapData(File source) throws Exception{
-        return serializer.read(MapModel.class, source);
+    public RoadsModel readMapData(File source) throws Exception{
+        return serializer.read(RoadsModel.class, source);
     }
     
       /**
@@ -87,7 +94,7 @@ public class XmlParser {
      * @param output
      * @throws Exception 
      */
-    public void saveMapData(MapModel model, File output) throws Exception{
+    public void saveMapData(RoadsModel model, File output) throws Exception{
          serializer.write(model, output);
     }
       /**
@@ -96,7 +103,7 @@ public class XmlParser {
      * @return 
      * @throws java.lang.Exception
      */
-    public MapModel readOsmData(File source) throws Exception{
-        return null;
+    public RoadsModel readOsmData(File source) throws Exception{
+        return osmParser.parseOsm(source);
     }
 }

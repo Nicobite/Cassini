@@ -23,6 +23,8 @@ import org.simpleframework.xml.Root;
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Vehicle
+ * Uses Simple framework for xml serialization.
+ * See http://simple.sourceforge.net/ for further details.
  */
 @Root
 public class Vehicle {
@@ -35,13 +37,13 @@ public class Vehicle {
     /**
      * max acceleration
      */
-    @Attribute(name="maxAcc")
+    @Attribute(name="maxacc")
     private int maxAcceleration;
     
     /**
      * max deceleration (braking)
      */
-    @Attribute(name="maxDec")
+    @Attribute(name="maxdec")
     private int maxDeceleration;
     
     /**
@@ -49,6 +51,12 @@ public class Vehicle {
      */
     @Element(required = false)
     private int length;
+    
+    /**
+     * vehicle's behavior
+     */
+    @Element
+    private Behavior behavior;
     
     public Vehicle(){
       super();  
@@ -82,6 +90,14 @@ public class Vehicle {
     
     public int getMaxDeceleration() {
         return maxDeceleration;
+    }
+
+    public Behavior getBehavior() {
+        return behavior;
+    }
+
+    public void setBehavior(Behavior behavior) {
+        this.behavior = behavior;
     }
     
     

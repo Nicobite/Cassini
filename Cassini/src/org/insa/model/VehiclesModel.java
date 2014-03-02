@@ -24,6 +24,8 @@ import org.simpleframework.xml.Root;
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class VehiclesModel
+ * Uses Simple framework for xml serialization.
+ * See http://simple.sourceforge.net/ for further details.
  */
 @Root
 public class VehiclesModel {

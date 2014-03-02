@@ -15,7 +15,7 @@
  */
 package org.insa.core.vehicle;
 
-import org.insa.core.network.Lane;
+import org.insa.core.roadnetwork.Lane;
 
 /**
  *
@@ -24,11 +24,11 @@ import org.insa.core.network.Lane;
  * vehicle position in the road represented by a lane 
  * and an offset in that lane
  * -------------------------------
- *       ____
+ *       ___
  *      |___|  
  *      
  * -----+--------------------------
- *      offset
+ * 0    offset
  */
 public class VehiclePosition {
     /**
