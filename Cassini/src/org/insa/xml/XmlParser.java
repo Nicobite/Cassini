@@ -19,6 +19,7 @@ import java.io.File;
 import org.insa.model.RoadsModel;
 import org.insa.model.Model;
 import org.insa.model.VehiclesModel;
+import org.insa.xml.osm.OsmModel;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -32,13 +33,9 @@ public class XmlParser {
      * serializer : see Simple framework for details
      */
     private final Serializer serializer;
-    /**
-     * openstreetmap data reader
-     */
-    private final OsmParser osmParser;
+
     public XmlParser(){
         serializer = new Persister();
-        osmParser = new OsmParser();
     }
     
     /**
@@ -104,6 +101,6 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public RoadsModel readOsmData(File source) throws Exception{
-        return osmParser.parseOsm(source);
+        return serializer.read(OsmModel.class, source).getRoadsModel();
     }
 }

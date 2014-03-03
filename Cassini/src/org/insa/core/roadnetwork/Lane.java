@@ -17,7 +17,9 @@ package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
 import org.insa.core.vehicle.Vehicle;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
@@ -33,6 +35,7 @@ public class Lane {
     /**
      * max vehicles in this lane
      */
+    @Attribute
     private int capacity;
     /**
      * list of vehicle in this lane
@@ -47,12 +50,13 @@ public class Lane {
      * possible movement from current lane
      * i.e All lanes visibles from current lane
      */
-    @Element
-    private Transition transition;
+    @ElementList(required = false)
+    private ArrayList<Transition> transitions;
     
     
     public Lane(){
         this.vehicles = new ArrayList<>();
+        this.transitions = new ArrayList<>();
     }
 
     public Section getSection() {
@@ -71,18 +75,23 @@ public class Lane {
         return capacity;
     }
     
-    public Transition getTransition() {
-        return transition;
+    public ArrayList<Transition>  getTransitions() {
+        return transitions;
     }
 
-    public void setTransition(Transition transition) {
-        this.transition = transition;
+    public void setTransition(ArrayList<Transition> transitions) {
+        this.transitions = transitions;
     }
     
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
-
+    public void addTransition(Transition t){
+        this.transitions.add(t);
+    }
+    public void removeTransition(Transition t){
+        this.transitions.remove(t);
+    }
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }

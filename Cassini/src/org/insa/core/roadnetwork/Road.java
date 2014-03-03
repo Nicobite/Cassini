@@ -44,7 +44,7 @@ public class Road {
      * list of sections making this road
      */
     @ElementList
-    private ArrayList<Section>segments;
+    private ArrayList<Section>sections;
     
     /**
      * constructor
@@ -54,11 +54,11 @@ public class Road {
     public Road(Section from, Section to){
         this.origin = from;
         this.destination = to;
-        this.segments = new ArrayList<>();
+        this.sections = new ArrayList<>();
     }
-
+    
     public Road() {
-        this.segments = new ArrayList<>();
+        this.sections = new ArrayList<>();
     }
     
     
@@ -81,30 +81,40 @@ public class Road {
         this.destination = destination;
     }
     
-    public ArrayList<Section> getSegments() {
-        return segments;
+    public ArrayList<Section> getSections() {
+        return sections;
     }
     
-    public void setSegments(ArrayList<Section> segments) {
-        this.segments = segments;
+    public void setSections(ArrayList<Section> sections) {
+        this.sections = sections;
     }
     
-    public void addSegment(Section s){
-        this.segments.add(s);
+    public void addSection(Section s){
+        this.sections.add(s);
     }
-    public void removeSegment(Section s){
-        this.segments.remove(s);
+    public void removeSection(Section s){
+        this.sections.remove(s);
     }
-    public boolean containsSegment(Section s){
-        return this.segments.contains(s);
+    public boolean containsSection(Section s){
+        return this.sections.contains(s);
     }
     /**
      * called when deserializing this object
      */
     @Commit
-    public void build(){
-        this.origin = this.segments.get(0);
-        this.destination = this.segments.get(this.segments.size()-1);
+    public void initRoad(){
+        if(this.sections.size()==1){
+            this.origin = this.sections.get(0);
+        }
+        else if(this.sections.size()>1){
+            this.origin = this.sections.get(0);
+            int last = this.sections.size() -1;
+            this.destination = this.sections.get(last);
+        }
+    }
+    @Override
+    public String toString(){
+        return sections.toString();
     }
     
 }

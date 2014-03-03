@@ -25,7 +25,7 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root(name="tag", strict = false)
+@Root(name="tag")
 public class OsmTag {
     @Attribute(name = "k")
     private String key;

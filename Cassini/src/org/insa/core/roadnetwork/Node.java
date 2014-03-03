@@ -111,6 +111,10 @@ public class Node {
     }
     public void setLatitude(float latitude) {
         this.latitude = latitude;
-    }  
+    } 
+    @Override
+    public String toString(){
+        return "Node: lon = "+longitude+",lat="+latitude;
+    }
     
 }

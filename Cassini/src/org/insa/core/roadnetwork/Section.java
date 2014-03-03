@@ -129,8 +129,14 @@ public class Section {
     public void addLane(Lane l){
         this.lanes.add(l);
     }
-    public void removeLane(Lane l){
+    public void addLanes(int nbLanes){
+        for(int i = 0; i<nbLanes; i++){
+            this.addLane(new Lane());
+        }
+    }
+    public ArrayList<Lane> removeLane(Lane l){
         this.lanes.remove(l);
+        return this.lanes;
     }
     public boolean containsLane(Lane l){
         return this.lanes.contains(l);
@@ -140,7 +146,7 @@ public class Section {
      * called when deserializing this object
      */
     @Commit
-    public void build(){
+    private void build(){
         for(Lane l : this.lanes){
             l.setSection(this);
         }
@@ -164,6 +170,9 @@ public class Section {
         double distance = radiusEarth * c;
         return (float)distance;
     }
-    
+    @Override
+    public String toString(){
+        return "src ="+sourceNode+",dest="+targetNode+",length = "+length+"\n";
+    }
     
 }

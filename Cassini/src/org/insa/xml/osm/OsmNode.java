@@ -59,10 +59,10 @@ public class OsmNode {
     public void setLon(float lon) {
         this.lon = lon;
     }
-    public Node toNode(){
+    
+    public Node createNode(){
         Node node = new Node(lon, lat);
+        node.setId(id);
         return node;
     }
-    
-    
 }

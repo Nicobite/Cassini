@@ -16,7 +16,7 @@
 package org.insa.model;
 
 import java.util.ArrayList;
-import model.road.Road;
+import org.insa.core.roadnetwork.Road;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -45,6 +45,17 @@ public class RoadsModel {
 
     public void setRoads(ArrayList<Road> roads) {
         this.roads = roads;
+    }
+    public void addRoad(Road road){
+        road.initRoad();
+        this.roads.add(road);
+    }
+     public void removeRoad(Road road){
+        this.roads.remove(road);
+    }
+    @Override
+    public String toString(){
+        return roads.toString();
     }
     
 }
