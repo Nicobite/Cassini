@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<cassini>
-  <fulldata>
-    <testset />
-    <associations path="%globaldir%/proportions/global_associations.xml" />
-  </fulldata>
-</cassini>
