@@ -47,7 +47,6 @@ public class RoadsModel {
         this.roads = roads;
     }
     public void addRoad(Road road){
-        road.initRoad();
         this.roads.add(road);
     }
      public void removeRoad(Road road){

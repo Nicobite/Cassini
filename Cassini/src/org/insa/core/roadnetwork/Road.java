@@ -18,7 +18,6 @@ package org.insa.core.roadnetwork;
 import java.util.ArrayList;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -30,32 +29,12 @@ import org.simpleframework.xml.core.Commit;
  */
 @Root
 public class Road {
-    /**
-     * origine of the way
-     */
-    private Section origin;
-    
-    /**
-     * destination of the road
-     */
-    private Section destination;
     
     /**
      * list of sections making this road
      */
     @ElementList
     private ArrayList<Section>sections;
-    
-    /**
-     * constructor
-     * @param from road origin
-     * @param to road destination
-     */
-    public Road(Section from, Section to){
-        this.origin = from;
-        this.destination = to;
-        this.sections = new ArrayList<>();
-    }
     
     public Road() {
         this.sections = new ArrayList<>();
@@ -66,19 +45,12 @@ public class Road {
     * getters ans setters
     */
     public Section getOrigin() {
-        return origin;
+        return this.sections.get(0);
     }
     
-    public void setOrigin(Section origin) {
-        this.origin = origin;
-    }
     
     public Section getDestination() {
-        return destination;
-    }
-    
-    public void setDestination(Section destination) {
-        this.destination = destination;
+        return this.sections.get(this.sections.size()-1);
     }
     
     public ArrayList<Section> getSections() {
@@ -97,20 +69,6 @@ public class Road {
     }
     public boolean containsSection(Section s){
         return this.sections.contains(s);
-    }
-    /**
-     * called when deserializing this object
-     */
-    @Commit
-    public void initRoad(){
-        if(this.sections.size()==1){
-            this.origin = this.sections.get(0);
-        }
-        else if(this.sections.size()>1){
-            this.origin = this.sections.get(0);
-            int last = this.sections.size() -1;
-            this.destination = this.sections.get(last);
-        }
     }
     @Override
     public String toString(){
