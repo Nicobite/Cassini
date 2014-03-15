@@ -13,34 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.model;
+package org.insa.controller.task;
 
-import java.util.ArrayList;
-import org.insa.core.trafficcontrol.ControlUnit;
+import java.util.TimerTask;
+import org.insa.model.Model;
 
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class ControlUnitsModel
- * trafic controller and regulator (rafic lights management, incident dectection and mangement,...)
+ * Class SimulationTask
+ * Execute simulation logic
  */
-public class ControlUnitsModel{
+public class SimulationTask extends TimerTask{
     /**
-     * control units
+     * reference of the simulation model
      */
-    private ArrayList<ControlUnit>controlUnits;
+    private final Model model;
     
-    private ControlUnitsModel(){
-        
+    public SimulationTask(Model model){
+        this.model = model;
+    }
+    @Override
+    public void run() {
+        System.out.println("called!");
     }
 
-    public ArrayList<ControlUnit> getControlUnits() {
-        return controlUnits;
-    }
-
-    public void setControlUnits(ArrayList<ControlUnit> controlUnits) {
-        this.controlUnits = controlUnits;
-    }
-    
-    
 }

@@ -13,48 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.model;
+package org.insa.model.items;
 
 import java.util.ArrayList;
-import org.insa.core.roadnetwork.Road;
+import org.insa.core.vehicle.Vehicle;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui &    Thomas Thiebaud
- * Class RoadsModel
+ * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Class VehiclesModel
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
 @Root
-public class RoadsModel {
-    /**
-     * roads
+public class VehiclesModel {
+     /**
+     * vehicles
      */
     @ElementList
-    private ArrayList<Road>roads;
+    private ArrayList<Vehicle>vehicles;
     
-    public RoadsModel(){
-        this.roads = new ArrayList<>();
+    /**
+     * driving vehicles
+     */
+    public VehiclesModel(){
+        this.vehicles = new ArrayList<>();
     }
 
-    public ArrayList<Road> getRoads() {
-        return roads;
+    public ArrayList<Vehicle> getVehicles() {
+        return vehicles;
     }
 
-    public void setRoads(ArrayList<Road> roads) {
-        this.roads = roads;
-    }
-    public void addRoad(Road road){
-        this.roads.add(road);
-    }
-     public void removeRoad(Road road){
-        this.roads.remove(road);
-    }
-    @Override
-    public String toString(){
-        return roads.toString();
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
     
 }

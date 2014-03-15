@@ -15,6 +15,9 @@
  */
 package org.insa.model;
 
+import org.insa.model.items.ControlUnitsModel;
+import org.insa.model.items.RoadsModel;
+import org.insa.model.items.VehiclesModel;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -39,8 +42,20 @@ public class Model {
     private VehiclesModel vehiclesModel;
     
     
+    /**
+     * traffic control unit : traffic light management, priority management,
+     * incidents dectection (accident, congestion,...)
+     */
+    private ControlUnitsModel controlUnitsModel;
+    
+    
     public Model(){
     }
+    
+    
+    /*
+    * getters and setters
+    */
 
     public RoadsModel getRoadModel() {
         return roadModel;
@@ -57,4 +72,14 @@ public class Model {
     public void setVehiclesModel(VehiclesModel vehiclesModel) {
         this.vehiclesModel = vehiclesModel;
     }
+
+    public void setControlUnitsModel(ControlUnitsModel controlUnitsModel) {
+        this.controlUnitsModel = controlUnitsModel;
+    }
+
+    public ControlUnitsModel getControlUnitsModel() {
+        return controlUnitsModel;
+    }
+    
+    
 }

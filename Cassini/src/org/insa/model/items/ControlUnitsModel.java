@@ -13,25 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.model;
+package org.insa.model.items;
 
 import java.util.ArrayList;
-import org.insa.core.vehicle.Driving;
-import org.insa.core.vehicle.Vehicle;
-import org.insa.core.vehicle.VehiclePosition;
+import org.insa.core.trafficcontrol.ControlUnit;
 
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class DrivingModel
+ * Class ControlUnitsModel
+ * trafic controller and regulator (rafic lights management, incident dectection and mangement,...)
  */
-public class DrivingModel {
+public class ControlUnitsModel{
     /**
-     * driving
+     * control units
      */
-    private ArrayList<Driving> drivings;
+    private ArrayList<ControlUnit>controlUnits;
     
-    private void addDriving(Vehicle v, VehiclePosition p){
-        Driving d = new Driving(null);
+    private ControlUnitsModel(){
+        
     }
+
+    public ArrayList<ControlUnit> getControlUnits() {
+        return controlUnits;
+    }
+
+    public void setControlUnits(ArrayList<ControlUnit> controlUnits) {
+        this.controlUnits = controlUnits;
+    }
+    
+    
 }

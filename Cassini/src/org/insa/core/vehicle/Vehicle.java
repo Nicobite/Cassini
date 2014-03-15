@@ -58,6 +58,11 @@ public class Vehicle {
     @Element
     private Behavior behavior;
     
+    /**
+     * driving attributes
+     */
+    private Driving driving;
+    
     public Vehicle(){
       super();  
     }
@@ -98,6 +103,14 @@ public class Vehicle {
 
     public void setBehavior(Behavior behavior) {
         this.behavior = behavior;
+    }
+
+    public Driving getDriving() {
+        return driving;
+    }
+
+    public void setDriving(Driving driving) {
+        this.driving = driving;
     }
     
     

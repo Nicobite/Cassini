@@ -16,9 +16,9 @@
 package org.insa.xml;
 
 import java.io.File;
-import org.insa.model.RoadsModel;
+import org.insa.model.items.RoadsModel;
 import org.insa.model.Model;
-import org.insa.model.VehiclesModel;
+import org.insa.model.items.VehiclesModel;
 import org.insa.xml.osm.OsmModel;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;

@@ -17,7 +17,7 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.insa.model.RoadsModel;
+import org.insa.model.items.RoadsModel;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.core.Commit;

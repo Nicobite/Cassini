@@ -19,6 +19,7 @@ package org.insa.controller;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javax.mail.MessagingException;
+import org.insa.model.Model;
 import org.insa.view.form.ContactForm;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
@@ -47,6 +48,9 @@ public class MainController {
     
     private final String SEND_MAIL_ERROR = "Une erreur inconnue est survenue lors de l'envoie du message.\n Vérifiez que vous êtes bien connecté à internet et reéssayez.";
     
+    private Model model;
+    
+    private SimulationPanel simulationController;
     /**
      * Default private constructor
      */
@@ -253,4 +257,13 @@ public class MainController {
             });          
         }
     }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+ 
 }
