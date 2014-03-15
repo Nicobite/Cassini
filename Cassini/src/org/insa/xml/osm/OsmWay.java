@@ -111,10 +111,12 @@ public class OsmWay {
     }
 
     public Road getRoad() {
+        road.setDirection(false);
         return road;
     }
 
     public Road getReturnRoad() {
+        returnRoad.setDirection(true);
         return returnRoad;
     }
     
