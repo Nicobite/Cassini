@@ -17,6 +17,7 @@ package org.insa.core.vehicle;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 
 /**
@@ -31,7 +32,7 @@ public class Vehicle {
     /**
      * vehicle max speed
      */
-    @Attribute
+    @Attribute()
     private int maxSpeed;
     
     /**
@@ -49,18 +50,13 @@ public class Vehicle {
     /**
      * vehicle length
      */
-    @Element(required = false)
+    @Attribute
     private int length;
-    
-    /**
-     * vehicle's behavior
-     */
-    @Element
-    private Behavior behavior;
     
     /**
      * driving attributes
      */
+    @Element(required = false)
     private Driving driving;
     
     public Vehicle(){
@@ -95,14 +91,6 @@ public class Vehicle {
     
     public int getMaxDeceleration() {
         return maxDeceleration;
-    }
-
-    public Behavior getBehavior() {
-        return behavior;
-    }
-
-    public void setBehavior(Behavior behavior) {
-        this.behavior = behavior;
     }
 
     public Driving getDriving() {

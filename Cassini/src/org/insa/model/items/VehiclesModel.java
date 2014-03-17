@@ -50,4 +50,14 @@ public class VehiclesModel {
         this.vehicles = vehicles;
     }
     
+    public VehiclesModel addVehicle(Vehicle v){
+        this.vehicles.add(v);
+        return this;
+    }
+     public VehiclesModel removeVehicle(Vehicle v){
+        this.vehicles.remove(v);
+        return this;
+    }
+    
+    
 }

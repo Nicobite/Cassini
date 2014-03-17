@@ -13,37 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.core.vehicle;
+package org.insa.controller;
 
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Root;
+import org.junit.Test;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class Behavior
- * Uses Simple framework for xml serialization.
- * See http://simple.sourceforge.net/ for further details.
+ * @author ouedraog
  */
-@Root
-public class Behavior {
-    /**
-     * safe distance gap
-     */
-    @Attribute
-    private float safetyDistance;
+public class SimulationControllerTest {
     
-    public Behavior(){
-        
-    }
-
-    public float getSafetyDistance() {
-        return safetyDistance;
-    }
-
-    public void setSafetyDistance(float safetyDistance) {
-        this.safetyDistance = safetyDistance;
+    public SimulationControllerTest() {
     }
     
+    @Test
+    public void shouldStartSimulation(){
+        SimulationController c = new SimulationController(null, 1000);
+        c.start();
+    }
     
 }
