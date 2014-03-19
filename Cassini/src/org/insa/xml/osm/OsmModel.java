@@ -70,8 +70,6 @@ public class OsmModel {
             if(way.isHighway()){
                 way.createRoad(nodes);
                 roadsModel.addRoad(way.getRoad());
-                if(!way.isOneWay())
-                    roadsModel.addRoad(way.getReturnRoad());
             }
         }
         
@@ -84,8 +82,6 @@ public class OsmModel {
         for(OsmNode n : osmNodes){
             nodes.put(n.getId(), n);
         }
-        //free osmNodes
-        osmNodes = null;
         return nodes;
     }
     

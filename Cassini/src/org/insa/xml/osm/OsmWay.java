@@ -24,7 +24,6 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -47,20 +46,15 @@ public class OsmWay {
     @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
     private HashMap<String, String> tags;
     
-    private boolean oneWay;
-    private boolean highway;
-    private float maxSpeed;
-    private int nbLanes;
-    private boolean roundabout;
     /**
      * outward road
      */
     private Road road;
-    /**
-     * return road if not one-way
-     */
-    private Road returnRoad;
     
+    public OsmWay(){
+        this.nodesRef = new ArrayList<>();
+        this.tags = new HashMap<>();
+    }
     public int getId() {
         return id;
     }
@@ -86,140 +80,123 @@ public class OsmWay {
         this.nodesRef = nodesRef;
     }
     public boolean isHighway(){
-        return highway;
+        return this.tags.containsKey("highway");
     }
     
     public boolean isOneWay() {
-        return oneWay;
+        return this.tags.containsKey("oneway");
     }
     
     public boolean isRoundabout() {
-        return roundabout;
+        return tags.get("junction").equalsIgnoreCase("roundabout")
+                ||tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
     
     public float getMaxSpeed() {
-        return maxSpeed;
+        float maxspeed = this.tags.containsKey("maxspeed")?
+                Float.parseFloat(this.tags.get("maxspeed")) : 50;
+        return maxspeed;
     }
     
     public int getNbLanes() {
+        int def = this.isOneWay() ? 2 : 4;
+        int nbLanes = this.tags.containsKey("lanes")?
+                Integer.parseInt(tags.get("lanes")) : def;
+        return nbLanes;
+    }
+    
+    public int getForwardNbLanes(){
+        int nbLanes = this.tags.containsKey("lanes:forward")?
+                      Integer.parseInt(tags.get("lanes:forward")) : 2;
         return nbLanes;
     }
     
     @Override
     public String toString(){
-        return this.id+" oneway = "+oneWay+ " maxspeed = "+maxSpeed+" nbLanes ="+nbLanes+"\n";
-    }
-
-    public Road getRoad() {
-        road.setDirection(false);
-        return road;
-    }
-
-    public Road getReturnRoad() {
-        returnRoad.setDirection(true);
-        return returnRoad;
+        String str = this.id+" oneway = "+isOneWay()+ " maxspeed = "+getMaxSpeed()+" nbLanes ="+getNbLanes()+"\n"
+                +"roundabout = "+isRoundabout();
+        return str;
     }
     
-    @Commit
-    private void build(){
-        if(this.tags!=null){
-            this.highway = this.tags.containsKey("highway");
-            this.oneWay = this.tags.containsKey("oneway") && tags.get("oneway").equals("yes");
-            this.maxSpeed = this.tags.containsKey("maxspeed")?
-                    Float.parseFloat(this.tags.get("maxspeed")): 30;
-            if(this.highway)inferNbLanes(this.tags.get("highway"));
-        }
+    public Road getRoad() {
+        return road;
     }
     
     public void createRoad(HashMap<Integer, OsmNode> osmNode){
-        Node src, via, target;
+        Node src, dest;
         this.road = new Road();
-        this.returnRoad = new Road();
-       switch(this.nodesRef.size()){
-           case 1 :
-               break;
-           case 2 :
-                src = osmNode.get(this.nodesRef.get(0).getRef()).createNode();
-                target = osmNode.get(this.nodesRef.get(1).getRef()).createNode();
-                Section s = new Section(src, target);
-                s.setMaxSpeed(maxSpeed);
-                s.addLanes(nbLanes);
-                road.addSection(s);
-               break;
-           default:
-               for(int i = 0;i<this.nodesRef.size()-2;i++){
-                   src = osmNode.get(this.nodesRef.get(i).getRef()).createNode();
-                   via = osmNode.get(this.nodesRef.get(i+1).getRef()).createNode();
-                   target = osmNode.get(this.nodesRef.get(i+2).getRef()).createNode();
-                   
-                   createSections(road, src, via, target);
-                   if(!this.isOneWay())
-                       createSections(returnRoad, target, via, src);
-               }
-       }
+        if(this.nodesRef.size()>1){
+            for(int i = 0;i<this.nodesRef.size()-1;i++){
+                src = osmNode.get(this.nodesRef.get(i).getRef()).createNode();
+                dest = osmNode.get(this.nodesRef.get(i+1).getRef()).createNode();
+                this.createSections(src, dest);
+            }
+        }
         
     }
     
-    private void createSections(Road road, Node src, Node via, Node dest){
-        Section source = new Section(src, via);
-        Section target = new Section(via, dest);
-        source.setMaxSpeed(this.maxSpeed);
-        target.setMaxSpeed(this.maxSpeed);
-        source.addLanes(this.nbLanes);
-        target.addLanes(this.nbLanes);
-        road.addSection(source);
-        road.addSection(target);
+    private void createSections(Node src, Node dest){
+        Section sect = new Section(src, dest);
+        sect.setMaxSpeed(this.getMaxSpeed());
+        int forwardLanes = this.getNbLanes();
+        int backwardLanes = 0;
+        if(!this.isOneWay()){
+            forwardLanes = this.getForwardNbLanes();
+            backwardLanes = getNbLanes() - getForwardNbLanes();
+        }
+        sect.addLanes(forwardLanes, backwardLanes);
+        road.addSection(sect);
+
     }
-    private void inferNbLanes(String type){
+    private int getPriority(String type){
+        int priority;
         switch(type){
             case "motorway":
-                nbLanes = 3;
+                priority = 14;
                 break;
             case "trunk":
-                nbLanes = 3;
+                priority = 13;
                 break;
             case "primary" :
-                nbLanes = 3;
+                priority = 12;
                 break;
             case "secondary":
-                nbLanes = 2;
+                priority = 11;
                 break;
             case "motorway_link":
-                nbLanes = 1;
+                priority = 10;
                 break;
             case "trunk_link":
-                nbLanes = 1;
+                priority = 9;
                 break;
             case "primary_link":
-                nbLanes = 1;
+                priority = 8;
                 break;
             case "secondary_link":
-                nbLanes = 1;
+                priority = 7;
                 break;
             case "tertiary" :
-                nbLanes = 2;
+                priority = 6;
                 break;
             case "residential":
-                nbLanes = 2;
+                priority = 5;
                 break;
             case "unclassified":
-                nbLanes = 1;
+                priority = 4;
                 break;
             case "road":
-                nbLanes = 2;
+                priority = 3;
                 break;
             case "living_street":
-                nbLanes = 1;
+                priority = 2;
                 break;
             case "service":
-                nbLanes = 1;
-                break;
-            case "roundabout":
-                roundabout = true;
+                priority = 1;
                 break;
             default:
-                nbLanes = 1;
+                priority = 0;
         }
+        return priority;
     }
     
 }

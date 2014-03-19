@@ -16,6 +16,7 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
+import org.insa.core.enums.Direction;
 import org.insa.core.vehicle.Vehicle;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
@@ -32,19 +33,21 @@ import org.simpleframework.xml.Root;
 @Root
 public class Lane {
     /**
-     * max vehicles in this lane
-     */
-    @Attribute
-    private int capacity;
-    /**
-     * list of vehicle in this lane
-     */
-    private ArrayList<Vehicle> vehicles;
-    /**
      * section of this lane
      */
     private Section section;
+    /**
+     * direction of this lane
+     * FORWARD if same direction as the road and
+     * BACKWARD otherwise
+     */
+    @Attribute
+    private Direction direction;
     
+       /**
+     * list of vehicle in this lane
+     */
+    private ArrayList<Vehicle> vehicles;
     /**
      * possible movement from current lane
      * i.e All lanes visibles from current lane
@@ -64,14 +67,6 @@ public class Lane {
 
     public void setSection(Section section) {
         this.section = section;
-    }
-    
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getCapacity() {
-        return capacity;
     }
     
     public ArrayList<Transition>  getTransitions() {
@@ -103,4 +98,13 @@ public class Lane {
     public boolean containsVehicle(Vehicle v){
         return this.vehicles.contains(v);
     }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+    
 }

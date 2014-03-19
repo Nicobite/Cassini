@@ -16,6 +16,7 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
+import org.insa.core.enums.Direction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -129,9 +130,16 @@ public class Section {
     public void addLane(Lane l){
         this.lanes.add(l);
     }
-    public void addLanes(int nbLanes){
-        for(int i = 0; i<nbLanes; i++){
-            this.addLane(new Lane());
+    public void addLanes(int forward, int backward){
+        for(int i = 0; i<forward; i++){
+            Lane lane = new Lane();
+            lane.setDirection(Direction.FORWARD);
+            this.addLane(lane);
+        }
+         for(int i = 0; i<backward; i++){
+            Lane lane = new Lane();
+            lane.setDirection(Direction.BACKWARD);
+            this.addLane(lane);
         }
     }
     public ArrayList<Lane> removeLane(Lane l){

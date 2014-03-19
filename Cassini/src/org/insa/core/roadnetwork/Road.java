@@ -37,12 +37,6 @@ public class Road {
     @ElementList
     private ArrayList<Section>sections;
     
-    /**
-     * Direction of the Road
-     */
-    @Attribute
-    private boolean direction;
-    
     public Road() {
         this.sections = new ArrayList<>();
     }
@@ -73,14 +67,6 @@ public class Road {
     }
     public void removeSection(Section s){
         this.sections.remove(s);
-    }
-
-    public boolean getDirection() {
-        return direction;
-    }
-
-    public void setDirection(boolean direction) {
-        this.direction = direction;
     }
     
     @Override

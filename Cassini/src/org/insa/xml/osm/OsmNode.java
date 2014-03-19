@@ -15,8 +15,10 @@
  */
 package org.insa.xml.osm;
 
+import java.util.HashMap;
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
 /**
@@ -35,7 +37,12 @@ public class OsmNode {
     
     @Attribute
     private float lon;
-
+    
+    @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
+    private HashMap<String, String> tags;
+    
+    private boolean roundabout;
+    
     public int getId() {
         return id;
     }
@@ -58,6 +65,22 @@ public class OsmNode {
 
     public void setLon(float lon) {
         this.lon = lon;
+    }
+
+    public HashMap<String, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(HashMap<String, String> tags) {
+        this.tags = tags;
+    }
+
+    public boolean isRoundabout() {
+        return roundabout;
+    }
+    
+    public void setRoundabout(boolean roundabout) {
+        this.roundabout = roundabout;
     }
     
     public Node createNode(){
