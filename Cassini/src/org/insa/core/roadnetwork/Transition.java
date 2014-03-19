@@ -15,6 +15,9 @@
  */
 package org.insa.core.roadnetwork;
 
+import org.insa.core.enums.TrafficSignaling;
+import org.insa.core.enums.TurnRestriction;
+import org.insa.core.enums.TurningIndication;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
@@ -50,10 +53,24 @@ public class Transition {
     @Element
     private Lane targetLane;
     
-    //TODO 
-    /*
-    private Constraint constraint
-    */
+    /**
+     * turn restrictions (banned turns,...)
+     */
+    @Element
+    private TurnRestriction restriction;
+    
+    /**
+     * turning indication in lane
+     */
+    @Element
+    private TurningIndication indication;
+    
+    /**
+     * traffic signaling(traffic light, stop sign, ...)
+     */
+    @Element
+    private TrafficSignaling signal;
+    
     public Transition(){
         super();
     }
@@ -64,6 +81,30 @@ public class Transition {
 
     public Lane getTargetLane() {
         return targetLane;
+    }
+
+    public TrafficSignaling getSignal() {
+        return signal;
+    }
+
+    public void setSignal(TrafficSignaling signal) {
+        this.signal = signal;
+    }
+
+    public TurningIndication getIndication() {
+        return indication;
+    }
+
+    public void setIndication(TurningIndication indication) {
+        this.indication = indication;
+    }
+
+    public TurnRestriction getRestriction() {
+        return restriction;
+    }
+
+    public void setRestriction(TurnRestriction restriction) {
+        this.restriction = restriction;
     }
     
 }

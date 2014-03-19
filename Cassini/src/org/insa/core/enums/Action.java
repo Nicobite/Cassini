@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.core.vehicle;
+package org.insa.core.enums;
 
 /**
  *
@@ -21,10 +21,13 @@ package org.insa.core.vehicle;
  * Action taken by vehicle
  */
 public enum Action {
-    RUN, //the vehicle runs normally
-    ACCELERATE, //accelerate
-    BRAKE, //decelerate
-    CHANGELANE, //change lane
-    STOP, //stop vehicle
-    OFF //the vehicle has stopped completely  
+    STARTING,
+    BRAKING,
+    STOPPING, 
+    U_TURN, //go back
+    TURN_LEFT,
+    TURN_RIGHT, //go to the right lane
+    GO_STRAIGHT,
+    PARKING //when the vehicle reaches it's destination
+    
 }

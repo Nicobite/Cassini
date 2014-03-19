@@ -15,6 +15,7 @@
 */
 package org.insa.core.vehicle;
 
+import org.insa.core.enums.Action;
 import org.simpleframework.xml.Element;
 
 /**
