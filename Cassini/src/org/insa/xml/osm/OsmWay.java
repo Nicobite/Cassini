@@ -84,7 +84,7 @@ public class OsmWay {
     }
     
     public boolean isOneWay() {
-        return this.tags.containsKey("oneway");
+        return this.tags.containsKey("oneway") || this.isRoundabout();
     }
     
     public boolean isRoundabout() {

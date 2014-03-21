@@ -17,7 +17,6 @@ package org.insa.core.vehicle;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Path;
 import org.simpleframework.xml.Root;
 
 /**
