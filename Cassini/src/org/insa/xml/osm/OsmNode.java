@@ -18,7 +18,6 @@ package org.insa.xml.osm;
 import java.util.HashMap;
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
 
 /**
@@ -30,7 +29,7 @@ import org.simpleframework.xml.Root;
 public class OsmNode {
     
     @Attribute
-    private int id;
+    private long id;
     
     @Attribute
     private float lat;
@@ -38,16 +37,16 @@ public class OsmNode {
     @Attribute
     private float lon;
     
-    @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
+   // @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
     private HashMap<String, String> tags;
     
     private boolean roundabout;
     
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

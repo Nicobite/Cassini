@@ -62,7 +62,7 @@ public class OsmModel {
     @Commit
     private void build(){
         //get all osm nodes in hasmap format
-        HashMap<Integer, OsmNode> nodes;
+        HashMap<Long, OsmNode> nodes;
         nodes = createNodesMap();
         //create road from osm ways
         roadsModel = new RoadsModel();
@@ -77,8 +77,8 @@ public class OsmModel {
     /**
      *  put osm nodes in an hashmap for easy accessing
      */
-    private HashMap<Integer, OsmNode> createNodesMap(){
-        HashMap<Integer, OsmNode> nodes = new HashMap<>();
+    private HashMap<Long, OsmNode> createNodesMap(){
+        HashMap<Long, OsmNode> nodes = new HashMap<>();
         for(OsmNode n : osmNodes){
             nodes.put(n.getId(), n);
         }

@@ -63,11 +63,18 @@ public class Section {
     private float maxSpeed;
     
     /**
-     * lanes in this section
+     * forward lanes in this section
      *
      */
     @ElementList
-    private ArrayList<Lane>lanes;
+    private ArrayList<Lane>forwardLanes;
+    
+    /**
+     * backward lanes in this section
+     *
+     */
+    @ElementList
+    private ArrayList<Lane>backwardLanes;
     
     /**
      *
@@ -78,11 +85,13 @@ public class Section {
         this.sourceNode = from;
         this.targetNode = to;
         this.length = computeLength(from, to);
-        this.lanes = new ArrayList<>();
+        this.forwardLanes = new ArrayList<>();
+        this.backwardLanes = new ArrayList<>();
     }
     
     public Section() {
-        this.lanes = new ArrayList<>();
+        this.forwardLanes = new ArrayList<>();
+        this.backwardLanes = new ArrayList<>();
     }
     
     /*
@@ -119,35 +128,43 @@ public class Section {
     public float getMaxSpeed() {
         return maxSpeed;
     }
-    
-    public void setLanes(ArrayList<Lane> l) {
-        this.lanes = l;
+
+    public ArrayList<Lane> getBackwardLanes() {
+        return backwardLanes;
+    }
+
+    public ArrayList<Lane> getForwardLanes() {
+        return forwardLanes;
+    }
+
+    public void setBackwardLanes(ArrayList<Lane> backwardLanes) {
+        this.backwardLanes = backwardLanes;
+    }
+
+    public void setForwardLanes(ArrayList<Lane> forwardLanes) {
+        this.forwardLanes = forwardLanes;
+    }
+
+    public void setLength(float length) {
+        this.length = length;
     }
     
-    public ArrayList<Lane> getLanes() {
-        return lanes;
-    }
-    public void addLane(Lane l){
-        this.lanes.add(l);
-    }
-    public void addLanes(int forward, int backward){
-        for(int i = 0; i<forward; i++){
+  
+    public void addForwardLanes(int nbForward){
+        for(int i = 0; i<nbForward; i++){
             Lane lane = new Lane();
             lane.setDirection(Direction.FORWARD);
-            this.addLane(lane);
+            this.forwardLanes.add(lane);
         }
-         for(int i = 0; i<backward; i++){
+    
+    }
+     public void addBackwardLanes(int nbBackward){
+        for(int i = 0; i<nbBackward; i++){
             Lane lane = new Lane();
             lane.setDirection(Direction.BACKWARD);
-            this.addLane(lane);
+            this.backwardLanes.add(lane);
         }
-    }
-    public ArrayList<Lane> removeLane(Lane l){
-        this.lanes.remove(l);
-        return this.lanes;
-    }
-    public boolean containsLane(Lane l){
-        return this.lanes.contains(l);
+    
     }
     
     /**
@@ -155,9 +172,13 @@ public class Section {
      */
     @Commit
     private void build(){
-        for(Lane l : this.lanes){
+        for(Lane l : this.forwardLanes){
             l.setSection(this);
         }
+         for(Lane l : this.backwardLanes){
+            l.setSection(this);
+        }
+        
         this.length = computeLength(sourceNode, targetNode);
     }
     /**

@@ -20,19 +20,21 @@ import org.insa.model.items.RoadsModel;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class Test
+ * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui &
+ * Thomas Thiebaud Class Test
  */
 public class Test {
-    public static void main(String args[]){
-         XmlParser parser = new XmlParser();
+
+    public static void main(String args[]) {
+        XmlParser parser = new XmlParser();
         try {
-            RoadsModel map = parser.readOsmData(new File("data/osm/insa.osm"));
-            parser.saveMapData(map, new File("data/maps/insa.map.xml"));
+             System.out.println("complete");
+            RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
+            parser.saveMapData(map, new File("data/maps/test.map.xml"));
             System.out.println(map);
             System.out.println("complete");
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 }

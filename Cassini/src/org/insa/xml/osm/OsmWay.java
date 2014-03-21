@@ -38,7 +38,7 @@ import org.simpleframework.xml.Root;
 public class OsmWay {
     
     @Attribute
-    private int id;
+    private long id;
     
     @ElementList(inline = true)
     private ArrayList<OsmNodeRef> nodesRef;
@@ -55,11 +55,11 @@ public class OsmWay {
         this.nodesRef = new ArrayList<>();
         this.tags = new HashMap<>();
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
     
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     
@@ -122,7 +122,7 @@ public class OsmWay {
         return road;
     }
     
-    public void createRoad(HashMap<Integer, OsmNode> osmNode){
+    public void createRoad(HashMap<Long, OsmNode> osmNode){
         Node src, dest;
         this.road = new Road();
         if(this.nodesRef.size()>1){
@@ -144,7 +144,8 @@ public class OsmWay {
             forwardLanes = this.getForwardNbLanes();
             backwardLanes = getNbLanes() - getForwardNbLanes();
         }
-        sect.addLanes(forwardLanes, backwardLanes);
+        sect.addForwardLanes(forwardLanes);
+        sect.addBackwardLanes(backwardLanes);
         road.addSection(sect);
 
     }

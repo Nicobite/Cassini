@@ -33,7 +33,7 @@ public class Node {
      * node id (node number)
      */
     @Attribute(required = false)
-    private int id;
+    private long id;
     /**
      * longitude
      */
@@ -94,10 +94,10 @@ public class Node {
     /*
     * getters et setters
     */
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public float getLongitude() {
