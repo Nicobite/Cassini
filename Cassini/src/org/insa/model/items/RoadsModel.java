@@ -16,7 +16,9 @@
 package org.insa.model.items;
 
 import java.util.ArrayList;
+import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -35,6 +37,27 @@ public class RoadsModel {
     @ElementList
     private ArrayList<Road>roads;
     
+    /**
+     * bounds of the road network : minimum longitude
+     */
+    @Attribute
+    private float minLon;
+    /**
+     * bounds of the road network : minimum latitude
+     */
+    @Attribute
+    private float minLat;
+    /**
+     * bounds of the road network : maximum longitude
+     */
+    @Attribute
+    private float maxLon;
+    /**
+     * bounds of the road network : maximum latitude
+     */
+    @Attribute
+    private float maxLat;
+    
     public RoadsModel(){
         this.roads = new ArrayList<>();
     }
@@ -52,6 +75,39 @@ public class RoadsModel {
      public void removeRoad(Road road){
         this.roads.remove(road);
     }
+
+    public float getMaxLat() {
+        return maxLat;
+    }
+
+    public void setMaxLat(float maxLat) {
+        this.maxLat = maxLat;
+    }
+
+    public float getMaxLon() {
+        return maxLon;
+    }
+
+    public void setMaxLon(float maxLon) {
+        this.maxLon = maxLon;
+    }
+
+    public float getMinLat() {
+        return minLat;
+    }
+
+    public void setMinLat(float minLat) {
+        this.minLat = minLat;
+    }
+
+    public float getMinLon() {
+        return minLon;
+    }
+
+    public void setMinLon(float minLon) {
+        this.minLon = minLon;
+    }
+    
     @Override
     public String toString(){
         return roads.toString();

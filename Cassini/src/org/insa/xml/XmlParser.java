@@ -19,7 +19,7 @@ import java.io.File;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.Model;
 import org.insa.model.items.VehiclesModel;
-import org.insa.xml.osm.OsmModel;
+import org.insa.xml.osm.OsmRoot;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
@@ -101,6 +101,6 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public RoadsModel readOsmData(File source) throws Exception{
-        return serializer.read(OsmModel.class, source).getRoadsModel();
+        return serializer.read(OsmRoot.class, source).buildRoadModel();
     }
 }

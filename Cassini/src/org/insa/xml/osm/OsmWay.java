@@ -15,11 +15,14 @@
 */
 package org.insa.xml.osm;
 
+import org.insa.xml.osm.entities.OsmNodeRef;
+import org.insa.xml.osm.OsmNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.ElementMap;
@@ -88,8 +91,9 @@ public class OsmWay {
     }
     
     public boolean isRoundabout() {
-        return tags.get("junction").equalsIgnoreCase("roundabout")
-                ||tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
+        return  (   tags.containsKey("junction") 
+                 && tags.get("junction").equalsIgnoreCase("roundabout"))
+                ||  tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
     
     public float getMaxSpeed() {
