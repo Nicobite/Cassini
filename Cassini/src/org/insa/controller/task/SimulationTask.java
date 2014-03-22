@@ -16,6 +16,7 @@
 package org.insa.controller.task;
 
 import java.util.TimerTask;
+import org.insa.core.vehicle.Vehicle;
 import org.insa.model.Model;
 
 /**
@@ -35,7 +36,31 @@ public class SimulationTask extends TimerTask{
     }
     @Override
     public void run() {
-        System.out.println("called!");
+        updateTrafficLights();
+        updateDrivings();
+        updateView();
+        System.out.println("done!");
     }
-
+    /**
+     * update vehicles position in traffic
+     */
+    private void updateDrivings(){
+        for(Vehicle vehicle : model.getVehiclesModel().getVehicles()){
+            //do stuff
+        }
+    }
+    
+    /**
+     * update view
+     */
+    private void updateView(){
+        
+    }
+    
+    /**
+     * update traffic lights
+     */
+    private void updateTrafficLights(){
+        
+    }
 }

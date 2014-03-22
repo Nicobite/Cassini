@@ -38,18 +38,11 @@ public class SimulationController {
     Timer timer;
     
     /**
-     * reference of the simulation model
-     */
-    private final Model model;
-    
-    /**
      * constructor
-     * @param model
      * @param step
      */
-    public SimulationController(Model model, int step) {
+    public SimulationController(int step) {
         super();
-        this.model = model;
         this.simulationStep = step;
     }
      
@@ -57,8 +50,9 @@ public class SimulationController {
      *start simulation
      */
     public void start(){
+        Model model = MainController.getInstance().getModel();
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(new SimulationTask(this.model),0, simulationStep);
+        this.timer.scheduleAtFixedRate(new SimulationTask(model),0, simulationStep);
     }
     
     /**
