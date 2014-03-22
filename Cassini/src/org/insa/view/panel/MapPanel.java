@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.MapMenu;
+import org.insa.view.menu.MapToolBar;
 
 /**
  *
@@ -24,10 +24,20 @@ import org.insa.view.menu.MapMenu;
  */
 public class MapPanel extends BorderPane{
     
+    private final MapToolBar mapToolBar = new MapToolBar();
+    
     /**
      * Default constructor
      */
-    public MapPanel() {
-        this.setTop(new MapMenu());
+    public MapPanel() {  
+        this.setTop(mapToolBar);
+    }
+    
+    /**
+     * Get map tool bar
+     * @return Map tool bar
+     */
+    public MapToolBar getMapToolBar() {
+        return mapToolBar;
     }
 }

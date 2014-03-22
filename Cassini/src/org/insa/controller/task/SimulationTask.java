@@ -31,9 +31,14 @@ public class SimulationTask extends TimerTask{
      */
     private final Model model;
     
+    /**
+     * Constructor
+     * @param model Link to general model 
+     */
     public SimulationTask(Model model){
         this.model = model;
     }
+    
     @Override
     public void run() {
         updateTrafficLights();
@@ -41,6 +46,7 @@ public class SimulationTask extends TimerTask{
         updateView();
         System.out.println("done!");
     }
+    
     /**
      * update vehicles position in traffic
      */

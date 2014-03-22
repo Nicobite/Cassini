@@ -37,7 +37,11 @@ public class Main extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(layout);
         
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
+        
         Scene scene = new Scene(root, 1500, 900);
+        scene.getStylesheets().add("/org/insa/view/css/cassini.css");
+        
         
         primaryStage.setTitle("");
         primaryStage.setScene(scene);

@@ -33,17 +33,26 @@ public class Behavior {
     @Attribute
     private float safetyDistance;
     
+    /**
+     * Default constructor
+     */
     public Behavior(){
         
     }
 
+    /**
+     * Get safety distance
+     * @return Safety distance
+     */
     public float getSafetyDistance() {
         return safetyDistance;
     }
 
+    /**
+     * Set safety distance
+     * @param safetyDistance New safety distance 
+     */
     public void setSafetyDistance(float safetyDistance) {
         this.safetyDistance = safetyDistance;
     }
-    
-    
 }

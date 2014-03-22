@@ -16,7 +16,6 @@
 package org.insa.model.items;
 
 import java.util.ArrayList;
-import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;

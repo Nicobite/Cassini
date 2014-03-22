@@ -16,7 +16,6 @@
 
 package org.insa.view.panel;
 
-import org.insa.view.menu.MainMenu;
 import javafx.scene.layout.BorderPane;
 import org.insa.controller.MainController;
 /**
@@ -26,7 +25,6 @@ import org.insa.controller.MainController;
 public class MainPanel extends BorderPane{
     
     private final BorderPane layout = new BorderPane();
-    private final MainMenu mainMenu = new MainMenu();
     private final DefaultPanel defaultPanel = new DefaultPanel();
     
     /**
@@ -35,8 +33,7 @@ public class MainPanel extends BorderPane{
     public MainPanel() {
         MainController.getInstance().setMainPanel(this);
         
-        layout.setLeft(new TitlePanel());
-        layout.setCenter(mainMenu);
+        layout.setLeft(new NavigationPanel());
         
         this.setLeft(layout);
         this.setCenter(defaultPanel);

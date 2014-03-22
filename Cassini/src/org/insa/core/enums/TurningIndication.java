@@ -17,7 +17,7 @@ package org.insa.core.enums;
 
 /**
  *
- * @author ouedraog
+ * @author Abel Juste Oueadraogo
  * turning instructions
  * see http://wiki.openstreetmap.org/wiki/Key:turn for further details
  */

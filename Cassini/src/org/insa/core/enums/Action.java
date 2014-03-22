@@ -17,7 +17,7 @@ package org.insa.core.enums;
 
 /**
  *
- * @author ouedraog
+ * @author Abel Juste Oueadraogo
  * Action taken by vehicle
  */
 public enum Action {
@@ -28,6 +28,5 @@ public enum Action {
     TURN_LEFT,
     TURN_RIGHT, //go to the right lane
     GO_STRAIGHT,
-    PARKING //when the vehicle reaches it's destination
-    
+    PARKING //when the vehicle reaches it's destination 
 }

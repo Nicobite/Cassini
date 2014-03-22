@@ -16,18 +16,14 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.ResultMenu;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class ResultPanel extends BorderPane{
+public class ResultPanel extends BorderPane {
     
-    /**
-     * Default constructor
-     */
     public ResultPanel() {
-        this.setTop(new ResultMenu());
+        
     }
 }

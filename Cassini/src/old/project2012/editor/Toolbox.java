@@ -13,25 +13,18 @@ package old.project2012.editor;
 import javax.swing.JPanel;
 
 import java.awt.Cursor;
-import java.awt.GridBagLayout;
 import java.awt.Dimension;
 import javax.swing.JLabel;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import old.project2012.model.junction.RoadSign;
-import old.project2012.model.vehicule.Motorbike;
-import old.project2012.model.vehicule.Truck;
 import old.project2012.model.vehicule.Vehicule;
 
 import old.project2012.view.MainView;
-import old.project2012.view.TraficView;
 
 public class Toolbox extends JPanel implements ActionListener{
 	

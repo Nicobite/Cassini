@@ -106,5 +106,25 @@ public class Lane {
     public Direction getDirection() {
         return direction;
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Lane other = (Lane) obj;
+        if (this.direction != other.direction) {
+            return false;
+        }
+        return true;
+    }
 }

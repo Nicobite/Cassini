@@ -16,6 +16,7 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -40,7 +41,6 @@ public class Road {
     public Road() {
         this.sections = new ArrayList<>();
     }
-    
     
     /*
     * getters ans setters
@@ -73,5 +73,19 @@ public class Road {
     public String toString(){
         return sections.toString();
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Road other = (Road) obj;
+        if (!Objects.equals(this.sections, other.sections)) {
+            return false;
+        }
+        return true;
+    }
 }

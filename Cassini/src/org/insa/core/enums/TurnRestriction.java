@@ -17,7 +17,7 @@ package org.insa.core.enums;
 
 /**
  *
- * @author ouedraog
+ * @author Abel Juste Oueadraogo
  * see http://wiki.openstreetmap.org/wiki/Restriction for further details
  */
 public enum TurnRestriction {

@@ -17,7 +17,7 @@ package org.insa.core.enums;
 
 /**
  *
- * @author ouedraog
+ * @author Abel Juste Oueadraogo
  */
 public enum TrafficSignaling {
     NONE,

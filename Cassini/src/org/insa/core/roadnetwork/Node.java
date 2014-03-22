@@ -112,9 +112,27 @@ public class Node {
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     } 
+    
     @Override
     public String toString(){
         return "Node: lon = "+longitude+",lat="+latitude;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Node other = (Node) obj;
+        if (Float.floatToIntBits(this.longitude) != Float.floatToIntBits(other.longitude)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.latitude) != Float.floatToIntBits(other.latitude)) {
+            return false;
+        }
+        return true;
+    }
 }

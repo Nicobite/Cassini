@@ -16,6 +16,7 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import org.insa.core.enums.Direction;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -199,9 +200,27 @@ public class Section {
         double distance = radiusEarth * c;
         return (float)distance;
     }
+    
     @Override
     public String toString(){
         return "src ="+sourceNode+",dest="+targetNode+",length = "+length+"\n";
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Section other = (Section) obj;
+        if (!Objects.equals(this.sourceNode, other.sourceNode)) {
+            return false;
+        }
+        if (!Objects.equals(this.targetNode, other.targetNode)) {
+            return false;
+        }
+        return true;
+    }
 }

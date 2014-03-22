@@ -52,34 +52,51 @@ public class Model {
     public Model(){
     }
     
-    
-    /*
-    * getters and setters
-    */
-
+    /**
+     * Get road model
+     * @return Road model
+     */
     public RoadsModel getRoadModel() {
         return roadModel;
     }
 
+    /**
+     * Set road model
+     * @param roadModel New road model 
+     */
     public void setRoadModel(RoadsModel roadModel) {
         this.roadModel = roadModel;
     }
 
+    /**
+     * Get vehicles model
+     * @return Vehicles model
+     */
     public VehiclesModel getVehiclesModel() {
         return vehiclesModel;
     }
 
+    /**
+     * Set vehicles model
+     * @param vehiclesModel New vehicles model 
+     */
     public void setVehiclesModel(VehiclesModel vehiclesModel) {
         this.vehiclesModel = vehiclesModel;
     }
 
-    public void setControlUnitsModel(ControlUnitsModel controlUnitsModel) {
-        this.controlUnitsModel = controlUnitsModel;
-    }
-
+    /**
+     * Get control units model
+     * @return Control units model
+     */
     public ControlUnitsModel getControlUnitsModel() {
         return controlUnitsModel;
     }
     
-    
+    /**
+     * Set control units model
+     * @param controlUnitsModel New control units model 
+     */
+    public void setControlUnitsModel(ControlUnitsModel controlUnitsModel) {
+        this.controlUnitsModel = controlUnitsModel;
+    }  
 }

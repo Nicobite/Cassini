@@ -16,18 +16,20 @@
 
 package org.insa.controller;
 
-import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javax.mail.MessagingException;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.text.Text;
 import org.insa.model.Model;
-import org.insa.view.form.ContactForm;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
-import org.insa.view.panel.HelpPanel;
+import org.insa.view.panel.DrawingPanel;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
+import org.insa.view.panel.RoadDrawingPanel;
 import org.insa.view.panel.SimulationPanel;
+import org.insa.xml.XmlParser;
 
 /**
  *
@@ -43,12 +45,7 @@ public class MainController {
     private MapPanel mapPanel = null;
     private ResultPanel resultPanel = null;
     
-    private ContactForm contactForm = null;
-    private ContactDelegate contactDelegate = null;
-    
-    private final String SEND_MAIL_ERROR = "Une erreur inconnue est survenue lors de l'envoie du message.\n Vérifiez que vous êtes bien connecté à internet et reéssayez.";
-    
-    private Model model;
+    private Model model = new Model();
     
     private SimulationPanel simulationController;
     /**
@@ -89,19 +86,9 @@ public class MainController {
     }
     
     /**
-     * Display result panel
-     */
-    public void performDisplayResultPanel() {
-        //TODO : Simulation panel could be uprade using pattern Singleton
-        resultPanel = new ResultPanel();
-        mainPanel.setCenter(resultPanel);
-    }
-    
-    /**
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
-        //TODO : Simulation panel could be uprade using pattern Singleton
         simulationPanel = new SimulationPanel();
         mainPanel.setCenter(simulationPanel);
     }
@@ -123,147 +110,60 @@ public class MainController {
     }
     
     /**
-     * Start simulation
+     * Display map panel
      */
-    public void performPlaySimulation() {
-        simulationPanel.setCenter(new Label("Not implemented yet"));
+    public void performDisplayResultPanel() {
+        resultPanel = new ResultPanel();
+        mainPanel.setCenter(resultPanel);
     }
     
     /**
-     * Suspend simulation
+     * Get model
+     * @return Model
      */
-    public void performPauseSimulation() {
-        simulationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Stop simulation
-     */
-    public void performStopSimulation() {
-        simulationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Increase simulation speed
-     */
-    public void performBackwardSimulation() {
-        simulationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Decrease simulation speed
-     */
-    public void performForwardSimulation() {
-        simulationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display car configuration panel
-     */
-    public void performDisplayCarConfigurationPanel() {
-        configurationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display model configuration panel
-     */
-    public void performDisplayModelConfigurationPanel() {
-        configurationPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display new map panel
-     */
-    public void performDisplayNewMapPanel() {
-        mapPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display open map panel
-     */
-    public void performDisplayOpenMapPanel() {
-        mapPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display open "Open Street Map" (OSM) map panel
-     */
-    public void performDisplayOpenOSMMapPanel() {
-        mapPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display save map panel
-     */
-    public void performDisplaySaveMapPanel() {
-        mapPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display help panel
-     */
-    public void performDisplayHelpPanel() {
-        mainPanel.setCenter(new HelpPanel());
-    }
-    
-    /**
-     * Display contact panel
-     */
-    public void performDisplayContactPanel() {
-        contactForm = new ContactForm();
-        mainPanel.setCenter(contactForm);
-        contactDelegate = new ContactDelegate(this);
-    }
-    
-    /**
-     * Display note result panel
-     */
-    public void performDisplayNoteResultPanel() {
-        resultPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Display graph result panel
-     */
-    public void performDisplayGraphResultPanel() {
-        resultPanel.setCenter(new Label("Not implemented yet"));
-    }
-    
-    /**
-     * Send a message (email)
-     * @param recipient Remote user
-     * @param subject Subject of the mail
-     * @param message Content of the mail
-     */
-    public void performSendEmail(String recipient, String subject, String message) {
-        try {
-            contactDelegate.sendEmail(recipient, subject, message);
-            contactForm.clearFields();
-        } catch (MessagingException e) {
-            this.performDisplayContactFormUnknowError();
-        }
-    }
-    
-    /**
-     * Display an unknow error into contact form
-     */
-    public void performDisplayContactFormUnknowError() {
-        if(contactForm != null) {
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    contactForm.setInformationText(SEND_MAIL_ERROR);
-                }
-            });          
-        }
-    }
-
     public Model getModel() {
         return model;
     }
-
+    
+    /**
+     * Set model
+     * @param model New model
+     */
     public void setModel(Model model) {
         this.model = model;
     }
- 
+    
+    /**
+     * Perform OSM map. Get model from OSM file (.osm)
+     */
+    public void performDisplayOSMMap() {
+        XmlParser p = new XmlParser();
+        try {
+            model.setRoadModel(p.readOsmData(new File("data/osm/insa.osm")));
+            mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+        } catch (Exception ex) {
+            Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Save the current map to .map.xml format
+     */
+    public void performSaveMap() {
+        mapPanel.setCenter(new Text("Not implemented yet"));
+    }
+    
+    /**
+     * Open a map (not an OSM map)
+     */
+    public void performOpenMap() {
+        mapPanel.setCenter(new Text("Not implemented yet"));
+    }
+    
+    /**
+     * Display map editor in order to create a map
+     */
+    public void performDisplayMapEditor() {
+        mapPanel.setCenter(new Text("Not implemented yet"));
+    }
 }

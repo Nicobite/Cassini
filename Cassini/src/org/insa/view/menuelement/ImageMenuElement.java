@@ -18,8 +18,6 @@ package org.insa.view.menuelement;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 /**
  *
@@ -28,18 +26,29 @@ import javafx.scene.text.FontWeight;
 public abstract class ImageMenuElement extends MenuElement{
     
     protected String imageName = "default";
-     
+    
+    /**
+     * Constructor
+     * @param imageName Name of the picture located in org.insa.view.image package
+     * @param name Name of the entry into the menu
+     * @param height MenuElement height
+     * @param width MenuElement width
+     */
+    public ImageMenuElement(String imageName, String name, int height, int width) {
+        super(name,height,width);
+        this.imageName = imageName;
+        
+        this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
+        this.setAlignment(Pos.CENTER);
+    }
+    
     /**
      * Constructor
      * @param imageName Name of the picture located in org.insa.view.image package
      * @param name Name of the entry into the menu
      */
     public ImageMenuElement(String imageName, String name) {
-        super(name,40,150,Font.font("Arial", FontWeight.BLACK, 15));
-        this.imageName = imageName;
-
-        this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
-        this.setAlignment(Pos.CENTER);
+        this(imageName, name, 40, 150);
     }
     
     /**

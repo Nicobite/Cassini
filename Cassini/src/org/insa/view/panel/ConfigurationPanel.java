@@ -16,7 +16,7 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.ConfigurationMenu;
+import org.insa.view.menu.ConfigurationToolBar;
 
 /**
  *
@@ -24,10 +24,20 @@ import org.insa.view.menu.ConfigurationMenu;
  */
 public class ConfigurationPanel extends BorderPane{
     
+    private final ConfigurationToolBar configurationToolBar = new ConfigurationToolBar();
+    
     /**
      * Default constructor
      */
     public ConfigurationPanel() {
-        this.setTop(new ConfigurationMenu());
+        this.setTop(configurationToolBar);
+    }
+    
+    /**
+     * Get configuration too bar
+     * @return Get configuration tool bar
+     */
+    public ConfigurationToolBar getConfigurationToolBar() {
+        return configurationToolBar;
     }
 }

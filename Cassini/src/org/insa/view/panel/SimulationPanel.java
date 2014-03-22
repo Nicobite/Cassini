@@ -16,7 +16,7 @@
 
 package org.insa.view.panel;
 
-import org.insa.view.menu.SimulationMenu;
+import org.insa.view.menu.SimulationToolBar;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -29,7 +29,7 @@ public class SimulationPanel extends BorderPane{
      * Default constructor
      */
     public SimulationPanel() {
-        this.setBottom(new SimulationMenu());
+        this.setBottom(new SimulationToolBar());
     }
     
 }

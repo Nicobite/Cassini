@@ -13,7 +13,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import old.project2012.model.GlobalModel;
 import old.project2012.model.road.RoadPosition;
-import old.project2012.model.road.RoadPosition;
 import old.project2012.model.road.RoadSection;
 import old.project2012.model.vehicule.Car;
 import old.project2012.model.vehicule.Motorbike;
