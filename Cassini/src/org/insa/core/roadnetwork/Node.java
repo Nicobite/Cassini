@@ -27,7 +27,7 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root
+@Root(strict = false)
 public class Node {
     /**
      * node id (node number)
@@ -44,13 +44,6 @@ public class Node {
      */
     @Attribute(name="lat")
     private float latitude;
-    
-    /**
-     * whether it is a crossing point
-     * We can put traffic light in those points
-     */
-    @Attribute(required = false)
-    private boolean crossingPoint;
     
     /**
      * whether it contains a traffic light
@@ -75,20 +68,12 @@ public class Node {
         super();
     }
 
-    public boolean isCrossingPoint() {
-        return crossingPoint;
-    }
-
     public boolean isTrafficLight() {
         return trafficLight;
     }
 
     public void setTrafficLight(boolean trafficLight){
         this.trafficLight = trafficLight;
-    }
-
-    public void setCrossingPoint(boolean crossingPoint) {
-        this.crossingPoint = crossingPoint;
     }
     
     /*

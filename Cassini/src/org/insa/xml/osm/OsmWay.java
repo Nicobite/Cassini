@@ -49,11 +49,6 @@ public class OsmWay {
     @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
     private HashMap<String, String> tags;
     
-    /**
-     * outward road
-     */
-    private Road road;
-    
     public OsmWay(){
         this.nodesRef = new ArrayList<>();
         this.tags = new HashMap<>();
@@ -86,17 +81,17 @@ public class OsmWay {
         return this.tags.containsKey("highway");
     }
     
-    public boolean isOneWay() {
+    private boolean isOneWay() {
         return this.tags.containsKey("oneway") || this.isRoundabout();
     }
     
-    public boolean isRoundabout() {
+    private boolean isRoundabout() {
         return  (   tags.containsKey("junction")
                 && tags.get("junction").equalsIgnoreCase("roundabout"))
                 ||  tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
     
-    public float getMaxSpeed() {
+    private float getMaxSpeed() {
         float maxspeed = 50;
         if(this.tags.containsKey("maxspeed")){
             try{
@@ -111,14 +106,14 @@ public class OsmWay {
         return maxspeed;
     }
     
-    public int getNbLanes() {
+    private int getNbLanes() {
         int def = this.isOneWay() ? 2 : 4;
         int nbLanes = this.tags.containsKey("lanes")?
                 Integer.parseInt(tags.get("lanes")) : def;
         return nbLanes;
     }
     
-    public int getForwardNbLanes(){
+    private int getForwardNbLanes(){
         int nbLanes = this.tags.containsKey("lanes:forward")?
                 Integer.parseInt(tags.get("lanes:forward")) : 2;
         return nbLanes;
@@ -131,30 +126,26 @@ public class OsmWay {
         return str;
     }
     
-    public Road getRoad() {
-        return road;
-    }
-    
-    public void createRoad(HashMap<Long, OsmNode> osmNode){
+    public Road buildRoad(HashMap<Long, OsmNode> osmNode){
         Node src, dest;
         int i = 0;
         long refSrc, refDest;
-        this.road = new Road();
+        Road road = new Road();
         while(i<this.nodesRef.size()-1){
             refSrc  = nodesRef.get(i).getRef();
             refDest = nodesRef.get(i+1).getRef();
             if(osmNode.containsKey(refSrc) && osmNode.containsKey(refDest)){
                 src = osmNode.get(refSrc).createNode();
                 dest = osmNode.get(refDest).createNode();
-                this.createSections(src, dest);
+                this.createSections(road, src, dest);
             }
             i++;
         }  
+        return road;
     }
         
     
-    
-    private void createSections(Node src, Node dest){
+    private void createSections(Road road, Node src, Node dest){
         Section sect = new Section(src, dest);
         sect.setMaxSpeed(this.getMaxSpeed());
         int forwardLanes = this.getNbLanes();

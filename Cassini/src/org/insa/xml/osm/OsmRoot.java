@@ -69,8 +69,7 @@ public class OsmRoot {
         
         for(OsmWay way : osmWays){
             if(way.isHighway()){
-                way.createRoad(nodes);
-                roadsModel.addRoad(way.getRoad());
+                roadsModel.addRoad(way.buildRoad(nodes));
             }
         }
         return roadsModel;

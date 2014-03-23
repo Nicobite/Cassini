@@ -29,7 +29,8 @@ public class Test {
     public static void main(String args[]) {
         XmlParser parser = new XmlParser();
         try {
-           RoadsModel map = parser.readOsmData(new File("data/osm/toulouse.osm"));
+           RoadsModel map = parser.readOsmData(new File("data/osm/jean-jaures.osm"));
+           parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
 
         } catch (Exception ex) {
             ex.printStackTrace();
