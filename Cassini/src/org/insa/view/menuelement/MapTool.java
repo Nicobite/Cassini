@@ -44,14 +44,11 @@ public class MapTool extends ImageMenuElement {
     @Override
     public void performAddAction() {
         switch(imageName) {
-            case "new" :
+            case "draw" :
                 MainController.getInstance().performDisplayMapEditor();
                 break;
             case "open" :
                 MainController.getInstance().performOpenMap();
-                break;
-            case "osm" :
-                MainController.getInstance().performDisplayOSMMap();
                 break;
             case "save" :
                 MainController.getInstance().performSaveMap();

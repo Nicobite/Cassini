@@ -30,9 +30,8 @@ public class MapToolBar extends HorizontalMenu{
         this.getStyleClass().add("tool-bar");
         this.getStyleClass().add("top-tool-bar");
         
-        this.addMenuElement(new MapTool("new","Nouveau"));
+        this.addMenuElement(new MapTool("draw","Nouveau"));
         this.addMenuElement(new MapTool("open","Ouvrir"));
-        this.addMenuElement(new MapTool("osm","Ouvrir OSM"));
         this.addMenuElement(new MapTool("save","Sauvegarder"));    
     }
 }

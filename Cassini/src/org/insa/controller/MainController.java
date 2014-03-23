@@ -157,24 +157,27 @@ public class MainController {
     }
     
     /**
-     * Perform OSM map. Get model from OSM file (.osm)
+     * Save the current map to .map.xml format
      */
-    public void performDisplayOSMMap() {
+    public void performSaveMap() {
         FileChooser fileChooser = new FileChooser();
         
-        fileChooser.setTitle("Open OSM map");
-        fileChooser.setInitialDirectory(
-                new File(System.getProperty("user.home"))
-        );
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
+        fileChooser.setTitle("Choose place");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         
-        File file = fileChooser.showOpenDialog(primaryStage);
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", ".map.xml"));
+        
+        File file = fileChooser.showSaveDialog(primaryStage);
         
         if(file != null) {
+            
+            if(!file.getName().contains(".")) {
+                file = new File(file.getAbsolutePath() + ".map.xml");
+            }
+            
             XmlParser p = new XmlParser();
             try {
-                model.setRoadModel(p.readOsmData(file));
-                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+                p.saveMapData(model.getRoadModel(), file);
             } catch (Exception ex) {
                 Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -182,17 +185,34 @@ public class MainController {
     }
     
     /**
-     * Save the current map to .map.xml format
-     */
-    public void performSaveMap() {
-        mapPanel.setCenter(new Text("Not implemented yet"));
-    }
-    
-    /**
      * Open a map (not an OSM map)
      */
     public void performOpenMap() {
-        mapPanel.setCenter(new Text("Not implemented yet"));
+        FileChooser fileChooser = new FileChooser();
+        
+        fileChooser.setTitle("Open map");
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))
+        );
+        
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", "*.map.xml"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
+        
+        File file = fileChooser.showOpenDialog(primaryStage);
+        
+        if(file != null) {
+            XmlParser p = new XmlParser();
+            try {
+                String extension = file.getAbsolutePath().split("\\.")[1];
+                if(extension.equals("osm"))
+                    model.setRoadModel(p.readOsmData(file));
+                else
+                    model.setRoadModel(p.readMapData(file));
+                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+            } catch (Exception ex) {
+                Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     
     /**
