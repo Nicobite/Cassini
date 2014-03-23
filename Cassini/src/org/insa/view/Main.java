@@ -16,12 +16,9 @@
 
 package org.insa.view;
 
-import org.insa.view.panel.MainPanel;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.insa.controller.MainController;
 
 /**
  *
@@ -31,21 +28,7 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        BorderPane layout = new BorderPane();
-        layout.setCenter(new MainPanel());
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(layout);
-        
-        //primaryStage.initStyle(StageStyle.UNDECORATED);
-        
-        Scene scene = new Scene(root, 1500, 900);
-        scene.getStylesheets().add("/org/insa/view/css/cassini.css");
-        
-        
-        primaryStage.setTitle("");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        MainController.getInstance().performDisplayMainPanel(primaryStage); 
     }
     
     /**

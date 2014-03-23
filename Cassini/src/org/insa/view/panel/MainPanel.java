@@ -17,7 +17,6 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.controller.MainController;
 /**
  *
  * @author Thomas Thiebaud
@@ -30,9 +29,7 @@ public class MainPanel extends BorderPane{
     /**
      * Default constructor
      */
-    public MainPanel() {
-        MainController.getInstance().setMainPanel(this);
-        
+    public MainPanel() {        
         layout.setLeft(new NavigationPanel());
         
         this.setLeft(layout);

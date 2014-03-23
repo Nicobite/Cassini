@@ -19,7 +19,12 @@ package org.insa.controller;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.insa.model.Model;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
@@ -38,6 +43,8 @@ import org.insa.xml.XmlParser;
 public class MainController {
     
     private static volatile MainController instance = null;
+    
+    private Stage primaryStage = null;
     
     private MainPanel mainPanel = null;
     private SimulationPanel simulationPanel = null;
@@ -71,11 +78,27 @@ public class MainController {
     }
     
     /**
-     * Add a reference to MainPanel
-     * @param mainPanel
+     * Add a reference to primary stage
+     * @param primaryStage Primary stage
      */
-    public void setMainPanel(MainPanel mainPanel) {
-        this.mainPanel = mainPanel;
+    public void performDisplayMainPanel(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        mainPanel = new MainPanel();
+        BorderPane layout = new BorderPane();
+        layout.setCenter(mainPanel);
+        
+        StackPane root = new StackPane();
+        root.getChildren().add(layout);
+        
+        //primaryStage.initStyle(StageStyle.UNDECORATED);
+        
+        Scene scene = new Scene(root, 1500, 900);
+        scene.getStylesheets().add("/org/insa/view/css/cassini.css");
+        
+        
+        primaryStage.setTitle("");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
     
     /**
@@ -137,12 +160,24 @@ public class MainController {
      * Perform OSM map. Get model from OSM file (.osm)
      */
     public void performDisplayOSMMap() {
-        XmlParser p = new XmlParser();
-        try {
-            model.setRoadModel(p.readOsmData(new File("data/osm/insa.osm")));
-            mapPanel.setCenter(new RoadDrawingPanel(1450,850));
-        } catch (Exception ex) {
-            Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        FileChooser fileChooser = new FileChooser();
+        
+        fileChooser.setTitle("Open OSM map");
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))
+        );
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
+        
+        File file = fileChooser.showOpenDialog(primaryStage);
+        
+        if(file != null) {
+            XmlParser p = new XmlParser();
+            try {
+                model.setRoadModel(p.readOsmData(file));
+                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+            } catch (Exception ex) {
+                Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
