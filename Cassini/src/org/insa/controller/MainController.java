@@ -19,7 +19,9 @@ package org.insa.controller;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -167,20 +169,40 @@ public class MainController {
         
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", ".map.xml"));
         
-        File file = fileChooser.showSaveDialog(primaryStage);
+        final File file = fileChooser.showSaveDialog(primaryStage);
+        
+        ProgressIndicator pi = new ProgressIndicator();
+        pi.setVisible(true);
+        pi.setMaxWidth(50);
+        pi.setMaxHeight(50);
+        mapPanel.setCenter(pi);
         
         if(file != null) {
-            
-            if(!file.getName().contains(".")) {
-                file = new File(file.getAbsolutePath() + ".map.xml");
-            }
-            
-            XmlParser p = new XmlParser();
-            try {
-                p.saveMapData(model.getRoadModel(), file);
-            } catch (Exception ex) {
-                Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            new Thread() {
+                public void run() {
+                    if(file != null) {
+                        File newFile = file;
+                        
+                        if(!file.getName().contains(".")) {
+                            newFile = new File(file.getAbsolutePath() + ".map.xml");
+                        }
+                        
+                        XmlParser p = new XmlParser();
+                        try {
+                            p.saveMapData(model.getRoadModel(), newFile);
+                        } catch (Exception ex) {
+                            Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+                            }
+                        });
+                    }
+                }
+            }.start();
         }
     }
     
@@ -198,21 +220,37 @@ public class MainController {
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", "*.map.xml"));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
         
-        File file = fileChooser.showOpenDialog(primaryStage);
+        final File file = fileChooser.showOpenDialog(primaryStage);
         
-        if(file != null) {
-            XmlParser p = new XmlParser();
-            try {
-                String extension = file.getAbsolutePath().split("\\.")[1];
-                if(extension.equals("osm"))
-                    model.setRoadModel(p.readOsmData(file));
-                else
-                    model.setRoadModel(p.readMapData(file));
-                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
-            } catch (Exception ex) {
-                Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+        ProgressIndicator pi = new ProgressIndicator();
+        pi.setVisible(true);
+        pi.setMaxWidth(50);
+        pi.setMaxHeight(50);
+        mapPanel.setCenter(pi);
+        
+        new Thread() {
+            public void run() {
+                if(file != null) {
+                    XmlParser p = new XmlParser();
+                    try {
+                        String extension = file.getAbsolutePath().split("\\.")[1];
+                        if(extension.equals("osm"))
+                            model.setRoadModel(p.readOsmData(file));
+                        else
+                            model.setRoadModel(p.readMapData(file));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+                            }
+                        });
+                        
+                    } catch (Exception ex) {
+                        Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-        }
+        }.start();
     }
     
     /**

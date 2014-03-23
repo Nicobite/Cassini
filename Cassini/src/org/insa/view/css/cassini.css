@@ -86,7 +86,7 @@
 .navigation-element:selected {
     -fx-background-color : #1B1D1F;
     -fx-border-width : 0 0 0 4;
-    -fx-border-color : transparent transparent transparent #FF530D;
+    -fx-border-color : transparent transparent transparent orange;
 }
 
 /*******************************************************************************
@@ -130,4 +130,14 @@
     -fx-background-color:#E2E5E6;
     -fx-background-insets: 0;
     -fx-background-radius: 0em;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * ProgressIndicator                                                           *
+ *                                                                             *
+ ******************************************************************************/
+
+.progress-indicator {
+    -fx-progress-color: orange;
 }
