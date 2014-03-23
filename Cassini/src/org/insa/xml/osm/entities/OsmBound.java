@@ -23,7 +23,7 @@ import org.simpleframework.xml.Root;
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class OsmBound
  */
-@Root(name="bounds")
+@Root(name="bounds", strict = false)
 public class OsmBound {
      /**
      * bounds of the road network : minimum longitude

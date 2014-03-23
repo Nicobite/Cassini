@@ -28,7 +28,7 @@ public class SimulationControllerTest {
     
     @Test
     public void shouldStartSimulation(){
-        SimulationController c = new SimulationController(null, 1000);
+        SimulationController c = new SimulationController(1000);
         c.start();
     }
     

@@ -91,14 +91,23 @@ public class OsmWay {
     }
     
     public boolean isRoundabout() {
-        return  (   tags.containsKey("junction") 
-                 && tags.get("junction").equalsIgnoreCase("roundabout"))
+        return  (   tags.containsKey("junction")
+                && tags.get("junction").equalsIgnoreCase("roundabout"))
                 ||  tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
     
     public float getMaxSpeed() {
-        float maxspeed = this.tags.containsKey("maxspeed")?
-                Float.parseFloat(this.tags.get("maxspeed")) : 50;
+        float maxspeed = 50;
+        if(this.tags.containsKey("maxspeed")){
+            try{
+                
+                maxspeed = Float.parseFloat(this.tags.get("maxspeed"));
+                
+            }
+            catch(NumberFormatException e){
+                
+            }
+        }
         return maxspeed;
     }
     
@@ -111,7 +120,7 @@ public class OsmWay {
     
     public int getForwardNbLanes(){
         int nbLanes = this.tags.containsKey("lanes:forward")?
-                      Integer.parseInt(tags.get("lanes:forward")) : 2;
+                Integer.parseInt(tags.get("lanes:forward")) : 2;
         return nbLanes;
     }
     
@@ -128,16 +137,22 @@ public class OsmWay {
     
     public void createRoad(HashMap<Long, OsmNode> osmNode){
         Node src, dest;
+        int i = 0;
+        long refSrc, refDest;
         this.road = new Road();
-        if(this.nodesRef.size()>1){
-            for(int i = 0;i<this.nodesRef.size()-1;i++){
-                src = osmNode.get(this.nodesRef.get(i).getRef()).createNode();
-                dest = osmNode.get(this.nodesRef.get(i+1).getRef()).createNode();
+        while(i<this.nodesRef.size()-1){
+            refSrc  = nodesRef.get(i).getRef();
+            refDest = nodesRef.get(i+1).getRef();
+            if(osmNode.containsKey(refSrc) && osmNode.containsKey(refDest)){
+                src = osmNode.get(refSrc).createNode();
+                dest = osmNode.get(refDest).createNode();
                 this.createSections(src, dest);
             }
-        }
-        
+            i++;
+        }  
     }
+        
+    
     
     private void createSections(Node src, Node dest){
         Section sect = new Section(src, dest);
@@ -151,7 +166,7 @@ public class OsmWay {
         sect.addForwardLanes(forwardLanes);
         sect.addBackwardLanes(backwardLanes);
         road.addSection(sect);
-
+        
     }
     private int getPriority(String type){
         int priority;

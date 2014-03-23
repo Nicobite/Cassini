@@ -83,6 +83,7 @@ public class OsmRoot {
         for(OsmNode n : osmNodes){
             nodes.put(n.getId(), n);
         }
+        osmNodes = null;
         return nodes;
     }
     
