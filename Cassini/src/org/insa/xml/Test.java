@@ -18,6 +18,7 @@ package org.insa.xml;
 import java.io.File;
 import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
+import org.insa.xml.osm.entities.OsmBound;
 
 /**
  *
@@ -30,7 +31,8 @@ public class Test {
         XmlParser parser = new XmlParser();
         try {
            RoadsModel map = parser.readOsmData(new File("data/osm/jean-jaures.osm"));
-           parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
+           //parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
+            System.out.println(map.getMaxLat()+","+map.getMaxLon()+","+map.getMinLat()+","+map.getMinLon());
 
         } catch (Exception ex) {
             ex.printStackTrace();

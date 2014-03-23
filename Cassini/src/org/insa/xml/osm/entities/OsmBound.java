@@ -46,6 +46,16 @@ public class OsmBound {
     @Attribute
     private float maxlat;
 
+    public OsmBound(){
+        
+    }
+    
+    public OsmBound(float minLat, float minLon, float maxLat, float maxLon){
+        this.minlat = minLat;
+        this.minlon = minLon;
+        this.maxlat = maxLat;
+        this.maxlon = maxLon;
+    }
     public float getMaxlat() {
         return maxlat;
     }

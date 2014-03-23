@@ -34,7 +34,7 @@ public class OsmRoot {
     /**
      * osm map bounds
      */
-    @Element
+    @Element(required = false)
     private OsmBound bounds;
     
     /**
@@ -54,6 +54,10 @@ public class OsmRoot {
      * @return the road network
      */
     public RoadsModel buildRoadModel(){
+        //if no bounds in osm map
+        if(bounds == null)
+            bounds = buildBounds(osmNodes);
+
         //get all osm nodes in hasmap format
         HashMap<Long, OsmNode> nodes;
         nodes = putOsmNodesInHashmap();
@@ -62,10 +66,10 @@ public class OsmRoot {
         RoadsModel roadsModel = new RoadsModel();
         
         //set map bounds
-        roadsModel.setMaxLat(this.bounds.getMaxlat());
-        roadsModel.setMaxLon(this.bounds.getMaxlon());
-        roadsModel.setMinLat(this.bounds.getMinlat());
-        roadsModel.setMinLon(this.bounds.getMinlon());
+        roadsModel.setMaxLat(bounds.getMaxlat());
+        roadsModel.setMaxLon(bounds.getMaxlon());
+        roadsModel.setMinLat(bounds.getMinlat());
+        roadsModel.setMinLon(bounds.getMinlon());
         
         for(OsmWay way : osmWays){
             if(way.isHighway()){
@@ -75,7 +79,7 @@ public class OsmRoot {
         return roadsModel;
     }
     /**
-     *  put osm nodes in an hashmap for easy access
+     *  put osm nodes in an hashmap for easy access (referenced by id)
      */
     private HashMap<Long, OsmNode> putOsmNodesInHashmap(){
         HashMap<Long, OsmNode> nodes = new HashMap<>();
@@ -114,6 +118,24 @@ public class OsmRoot {
         this.osmWays = osmWays;
     }
     
-    
+    public OsmBound buildBounds(ArrayList<OsmNode> nodes){
+        OsmBound bound = new OsmBound(1000,1000,0,0);
+        for(OsmNode node : nodes){
+            if(node.getLat()> bound.getMaxlat()){
+                bound.setMaxlat(node.getLat());
+            }
+            if(node.getLat()< bound.getMinlat()){
+                bound.setMinlat(node.getLat());
+            }
+            if(node.getLon()> bound.getMaxlon()){
+                bound.setMaxlon(node.getLon());
+            }
+            if(node.getLon()< bound.getMinlon()){
+                bound.setMinlon(node.getLon());
+            }
+            
+        }
+        return bound;
+    }
     
 }

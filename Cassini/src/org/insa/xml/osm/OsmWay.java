@@ -15,13 +15,13 @@
 */
 package org.insa.xml.osm;
 
-import org.insa.xml.osm.entities.OsmNodeRef;
-import org.insa.xml.osm.OsmNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.xml.osm.OsmNode;
+import org.insa.xml.osm.entities.OsmBound;
 import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
@@ -159,6 +159,7 @@ public class OsmWay {
         road.addSection(sect);
         
     }
+
     private int getPriority(String type){
         int priority;
         switch(type){
