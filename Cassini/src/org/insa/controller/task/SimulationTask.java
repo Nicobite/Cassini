@@ -25,7 +25,7 @@ import org.insa.model.Model;
  * Class SimulationTask
  * Execute simulation logic
  */
-public class SimulationTask extends TimerTask{
+public class SimulationTask extends TimerTask {
     /**
      * reference of the simulation model
      */

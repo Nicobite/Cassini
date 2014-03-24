@@ -60,6 +60,7 @@ public class SimulationController {
      */
     public void pause(){
         this.timer.cancel();
+        System.out.println("#####\nPause\n#####");
     }
      
     /**

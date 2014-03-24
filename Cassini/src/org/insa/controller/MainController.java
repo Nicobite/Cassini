@@ -57,10 +57,12 @@ public class MainController {
     private MapPanel mapPanel = null;
     private ResultPanel resultPanel = null;
     private VehiclesPanel vehiclesPanel = null;
+    private RoadDrawingPanel roadDrawingPanel = null;
+    
     
     private Model model = new Model();
     
-    private SimulationPanel simulationController;
+    private SimulationController simulationController = null;
     /**
      * Default private constructor
      */
@@ -118,8 +120,13 @@ public class MainController {
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
+        simulationController = new SimulationController(50);
         simulationPanel = new SimulationPanel();
         mainPanel.setCenter(simulationPanel);
+        if(roadDrawingPanel != null)
+            simulationPanel.setCenter(roadDrawingPanel);
+        else
+            this.performDisplayMessage(simulationPanel, "Aucune carte sélectionnée");
     }
     
     /**
@@ -201,7 +208,7 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+                                mapPanel.setCenter(roadDrawingPanel);
                             }
                         });
                     }
@@ -236,7 +243,7 @@ public class MainController {
         
         if(file != null) {
             new Thread() {
-                public void run() {       
+                public void run() {
                     XmlParser p = new XmlParser();
                     try {
                         String extension = file.getAbsolutePath().split("\\.")[1];
@@ -247,9 +254,10 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                mapPanel.setCenter(new RoadDrawingPanel(1450,850));
+                                roadDrawingPanel = new RoadDrawingPanel(1450,850);
+                                mapPanel.setCenter(roadDrawingPanel);
                             }
-                        });                      
+                        });
                     } catch (Exception ex) {
                         Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -278,7 +286,7 @@ public class MainController {
         text.setFont(Font.font("Arial", 15));
         pane.setCenter(text);
     }
-
+    
     /**
      * Display vehicles panel
      */
@@ -286,7 +294,7 @@ public class MainController {
         vehiclesPanel = new VehiclesPanel();
         configurationPanel.setCenter(vehiclesPanel);
     }
-
+    
     /**
      * Add a vehicle o the vehicle model
      * @param vehicle Vehicle to add
@@ -297,7 +305,7 @@ public class MainController {
             model.getVehiclesModel().addVehicle(vehicle);
         MainController.getInstance().performUpdateVehiclesTable();
     }
-
+    
     /**
      * Reset vehicles model by reseting the vehicles list
      */
@@ -305,7 +313,7 @@ public class MainController {
         model.getVehiclesModel().getVehicles().clear();
         MainController.getInstance().performUpdateVehiclesTable();
     }
-
+    
     public void performOpenVehicles() {
         FileChooser fileChooser = new FileChooser();
         
@@ -326,7 +334,7 @@ public class MainController {
         
         if(file != null) {
             new Thread() {
-                public void run() {       
+                public void run() {
                     XmlParser p = new XmlParser();
                     try {
                         model.setVehiclesModel(p.readVehiclesData(file));
@@ -336,7 +344,7 @@ public class MainController {
                                 MainController.getInstance().performUpdateVehiclesTable();
                                 configurationPanel.setCenter(vehiclesPanel);
                             }
-                        });                      
+                        });
                     } catch (Exception ex) {
                         Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -344,10 +352,10 @@ public class MainController {
             }.start();
         }
         else {
-            this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture des véhicules");
+            this.performDisplayMessage(configurationPanel, "Erreur lors de l'ouverture de la liste des véhiules");
         }
     }
-
+    
     public void performSaveVehicles() {
         FileChooser fileChooser = new FileChooser();
         
@@ -392,13 +400,55 @@ public class MainController {
                 }
             }.start();
         } else {
-            this.performDisplayMessage(mapPanel, "Erreur lors de la sauvegarde des véhicules");
+            this.performDisplayMessage(configurationPanel, "Erreur lors de la sauvegarde de la liste des véhicules");
         }
     }
     
+    /**
+     * Update vehicule table view
+     */
     public void performUpdateVehiclesTable() {
         if(vehiclesPanel != null) {
             vehiclesPanel.performUpdateData(model.getVehiclesModel().getVehicles());
         }
+    }
+    
+    /**
+     * Start the simulation
+     */
+    public void performPlaySimulation() {
+        simulationController.start();
+    }
+    
+    /**
+     * Perform a break during the simulation
+     */
+    public void performPauseSimulation() {
+        simulationController.pause();
+    }
+    
+    /**
+     * Stop the simulation
+     */
+    public void performStopSimulation() {
+        simulationController.stop();
+    }
+    
+    /**
+     * Decrease simulation speed
+     */
+    public void performBackwardSimulation() {
+        int simulationStep = simulationController.getSimulationStep();
+        simulationStep += 10;
+        simulationController.setSimulationStep(simulationStep);
+    }
+    
+    /**
+     * Increase simulation speed
+     */
+    public void performForwardSimulation() {
+        int simulationStep = simulationController.getSimulationStep();
+        simulationStep -= 10;
+        simulationController.setSimulationStep(simulationStep);
     }
 }

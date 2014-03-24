@@ -22,16 +22,7 @@ import org.insa.controller.MainController;
  *
  * @author Thomas Thiebaud
  */
-public class MainElement extends MenuElement {
-    
-    /*
-    private final int height = 50;
-    private final int width = 200;
-    private final String fontName = "Arial";
-    private final FontWeight fontWeight = FontWeight.BLACK;
-    private final int fontSize = 15;
-    */
-    
+public class MainElement extends MenuElement {    
     /**
      * Constructor
      * @param name Name of the entry into the menu

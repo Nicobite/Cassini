@@ -34,8 +34,8 @@ public abstract class ImageMenuElement extends MenuElement{
      * @param height MenuElement height
      * @param width MenuElement width
      */
-    public ImageMenuElement(String imageName, String name, int height, int width) {
-        super(name,height,width);
+    public ImageMenuElement(String imageName, String name, int height, int width,boolean isToogleButton) {
+        super(name,height,width, isToogleButton);
         this.imageName = imageName;
         
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
@@ -48,7 +48,7 @@ public abstract class ImageMenuElement extends MenuElement{
      * @param name Name of the entry into the menu
      */
     public ImageMenuElement(String imageName, String name) {
-        this(imageName, name, 40, 150);
+        this(imageName, name, 50, 150, true);
     }
     
     /**

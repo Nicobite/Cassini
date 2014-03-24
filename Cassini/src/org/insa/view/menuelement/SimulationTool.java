@@ -15,6 +15,8 @@
  */
 package org.insa.view.menuelement;
 
+import org.insa.controller.MainController;
+
 /**
  *
  * @author Thomas Thiebaud
@@ -27,7 +29,7 @@ public class SimulationTool extends ImageMenuElement {
      * @param name Name of the entry into the menu
      */
     public SimulationTool(String imageName, String name) {
-        super(imageName, name, 50, 50);
+        super(imageName, name, 50, 50, true);
         this.getStyleClass().add("tool");    
     }
     
@@ -43,19 +45,19 @@ public class SimulationTool extends ImageMenuElement {
     public void performAddAction() {
         switch(imageName) {
             case "play" :
-                //MainController.getInstance().performPlaySimulation();
+                MainController.getInstance().performPlaySimulation();
                 break;
             case "pause" : 
-                //MainController.getInstance().performPauseSimulation();
+                MainController.getInstance().performPauseSimulation();
                 break;
             case "stop" :
-                //MainController.getInstance().performStopSimulation();
+                MainController.getInstance().performStopSimulation();
                 break;
             case "backward" :
-                //MainController.getInstance().performBackwardSimulation();
+                MainController.getInstance().performBackwardSimulation();
                 break;
             case "forward" :
-                //MainController.getInstance().performForwardSimulation();
+                MainController.getInstance().performForwardSimulation();
                 break;
         }
     }

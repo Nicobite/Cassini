@@ -29,7 +29,7 @@ public class NavigationElement extends ImageMenuElement {
      * @param name Name of the entry into the menu
      */
     public NavigationElement(String imageName, String name) {
-        super(imageName, name, 50, 50);
+        super(imageName, name, 50, 50, true);
         this.getStyleClass().add("navigation-element");
     }
     

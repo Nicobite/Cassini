@@ -17,6 +17,7 @@ package org.insa.view.form;
 
 import org.insa.controller.validator.FormValidator;
 import java.util.ArrayList;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
@@ -34,7 +35,8 @@ public abstract class FormPanel extends GridPane implements SubmitFormListener{
      * Default constructor
      */
     public FormPanel() {
-        informationLabel.setFont(new Font(20));
+        informationLabel.setFont(new Font(15));
+        informationLabel.setAlignment(Pos.CENTER);
         this.add(informationLabel, 0, 0, 2, 1);
     }
     

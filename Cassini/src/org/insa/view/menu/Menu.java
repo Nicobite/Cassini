@@ -71,17 +71,23 @@ public abstract class Menu extends BorderPane {
      * @param menuElement Menu elment to initialize
      */
     public void initElement(final MenuElement menuElement) {
-        menuElement.setToggleGroup(group);
+        if(menuElement.isToggleButton())
+            menuElement.setToggleGroup(group);
         this.elements.add(menuElement);
         
         menuElement.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent me){
-                ToggleButton tb = (ToggleButton)(me.getSource());
-                if(!tb.isSelected())
-                    tb.setSelected(true);
-                else
+                MenuElement menuElement = (MenuElement)(me.getSource());
+                if(menuElement.isToggleButton()) {
+                    if(!menuElement.isSelected())
+                        menuElement.setSelected(true);
+                    else
+                        menuElement.performAddAction();
+                } else {
+                    menuElement.setSelected(false);
                     menuElement.performAddAction();
+                } 
             }
         });
     }

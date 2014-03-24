@@ -21,7 +21,7 @@ import org.insa.controller.MainController;
  *
  * @author Thomas Thiebaud
  */
-public class ConfigurationTool extends ImageMenuElement{
+public class ConfigurationTool extends ImageMenuElement {
     /**
      * Constructor
      * @param imageName Name of the picture located in org.insa.view.image package
@@ -29,6 +29,17 @@ public class ConfigurationTool extends ImageMenuElement{
      */
     public ConfigurationTool(String imageName, String name) {
         super(imageName, name);
+        this.getStyleClass().add("tool");
+    }
+    
+    /**
+     * Constructor
+     * @param imageName Name of the picture located in org.insa.view.image package
+     * @param name Name of the entry into the menu
+     * @param isToogleButton true if the button is a toogle button, false otherwise
+     */
+    public ConfigurationTool(String imageName, String name, boolean isToogleButton) {
+        super(imageName,name,50,150, isToogleButton);
         this.getStyleClass().add("tool");
     }
     

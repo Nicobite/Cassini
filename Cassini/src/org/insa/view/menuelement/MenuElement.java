@@ -26,6 +26,7 @@ public abstract class MenuElement extends ToggleButton implements MenuElementLis
     
     protected int width = 200;
     protected int height = 200;
+    protected boolean isToggleButton = true;
     
     /**
      * Default constructor
@@ -46,5 +47,28 @@ public abstract class MenuElement extends ToggleButton implements MenuElementLis
         this.width = width;
         this.setPrefHeight(height);
         this.setPrefWidth(width);
+    }
+    
+    /**
+     * Constructor
+     * @param name Name of the entry into the menu
+     * @param height Height of the entry into the menu
+     * @param width Width of the entry into a menu
+     */
+    public MenuElement(String name, int height, int width, boolean isToogleButton) {
+        super(name);
+        this.height = height;
+        this.width = width;
+        this.isToggleButton = isToogleButton;
+        this.setPrefHeight(height);
+        this.setPrefWidth(width);
+    }
+
+    /**
+     * Get isToogleButton tag
+     * @return ToogleButton tag
+     */
+    public boolean isToggleButton() {
+        return isToggleButton;
     }
 }
