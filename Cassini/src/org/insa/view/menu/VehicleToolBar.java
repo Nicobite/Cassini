@@ -13,31 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.panel;
+package org.insa.view.menu;
 
-import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.ConfigurationToolBar;
+import org.insa.view.menuelement.VehicleTool;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class ConfigurationPanel extends BorderPane{
-    
-    private final ConfigurationToolBar configurationToolBar = new ConfigurationToolBar();
+public class VehicleToolBar extends HorizontalMenu{
     
     /**
      * Default constructor
      */
-    public ConfigurationPanel() {
-        this.setTop(configurationToolBar);
-    }
-    
-    /**
-     * Get configuration too bar
-     * @return Get configuration tool bar
-     */
-    public ConfigurationToolBar getConfigurationToolBar() {
-        return configurationToolBar;
+    public VehicleToolBar() {
+        this.getStyleClass().add("tool-bar");
+        this.getStyleClass().add("top-tool-bar");
+        
+        this.addMenuElement(new VehicleTool("reset", "Reset",false));
+        this.addMenuElement(new VehicleTool("open", "Importer",false));
+        this.addMenuElement(new VehicleTool("save", "Exporter",false));
     }
 }

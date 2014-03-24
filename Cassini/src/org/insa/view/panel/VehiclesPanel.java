@@ -24,6 +24,7 @@ import javafx.scene.layout.BorderPane;
 import org.insa.controller.MainController;
 import org.insa.core.vehicle.Vehicle;
 import org.insa.view.form.VehiclesForm;
+import org.insa.view.menu.VehicleToolBar;
 
 /**
  *
@@ -31,40 +32,11 @@ import org.insa.view.form.VehiclesForm;
  */
 public class VehiclesPanel extends BorderPane {
     
-    private TableView<Vehicle> table = new TableView<Vehicle>();
-    
     /**
      * Default constructor
      */
     public VehiclesPanel() {
-        this.setTop(new VehiclesForm());
-
-        TableColumn maxSpeed = new TableColumn("Vitesse maximale");
-        maxSpeed.setCellValueFactory(new PropertyValueFactory<Vehicle,Integer>("maxSpeed"));
-        maxSpeed.prefWidthProperty().bind(table.widthProperty().divide(4));
-        
-        TableColumn maxAcceleration = new TableColumn("Accélération maximale");
-        maxAcceleration.setCellValueFactory(new PropertyValueFactory<Vehicle,Integer>("maxAcceleration"));
-        maxAcceleration.prefWidthProperty().bind(table.widthProperty().divide(4));
-        
-        TableColumn maxDeceleration = new TableColumn("Décélération maximale");
-        maxDeceleration.setCellValueFactory(new PropertyValueFactory<Vehicle,String>("maxDeceleration"));
-        maxDeceleration.prefWidthProperty().bind(table.widthProperty().divide(4));
-        
-        TableColumn length = new TableColumn("Longueur");
-        length.setCellValueFactory(new PropertyValueFactory<Vehicle,String>("length"));
-        length.prefWidthProperty().bind(table.widthProperty().divide(4));
-        
-        table.setItems(FXCollections.observableList(MainController.getInstance().getModel().getVehiclesModel().getVehicles()));
-        table.getColumns().addAll(maxSpeed,maxAcceleration, maxDeceleration, length);
-
-        this.setCenter(table);
-    }
-    
-    /**
-     * Update table data by asking the controller for new data
-     */
-    public void performUpdateData(ArrayList<Vehicle> vehicles) {
-        table.setItems(FXCollections.observableList(vehicles));
+        this.setTop(new VehicleToolBar());
+        this.setCenter(new VehicleDataPanel());
     }
 }

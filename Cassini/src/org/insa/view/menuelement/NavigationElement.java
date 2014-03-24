@@ -47,8 +47,8 @@ public class NavigationElement extends ImageMenuElement {
             case "map" :
                 MainController.getInstance().performDisplayMapPanel();
                 break;
-            case "configuration" :
-                MainController.getInstance().performDisplayConfigurationPanel();
+            case "car" :
+                MainController.getInstance().performDisplayVehiclesPanel();
                 break;
             case "simulation" :
                 MainController.getInstance().performDisplaySimulationPanel();

@@ -21,13 +21,13 @@ import org.insa.controller.MainController;
  *
  * @author Thomas Thiebaud
  */
-public class ConfigurationTool extends ImageMenuElement {
+public class VehicleTool extends ImageMenuElement {
     /**
      * Constructor
      * @param imageName Name of the picture located in org.insa.view.image package
      * @param name Name of the entry into the menu
      */
-    public ConfigurationTool(String imageName, String name) {
+    public VehicleTool(String imageName, String name) {
         super(imageName, name);
         this.getStyleClass().add("tool");
     }
@@ -38,7 +38,7 @@ public class ConfigurationTool extends ImageMenuElement {
      * @param name Name of the entry into the menu
      * @param isToogleButton true if the button is a toogle button, false otherwise
      */
-    public ConfigurationTool(String imageName, String name, boolean isToogleButton) {
+    public VehicleTool(String imageName, String name, boolean isToogleButton) {
         super(imageName,name,50,150, isToogleButton);
         this.getStyleClass().add("tool");
     }
@@ -47,16 +47,13 @@ public class ConfigurationTool extends ImageMenuElement {
      * Constructor
      * @param imageName Name of the picture located in org.insa.view.image package
      */
-    public ConfigurationTool(String imageName) {
+    public VehicleTool(String imageName) {
         this(imageName, "");
     }
     
     @Override
     public void performAddAction() {
         switch(imageName) {
-            case "car" :
-                MainController.getInstance().performDisplayVehiclesPanel();
-                break;
             case "reset":
                 MainController.getInstance().performResetVehiclesModel();
                 break;

@@ -30,7 +30,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.insa.core.vehicle.Vehicle;
 import org.insa.model.Model;
-import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
 import org.insa.view.panel.MainPanel;
@@ -38,6 +37,7 @@ import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
 import org.insa.view.panel.RoadDrawingPanel;
 import org.insa.view.panel.SimulationPanel;
+import org.insa.view.panel.VehicleDataPanel;
 import org.insa.view.panel.VehiclesPanel;
 import org.insa.xml.XmlParser;
 
@@ -53,10 +53,10 @@ public class MainController {
     
     private MainPanel mainPanel = null;
     private SimulationPanel simulationPanel = null;
-    private ConfigurationPanel configurationPanel = null;
     private MapPanel mapPanel = null;
     private ResultPanel resultPanel = null;
     private VehiclesPanel vehiclesPanel = null;
+    private VehicleDataPanel vehicleDataPanel = null;
     private RoadDrawingPanel roadDrawingPanel = null;
     
     
@@ -130,14 +130,6 @@ public class MainController {
     }
     
     /**
-     * Display configuration panel
-     */
-    public void performDisplayConfigurationPanel() {
-        configurationPanel = new ConfigurationPanel();
-        mainPanel.setCenter(configurationPanel);
-    }
-    
-    /**
      * Display map panel
      */
     public void performDisplayMapPanel() {
@@ -151,6 +143,7 @@ public class MainController {
     public void performDisplayResultPanel() {
         resultPanel = new ResultPanel();
         mainPanel.setCenter(resultPanel);
+        this.performDisplayMessage(resultPanel, "Not implemented yet");
     }
     
     /**
@@ -291,8 +284,10 @@ public class MainController {
      * Display vehicles panel
      */
     public void performDisplayVehiclesPanel() {
+        vehicleDataPanel = new VehicleDataPanel();
         vehiclesPanel = new VehiclesPanel();
-        configurationPanel.setCenter(vehiclesPanel);
+        vehiclesPanel.setCenter(vehicleDataPanel);
+        mainPanel.setCenter(vehiclesPanel);
     }
     
     /**
@@ -330,7 +325,7 @@ public class MainController {
         pi.setVisible(true);
         pi.setMaxWidth(50);
         pi.setMaxHeight(50);
-        configurationPanel.setCenter(pi);
+        vehiclesPanel.setCenter(pi);
         
         if(file != null) {
             new Thread() {
@@ -342,7 +337,7 @@ public class MainController {
                             @Override
                             public void run() {
                                 MainController.getInstance().performUpdateVehiclesTable();
-                                configurationPanel.setCenter(vehiclesPanel);
+                                vehiclesPanel.setCenter(vehicleDataPanel);
                             }
                         });
                     } catch (Exception ex) {
@@ -352,7 +347,7 @@ public class MainController {
             }.start();
         }
         else {
-            this.performDisplayMessage(configurationPanel, "Erreur lors de l'ouverture de la liste des véhiules");
+            this.performDisplayMessage(vehiclesPanel, "Erreur lors de l'ouverture de la liste des véhiules");
         }
     }
     
@@ -370,7 +365,7 @@ public class MainController {
         pi.setVisible(true);
         pi.setMaxWidth(50);
         pi.setMaxHeight(50);
-        configurationPanel.setCenter(pi);
+        vehiclesPanel.setCenter(pi);
         
         if(file != null) {
             new Thread() {
@@ -393,14 +388,14 @@ public class MainController {
                             @Override
                             public void run() {
                                 MainController.getInstance().performUpdateVehiclesTable();
-                                configurationPanel.setCenter(vehiclesPanel);
+                                vehiclesPanel.setCenter(vehicleDataPanel);
                             }
                         });
                     }
                 }
             }.start();
         } else {
-            this.performDisplayMessage(configurationPanel, "Erreur lors de la sauvegarde de la liste des véhicules");
+            this.performDisplayMessage(vehiclesPanel, "Erreur lors de la sauvegarde de la liste des véhicules");
         }
     }
     
@@ -408,8 +403,8 @@ public class MainController {
      * Update vehicule table view
      */
     public void performUpdateVehiclesTable() {
-        if(vehiclesPanel != null) {
-            vehiclesPanel.performUpdateData(model.getVehiclesModel().getVehicles());
+        if(vehicleDataPanel != null) {
+            vehicleDataPanel.performUpdateData(model.getVehiclesModel().getVehicles());
         }
     }
     

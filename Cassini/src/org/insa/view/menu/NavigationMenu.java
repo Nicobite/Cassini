@@ -30,7 +30,7 @@ public class NavigationMenu extends VerticalMenu {
         this.getStyleClass().add("navigation-menu");
         
         this.addMenuElement(new NavigationElement("map"));
-        this.addMenuElement(new NavigationElement("configuration"));
+        this.addMenuElement(new NavigationElement("car"));
         this.addMenuElement(new NavigationElement("simulation"));
         this.addMenuElement(new NavigationElement("result"));
     }
