@@ -31,7 +31,8 @@ public class ConfigurationToolBar extends HorizontalMenu{
         this.getStyleClass().add("top-tool-bar");
         
         this.addMenuElement(new ConfigurationTool("car","Véhicules"));
-        this.addMenuElement(new ConfigurationTool("model","Modèle"));
-        this.addMenuElement(new ConfigurationTool("open", "Importer modèle"));
+        this.addMenuElement(new ConfigurationTool("reset", "Reset"));
+        this.addMenuElement(new ConfigurationTool("open", "Importer"));
+        this.addMenuElement(new ConfigurationTool("save", "Exporter"));
     }
 }

@@ -60,7 +60,4 @@ public class VehiclePosition {
     public void setPosition(Lane position) {
         this.position = position;
     }
-    
-    
-
 }

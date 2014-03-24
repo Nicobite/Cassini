@@ -15,6 +15,8 @@
 */
 package org.insa.view.menuelement;
 
+import org.insa.controller.MainController;
+
 /**
  *
  * @author Thomas Thiebaud
@@ -42,9 +44,15 @@ public class ConfigurationTool extends ImageMenuElement{
     public void performAddAction() {
         switch(imageName) {
             case "car" :
-                //MainController.getInstance().performDisplayCarConfigurationPanel();
+                MainController.getInstance().performDisplayVehiclesPanel();
                 break;
-            case "model" :
+            case "reset":
+                MainController.getInstance().performResetVehiclesModel();
+                break;
+            case "open" :
+                //MainController.getInstance().performDisplayModelConfigurationPanel();
+                break;
+            case "save" :
                 //MainController.getInstance().performDisplayModelConfigurationPanel();
                 break;
         }

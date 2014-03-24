@@ -58,6 +58,4 @@ public class VehiclesModel {
         this.vehicles.remove(v);
         return this;
     }
-    
-    
 }

@@ -24,9 +24,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.insa.core.vehicle.Vehicle;
 import org.insa.model.Model;
 import org.insa.view.panel.ConfigurationPanel;
 import org.insa.view.panel.DefaultPanel;
@@ -36,6 +38,7 @@ import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
 import org.insa.view.panel.RoadDrawingPanel;
 import org.insa.view.panel.SimulationPanel;
+import org.insa.view.panel.VehiclesPanel;
 import org.insa.xml.XmlParser;
 
 /**
@@ -53,6 +56,7 @@ public class MainController {
     private ConfigurationPanel configurationPanel = null;
     private MapPanel mapPanel = null;
     private ResultPanel resultPanel = null;
+    private VehiclesPanel vehiclesPanel = null;
     
     private Model model = new Model();
     
@@ -203,6 +207,8 @@ public class MainController {
                     }
                 }
             }.start();
+        } else {
+            this.performDisplayMessage(mapPanel, "Erreur lors de la sauvegarde de la carte");
         }
     }
     
@@ -228,9 +234,9 @@ public class MainController {
         pi.setMaxHeight(50);
         mapPanel.setCenter(pi);
         
-        new Thread() {
-            public void run() {
-                if(file != null) {
+        if(file != null) {
+            new Thread() {
+                public void run() {       
                     XmlParser p = new XmlParser();
                     try {
                         String extension = file.getAbsolutePath().split("\\.")[1];
@@ -243,14 +249,16 @@ public class MainController {
                             public void run() {
                                 mapPanel.setCenter(new RoadDrawingPanel(1450,850));
                             }
-                        });
-                        
+                        });                      
                     } catch (Exception ex) {
                         Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }
-        }.start();
+            }.start();
+        }
+        else {
+            this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture de la carte");
+        }
     }
     
     /**
@@ -258,5 +266,44 @@ public class MainController {
      */
     public void performDisplayMapEditor() {
         mapPanel.setCenter(new Text("Not implemented yet"));
+    }
+    
+    /**
+     * Display a message in a pane
+     * @param pane Pane containing the message
+     * @param message Message to display
+     */
+    public void performDisplayMessage(BorderPane pane, String message) {
+        Text text = new Text(message);
+        text.setFont(Font.font("Arial", 15));
+        pane.setCenter(text);
+    }
+
+    /**
+     * Display vehicles panel
+     */
+    public void performDisplayVehiclesPanel() {
+        vehiclesPanel = new VehiclesPanel();
+        configurationPanel.setCenter(vehiclesPanel);
+    }
+
+    /**
+     * Add a vehicle o the vehicle model
+     * @param vehicle Vehicle to add
+     * @param quantity Number of vehicles to add
+     */
+    public void performAddVehicle(Vehicle vehicle, int quantity) {
+        for(int i=0; i<quantity; i++)
+            model.getVehiclesModel().addVehicle(vehicle);
+        vehiclesPanel.performUpdateData();
+    }
+
+    /**
+     * Reset vehicles model by reseting the vehicles list
+     */
+    public void performResetVehiclesModel() {
+        model.getVehiclesModel().getVehicles().clear();
+        if(vehiclesPanel != null)
+            vehiclesPanel.performUpdateData();
     }
 }

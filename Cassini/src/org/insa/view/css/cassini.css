@@ -141,3 +141,142 @@
 .progress-indicator {
     -fx-progress-color: orange;
 }
+
+/*******************************************************************************
+ *                                                                             *
+ * text field                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+.text-field {
+    -fx-background-color: #EFEFEF;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-padding: 5 5 5 5 ;
+    -fx-text-fill: black;
+    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+    -fx-cursor: text;
+}
+
+.text-field:focused {
+    -fx-background-color: #DBDBDB;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0px;
+    -fx-prompt-text-fill: transparent;
+}
+
+.text-field:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Submit button                                                               *
+ *                                                                             *
+ ******************************************************************************/
+
+.submit-button {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0px;
+    -fx-background-insets : 0px;
+    -fx-border-radius : 0px;
+    -fx-border-color : #E2E5E6;
+    -fx-padding: 10;
+}
+
+.submit-button:armed {
+    -fx-background-color : #E2E5E6;
+    -fx-background-radius : 0px;
+    -fx-background-insets : 0px;
+    -fx-border-radius : 0px;
+    -fx-border-width : 0 0 1 0;
+    -fx-border-color : #E2E5E6;
+    -fx-padding: 10;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Measure table                                                               *
+ *                                                                             *
+ ******************************************************************************/
+
+.table-view {
+    -fx-background-color: #EFEFEF;
+    -fx-background-insets: 0;
+    -fx-border-radius: 0px;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+    -fx-padding: 0px;
+}
+
+.table-view:focused {
+    -fx-background-color: #EFEFEF;
+    -fx-background-insets: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0px;
+    -fx-padding: 0px;
+}
+
+.table-view .column-header{
+    -fx-background-color: #EFEFEF;
+    -fx-padding: 5;
+}
+
+.table-row-cell {
+    -fx-background-color: #FAFAFA;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-text-fill: -fx-text-inner-color;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #FFFFFF;
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:focused {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:focused:odd {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.table-view:focused .table-row-cell:filled:selected .table-cell {
+    -fx-text-fill: black;
+    -fx-background-insets: 0;
+}
+
+.table-view:focused .table-row-cell:filled:selected, .table-view:row-selection .table-row-cell:filled:hover:selected {
+    -fx-background-color: transparent;
+    -fx-border-width: 0px;
+    -fx-text-fill: black;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+    -fx-background-insets: 0;
+    -fx-border-width: 0px;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-text-fill: black;
+    -fx-font-size: 15px;
+    -fx-size: 25;
+    -fx-border-width : 1;
+    -fx-border-color : #E2E5E6;
+    -fx-border-insets: 0px;
+}
+
+.table-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding:-7;
+}

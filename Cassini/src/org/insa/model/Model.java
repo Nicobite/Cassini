@@ -34,12 +34,12 @@ public class Model {
      * roads network
      */
     @Element
-    private RoadsModel roadModel;
+    private RoadsModel roadModel = new RoadsModel();
     /**
      * vehicles
      */
     @Element
-    private VehiclesModel vehiclesModel;
+    private VehiclesModel vehiclesModel = new VehiclesModel();
     
     
     /**

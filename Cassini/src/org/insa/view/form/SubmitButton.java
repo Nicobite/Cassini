@@ -35,6 +35,7 @@ public class SubmitButton extends Button{
     public SubmitButton(String name, final FormPanel formPanel) {
         super(name);
         this.formPanel = formPanel;
+        this.getStyleClass().add("submit-button");
         this.setOnMouseClicked(new EventHandler<MouseEvent>(){
             public void handle(MouseEvent me){
                 formPanel.performSubmitAction();

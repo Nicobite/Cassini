@@ -15,6 +15,7 @@
 */
 package org.insa.core.vehicle;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -32,25 +33,25 @@ public class Vehicle {
      * vehicle max speed
      */
     @Attribute()
-    private int maxSpeed;
+    private SimpleIntegerProperty maxSpeed;
     
     /**
      * max acceleration
      */
     @Attribute(name="maxacc")
-    private int maxAcceleration;
+    private SimpleIntegerProperty maxAcceleration;
     
     /**
      * max deceleration (braking)
      */
     @Attribute(name="maxdec")
-    private int maxDeceleration;
+    private SimpleIntegerProperty maxDeceleration;
     
     /**
      * vehicle length
      */
     @Attribute
-    private int length;
+    private SimpleIntegerProperty length;
     
     /**
      * driving attributes
@@ -62,34 +63,34 @@ public class Vehicle {
       super();  
     }
     public void setMaxAcceleration(int maxAcceleration) {
-        this.maxAcceleration = maxAcceleration;
+        this.maxAcceleration = new SimpleIntegerProperty(maxAcceleration);
     }
     
     public int getMaxAcceleration() {
-        return maxAcceleration;
+        return maxAcceleration.get();
     }
     
     public void setLength(int length) {
-        this.length = length;
+        this.length = new SimpleIntegerProperty(length);
     }
     
     public int getLength() {
-        return length;
+        return length.get();
     }
     
     public void setMaxSpeed(int maxSpeed) {
-        this.maxSpeed = maxSpeed;
+        this.maxSpeed = new SimpleIntegerProperty(maxSpeed);
     }
     public int getMaxSpeed() {
-        return maxSpeed;
+        return maxSpeed.get();
     }
     
     public void setMaxDeceleration(int maxDeceleration) {
-        this.maxDeceleration = maxDeceleration;
+        this.maxDeceleration = new SimpleIntegerProperty(maxDeceleration);
     }
     
     public int getMaxDeceleration() {
-        return maxDeceleration;
+        return maxDeceleration.get();
     }
 
     public Driving getDriving() {
