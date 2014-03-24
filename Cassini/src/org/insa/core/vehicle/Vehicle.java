@@ -62,6 +62,7 @@ public class Vehicle {
     public Vehicle(){
       super();  
     }
+    
     public void setMaxAcceleration(int maxAcceleration) {
         this.maxAcceleration = new SimpleIntegerProperty(maxAcceleration);
     }

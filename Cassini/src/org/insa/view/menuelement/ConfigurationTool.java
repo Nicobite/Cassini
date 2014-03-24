@@ -50,10 +50,10 @@ public class ConfigurationTool extends ImageMenuElement{
                 MainController.getInstance().performResetVehiclesModel();
                 break;
             case "open" :
-                //MainController.getInstance().performDisplayModelConfigurationPanel();
+                MainController.getInstance().performOpenVehicles();
                 break;
             case "save" :
-                //MainController.getInstance().performDisplayModelConfigurationPanel();
+                MainController.getInstance().performSaveVehicles();
                 break;
         }
     }

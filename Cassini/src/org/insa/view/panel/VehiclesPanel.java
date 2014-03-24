@@ -15,6 +15,7 @@
 */
 package org.insa.view.panel;
 
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -63,7 +64,7 @@ public class VehiclesPanel extends BorderPane {
     /**
      * Update table data by asking the controller for new data
      */
-    public void performUpdateData() {
-        table.setItems(FXCollections.observableList(MainController.getInstance().getModel().getVehiclesModel().getVehicles()));
+    public void performUpdateData(ArrayList<Vehicle> vehicles) {
+        table.setItems(FXCollections.observableList(vehicles));
     }
 }

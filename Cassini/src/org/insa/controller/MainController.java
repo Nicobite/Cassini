@@ -295,7 +295,7 @@ public class MainController {
     public void performAddVehicle(Vehicle vehicle, int quantity) {
         for(int i=0; i<quantity; i++)
             model.getVehiclesModel().addVehicle(vehicle);
-        vehiclesPanel.performUpdateData();
+        MainController.getInstance().performUpdateVehiclesTable();
     }
 
     /**
@@ -303,7 +303,102 @@ public class MainController {
      */
     public void performResetVehiclesModel() {
         model.getVehiclesModel().getVehicles().clear();
-        if(vehiclesPanel != null)
-            vehiclesPanel.performUpdateData();
+        MainController.getInstance().performUpdateVehiclesTable();
+    }
+
+    public void performOpenVehicles() {
+        FileChooser fileChooser = new FileChooser();
+        
+        fileChooser.setTitle("Open vehicles model");
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))
+        );
+        
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("vehicle", "*.vhc.xml"));
+        
+        final File file = fileChooser.showOpenDialog(primaryStage);
+        
+        ProgressIndicator pi = new ProgressIndicator();
+        pi.setVisible(true);
+        pi.setMaxWidth(50);
+        pi.setMaxHeight(50);
+        configurationPanel.setCenter(pi);
+        
+        if(file != null) {
+            new Thread() {
+                public void run() {       
+                    XmlParser p = new XmlParser();
+                    try {
+                        model.setVehiclesModel(p.readVehiclesData(file));
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                MainController.getInstance().performUpdateVehiclesTable();
+                                configurationPanel.setCenter(vehiclesPanel);
+                            }
+                        });                      
+                    } catch (Exception ex) {
+                        Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
+        }
+        else {
+            this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture des véhicules");
+        }
+    }
+
+    public void performSaveVehicles() {
+        FileChooser fileChooser = new FileChooser();
+        
+        fileChooser.setTitle("Choose place");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("vehicle", ".vhc.xml"));
+        
+        final File file = fileChooser.showSaveDialog(primaryStage);
+        
+        ProgressIndicator pi = new ProgressIndicator();
+        pi.setVisible(true);
+        pi.setMaxWidth(50);
+        pi.setMaxHeight(50);
+        configurationPanel.setCenter(pi);
+        
+        if(file != null) {
+            new Thread() {
+                public void run() {
+                    if(file != null) {
+                        File newFile = file;
+                        
+                        if(!file.getName().contains(".")) {
+                            newFile = new File(file.getAbsolutePath() + ".vhc.xml");
+                        }
+                        
+                        XmlParser p = new XmlParser();
+                        try {
+                            p.saveVehiclesData(model.getVehiclesModel(), newFile);
+                        } catch (Exception ex) {
+                            Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                MainController.getInstance().performUpdateVehiclesTable();
+                                configurationPanel.setCenter(vehiclesPanel);
+                            }
+                        });
+                    }
+                }
+            }.start();
+        } else {
+            this.performDisplayMessage(mapPanel, "Erreur lors de la sauvegarde des véhicules");
+        }
+    }
+    
+    public void performUpdateVehiclesTable() {
+        if(vehiclesPanel != null) {
+            vehiclesPanel.performUpdateData(model.getVehiclesModel().getVehicles());
+        }
     }
 }

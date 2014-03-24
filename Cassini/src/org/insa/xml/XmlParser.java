@@ -19,6 +19,7 @@ import java.io.File;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.Model;
 import org.insa.model.items.VehiclesModel;
+import org.insa.xml.matcher.CustomMatcher;
 import org.insa.xml.osm.OsmRoot;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -35,7 +36,7 @@ public class XmlParser {
     private final Serializer serializer;
 
     public XmlParser(){
-        serializer = new Persister();
+        serializer = new Persister(new CustomMatcher());
     }
     
     /**
@@ -73,7 +74,7 @@ public class XmlParser {
      * @throws Exception 
      */
     public void saveVehiclesData(VehiclesModel model, File output) throws Exception{
-         serializer.write(model, output);
+        serializer.write(model, output);
     }
      /**
      * load the map data from xml
