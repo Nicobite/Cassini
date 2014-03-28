@@ -15,6 +15,7 @@
 */
 package org.insa.core.roadnetwork;
 
+import org.insa.core.enums.TrafficSignaling;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
@@ -45,11 +46,8 @@ public class Node {
     @Attribute(name="lat")
     private float latitude;
     
-    /**
-     * whether it contains a traffic light
-     */
-    @Attribute(required = false)
-    private boolean trafficLight;
+    @Attribute
+    private TrafficSignaling signaling;
     
     /**
      * Construction of graph nodes
@@ -67,15 +65,6 @@ public class Node {
     public Node() {
         super();
     }
-
-    public boolean isTrafficLight() {
-        return trafficLight;
-    }
-
-    public void setTrafficLight(boolean trafficLight){
-        this.trafficLight = trafficLight;
-    }
-    
     /*
     * getters et setters
     */
@@ -97,6 +86,15 @@ public class Node {
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     } 
+
+    public TrafficSignaling getSignaling() {
+        return signaling;
+    }
+
+    public void setSignaling(TrafficSignaling signaling) {
+        this.signaling = signaling;
+    }
+    
     
     @Override
     public String toString(){

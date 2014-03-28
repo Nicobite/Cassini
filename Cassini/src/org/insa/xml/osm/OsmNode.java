@@ -16,6 +16,7 @@
 package org.insa.xml.osm;
 
 import java.util.HashMap;
+import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementMap;
@@ -85,7 +86,31 @@ public class OsmNode {
     public Node createNode(){
         Node node = new Node(lon, lat);
         node.setId(id);
-        node.setTrafficLight(this.isTrafficLight());
+        node.setSignaling(getSignaling());
         return node;
+    }
+    
+    private TrafficSignaling getSignaling(){
+       TrafficSignaling res = TrafficSignaling.NONE;
+        if(tags!=null && tags.containsKey("highway")){
+           switch(tags.get("highway")){
+               case "mini_roundabout" :
+                   res = TrafficSignaling.ROUNDABOUT;
+                   break;
+               case "traffic_signals" :
+                   res= TrafficSignaling.TRAFFIC_LIGHT;
+                   break;
+               case "turning_circle" :
+                   res = TrafficSignaling.TURN_LOOP;
+                   break;
+               case "turning_loop" :
+                   res = TrafficSignaling.TURN_LOOP;
+                   break;
+               case "stop" :
+                   res= TrafficSignaling.STOP;
+                   break;
+           }
+       }
+        return res;
     }
 }

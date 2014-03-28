@@ -24,5 +24,6 @@ public enum TrafficSignaling {
     STOP, //stop sign 
     TRAFFIC_LIGHT, //traffic light
     CROSSING, //pedestrian crossing 
-    ROUNDABOUT //roundabout
+    ROUNDABOUT, //roundabout
+    TURN_LOOP
 }

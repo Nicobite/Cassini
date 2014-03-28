@@ -133,6 +133,7 @@ public class OsmWay {
         long refSrc, refDest;
         Road road = new Road();
         setRoadType(road);
+        road.setId(id);
         while(i<this.nodesRef.size()-1){
             refSrc  = nodesRef.get(i).getRef();
             refDest = nodesRef.get(i+1).getRef();

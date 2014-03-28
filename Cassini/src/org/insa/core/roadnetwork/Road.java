@@ -45,6 +45,9 @@ public class Road {
     @Attribute(required = false)
     private RoadType type;
     
+    @Attribute(required = false)
+    private long id;
+    
     public Road() {
         this.sections = new ArrayList<>();
     }
@@ -82,6 +85,14 @@ public class Road {
 
     public void setType(RoadType type) {
         this.type = type;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
     
     
