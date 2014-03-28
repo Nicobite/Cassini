@@ -33,7 +33,7 @@ public class TestXmlParser {
     XmlParser parser;
     RoadsModel map;
     VehiclesModel vehicles;
-    @Test
+  /*  @Test
     public void shouldReadOsmData(){
         parser = new XmlParser();
         try {
@@ -54,7 +54,7 @@ public class TestXmlParser {
             Logger.getLogger(TestXmlParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    */
     @Test
     public void shouldSaveVehiclesData(){
         Vehicle v1 = new Vehicle();
@@ -69,19 +69,19 @@ public class TestXmlParser {
         vehicles.addVehicle(v1).addVehicle(v2);
         try {
             parser = new XmlParser();
-            parser.saveVehiclesData(vehicles, new File("data/vehicles/test.veh.xml"));
+            parser.saveVehiclesData(vehicles, new File("data/vehicles/test.vehicle.xml"));
         } catch (Exception ex) {
             Logger.getLogger(TestXmlParser.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-    @Test
+   /* @Test
     public void shouldReadVehiclesDataFromXml(){
         try {
             parser.readVehiclesData(new File("vehicles/test.veh.xml"));
         } catch (Exception ex) {
             Logger.getLogger(TestXmlParser.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
 }

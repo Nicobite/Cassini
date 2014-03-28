@@ -30,13 +30,9 @@ import org.simpleframework.xml.core.Persister;
  Class XmlParser
  */
 public class XmlParser {
-    /**
-     * serializer : see Simple framework for details
-     */
-    private final Serializer serializer;
+
 
     public XmlParser(){
-        serializer = new Persister(new CustomMatcher());
     }
     
     /**
@@ -46,6 +42,7 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public Model readData(File source) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
         return serializer.read(Model.class, source);
     }
     /**
@@ -55,6 +52,7 @@ public class XmlParser {
      * @throws Exception 
      */
     public void saveData(Model model, File output) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
         serializer.write(model, output);
     }
     /**
@@ -64,6 +62,7 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public VehiclesModel readVehiclesData(File source) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
         return serializer.read(VehiclesModel.class, source);
     }
     
@@ -74,6 +73,7 @@ public class XmlParser {
      * @throws Exception 
      */
     public void saveVehiclesData(VehiclesModel model, File output) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
         serializer.write(model, output);
     }
      /**
@@ -83,6 +83,7 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public RoadsModel readMapData(File source) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
         return serializer.read(RoadsModel.class, source);
     }
     
@@ -93,6 +94,7 @@ public class XmlParser {
      * @throws Exception 
      */
     public void saveMapData(RoadsModel model, File output) throws Exception{
+        Serializer serializer = new Persister(new CustomMatcher());
          serializer.write(model, output);
     }
       /**
@@ -102,6 +104,9 @@ public class XmlParser {
      * @throws java.lang.Exception
      */
     public RoadsModel readOsmData(File source) throws Exception{
-        return serializer.read(OsmRoot.class, source).buildRoadModel();
+        Serializer serializer = new Persister(new CustomMatcher());
+        OsmRoot root = serializer.read(OsmRoot.class, source);
+        RoadsModel roads = root.buildRoadModel();
+        return roads;
     }
 }

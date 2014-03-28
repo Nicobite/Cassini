@@ -17,6 +17,7 @@ package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import org.insa.core.enums.RoadType;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -37,6 +38,12 @@ public class Road {
      */
     @ElementList
     private ArrayList<Section>sections;
+    
+    /**
+     * type of this road
+     */
+    @Attribute(required = false)
+    private RoadType type;
     
     public Road() {
         this.sections = new ArrayList<>();
@@ -68,6 +75,15 @@ public class Road {
     public void removeSection(Section s){
         this.sections.remove(s);
     }
+
+    public RoadType getType() {
+        return type;
+    }
+
+    public void setType(RoadType type) {
+        this.type = type;
+    }
+    
     
     @Override
     public String toString(){

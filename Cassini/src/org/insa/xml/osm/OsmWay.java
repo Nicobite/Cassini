@@ -17,6 +17,7 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
@@ -131,6 +132,7 @@ public class OsmWay {
         int i = 0;
         long refSrc, refDest;
         Road road = new Road();
+        setRoadType(road);
         while(i<this.nodesRef.size()-1){
             refSrc  = nodesRef.get(i).getRef();
             refDest = nodesRef.get(i+1).getRef();
@@ -160,22 +162,27 @@ public class OsmWay {
         
     }
 
-    private int getPriority(String type){
+    private int setRoadType(Road road){
         int priority;
+        String type = tags.get("highway");
         switch(type){
             case "motorway":
                 priority = 14;
+                road.setType(RoadType.MOTORWAY);
                 break;
             case "trunk":
                 priority = 13;
+                road.setType(RoadType.TRUNK);
                 break;
             case "primary" :
                 priority = 12;
+                road.setType(RoadType.PRIMARY);
                 break;
             case "secondary":
                 priority = 11;
+                road.setType(RoadType.SECONDARY);
                 break;
-            case "motorway_link":
+            /*case "motorway_link":
                 priority = 10;
                 break;
             case "trunk_link":
@@ -204,10 +211,12 @@ public class OsmWay {
                 break;
             case "service":
                 priority = 1;
-                break;
+                break;*/
             default:
                 priority = 0;
+                road.setType(RoadType.OTHER);
         }
+        if(isRoundabout()) road.setType(RoadType.ROUNDABOUT);
         return priority;
     }
     
