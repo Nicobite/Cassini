@@ -32,6 +32,7 @@ import org.insa.core.vehicle.Vehicle;
 import org.insa.model.Model;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
+import org.insa.view.panel.Editor;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
@@ -266,7 +267,8 @@ public class MainController {
      * Display map editor in order to create a map
      */
     public void performDisplayMapEditor() {
-        mapPanel.setCenter(new Text("Not implemented yet"));
+        //mapPanel.setCenter(new Text("Not implemented yet"));
+        mapPanel.setCenter(new Editor(1450,850));
     }
     
     /**

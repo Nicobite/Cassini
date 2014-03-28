@@ -114,6 +114,18 @@ public abstract class DrawingPanel extends Canvas implements EventHandler<MouseE
     }
     
     /**
+     * Get absolute angle between two points
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return Absolute angle
+     */
+    public double angle(int x1, int y1, int x2, int y2) {
+        return Math.atan2(y2 - y1, x2 - x1);
+    }
+    
+    /**
      * Paint all components into panel
      */
     public abstract void paint();

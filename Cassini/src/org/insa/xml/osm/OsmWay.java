@@ -159,8 +159,7 @@ public class OsmWay {
         }
         sect.addForwardLanes(forwardLanes);
         sect.addBackwardLanes(backwardLanes);
-        road.addSection(sect);
-        
+        road.addSection(sect);   
     }
 
     private int setRoadType(Road road){

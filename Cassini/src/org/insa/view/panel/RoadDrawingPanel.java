@@ -57,31 +57,133 @@ public class RoadDrawingPanel extends DrawingPanel {
      */
     public void drawRoad(Road road) {
         graphic.setLineCap(StrokeLineCap.BUTT);
-        
-        int size = road.getSections().size();
-        
-        for(int i=0; i<size; i++) {
-            Section section = road.getSections().get(i);
-            double lineWidth = section.getForwardLanes().size() * scale;
+        graphic.setFill(Color.GRAY);
+           
+        for(Section section : road.getSections()) {
+            int forwardLineWidth = section.getForwardLanes().size() * scale;
+            int backwardLineWidth = section.getForwardLanes().size() * scale;
             
             int x1 = longToX(section.getSourceNode().getLongitude()) ;
             int x2 = longToX(section.getTargetNode().getLongitude()) ;
             int y1 = latToY(section.getSourceNode().getLatitude()) ;
             int y2 = latToY(section.getTargetNode().getLatitude()) ;
             
-            graphic.setStroke(Color.GRAY);
-            graphic.setLineWidth(lineWidth);
-            graphic.strokeLine(x1, y1, x2, y2) ;
-            graphic.fillOval(x1 - (lineWidth / 2), y1 - (lineWidth / 2), lineWidth, lineWidth);
-            graphic.fillOval(x2 - (lineWidth / 2), y2 - (lineWidth / 2), lineWidth, lineWidth);
+            double angle = angle(x1, y1, x2, y2);
+            double deltaX =  this.getDeltaX(angle, forwardLineWidth, x1, y1, x2, y2);
+            double deltaY =  this.getDeltaY(angle, forwardLineWidth, x1, y1, x2, y2);
             
-            graphic.setStroke(Color.ORANGE);
-            graphic.setFill(Color.GRAY);
+            this.drawPolygon(x1, y1, x2, y2, deltaX, deltaY);
+
+            if(!section.getBackwardLanes().isEmpty()) {
+                deltaX = this.getDeltaX(angle, backwardLineWidth, x1, y1, x2, y2);
+                deltaY = this.getDeltaY(angle, backwardLineWidth, x1, y1, x2, y2);
+                this.drawPolygon(x1, y1, x2, y2, - deltaX, - deltaY);
+            }
+            
             graphic.setLineWidth(1);
-            graphic.strokeOval(x1 - (lineWidth / 2), y1 - (lineWidth / 2), lineWidth, lineWidth);
-            graphic.strokeOval(x2 - (lineWidth / 2), y2 - (lineWidth / 2), lineWidth, lineWidth);
+            graphic.setStroke(Color.ORANGE);
+            this.drawOval(x1, y1, forwardLineWidth, forwardLineWidth);
+            this.drawOval(x2, y2, forwardLineWidth, forwardLineWidth);
         }
+    }
+    
+    /**
+     * Draw an oval center on the (x,y) point with the given height and width
+     * @param x X coordinate of the center
+     * @param y Y coordinate of the center
+     * @param width Oval width
+     * @param height Oval height
+     */
+    public void drawOval(int x, int y, int width, int height) {
+        graphic.strokeOval(x - (width / 2), y - (height / 2), width, height);
+    }
+    
+    /**
+     * Draw a polygon 
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @param deltaX
+     * @param deltaY 
+     */
+    public void drawPolygon(int x1, int y1, int x2, int y2, double deltaX, double deltaY) {
+        double x[] = new double[4];
+        double y[] = new double[4];
         
+        x[0] = x1 ;
+        x[1] = x2 ;
+        x[2] = x2 + deltaX;
+        x[3] = x1 + deltaX;
+        
+        y[0] = y1 ;
+        y[1] = y2 ;
+        y[2] = y2 + deltaY;
+        y[3] = y1 + deltaY;
+        
+        graphic.fillPolygon(x, y, 4);
+    }
+    
+    /**
+     * Get deltaX depending the (x1,y1) and (x2,y2) points
+     * @param angle
+     * @param width
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return DeltaX
+     */
+    public double getDeltaX(double angle, int width, int x1, int y1 ,int x2, int y2) {
+        double deltaX =  Math.abs(Math.sin(angle) * width);
+        
+        if(x1 < x2 && y1 < y2) {
+            deltaX *= -1;
+        }
+        else if(x1 > x2 && y1 < y2) {
+            deltaX *= -1;
+        }
+        else if (x1 == x2) {
+            if(y1 > y2)
+                deltaX = width;
+            else
+                deltaX = -width;
+        }
+        else if(y1 == y2) {
+            deltaX = 0;
+        }
+        return deltaX;
+    }
+    
+    /**
+     * Get deltaY depending the (x1,y1) and (x2,y2) points
+     * @param angle
+     * @param width
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return DeltaY
+     */
+    public double getDeltaY(double angle, int width, int x1, int y1 ,int x2, int y2) {
+        double deltaY =  Math.abs(Math.cos(angle) * width);
+        
+        if(x1 > x2 && y1 > y2) {
+            deltaY *= -1;
+        }
+        else if(x1 > x2 && y1 < y2) {
+            deltaY *= -1;
+        }
+        else if (x1 == x2) {
+            deltaY = 0;
+        }
+        else if(y1 == y2) {
+            if(x1 < x2)
+                deltaY = width;
+            else
+                deltaY = -width;
+        }
+        return deltaY;
     }
     
     @Override

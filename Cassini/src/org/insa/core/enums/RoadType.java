@@ -21,7 +21,7 @@ package org.insa.core.enums;
  */
 public enum RoadType {
     ROUNDABOUT,
-    MOTORWAY, //auoroute
+    MOTORWAY, //autoroute
     TRUNK,
     PRIMARY,
     SECONDARY,
