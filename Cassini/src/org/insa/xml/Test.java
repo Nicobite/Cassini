@@ -16,7 +16,10 @@
 package org.insa.xml;
 
 import java.io.File;
+import org.insa.core.enums.RoadType;
+import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.Road;
+import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
 import org.insa.xml.osm.entities.OsmBound;
 
@@ -30,9 +33,23 @@ public class Test {
     public static void main(String args[]) {
         XmlParser parser = new XmlParser();
         try {
-           RoadsModel map = parser.readOsmData(new File("data/osm/jean-jaures.osm"));
+           RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
            //parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
-            System.out.println(map.getMaxLat()+","+map.getMaxLon()+","+map.getMinLat()+","+map.getMinLon());
+         for(Road r : map.getRoads()){
+             if(r.getType()== RoadType.ROUNDABOUT){
+                 System.out.println("road n° "+r.getId()+"\n");
+                 for(Section sect : r.getSections()){
+      
+                     for(Lane l : sect.getForwardLanes()){
+                        System.out.println(l.getDirection()); 
+                     }
+          
+                     for(Lane l : sect.getBackwardLanes()){
+                        System.out.println(l.getDirection()); 
+                     }
+                 }
+             }
+         }
 
         } catch (Exception ex) {
             ex.printStackTrace();
