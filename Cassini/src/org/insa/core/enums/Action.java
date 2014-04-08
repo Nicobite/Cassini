@@ -21,9 +21,10 @@ package org.insa.core.enums;
  * Action taken by vehicle
  */
 public enum Action {
-    STARTING,
-    BRAKING,
-    STOPPING, 
+    ACCELERATE,
+    DECELARATE,
+    BRAKE,
+    STOP,
     U_TURN, //go back
     TURN_LEFT,
     TURN_RIGHT, //go to the right lane

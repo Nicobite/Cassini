@@ -17,6 +17,9 @@ package org.insa.controller.task;
 
 import java.util.TimerTask;
 import org.insa.core.driving.Vehicle;
+import org.insa.core.driving.VehiclePosition;
+import org.insa.core.enums.Action;
+import org.insa.core.roadnetwork.Lane;
 import org.insa.model.Model;
 
 /**
@@ -53,8 +56,12 @@ public class SimulationTask extends TimerTask {
      */
     public void putVehiclesInDriving(){
         if(model.getNbDrivingVehicles()<model.getNbVehicles()){
-            model.getDrivingVehiclesModel().addVehicle(model.getVehiclesModel().getVehicles()
-                                  .get(model.getNbDrivingVehicles()));
+            Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
+            veh.getDriving().setAction(Action.ACCELERATE);
+            //first lane of first section of first road of the road network
+            Lane lane = model.getRoadModel().getRoads().get(0).getSections().get(0).getForwardLanes().get(0);
+            veh.getDriving().setPosition(new VehiclePosition(lane, 0));
+            model.getDrivingVehiclesModel().addVehicle(veh);
             System.err.println(model.getNbDrivingVehicles());
         }
     }
