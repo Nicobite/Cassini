@@ -17,7 +17,10 @@ package org.insa.controller;
 
 import java.util.Timer;
 import org.insa.controller.task.SimulationTask;
+import org.insa.core.driving.Vehicle;
+import org.insa.core.driving.VehiclePosition;
 import org.insa.model.Model;
+import org.insa.model.items.VehiclesModel;
 
 /**
  *
@@ -38,21 +41,34 @@ public class SimulationController {
     Timer timer;
     
     /**
+     * the model
+     */
+    private final Model model;
+    
+    /**
      * constructor
      * @param step
      */
     public SimulationController(int step) {
         super();
         this.simulationStep = step;
+        this.model = MainController.getInstance().getModel();
     }
-     
+    /**
+     * initialize vehicles position in
+     * the road network
+     */
+    public void init(){
+        for(Vehicle v : model.getVehiclesModel().getVehicles()){
+            //v.getDriving().setPosition(new VehiclePosition(null, simulationStep));
+        }
+    }
     /**
      *start simulation
      */
     public void start(){
-        Model model = MainController.getInstance().getModel();
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(new SimulationTask(model),0, simulationStep);
+        this.timer.scheduleAtFixedRate(new SimulationTask(this.model),0, simulationStep);
     }
     
     /**

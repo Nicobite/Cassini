@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import org.insa.controller.MainController;
-import org.insa.core.vehicle.Vehicle;
+import org.insa.core.driving.Vehicle;
 import org.insa.view.form.VehiclesForm;
 
 /**

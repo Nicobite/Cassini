@@ -20,7 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import org.insa.controller.MainController;
 import org.insa.controller.validator.VehiclesValidator;
-import org.insa.core.vehicle.Vehicle;
+import org.insa.core.driving.Vehicle;
 
 /**
  *

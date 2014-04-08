@@ -16,7 +16,7 @@
 package org.insa.controller.task;
 
 import java.util.TimerTask;
-import org.insa.core.vehicle.Vehicle;
+import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
 
 /**

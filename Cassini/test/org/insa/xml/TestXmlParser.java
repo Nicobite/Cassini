@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.insa.core.vehicle.Vehicle;
+import org.insa.core.driving.Vehicle;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.items.VehiclesModel;
 import org.junit.Test;

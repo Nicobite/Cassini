@@ -28,7 +28,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.insa.core.vehicle.Vehicle;
+import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;

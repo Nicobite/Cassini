@@ -13,49 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.model.items;
+package org.insa.core.driving;
 
-import java.util.ArrayList;
-import org.insa.core.driving.Vehicle;
-import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 /**
  *
  * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class VehiclesModel
+ * Class Behavior
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
 @Root
-public class VehiclesModel {
-     /**
-     * vehicles
+public class Behavior {
+    /**
+     * safe distance gap
      */
-    @ElementList
-    private ArrayList<Vehicle>vehicles;
+    @Attribute
+    private float safetyDistance;
     
     /**
-     * driving vehicles
+     * Default constructor
      */
-    public VehiclesModel(){
-        this.vehicles = new ArrayList<>();
+    public Behavior(){
+        
     }
 
-    public ArrayList<Vehicle> getVehicles() {
-        return vehicles;
+    /**
+     * Get safety distance
+     * @return Safety distance
+     */
+    public float getSafetyDistance() {
+        return safetyDistance;
     }
 
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-    
-    public VehiclesModel addVehicle(Vehicle v){
-        this.vehicles.add(v);
-        return this;
-    }
-     public VehiclesModel removeVehicle(Vehicle v){
-        this.vehicles.remove(v);
-        return this;
+    /**
+     * Set safety distance
+     * @param safetyDistance New safety distance 
+     */
+    public void setSafetyDistance(float safetyDistance) {
+        this.safetyDistance = safetyDistance;
     }
 }
