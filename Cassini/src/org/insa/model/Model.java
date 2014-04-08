@@ -1,18 +1,18 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.insa.model;
 
 import org.insa.model.items.ControlUnitsModel;
@@ -34,12 +34,14 @@ public class Model {
      * roads network
      */
     @Element
-    private RoadsModel roadModel = new RoadsModel();
+    private RoadsModel roadModel;
     /**
      * vehicles
      */
     @Element
-    private VehiclesModel vehiclesModel = new VehiclesModel();
+    private VehiclesModel vehiclesModel;
+    
+    private VehiclesModel drivingVehiclesModel;
     
     
     /**
@@ -50,6 +52,9 @@ public class Model {
     
     
     public Model(){
+        vehiclesModel = new VehiclesModel();
+        drivingVehiclesModel = new VehiclesModel();
+        roadModel = new RoadsModel();
     }
     
     /**
@@ -59,15 +64,15 @@ public class Model {
     public RoadsModel getRoadModel() {
         return roadModel;
     }
-
+    
     /**
      * Set road model
-     * @param roadModel New road model 
+     * @param roadModel New road model
      */
     public void setRoadModel(RoadsModel roadModel) {
         this.roadModel = roadModel;
     }
-
+    
     /**
      * Get vehicles model
      * @return Vehicles model
@@ -75,15 +80,15 @@ public class Model {
     public VehiclesModel getVehiclesModel() {
         return vehiclesModel;
     }
-
+    
     /**
      * Set vehicles model
-     * @param vehiclesModel New vehicles model 
+     * @param vehiclesModel New vehicles model
      */
     public void setVehiclesModel(VehiclesModel vehiclesModel) {
         this.vehiclesModel = vehiclesModel;
     }
-
+    
     /**
      * Get control units model
      * @return Control units model
@@ -94,9 +99,24 @@ public class Model {
     
     /**
      * Set control units model
-     * @param controlUnitsModel New control units model 
+     * @param controlUnitsModel New control units model
      */
     public void setControlUnitsModel(ControlUnitsModel controlUnitsModel) {
         this.controlUnitsModel = controlUnitsModel;
-    }  
+    }
+    
+    public VehiclesModel getDrivingVehiclesModel() {
+        return drivingVehiclesModel;
+    }
+    
+    public void setDrivingVehiclesModel(VehiclesModel drivingVehiclesModel) {
+        this.drivingVehiclesModel = drivingVehiclesModel;
+    }
+    
+    public int getNbVehicles(){
+        return this.vehiclesModel.getVehicles().size();
+    }
+    public int getNbDrivingVehicles(){
+        return this.drivingVehiclesModel.getVehicles().size();
+    }
 }

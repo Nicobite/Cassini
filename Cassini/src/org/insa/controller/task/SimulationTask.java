@@ -41,6 +41,7 @@ public class SimulationTask extends TimerTask {
     
     @Override
     public void run() {
+        putVehiclesInDriving();
         updateTrafficLights();
         updateDrivings();
         updateView();
@@ -48,10 +49,20 @@ public class SimulationTask extends TimerTask {
     }
     
     /**
+     * put vehicles in driving (one by one)
+     */
+    public void putVehiclesInDriving(){
+        if(model.getNbDrivingVehicles()<model.getNbVehicles()){
+            model.getDrivingVehiclesModel().addVehicle(model.getVehiclesModel().getVehicles()
+                                  .get(model.getNbDrivingVehicles()));
+            System.err.println(model.getNbDrivingVehicles());
+        }
+    }
+    /**
      * update vehicles position in traffic
      */
     private void updateDrivings(){
-        for(Vehicle vehicle : model.getVehiclesModel().getVehicles()){
+        for(Vehicle vehicle : model.getDrivingVehiclesModel().getVehicles()){
             //do stuff
         }
     }
