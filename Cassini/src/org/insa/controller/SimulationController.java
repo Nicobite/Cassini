@@ -38,12 +38,12 @@ public class SimulationController {
     /**
      * simulation timer in charge of traffic update
      */
-    Timer timer;
+    private Timer timer;
     
     /**
      * the model
      */
-    private final Model model;
+    private Model model;
     
     /**
      * constructor
@@ -54,15 +54,7 @@ public class SimulationController {
         this.simulationStep = step;
         this.model = MainController.getInstance().getModel();
     }
-    /**
-     * initialize vehicles position in
-     * the road network
-     */
-    public void init(){
-        for(Vehicle v : model.getVehiclesModel().getVehicles()){
-            //v.getDriving().setPosition(new VehiclePosition(null, simulationStep));
-        }
-    }
+ 
     /**
      *start simulation
      */
@@ -104,6 +96,16 @@ public class SimulationController {
     public int getSimulationStep() {
         return simulationStep;
     }
+
+    public void setModel(Model model) {
+        this.model = model;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+    
+    
     
     
 }

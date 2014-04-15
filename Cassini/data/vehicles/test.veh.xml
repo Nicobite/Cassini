@@ -1,6 +1,0 @@
-<vehiclesModel>
-   <vehicles>
-      <vehicle maxSpeed="50" maxacc="0" maxdec="0" length="10"/>
-      <vehicle maxSpeed="50" maxacc="0" maxdec="0" length="10"/>
-   </vehicles>
-</vehiclesModel>
