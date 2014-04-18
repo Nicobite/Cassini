@@ -21,6 +21,7 @@ import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Action;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.model.Model;
+import org.insa.controller.* ;
 
 /**
  *
@@ -42,13 +43,16 @@ public class SimulationTask extends TimerTask {
         this.model = model;
     }
     
+    
     @Override
     public void run() {
+        System.out.println("Init");
         putVehiclesInDriving();
+        System.out.println(MainController.getInstance().getModel().getNbDrivingVehicles());
         updateTrafficLights();
         updateDrivings();
         updateView();
-        System.out.println("done!");
+        //System.out.println("done!");
     }
     
     /**
@@ -69,8 +73,82 @@ public class SimulationTask extends TimerTask {
      * update vehicles position in traffic
      */
     private void updateDrivings(){
+        int simuStep = 5 ;
+        //int simuStep = MainController.getInstance().getSimulationController().getSimulationStep();
+        int acceleration ;
+        int speed ;
+        int distanceDriven ; 
+        float tempOffset ; 
+        VehiclePosition position ; 
+        Lane previousLane, nextLane ;
+        
         for(Vehicle vehicle : model.getDrivingVehiclesModel().getVehicles()){
-            //do stuff
+            /**
+             * getDriving
+            */
+            acceleration = 0 ;
+            speed = 0 ; 
+            if (vehicle.getDriving().getAction() == Action.STOP){
+                vehicle.getDriving().setAction(Action.ACCELERATE);
+            }
+            if (vehicle.getDriving().getSpeed() > vehicle.getMaxSpeed()){
+                vehicle.getDriving().setAction(Action.GO_STRAIGHT); // RUN ?
+            }
+            
+            // Influence of the decision on the acceleration
+            if (vehicle.getDriving().getAction() == Action.ACCELERATE){
+                acceleration = vehicle.getMaxAcceleration() ;
+                vehicle.getDriving().setAcceleration(acceleration) ; 
+            }
+            
+            if (vehicle.getDriving().getAction() == Action.GO_STRAIGHT){
+                acceleration = 0 ;
+                vehicle.getDriving().setAcceleration(acceleration); 
+            }
+            
+            // Update speed
+            speed = acceleration * simuStep ;  // check unité
+            vehicle.getDriving().setSpeed(speed) ; 
+            
+            // Update position
+            if (speed != 0 ){
+                distanceDriven = speed * simuStep ; // check unités
+                
+                position = vehicle.getDriving().getPosition() ;
+                if (position == null){
+                    System.out.println("Position null error."); 
+                }else if(position.getLane().getSection()== null ){
+                    System.out.println("Erreur section.");   
+                }
+                /*
+                 * convertir ?? tout en float ?? tout en int ???
+                 * Décision à prendre !!!
+                 */
+                tempOffset = position.getOffset() + (float)distanceDriven ;
+                
+                
+                
+                if (tempOffset > position.getLane().getSection().getLength()){
+                    // compute new offset on the next lane 
+                    previousLane = position.getLane() ; 
+                    nextLane = previousLane.getTransitions().
+                                                    get(0).getTargetLane() ;
+                    tempOffset = tempOffset - 
+                            previousLane.getSection().getLength() ;
+                    
+                    // remove the vehicle from the previous lane
+                    previousLane.getVehicles().remove(vehicle) ;
+                    
+                    // add it to the new lane 
+                    nextLane.getVehicles().add(vehicle) ; 
+                    
+                    //in that case choose the lane (first in the array for now)
+                    position.setLane(nextLane);
+                    
+
+                }
+                position.setOffset(tempOffset);
+            }
         }
     }
     

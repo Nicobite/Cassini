@@ -448,4 +448,8 @@ public class MainController {
         simulationStep -= 10;
         simulationController.setSimulationStep(simulationStep);
     }
+    
+    public SimulationController getSimulationController(){
+        return this.simulationController ; 
+    }
 }

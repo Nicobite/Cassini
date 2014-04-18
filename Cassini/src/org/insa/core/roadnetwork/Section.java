@@ -114,7 +114,7 @@ public class Section {
         this.sourceNode = sourceNode;
     }
     
-    public double getLength() {
+    public float getLength() {
         return length;
     }
     
