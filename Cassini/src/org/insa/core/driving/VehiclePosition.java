@@ -60,4 +60,10 @@ public class VehiclePosition {
     public void setLane(Lane lane) {
         this.lane = lane;
     }
+    
+    @Override
+    public String toString(){
+        String str =""+offset+" lane length = "+lane.getSection().getLength();
+        return str;
+    }
 }

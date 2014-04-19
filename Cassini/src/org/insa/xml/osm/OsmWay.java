@@ -17,6 +17,7 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
@@ -151,14 +152,14 @@ public class OsmWay {
     private void createSections(Road road, Node src, Node dest){
         Section sect = new Section(src, dest);
         sect.setMaxSpeed(this.getMaxSpeed());
-        int forwardLanes = this.getNbLanes();
-        int backwardLanes = 0;
+        int nbForwardLanes = this.getNbLanes();
+        int nbBackwardLanes = 0;
         if(!this.isOneWay()){
-            forwardLanes = this.getForwardNbLanes();
-            backwardLanes = getNbLanes() - getForwardNbLanes();
+            nbForwardLanes = this.getForwardNbLanes();
+            nbBackwardLanes = getNbLanes() - getForwardNbLanes();
         }
-        sect.addForwardLanes(forwardLanes);
-        sect.addBackwardLanes(backwardLanes);
+        sect.addLanes(nbForwardLanes, Direction.FORWARD, road.getLastSection());
+        sect.addLanes(nbBackwardLanes, Direction.BACKWARD, road.getLastSection());
         road.addSection(sect);   
     }
 

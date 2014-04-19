@@ -18,12 +18,12 @@ package org.insa.core.enums;
 /**
  *
  * @author Abel Juste Oueadraogo
- * Action taken by vehicle
+ Decision taken by vehicle
  */
-public enum Action {
+public enum Decision {
     ACCELERATE,
     DECELARATE,
-    BRAKE,
+    OFF, //reached destination or got accident
     STOP,
     U_TURN, //go back
     TURN_LEFT,

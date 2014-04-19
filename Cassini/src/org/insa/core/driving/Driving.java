@@ -15,7 +15,7 @@
 */
 package org.insa.core.driving;
 
-import org.insa.core.enums.Action;
+import org.insa.core.enums.Decision;
 import org.simpleframework.xml.Element;
 
 /**
@@ -41,14 +41,20 @@ public class Driving {
     private float distanceToLeader;
     
     /**
+     * time spent in driving (from the begining or after a STOP)
+     * Number of simulation clock
+     */
+    private int time;
+    
+    /**
      * vehicle position in the current lane
      */
     private VehiclePosition position;
     
     /**
-     * Action of the vehicle (run, stop, change lane, ...)
+     * Decision of the vehicle (run, stop, change lane, ...)
      */
-    private Action action;
+    private Decision decision;
     
     /**
      * vehicle's driving behavior
@@ -86,7 +92,7 @@ public class Driving {
      * when vehicles decides whether to accelerate/decelerate/change lane...
      * @param action the decision taken
      */
-    public void makeDecision(Action action){
+    public void makeDecision(Decision action){
         
     }
     
@@ -124,12 +130,12 @@ public class Driving {
         this.position = position;
     }
     
-    public Action getAction() {
-        return action;
+    public Decision getDecision() {
+        return decision;
     }
     
-    public void setAction(Action action) {
-        this.action = action;
+    public void setDecision(Decision decision) {
+        this.decision = decision;
     }
     
     public Behavior getBehavior() {
@@ -139,5 +145,15 @@ public class Driving {
     public void setBehavior(Behavior behavior) {
         this.behavior = behavior;
     }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+    
+    
     
 }

@@ -17,6 +17,7 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
 import org.insa.xml.osm.entities.OsmBound;
 import org.simpleframework.xml.Element;
@@ -73,7 +74,8 @@ public class OsmRoot {
         
         for(OsmWay way : osmWays){
             if(way.isHighway()){
-                roadsModel.addRoad(way.buildRoad(nodes));
+                Road road = way.buildRoad(nodes);
+                if(road.getSections().size()>1) roadsModel.addRoad(road);
             }
         }
         return roadsModel;

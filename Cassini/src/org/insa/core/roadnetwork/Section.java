@@ -1,3 +1,4 @@
+
 /*
 * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
 *
@@ -35,7 +36,7 @@ import org.simpleframework.xml.core.Commit;
  * ----------+------------
  * lane2     + lane2
  * ----------+------------
- * 
+ *
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
@@ -129,45 +130,77 @@ public class Section {
     public float getMaxSpeed() {
         return maxSpeed;
     }
-
+    
     public ArrayList<Lane> getBackwardLanes() {
         return backwardLanes;
     }
-
+    
     public ArrayList<Lane> getForwardLanes() {
         return forwardLanes;
     }
-
+    
     public void setBackwardLanes(ArrayList<Lane> backwardLanes) {
         this.backwardLanes = backwardLanes;
     }
-
+    
     public void setForwardLanes(ArrayList<Lane> forwardLanes) {
         this.forwardLanes = forwardLanes;
     }
-
+    
     public void setLength(float length) {
         this.length = length;
     }
     
-  
-    public void addForwardLanes(int nbForward){
-        for(int i = 0; i<nbForward; i++){
-            Lane lane = new Lane();
-            lane.setDirection(Direction.FORWARD);
-            this.forwardLanes.add(lane);
+    /**
+     * add a nomber of forward lanes to this section \n
+     * uses precedingSection to add connections between lanes
+     * @param nbLanes
+     * @param dir 
+     * @param precedingSection 
+     */
+    public void addLanes(int nbLanes, Direction dir, Section precedingSection){
+        Lane lane;
+        for(int i = 0; i<nbLanes; i++){
+            lane = new Lane();
+            lane.setDirection(dir);
+            lane.setSection(this);
+            if(dir == Direction.FORWARD){
+                this.forwardLanes.add(lane);
+                if(precedingSection!=null)
+                    addConnectionFwd(precedingSection, this);
+            }
+            else{
+                this.backwardLanes.add(lane);
+                if(precedingSection!=null)
+                    addConnectionBwd(this, precedingSection);
+            }
         }
     
     }
-     public void addBackwardLanes(int nbBackward){
-        for(int i = 0; i<nbBackward; i++){
-            Lane lane = new Lane();
-            lane.setDirection(Direction.BACKWARD);
-            this.backwardLanes.add(lane);
-        }
     
+    private void addConnectionFwd(Section from, Section to){
+        int nb1 = from.getForwardLanes().size(), nb2 = to.getForwardLanes().size();
+        int indice;
+        Transition transition;
+        for(int i=0; i<nb1; i++){
+          indice = i<nb2 ? i : nb2-1;
+          transition = new Transition();
+          transition.setTargetLane(to.getForwardLanes().get(indice));
+          from.getForwardLanes().get(i).addTransition(transition);
+        }
     }
     
+      private void addConnectionBwd(Section from, Section to){
+        int nb1 = from.getBackwardLanes().size(), nb2 = to.getBackwardLanes().size();
+        int indice;
+        Transition transition;
+        for(int i=0; i<nb1; i++){
+          indice = i<nb2 ? i : nb2-1;
+          transition = new Transition();
+          transition.setTargetLane(to.getBackwardLanes().get(indice));
+          from.getBackwardLanes().get(i).addTransition(transition);
+        }
+    }
     /**
      * called when deserializing this object
      */
@@ -176,7 +209,7 @@ public class Section {
         for(Lane l : this.forwardLanes){
             l.setSection(this);
         }
-         for(Lane l : this.backwardLanes){
+        for(Lane l : this.backwardLanes){
             l.setSection(this);
         }
         
@@ -198,14 +231,14 @@ public class Section {
         
         double radiusEarth = 6371; // km
         double distance = radiusEarth * c;
-        return (float)distance;
+        return (float)distance*1000*10;
     }
     
     @Override
     public String toString(){
         return "src ="+sourceNode+",dest="+targetNode+",length = "+length+"\n";
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

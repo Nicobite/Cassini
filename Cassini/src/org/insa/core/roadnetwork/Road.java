@@ -55,13 +55,16 @@ public class Road {
     /*
     * getters ans setters
     */
-    public Section getOrigin() {
+    public Section getFistSection() {
         return this.sections.get(0);
     }
     
     
-    public Section getDestination() {
-        return this.sections.get(this.sections.size()-1);
+    public Section getLastSection() {
+        Section sect = null;
+        if(this.sections.size()>0)
+             sect = this.sections.get(this.sections.size()-1);
+        return sect;
     }
     
     public ArrayList<Section> getSections() {
@@ -94,7 +97,6 @@ public class Road {
     public void setId(long id) {
         this.id = id;
     }
-    
     
     @Override
     public String toString(){

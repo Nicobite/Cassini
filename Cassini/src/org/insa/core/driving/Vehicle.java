@@ -16,7 +16,8 @@
 package org.insa.core.driving;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import org.insa.core.enums.Action;
+import org.insa.core.enums.Decision;
+import org.insa.core.roadnetwork.Lane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -31,19 +32,19 @@ import org.simpleframework.xml.Root;
 @Root
 public class Vehicle {
     /**
-     * vehicle max speed
+     * vehicle max speed (km/h)
      */
     @Attribute()
     private SimpleIntegerProperty maxSpeed;
     
     /**
-     * max acceleration
+     * max acceleration in km/(h*h)
      */
     @Attribute(name="maxacc")
     private SimpleIntegerProperty maxAcceleration;
     
     /**
-     * max deceleration (braking)
+     * max deceleration in km/(h*h)
      */
     @Attribute(name="maxdec")
     private SimpleIntegerProperty maxDeceleration;
@@ -107,5 +108,94 @@ public class Vehicle {
         this.driving = driving;
     }
     
+    /*--------------------- driving logic ---------------------*/
     
+    /**
+     * make driving decision
+     */
+    public void makeDecision(){
+        if (this.getDriving().getSpeed() > this.getMaxSpeed()){
+            this.getDriving().setDecision(Decision.GO_STRAIGHT);
+        }
+    }
+    
+    /**
+     * execute driving decision
+     */
+    public void executeDecision(){
+        switch(this.driving.getDecision()){
+            case STOP :
+                this.driving.setDecision(Decision.DECELARATE);
+                break;
+                
+            case ACCELERATE :
+                this.driving.setAcceleration(this.getMaxAcceleration());
+                break;
+            
+            case DECELARATE :
+                this.driving.setAcceleration(-this.getMaxDeceleration());
+                break;
+            
+            case GO_STRAIGHT :
+                this.driving.setAcceleration(0);
+                break;
+            default:
+            
+        }
+    }
+        
+     /**
+      * update speed
+     * @param simuStep
+      */
+      public void updateSpeed(int simuStep){
+          int speed;
+          speed = this.driving.getSpeed()+this.driving.getAcceleration()*simuStep/1000;
+          speed = min(speed, this.getMaxSpeed());
+          speed = max(speed, 0);
+          this.getDriving().setSpeed(speed);
+      }
+      
+      public void updatePosition(int simuStep){
+          if(this.driving.getSpeed() != 0){
+                VehiclePosition position = this.getDriving().getPosition() ;
+                float distance = position.getOffset() + this.driving.getSpeed()*simuStep/1000;
+                
+                //check whether we reach the end of the current section
+                float laneLength = position.getLane().getSection().getLength();
+                if(distance < laneLength){
+                    position.setOffset(distance);
+                }
+                else {
+                    // compute new offset on the next lane (in the next section)
+                    position.setOffset(distance - laneLength);
+                    //go to the next section
+                    Lane previousLane = position.getLane() ;
+                    
+                    if(!previousLane.hasTransition()){
+                        this.driving.setDecision(Decision.OFF); 
+                    }
+                    else{
+                        Lane nextLane = previousLane.getTransitions().get(0).getTargetLane() ; 
+                        // remove the vehicle from the previous lane
+                        previousLane.getVehicles().remove(this) ;
+                        
+                        // add it to the new lane
+                        nextLane.getVehicles().add(this) ;
+                        
+                        //in that case choose the lane (first in the array for now)
+                        position.setLane(nextLane);   
+                        
+                    }
+                }
+            }
+      }
+      
+      private int max(int a, int b){
+          return a>b?a:b;
+      }
+      private int min(int a, int b){
+          return a<b?a:b;
+      }
+      
 }

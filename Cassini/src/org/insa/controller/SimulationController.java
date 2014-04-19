@@ -60,7 +60,7 @@ public class SimulationController {
      */
     public void start(){
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(new SimulationTask(this.model),0, simulationStep);
+        this.timer.scheduleAtFixedRate(new SimulationTask(this.model, simulationStep),0, simulationStep);
     }
     
     /**

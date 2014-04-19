@@ -106,6 +106,9 @@ public class Lane {
     public Direction getDirection() {
         return direction;
     }
+    public boolean hasTransition(){
+        return this.getTransitions().size()>0;
+    }
 
     @Override
     public int hashCode() {
