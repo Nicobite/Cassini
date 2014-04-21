@@ -114,7 +114,9 @@ public class SimulationTask extends TimerTask {
      * update view
      */
     private void updateView(){
-        
+        // TODO 
+        // place the method to update the view and to see the vehicles on the map
+        // don't have to be updated each iteration ?
     }
     
     /**

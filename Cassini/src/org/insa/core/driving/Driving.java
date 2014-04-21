@@ -28,7 +28,7 @@ public class Driving {
     /**
      * vehicle speed
      */
-    private int speed;
+    private float speed;
     
     /**
      * acceleration
@@ -98,11 +98,11 @@ public class Driving {
     
     /* getters and setters */
     
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
     
-    public void setSpeed(int speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
     

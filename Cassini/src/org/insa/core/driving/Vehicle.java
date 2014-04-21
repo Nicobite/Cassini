@@ -114,9 +114,12 @@ public class Vehicle {
      * make driving decision
      */
     public void makeDecision(){
-        if (this.getDriving().getSpeed() > this.getMaxSpeed()){
-            this.getDriving().setDecision(Decision.GO_STRAIGHT);
-        }
+        if (this.getDriving().getSpeed() == 0){
+            this.getDriving().setDecision(Decision.ACCELERATE);
+        } else        
+            if (this.getDriving().getSpeed() > this.getMaxSpeed()){
+                this.getDriving().setDecision(Decision.GO_STRAIGHT);
+            }
     }
     
     /**
@@ -125,7 +128,8 @@ public class Vehicle {
     public void executeDecision(){
         switch(this.driving.getDecision()){
             case STOP :
-                this.driving.setDecision(Decision.DECELARATE);
+                this.getDriving().setAcceleration(-this.getMaxDeceleration());
+                //this.driving.setDecision(Decision.DECELARATE);
                 break;
                 
             case ACCELERATE :
@@ -149,7 +153,7 @@ public class Vehicle {
      * @param simuStep
       */
       public void updateSpeed(int simuStep){
-          int speed;
+          float speed ;
           speed = this.driving.getSpeed()+this.driving.getAcceleration()*simuStep/1000;
           speed = min(speed, this.getMaxSpeed());
           speed = max(speed, 0);
@@ -159,7 +163,8 @@ public class Vehicle {
       public void updatePosition(int simuStep){
           if(this.driving.getSpeed() != 0){
                 VehiclePosition position = this.getDriving().getPosition() ;
-                float distance = position.getOffset() + this.driving.getSpeed()*simuStep/1000;
+                System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
+                float distance = position.getOffset() + this.driving.getSpeed()*(float)simuStep/1000f;
                 
                 //check whether we reach the end of the current section
                 float laneLength = position.getLane().getSection().getLength();
@@ -191,10 +196,10 @@ public class Vehicle {
             }
       }
       
-      private int max(int a, int b){
-          return a>b?a:b;
+      private float max(float a, float b){
+          return (a>b?a:b);
       }
-      private int min(int a, int b){
+      private float min(float a, float b){
           return a<b?a:b;
       }
       
