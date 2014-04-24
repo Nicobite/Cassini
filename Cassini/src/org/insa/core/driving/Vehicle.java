@@ -114,12 +114,16 @@ public class Vehicle {
      * make driving decision
      */
     public void makeDecision(){
-        if (this.getDriving().getSpeed() == 0){
-            this.getDriving().setDecision(Decision.ACCELERATE);
-        } else        
-            if (this.getDriving().getSpeed() > this.getMaxSpeed()){
-                this.getDriving().setDecision(Decision.GO_STRAIGHT);
-            }
+        
+              
+        if (this.getDriving().getSpeed() > this.getMaxSpeed()){
+            this.getDriving().setDecision(Decision.GO_STRAIGHT);
+        }
+        /*
+        if (myPosition close to next vehicle (inf to safetyDistance)){
+            this.getDriving().setDecesion(Decision.DECELERATE) ; 
+        }
+        */
     }
     
     /**
@@ -128,8 +132,20 @@ public class Vehicle {
     public void executeDecision(){
         switch(this.driving.getDecision()){
             case STOP :
-                this.getDriving().setAcceleration(-this.getMaxDeceleration());
+                // if the decision of the vehicle is to stop, we dont have to change the decision but 
+                // the acceleration. it's not the same decision
                 //this.driving.setDecision(Decision.DECELARATE);
+                
+                // here the vehicle will decelerate and we have to change the action
+                // in the other function that make the vehicle stops when it reaches 
+                // 0km/h
+                if (this.getDriving().getSpeed() == 0.0){
+                    this.getDriving().setAcceleration(0);
+                }
+                else
+                {
+                    this.getDriving().setAcceleration(-this.getMaxDeceleration());
+                }
                 break;
                 
             case ACCELERATE :
