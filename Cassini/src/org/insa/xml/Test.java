@@ -17,11 +17,10 @@ package org.insa.xml;
 
 import java.io.File;
 import org.insa.core.enums.RoadType;
-import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.Road;
-import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
-import org.insa.xml.osm.entities.OsmBound;
+import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
@@ -38,14 +37,14 @@ public class Test {
          for(Road r : map.getRoads()){
              if(r.getType()== RoadType.ROUNDABOUT){
                  System.out.println("road n° "+r.getId()+"\n");
-                 for(Section sect : r.getSections()){
+                 for(GraphicSection sect : r.getGraphicRoad().getSections()){
       
-                     for(Lane l : sect.getForwardLanes()){
-                        System.out.println(l.getDirection()); 
+                     for(GraphicLane l : sect.getForwardLanes()){
+                        System.out.println(l.getLane().getDirection()); 
                      }
           
-                     for(Lane l : sect.getBackwardLanes()){
-                        System.out.println(l.getDirection()); 
+                     for(GraphicLane l : sect.getBackwardLanes()){
+                        System.out.println(l.getLane().getDirection()); 
                      }
                  }
              }

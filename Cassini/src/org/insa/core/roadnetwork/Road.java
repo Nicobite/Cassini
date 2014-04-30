@@ -15,11 +15,10 @@
 */
 package org.insa.core.roadnetwork;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
+import org.insa.view.graphicmodel.GraphicRoad;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 /**
@@ -32,12 +31,8 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Road {
-    
-    /**
-     * list of sections making this road
-     */
-    @ElementList
-    private ArrayList<Section>sections;
+
+    private GraphicRoad gRoad;
     
     /**
      * type of this road
@@ -49,37 +44,29 @@ public class Road {
     private long id;
     
     public Road() {
-        this.sections = new ArrayList<>();
+        gRoad = new GraphicRoad(this);
     }
     
     /*
     * getters ans setters
     */
-    public Section getFistSection() {
-        return this.sections.get(0);
+    public Section getFirstSection() {
+        return gRoad.getFirstSection();
     }
     
     
     public Section getLastSection() {
         Section sect = null;
-        if(this.sections.size()>0)
-             sect = this.sections.get(this.sections.size()-1);
+        if(gRoad.getSections().size()>0)
+             sect = gRoad.getSections().get(gRoad.getSections().size()-1).getSection();
         return sect;
     }
     
-    public ArrayList<Section> getSections() {
-        return sections;
-    }
-    
-    public void setSections(ArrayList<Section> sections) {
-        this.sections = sections;
-    }
-    
     public void addSection(Section s){
-        this.sections.add(s);
+        gRoad.addSection(s);
     }
     public void removeSection(Section s){
-        this.sections.remove(s);
+        gRoad.removeSection(s);
     }
 
     public RoadType getType() {
@@ -98,9 +85,13 @@ public class Road {
         this.id = id;
     }
     
+    public GraphicRoad getGraphicRoad() {
+        return gRoad; 
+    }
+    
     @Override
     public String toString(){
-        return sections.toString();
+        return gRoad.toString();
     }
 
     @Override
@@ -112,7 +103,7 @@ public class Road {
             return false;
         }
         final Road other = (Road) obj;
-        if (!Objects.equals(this.sections, other.sections)) {
+        if (!Objects.equals(gRoad, other.gRoad)) {
             return false;
         }
         return true;

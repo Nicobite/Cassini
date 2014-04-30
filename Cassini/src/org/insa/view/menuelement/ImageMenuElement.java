@@ -37,7 +37,7 @@ public abstract class ImageMenuElement extends MenuElement{
     public ImageMenuElement(String imageName, String name, int height, int width,boolean isToogleButton) {
         super(name,height,width, isToogleButton);
         this.imageName = imageName;
-        
+        System.out.println(imageName);
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
         this.setAlignment(Pos.CENTER);
     }

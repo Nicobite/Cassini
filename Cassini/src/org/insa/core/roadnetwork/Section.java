@@ -16,11 +16,12 @@
 */
 package org.insa.core.roadnetwork;
 
-import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.enums.Direction;
+import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.core.Commit;
 
@@ -42,6 +43,8 @@ import org.simpleframework.xml.core.Commit;
  */
 @Root
 public class Section {
+    protected GraphicSection gSection;
+    protected Lane lane;
     /**
      * source node
      */
@@ -65,35 +68,21 @@ public class Section {
     private float maxSpeed;
     
     /**
-     * forward lanes in this section
-     *
-     */
-    @ElementList
-    private ArrayList<Lane>forwardLanes;
-    
-    /**
-     * backward lanes in this section
-     *
-     */
-    @ElementList
-    private ArrayList<Lane>backwardLanes;
-    
-    /**
      *
      * @param from
      * @param to
      */
-    public Section( Node from, Node to){
+    public Section(Node from, Node to){
+        gSection = new GraphicSection(this, from, to);
         this.sourceNode = from;
         this.targetNode = to;
+        //gSection.setSourceNode(new GraphicNode(sourceNode));
+        //gSection.setTargetNode(new GraphicNode(targetNode));
         this.length = computeLength(from, to);
-        this.forwardLanes = new ArrayList<>();
-        this.backwardLanes = new ArrayList<>();
     }
     
     public Section() {
-        this.forwardLanes = new ArrayList<>();
-        this.backwardLanes = new ArrayList<>();
+        gSection = new GraphicSection(this,null,null);
     }
     
     /*
@@ -131,22 +120,6 @@ public class Section {
         return maxSpeed;
     }
     
-    public ArrayList<Lane> getBackwardLanes() {
-        return backwardLanes;
-    }
-    
-    public ArrayList<Lane> getForwardLanes() {
-        return forwardLanes;
-    }
-    
-    public void setBackwardLanes(ArrayList<Lane> backwardLanes) {
-        this.backwardLanes = backwardLanes;
-    }
-    
-    public void setForwardLanes(ArrayList<Lane> forwardLanes) {
-        this.forwardLanes = forwardLanes;
-    }
-    
     public void setLength(float length) {
         this.length = length;
     }
@@ -159,46 +132,46 @@ public class Section {
      * @param precedingSection 
      */
     public void addLanes(int nbLanes, Direction dir, Section precedingSection){
-        Lane lane;
+        Lane lane = null;
         for(int i = 0; i<nbLanes; i++){
             lane = new Lane();
             lane.setDirection(dir);
             lane.setSection(this);
             if(dir == Direction.FORWARD){
-                this.forwardLanes.add(lane);
+                gSection.getForwardLanes().add(lane.getGraphicLane());
                 if(precedingSection!=null)
                     addConnectionFwd(precedingSection, this);
             }
             else{
-                this.backwardLanes.add(lane);
+                gSection.getBackwardLanes().add(lane.getGraphicLane());
                 if(precedingSection!=null)
                     addConnectionBwd(this, precedingSection);
             }
         }
-    
+        this.lane = lane;
     }
     
     private void addConnectionFwd(Section from, Section to){
-        int nb1 = from.getForwardLanes().size(), nb2 = to.getForwardLanes().size();
+        int nb1 = from.getGraphicSection().getForwardLanes().size(), nb2 = to.getGraphicSection().getForwardLanes().size();
         int indice;
         Transition transition;
         for(int i=0; i<nb1; i++){
           indice = i<nb2 ? i : nb2-1;
           transition = new Transition();
-          transition.setTargetLane(to.getForwardLanes().get(indice));
-          from.getForwardLanes().get(i).addTransition(transition);
+          transition.setTargetLane(to.getGraphicSection().getForwardLanes().get(indice).getLane());
+          from.getGraphicSection().getForwardLanes().get(i).getLane().addTransition(transition);
         }
     }
     
       private void addConnectionBwd(Section from, Section to){
-        int nb1 = from.getBackwardLanes().size(), nb2 = to.getBackwardLanes().size();
+        int nb1 = from.getGraphicSection().getBackwardLanes().size(), nb2 = to.getGraphicSection().getBackwardLanes().size();
         int indice;
         Transition transition;
         for(int i=0; i<nb1; i++){
           indice = i<nb2 ? i : nb2-1;
           transition = new Transition();
-          transition.setTargetLane(to.getBackwardLanes().get(indice));
-          from.getBackwardLanes().get(i).addTransition(transition);
+          transition.setTargetLane(to.getGraphicSection().getBackwardLanes().get(indice).getLane());
+          from.getGraphicSection().getBackwardLanes().get(i).getLane().addTransition(transition);
         }
     }
     /**
@@ -206,11 +179,11 @@ public class Section {
      */
     @Commit
     private void build(){
-        for(Lane l : this.forwardLanes){
-            l.setSection(this);
+        for(GraphicLane l : this.getGraphicSection().getForwardLanes()){
+            l.getLane().setSection(this);
         }
-        for(Lane l : this.backwardLanes){
-            l.setSection(this);
+        for(GraphicLane l : this.getGraphicSection().getBackwardLanes()){
+            l.getLane().setSection(this);
         }
         
         this.length = computeLength(sourceNode, targetNode);
@@ -222,10 +195,10 @@ public class Section {
      * @return the section length
      */
     private float computeLength(Node from, Node to){
-        double dLatitude = Math.toRadians(to.getLatitude()-from.getLatitude());
-        double dLongitude = Math.toRadians(to.getLongitude()-from.getLongitude());
+        double dLatitude = Math.toRadians(to.getGraphicNode().getLatitude()-from.getGraphicNode().getLatitude());
+        double dLongitude = Math.toRadians(to.getGraphicNode().getLongitude()-from.getGraphicNode().getLongitude());
         double a = Math.sin(dLatitude/2) * Math.sin(dLatitude/2) +
-                Math.cos(Math.toRadians(from.getLatitude())) * Math.cos(Math.toRadians(to.getLatitude())) *
+                Math.cos(Math.toRadians(from.getGraphicNode().getLatitude())) * Math.cos(Math.toRadians(to.getGraphicNode().getLatitude())) *
                 Math.sin(dLongitude/2) * Math.sin(dLongitude/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         
@@ -255,5 +228,17 @@ public class Section {
             return false;
         }
         return true;
+    }
+    
+    public GraphicSection getGraphicSection() {
+        return gSection;
+    }
+
+    public void setLane(Lane lane) {
+        this.lane = lane;
+    }
+
+    public Lane getLane() {
+        return lane;
     }
 }

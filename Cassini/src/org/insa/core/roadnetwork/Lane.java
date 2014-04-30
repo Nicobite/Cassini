@@ -18,6 +18,7 @@ package org.insa.core.roadnetwork;
 import java.util.ArrayList;
 import org.insa.core.enums.Direction;
 import org.insa.core.driving.Vehicle;
+import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -32,6 +33,7 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Lane {
+    protected GraphicLane gLane;
     /**
      * section of this lane
      */
@@ -57,6 +59,7 @@ public class Lane {
     
     
     public Lane(){
+        gLane = new GraphicLane(this);
         this.vehicles = new ArrayList<>();
         this.transitions = new ArrayList<>();
     }
@@ -129,5 +132,9 @@ public class Lane {
             return false;
         }
         return true;
+    }
+    
+    public GraphicLane getGraphicLane() {
+        return gLane;
     }
 }

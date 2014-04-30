@@ -75,7 +75,7 @@ public class SimulationTask extends TimerTask {
             Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
             veh.getDriving().setDecision(Decision.ACCELERATE);
             //first lane of first section of first road of the road network
-            Lane lane = model.getRoadModel().getRoads().get(0).getSections().get(0).getForwardLanes().get(0);
+            Lane lane = model.getRoadModel().getRoads().get(0).getGraphicRoad().getSections().get(0).getForwardLanes().get(0).getLane();
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
             System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());

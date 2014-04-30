@@ -65,6 +65,16 @@ public class OsmRoot {
         
         //create road from osm ways
         RoadsModel roadsModel = new RoadsModel();
+         
+        /*
+        double deltaLat = bounds.getMaxlat() - bounds.getMinlat();
+        double deltaLong = bounds.getMaxlon()- bounds.getMinlon();
+        
+        if(deltaLong > deltaLat)
+            bounds.setMaxlat((float) (bounds.getMaxlat() + deltaLong - deltaLat));
+        else if(deltaLat > deltaLong)
+            bounds.setMaxlon((float) (bounds.getMaxlon() + deltaLat - deltaLong));
+        */
         
         //set map bounds
         roadsModel.setMaxLat(bounds.getMaxlat());
@@ -75,7 +85,8 @@ public class OsmRoot {
         for(OsmWay way : osmWays){
             if(way.isHighway()){
                 Road road = way.buildRoad(nodes);
-                if(road.getSections().size()>1) roadsModel.addRoad(road);
+                if(road.getGraphicRoad().getSections().size()>0) 
+                    roadsModel.addRoad(road);
             }
         }
         return roadsModel;

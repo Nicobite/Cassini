@@ -19,8 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Road;
-import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
@@ -59,7 +59,7 @@ public class RoadDrawingPanel extends DrawingPanel {
         graphic.setLineCap(StrokeLineCap.BUTT);
         graphic.setFill(Color.GRAY);
            
-        for(Section section : road.getSections()) {
+        for(GraphicSection section : road.getGraphicRoad().getSections()) {
             int forwardLineWidth = section.getForwardLanes().size() * scale;
             int backwardLineWidth = section.getForwardLanes().size() * scale;
             
@@ -75,7 +75,7 @@ public class RoadDrawingPanel extends DrawingPanel {
             this.drawPolygon(x1, y1, x2, y2, deltaX, deltaY);
 
             if(!section.getBackwardLanes().isEmpty()) {
-                deltaX = this.getDeltaX(angle, backwardLineWidth, x1, y1, x2, y2);
+                deltaX = this.getDeltaX(angle, backwardLineWidth, x1, y1, x2, y2); 
                 deltaY = this.getDeltaY(angle, backwardLineWidth, x1, y1, x2, y2);
                 this.drawPolygon(x1, y1, x2, y2, - deltaX, - deltaY);
             }

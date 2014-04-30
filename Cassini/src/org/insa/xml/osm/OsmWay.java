@@ -22,8 +22,6 @@ import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
-import org.insa.xml.osm.OsmNode;
-import org.insa.xml.osm.entities.OsmBound;
 import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;

@@ -20,10 +20,14 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -36,7 +40,7 @@ import org.insa.view.panel.Editor;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
-import org.insa.view.panel.RoadDrawingPanel;
+import org.insa.view.panel.RoadDrawingPane;
 import org.insa.view.panel.SimulationPanel;
 import org.insa.view.panel.VehicleDataPanel;
 import org.insa.view.panel.VehiclesPanel;
@@ -58,7 +62,7 @@ public class MainController {
     private ResultPanel resultPanel = null;
     private VehiclesPanel vehiclesPanel = null;
     private VehicleDataPanel vehicleDataPanel = null;
-    private RoadDrawingPanel roadDrawingPanel = null;
+    private RoadDrawingPane roadDrawingPane = null;
     
     
     private Model model = new Model();
@@ -124,8 +128,8 @@ public class MainController {
         simulationController = new SimulationController(50);
         simulationPanel = new SimulationPanel();
         mainPanel.setCenter(simulationPanel);
-        if(roadDrawingPanel != null)
-            simulationPanel.setCenter(roadDrawingPanel);
+        if(roadDrawingPane != null)
+            simulationPanel.setCenter(roadDrawingPane);
         else
             this.performDisplayMessage(simulationPanel, "Aucune carte sélectionnée");
     }
@@ -202,7 +206,7 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                mapPanel.setCenter(roadDrawingPanel);
+                                mapPanel.setCenter(roadDrawingPane);
                             }
                         });
                     }
@@ -247,9 +251,19 @@ public class MainController {
                             model.setRoadModel(p.readMapData(file));
                         Platform.runLater(new Runnable() {
                             @Override
-                            public void run() {
-                                roadDrawingPanel = new RoadDrawingPanel(1450,850);
-                                mapPanel.setCenter(roadDrawingPanel);
+                            public void run() {                                
+                                roadDrawingPane = new RoadDrawingPane(1450,850);
+                                
+                                roadDrawingPane.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+
+                                    @Override
+                                    public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                                         roadDrawingPane.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                                    }
+                                
+                                });
+
+                                mapPanel.setCenter(roadDrawingPane);
                             }
                         });
                     } catch (Exception ex) {

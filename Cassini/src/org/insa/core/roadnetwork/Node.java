@@ -15,7 +15,9 @@
 */
 package org.insa.core.roadnetwork;
 
+import java.util.Objects;
 import org.insa.core.enums.TrafficSignaling;
+import org.insa.view.graphicmodel.GraphicNode;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
@@ -30,21 +32,12 @@ import org.simpleframework.xml.Root;
  */
 @Root(strict = false)
 public class Node {
+    protected GraphicNode gNode;
     /**
      * node id (node number)
      */
     @Attribute(required = false)
     private long id;
-    /**
-     * longitude
-     */
-    @Attribute(name="lon")
-    private float longitude;
-    /**
-     * latitude
-     */
-    @Attribute(name="lat")
-    private float latitude;
     
     @Attribute
     private TrafficSignaling signaling;
@@ -55,8 +48,9 @@ public class Node {
      * @param latitude
      */
     public Node(float longitude, float latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        gNode = new GraphicNode(this);
+        gNode.setLatitude(latitude);
+        gNode.setLongitude(longitude);
     }
     
     /**
@@ -64,6 +58,7 @@ public class Node {
      */
     public Node() {
         super();
+        gNode = new GraphicNode(this);
     }
     /*
     * getters et setters
@@ -74,18 +69,6 @@ public class Node {
     public void setId(long id) {
         this.id = id;
     }
-    public float getLongitude() {
-        return longitude;
-    }
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-    public float getLatitude() {
-        return latitude;
-    }
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    } 
 
     public TrafficSignaling getSignaling() {
         return signaling;
@@ -98,9 +81,9 @@ public class Node {
     
     @Override
     public String toString(){
-        return "Node: lon = "+longitude+",lat="+latitude;
+        return gNode.toString();
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -110,12 +93,13 @@ public class Node {
             return false;
         }
         final Node other = (Node) obj;
-        if (Float.floatToIntBits(this.longitude) != Float.floatToIntBits(other.longitude)) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.latitude) != Float.floatToIntBits(other.latitude)) {
+        if (!Objects.equals(this.gNode, other.gNode)) {
             return false;
         }
         return true;
+    }
+    
+    public GraphicNode getGraphicNode() {
+        return gNode;
     }
 }
