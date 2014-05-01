@@ -80,11 +80,11 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
         roadDrawingPanel = new RoadDrawingPanel(this);
         vehicleDrawingPanel = new VehicleDrawingPanel(this);
         
-        roadDrawingPanel.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+        vehicleDrawingPanel.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
 
             @Override
             public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
-                 roadDrawingPanel.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                 vehicleDrawingPanel.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
             }
 
         });
