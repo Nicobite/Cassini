@@ -114,8 +114,6 @@ public class Vehicle {
      * make driving decision
      */
     public void makeDecision(){
-        
-              
         if (this.getDriving().getSpeed() > this.getMaxSpeed()){
             this.getDriving().setDecision(Decision.GO_STRAIGHT);
         }
@@ -170,7 +168,7 @@ public class Vehicle {
       */
       public void updateSpeed(int simuStep){
           float speed ;
-          speed = this.driving.getSpeed()+this.driving.getAcceleration()*simuStep/1000;
+          speed = this.driving.getSpeed() + this.driving.getAcceleration()*simuStep/1000;
           speed = min(speed, this.getMaxSpeed());
           speed = max(speed, 0);
           this.getDriving().setSpeed(speed);

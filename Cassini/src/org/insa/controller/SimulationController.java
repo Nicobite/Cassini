@@ -17,10 +17,7 @@ package org.insa.controller;
 
 import java.util.Timer;
 import org.insa.controller.task.SimulationTask;
-import org.insa.core.driving.Vehicle;
-import org.insa.core.driving.VehiclePosition;
 import org.insa.model.Model;
-import org.insa.model.items.VehiclesModel;
 
 /**
  *
@@ -104,8 +101,4 @@ public class SimulationController {
     public Model getModel() {
         return model;
     }
-    
-    
-    
-    
 }

@@ -20,14 +20,10 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -40,7 +36,6 @@ import org.insa.view.panel.Editor;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
 import org.insa.view.panel.ResultPanel;
-import org.insa.view.panel.RoadDrawingPane;
 import org.insa.view.panel.SimulationPanel;
 import org.insa.view.panel.VehicleDataPanel;
 import org.insa.view.panel.VehiclesPanel;
@@ -62,7 +57,7 @@ public class MainController {
     private ResultPanel resultPanel = null;
     private VehiclesPanel vehiclesPanel = null;
     private VehicleDataPanel vehicleDataPanel = null;
-    private RoadDrawingPane roadDrawingPane = null;
+    private DrawingPanel drawingPanel = null;
     
     
     private Model model = new Model();
@@ -125,11 +120,12 @@ public class MainController {
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
-        simulationController = new SimulationController(50);
+        simulationController = new SimulationController(1000);
         simulationPanel = new SimulationPanel();
         mainPanel.setCenter(simulationPanel);
-        if(roadDrawingPane != null)
-            simulationPanel.setCenter(roadDrawingPane);
+        if(drawingPanel != null) {
+            simulationPanel.setCenter(drawingPanel);
+        }
         else
             this.performDisplayMessage(simulationPanel, "Aucune carte sélectionnée");
     }
@@ -206,7 +202,7 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                mapPanel.setCenter(roadDrawingPane);
+                                mapPanel.setCenter(drawingPanel);
                             }
                         });
                     }
@@ -218,7 +214,7 @@ public class MainController {
     }
     
     /**
-     * Open a map (not an OSM map)
+     * Open a map
      */
     public void performOpenMap() {
         FileChooser fileChooser = new FileChooser();
@@ -251,19 +247,9 @@ public class MainController {
                             model.setRoadModel(p.readMapData(file));
                         Platform.runLater(new Runnable() {
                             @Override
-                            public void run() {                                
-                                roadDrawingPane = new RoadDrawingPane(1450,850);
-                                
-                                roadDrawingPane.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-
-                                    @Override
-                                    public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
-                                         roadDrawingPane.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
-                                    }
-                                
-                                });
-
-                                mapPanel.setCenter(roadDrawingPane);
+                            public void run() {
+                                drawingPanel = new DrawingPanel(1450,850);
+                                mapPanel.setCenter(drawingPanel);
                             }
                         });
                     } catch (Exception ex) {
@@ -463,7 +449,29 @@ public class MainController {
         simulationController.setSimulationStep(simulationStep);
     }
     
+    /**
+     * Get simulation controller
+     * @return Simulation controller
+     */
     public SimulationController getSimulationController(){
         return this.simulationController ; 
+    }
+    
+    /**
+     * Repaint all vehicles
+     */
+    public void performRepaintVehicles() {
+        if(drawingPanel != null) {
+            drawingPanel.repaintVehicles();
+        }
+    }
+    
+    /**
+     * Repaint all roads
+     */
+    public void performRepaintRoads() {
+        if(drawingPanel != null) {
+            drawingPanel.repaintRoads();
+        }
     }
 }

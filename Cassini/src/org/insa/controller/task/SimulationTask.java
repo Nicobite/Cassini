@@ -16,12 +16,12 @@
 package org.insa.controller.task;
 
 import java.util.TimerTask;
+import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.model.Model;
-import org.insa.controller.* ;
 
 /**
  *
@@ -71,7 +71,7 @@ public class SimulationTask extends TimerTask {
      * put vehicles in driving (one by one)
      */
     public void putVehiclesInDriving(){
-        if(model.getNbDrivingVehicles()<model.getNbVehicles()){
+        if(model.getNbDrivingVehicles() < model.getNbVehicles()){
             Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
             veh.getDriving().setDecision(Decision.ACCELERATE);
             //first lane of first section of first road of the road network
@@ -114,9 +114,7 @@ public class SimulationTask extends TimerTask {
      * update view
      */
     private void updateView(){
-        // TODO 
-        // place the method to update the view and to see the vehicles on the map
-        // don't have to be updated each iteration ?
+        MainController.getInstance().performRepaintVehicles();
     }
     
     /**

@@ -23,7 +23,6 @@ import org.insa.xml.osm.entities.OsmBound;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *

@@ -15,113 +15,84 @@
 */
 package org.insa.view.panel;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeLineCap;
+import java.util.ArrayList;
+import javafx.scene.layout.Pane;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
+import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
  * @author Thomas Thiebaud
  */
-public class RoadDrawingPanel extends DrawingPanel {
+public class RoadDrawingPanel extends Pane {
     
+    private DrawingPanel drawingPanel;
     private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
-    
+
     /**
      * Constructor
-     * @param width Panel width
-     * @param height Panel height
+     * @param panel Reference to drawing panel
      */
-    public RoadDrawingPanel(int width, int height) {
-        super(width, height);
-        
-        initialMinLong = roads.getMinLon();
-        initialMaxLong = roads.getMaxLon();
-        initialMinLat = roads.getMinLat();
-        initialMaxLat = roads.getMaxLat();
-        
-        minLong = initialMinLong;
-        maxLong = initialMaxLong;
-        minLat = initialMinLat;
-        maxLat = initialMaxLat;
-        
+    public RoadDrawingPanel(DrawingPanel panel) {
+        this.drawingPanel = panel;
+        this.init();
         this.paint();
     }
     
     /**
-     * Draw a road, including all sections and lanes that composed the road
-     * @param road Road to draw
+     * Initialize by calculting all the graphic lanes
      */
-    public void drawRoad(Road road) {
-        graphic.setLineCap(StrokeLineCap.BUTT);
-        graphic.setFill(Color.GRAY);
-           
-        for(GraphicSection section : road.getGraphicRoad().getSections()) {
-            int forwardLineWidth = section.getForwardLanes().size() * scale;
-            int backwardLineWidth = section.getForwardLanes().size() * scale;
-            
-            int x1 = longToX(section.getSourceNode().getLongitude()) ;
-            int x2 = longToX(section.getTargetNode().getLongitude()) ;
-            int y1 = latToY(section.getSourceNode().getLatitude()) ;
-            int y2 = latToY(section.getTargetNode().getLatitude()) ;
-            
-            double angle = angle(x1, y1, x2, y2);
-            double deltaX =  this.getDeltaX(angle, forwardLineWidth, x1, y1, x2, y2);
-            double deltaY =  this.getDeltaY(angle, forwardLineWidth, x1, y1, x2, y2);
-            
-            this.drawPolygon(x1, y1, x2, y2, deltaX, deltaY);
+    private void init() {
+        for(Road r : roads.getRoads()) {
+            for(GraphicSection gSection : r.getGraphicRoad().getSections()) {   
+                double x1 = drawingPanel.longToX(gSection.getSourceNode().getLongitude()) ;
+                double x2 = drawingPanel.longToX(gSection.getTargetNode().getLongitude()) ;
+                double y1 = drawingPanel.latToY(gSection.getSourceNode().getLatitude()) ;
+                double y2 = drawingPanel.latToY(gSection.getTargetNode().getLatitude()) ;
 
-            if(!section.getBackwardLanes().isEmpty()) {
-                deltaX = this.getDeltaX(angle, backwardLineWidth, x1, y1, x2, y2); 
-                deltaY = this.getDeltaY(angle, backwardLineWidth, x1, y1, x2, y2);
-                this.drawPolygon(x1, y1, x2, y2, - deltaX, - deltaY);
+                double angle = drawingPanel.angle(x1, y1, x2, y2);
+                double deltaX = this.getDeltaX(angle, drawingPanel.getLaneSize(), x1, y1, x2, y2);
+                double deltaY = this.getDeltaY(angle, drawingPanel.getLaneSize(), x1, y1, x2, y2);
+                
+                for(int i=0; i< gSection.getForwardLanes().size(); i++) {
+                    GraphicLane lane = gSection.getForwardLanes().get(i);
+                    lane.setLongLatPoints((getPoints(x1 + i*deltaX, y1 + i*deltaY, x2 + i*deltaX, y2 + i*deltaY, deltaX, deltaY)));
+                }
+                   
+                for(int i=0; i< gSection.getBackwardLanes().size(); i++) {
+                    GraphicLane lane = gSection.getBackwardLanes().get(i);
+                    lane.setLongLatPoints(getPoints(x1 - i*deltaX, y1 - i*deltaY, x2 - i*deltaX, y2 - i*deltaY, -deltaX, -deltaY));
+                }
             }
-            
-            graphic.setLineWidth(1);
-            graphic.setStroke(Color.ORANGE);
-            this.drawOval(x1, y1, forwardLineWidth, forwardLineWidth);
-            this.drawOval(x2, y2, forwardLineWidth, forwardLineWidth);
         }
     }
     
     /**
-     * Draw an oval center on the (x,y) point with the given height and width
-     * @param x X coordinate of the center
-     * @param y Y coordinate of the center
-     * @param width Oval width
-     * @param height Oval height
+     * Get graphic lane points
+     * @param x1 x coordinate of first known point
+     * @param y1 y coordiante of first known point
+     * @param x2 x coordinate of second known point 
+     * @param y2 x coordinate of second known point
+     * @param deltaX delta x
+     * @param deltaY delta y
+     * @return 
      */
-    public void drawOval(int x, int y, int width, int height) {
-        graphic.strokeOval(x - (width / 2), y - (height / 2), width, height);
-    }
-    
-    /**
-     * Draw a polygon 
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param deltaX
-     * @param deltaY 
-     */
-    public void drawPolygon(int x1, int y1, int x2, int y2, double deltaX, double deltaY) {
-        double x[] = new double[4];
-        double y[] = new double[4];
+    public ArrayList<Double> getPoints(double x1, double y1, double x2, double y2, double deltaX, double deltaY) {
+        ArrayList<Double> points = new ArrayList<>();
         
-        x[0] = x1 ;
-        x[1] = x2 ;
-        x[2] = x2 + deltaX;
-        x[3] = x1 + deltaX;
+        points.add(0, drawingPanel.xToLong(x1)) ;
+        points.add(1, drawingPanel.yToLat(y1)) ;
+        points.add(2, drawingPanel.xToLong(x2)) ;
+        points.add(3, drawingPanel.yToLat(y2)) ;
+        points.add(4, drawingPanel.xToLong(x2 + deltaX)) ;
+        points.add(5, drawingPanel.yToLat(y2 + deltaY)) ;
+        points.add(6, drawingPanel.xToLong(x1 + deltaX)) ;
+        points.add(7, drawingPanel.yToLat(y1 + deltaY)) ;
         
-        y[0] = y1 ;
-        y[1] = y2 ;
-        y[2] = y2 + deltaY;
-        y[3] = y1 + deltaY;
-        
-        graphic.fillPolygon(x, y, 4);
+        return points;
     }
     
     /**
@@ -134,7 +105,7 @@ public class RoadDrawingPanel extends DrawingPanel {
      * @param y2
      * @return DeltaX
      */
-    public double getDeltaX(double angle, int width, int x1, int y1 ,int x2, int y2) {
+    public double getDeltaX(double angle, double width, double x1, double y1 ,double x2, double y2) {
         double deltaX =  Math.abs(Math.sin(angle) * width);
         
         if(x1 < x2 && y1 < y2) {
@@ -165,7 +136,7 @@ public class RoadDrawingPanel extends DrawingPanel {
      * @param y2
      * @return DeltaY
      */
-    public double getDeltaY(double angle, int width, int x1, int y1 ,int x2, int y2) {
+    public double getDeltaY(double angle, double width, double x1, double y1 ,double x2, double y2) {
         double deltaY =  Math.abs(Math.cos(angle) * width);
         
         if(x1 > x2 && y1 > y2) {
@@ -186,16 +157,49 @@ public class RoadDrawingPanel extends DrawingPanel {
         return deltaY;
     }
     
-    @Override
-    public void paint() {
-        for(Road r : roads.getRoads()) {
-            drawRoad(r);
+    /**
+     * Transform the graphic lane by convertising each point into the latitude and longitude point list to X/Y coordinates
+     * @param lane Lane to transform
+     */
+    public void transform(GraphicLane lane) {
+        double res ;
+        for(int j=0; j<lane.getLongLatPoints().size(); j++) {
+            if(j%2 == 0)
+                res = drawingPanel.longToX(lane.getLongLatPoints().get(j));
+            else
+                res = drawingPanel.latToY(lane.getLongLatPoints().get(j));
+            
+            lane.getPoints().add(res);
         }
     }
     
-    @Override
+    /**
+     * Paint roads into panel
+     */
+    public void paint() {
+        for(Road r : roads.getRoads()) {
+            for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
+                for(int i=0; i< gSection.getForwardLanes().size(); i++) {
+                    GraphicLane lane = gSection.getForwardLanes().get(i);
+                    lane.getPoints().clear();
+                    transform(lane);
+                    this.getChildren().add(lane);
+                }
+                for(int i=0; i< gSection.getBackwardLanes().size(); i++) {
+                    GraphicLane lane = gSection.getBackwardLanes().get(i);
+                    lane.getPoints().clear();
+                    transform(lane);
+                    this.getChildren().add(lane);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Repaint all road by clearing the old ones and painting new ones
+     */
     public void repaint() {
-        graphic.clearRect(0, 0, this.getWidth(), this.getHeight());
+        this.getChildren().clear();
         this.paint();
     }
 }
