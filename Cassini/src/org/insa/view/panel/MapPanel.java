@@ -16,28 +16,16 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.MapToolBar;
 
 /**
  *
  * @author Thomas Thiebaud
  */
 public class MapPanel extends BorderPane{
-    
-    private final MapToolBar mapToolBar = new MapToolBar();
-    
     /**
      * Default constructor
      */
     public MapPanel() {  
-        this.setTop(mapToolBar);
-    }
-    
-    /**
-     * Get map tool bar
-     * @return Map tool bar
-     */
-    public MapToolBar getMapToolBar() {
-        return mapToolBar;
+        //Empty for the moment
     }
 }

@@ -13,17 +13,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package org.insa.view.panel;
 
-package org.insa.view.menuelement;
+import javafx.scene.layout.BorderPane;
 
 /**
  *
- * @author Thomas Thiebaud
+ * @author Thiebaud Thomas
  */
-public interface MenuElementListener {
-    
-    /**
-     * Enable link between view and controller
-     */
-    public void performAddAction();
+public class EditorPanel extends BorderPane {       
+    public EditorPanel(int width, int height) {
+        /*
+        this.setTop(new EditorMenu());
+        this.setCenter(new EditorArea());
+        this.setRight(new EditorDock())
+        */
+    }
 }

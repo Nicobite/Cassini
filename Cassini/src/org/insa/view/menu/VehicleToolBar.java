@@ -15,23 +15,38 @@
  */
 package org.insa.view.menu;
 
-import org.insa.view.menuelement.VehicleTool;
+import javafx.scene.input.MouseEvent;
+import org.insa.controller.MainController;
+import org.insa.view.menuelement.ToolBarButton;
 
 /**
  *
- * @author Thomas Thiebaud
+ * @author Thiebaud Thomas
  */
-public class VehicleToolBar extends HorizontalMenu{
-    
+public class VehicleToolBar extends CustomToolBar {
+
     /**
      * Default constructor
      */
     public VehicleToolBar() {
-        this.getStyleClass().add("tool-bar");
-        this.getStyleClass().add("top-tool-bar");
-        
-        this.addMenuElement(new VehicleTool("reset", "Reset",false));
-        this.addMenuElement(new VehicleTool("open", "Importer",false));
-        this.addMenuElement(new VehicleTool("save", "Exporter",false));
+        this.add(new ToolBarButton("reset",this));
+        this.add(new ToolBarButton("open", this));
+        this.add(new ToolBarButton("save", this));
+    }
+    
+    @Override
+    public void handle(MouseEvent t) {
+        ToolBarButton button = (ToolBarButton)t.getSource();
+        switch(button.getImageName()) {
+            case "reset":
+                MainController.getInstance().performResetVehiclesModel();
+                break;
+            case "open" :
+                MainController.getInstance().performOpenVehicles();
+                break;
+            case "save" :
+                MainController.getInstance().performSaveVehicles();
+                break;
+        }
     }
 }

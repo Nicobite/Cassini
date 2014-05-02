@@ -16,7 +16,7 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.NavigationMenu;
+import org.insa.view.menu.NavigationToolBar;
 
 /**
  *
@@ -28,6 +28,6 @@ public class NavigationPanel extends BorderPane {
      * Default constructor
      */
     public NavigationPanel() {
-        this.setCenter(new NavigationMenu());
+        this.setCenter(new NavigationToolBar());
     }
 }

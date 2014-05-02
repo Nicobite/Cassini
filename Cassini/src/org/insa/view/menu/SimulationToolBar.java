@@ -15,25 +15,47 @@
  */
 package org.insa.view.menu;
 
-import org.insa.view.menuelement.SimulationTool;
+import javafx.scene.input.MouseEvent;
+import org.insa.controller.MainController;
+import org.insa.view.menuelement.ToolBarToggleButton;
 
 /**
  *
- * @author Thomas Thiebaud
+ * @author Thiebaud Thomas
  */
-public class SimulationToolBar extends HorizontalMenu {
-    
+public class SimulationToolBar extends CustomToolBar {
+
     /**
      * Default constructor
      */
-    public SimulationToolBar() {        
-        this.getStyleClass().add("tool-bar");
-        this.getStyleClass().add("bottom-tool-bar");
-        
-        this.addMenuElement(new SimulationTool("backward"));
-        this.addMenuElement(new SimulationTool("play"));
-        this.addMenuElement(new SimulationTool("pause"));
-        this.addMenuElement(new SimulationTool("stop"));
-        this.addMenuElement(new SimulationTool("forward"));
+    public SimulationToolBar() {
+        this.add(new ToolBarToggleButton("backward",this));
+        this.add(new ToolBarToggleButton("play",this));
+        this.add(new ToolBarToggleButton("pause",this));
+        this.add(new ToolBarToggleButton("stop",this));
+        this.add(new ToolBarToggleButton("forward",this));
     }
+    
+    @Override
+    public void handle(MouseEvent t) {
+        ToolBarToggleButton button = (ToolBarToggleButton)t.getSource();
+        switch(button.getImageName()) {
+            case "play" :
+                MainController.getInstance().performPlaySimulation();
+                break;
+            case "pause" : 
+                MainController.getInstance().performPauseSimulation();
+                break;
+            case "stop" :
+                MainController.getInstance().performStopSimulation();
+                break;
+            case "backward" :
+                MainController.getInstance().performBackwardSimulation();
+                break;
+            case "forward" :
+                MainController.getInstance().performForwardSimulation();
+                break;
+        } 
+    }
+    
 }

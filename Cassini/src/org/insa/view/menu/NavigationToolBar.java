@@ -13,39 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.menuelement;
+package org.insa.view.menu;
 
+import javafx.geometry.Orientation;
+import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
+import org.insa.view.menuelement.ToolBarToggleButton;
 
 /**
  *
- * @author thomas
+ * @author Thiebaud Thomas
  */
-public class NavigationElement extends ImageMenuElement {
+public class NavigationToolBar extends CustomToolBar {
     
     /**
-     * Constructor
-     * @param imageName Name of the picture located in org.insa.view.image package
-     * @param name Name of the entry into the menu
+     * Default constructor
      */
-    public NavigationElement(String imageName, String name) {
-        super(imageName, name, 50, 50, true);
-        this.getStyleClass().add("navigation-element");
+    public NavigationToolBar() {
+        super(Orientation.VERTICAL, "navigation-menu");
+        this.add(new ToolBarToggleButton("draw",this,"navigation-element"));
+        this.add(new ToolBarToggleButton("map",this,"navigation-element"));
+        this.add(new ToolBarToggleButton("car",this,"navigation-element"));
+        this.add(new ToolBarToggleButton("simulation",this,"navigation-element"));
+        this.add(new ToolBarToggleButton("result",this,"navigation-element"));
     }
-    
-    /**
-     * Constructor
-     * @param imageName Name of the picture located in org.insa.view.image package
-     */
-    public NavigationElement(String imageName) {
-        this(imageName, "");
-    }
-    
+
     @Override
-    public void performAddAction() {
-        switch(imageName) {
+    public void handle(MouseEvent t) {
+        ToolBarToggleButton button = (ToolBarToggleButton)t.getSource();
+        switch(button.getImageName()) {
+            case "draw" :
+                MainController.getInstance().performDisplayMapEditor();
+                break;
             case "map" :
                 MainController.getInstance().performDisplayMapPanel();
+                MainController.getInstance().performOpenMap();
                 break;
             case "car" :
                 MainController.getInstance().performDisplayVehiclesPanel();
