@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.insa.core.roadnetwork.Lane;
+import org.simpleframework.xml.ElementList;
 
 /**
  *
@@ -27,7 +28,18 @@ import org.insa.core.roadnetwork.Lane;
  */
 public class GraphicLane extends Polygon {
     protected Lane lane;
+    
+    @ElementList
     protected ArrayList<Double> longLatPoints = new ArrayList<>();
+    
+    /**
+     * Default constructor
+     */
+    public GraphicLane() {
+        this.lane = null;
+        this.setStrokeLineCap(StrokeLineCap.BUTT);
+        this.setFill(Color.GRAY);
+    }
     
     /**
      * Constructor

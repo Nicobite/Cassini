@@ -19,6 +19,7 @@ import java.util.Objects;
 import org.insa.core.enums.RoadType;
 import org.insa.view.graphicmodel.GraphicRoad;
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
@@ -31,7 +32,7 @@ import org.simpleframework.xml.Root;
  */
 @Root
 public class Road {
-
+    @Element
     private GraphicRoad gRoad;
     
     /**

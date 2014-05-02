@@ -19,7 +19,6 @@ package org.insa.core.roadnetwork;
 import java.util.Objects;
 import org.insa.core.enums.Direction;
 import org.insa.view.graphicmodel.GraphicLane;
-import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -44,7 +43,9 @@ import org.simpleframework.xml.core.Commit;
 @Root
 public class Section {
     protected GraphicSection gSection;
+    
     protected Lane lane;
+    
     /**
      * source node
      */

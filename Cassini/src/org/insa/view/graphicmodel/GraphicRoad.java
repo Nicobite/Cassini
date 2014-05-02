@@ -18,6 +18,7 @@ package org.insa.view.graphicmodel;
 import java.util.ArrayList;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.simpleframework.xml.ElementList;
 
 /** 
  *
@@ -25,7 +26,16 @@ import org.insa.core.roadnetwork.Section;
  */
 public class GraphicRoad {
     protected Road road;
+    
+    @ElementList
     private ArrayList<GraphicSection> sections = new ArrayList<GraphicSection>();
+    
+    /**
+     * Default constructor
+     */
+    public GraphicRoad() {
+        this.road = null;
+    }
     
     /**
      * Constructor

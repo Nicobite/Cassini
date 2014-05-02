@@ -95,7 +95,7 @@ public class XmlParser {
      */
     public void saveMapData(RoadsModel model, File output) throws Exception{
         Serializer serializer = new Persister(new CustomMatcher());
-         serializer.write(model, output);
+        serializer.write(model, output);
     }
       /**
      * load the map data from OpenStreetMap data

@@ -17,6 +17,7 @@ package org.insa.view.graphicmodel;
 
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 
 /**
  *
@@ -30,6 +31,13 @@ public class GraphicNode {
 
     @Attribute(name="lat")
     protected float latitude;
+    
+    /**
+     * Default constructor
+     */
+    public GraphicNode() {
+        this.node = null;
+    }
     
     /**
      * Constructor

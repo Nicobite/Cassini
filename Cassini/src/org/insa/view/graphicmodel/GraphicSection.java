@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Section;
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 
 /**
  *
@@ -26,10 +28,25 @@ import org.insa.core.roadnetwork.Section;
  */
 public class GraphicSection {
     protected Section section;
+    
+    @Element(name="from")
     protected GraphicNode sourceNode;
+    
+    @Element(name="to")
     protected GraphicNode targetNode;
+    
+    @ElementList
     protected ArrayList<GraphicLane>forwardLanes = new ArrayList<GraphicLane>();
+    
+    @ElementList
     protected ArrayList<GraphicLane>backwardLanes = new ArrayList<GraphicLane>();
+    
+    /**
+     * Default constructor
+     */
+    public GraphicSection() {
+        this.section = null;
+    }
     
     /**
      * Constructor
