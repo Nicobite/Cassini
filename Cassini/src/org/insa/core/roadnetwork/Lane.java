@@ -58,7 +58,7 @@ public class Lane {
     private ArrayList<Transition> transitions;
     
     
-    public Lane(){
+    public Lane() {
         gLane = new GraphicLane(this);
         this.vehicles = new ArrayList<>();
         this.transitions = new ArrayList<>();

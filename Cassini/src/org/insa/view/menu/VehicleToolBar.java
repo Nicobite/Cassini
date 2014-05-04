@@ -29,9 +29,9 @@ public class VehicleToolBar extends CustomToolBar {
      * Default constructor
      */
     public VehicleToolBar() {
-        this.add(new ToolBarButton("reset",this));
-        this.add(new ToolBarButton("open", this));
-        this.add(new ToolBarButton("save", this));
+        this.add(new ToolBarButton("reset","Reset",this));
+        this.add(new ToolBarButton("open","Open", this));
+        this.add(new ToolBarButton("save","Save", this));
     }
     
     @Override

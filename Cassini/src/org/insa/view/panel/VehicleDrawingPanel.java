@@ -15,13 +15,13 @@
  */
 package org.insa.view.panel;
 
-import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.items.VehiclesModel;
 import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
@@ -63,27 +63,21 @@ public class VehicleDrawingPanel extends Pane {
      */
     public double[] getPoint(GraphicLane lane, double offset) {
         double point[] = new double[3];
-        ObservableList<Double> points = lane.getPoints();
         
-        double deltaX03 = points.get(6) - points.get(0);
-        double deltaY03 = points.get(7) - points.get(1);
+        GraphicSection section = lane.getLane().getSection().getGraphicSection();
         
-        double deltaX12 = points.get(4) - points.get(2);
-        double deltaY12 = points.get(5) - points.get(3); 
-        
-        double x1 = points.get(0) + deltaX03 / 2;
-        double y1 = points.get(1) + deltaY03 / 2;
-        double x2 = points.get(2) + deltaX12 / 2;
-        double y2 = points.get(3) + deltaY12 / 2;
-
+        double widthX = drawingPanel.longToX(lane.getSourcePoint().getX() + section.getDeltaX()) - drawingPanel.longToX(lane.getSourcePoint().getX());
+        double widthY = drawingPanel.latToY(lane.getSourcePoint().getY() + section.getDeltaY()) - drawingPanel.latToY(lane.getSourcePoint().getY());
+        double width = Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2));
+                
         double ratio = offset / lane.getLane().getSection().getLength(); 
 
-        double deltaX = x2 - x1;
-        double deltaY = y2 - y1;
+        double deltaX = drawingPanel.longToX(lane.getTargetPoint().getX()) - drawingPanel.longToX(lane.getSourcePoint().getX());
+        double deltaY = drawingPanel.latToY(lane.getTargetPoint().getY()) - drawingPanel.latToY(lane.getSourcePoint().getY());
 
-        point[0] = x1 + ratio * deltaX;
-        point[1] = y1 + ratio * deltaY;
-        point[2] = Math.sqrt(Math.pow(deltaX03 * 0.4, 2) + Math.pow(deltaY03 * 0.4, 2));
+        point[0] = drawingPanel.longToX(lane.getSourcePoint().getX() + section.getDeltaX()) + ratio * deltaX;
+        point[1] = drawingPanel.latToY(lane.getSourcePoint().getY() + section.getDeltaY()) + ratio * deltaY;
+        point[2] = width;
         
         return point;
     }

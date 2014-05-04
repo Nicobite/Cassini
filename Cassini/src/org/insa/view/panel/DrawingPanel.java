@@ -206,7 +206,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
      * @return Circle 
      */
     public Circle drawCircle(double x, double y, double r) {
-        Circle circle = new Circle(x - (r / 2), y - (r / 2), r);
+        Circle circle = new Circle(x , y , 0.9 * r);
         return circle;
     }
     

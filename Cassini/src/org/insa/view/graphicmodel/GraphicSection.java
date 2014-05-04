@@ -17,6 +17,9 @@ package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.StrokeLineCap;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Section;
 import org.simpleframework.xml.Element;
@@ -26,8 +29,13 @@ import org.simpleframework.xml.ElementList;
  *
  * @author Thiebaud Thomas
  */
-public class GraphicSection {
+public class GraphicSection extends Polygon {
     protected Section section;
+    protected double deltaX;
+    protected double deltaY;
+    
+    @ElementList
+    protected ArrayList<Double> longLatPoints = new ArrayList<>();
     
     @Element(name="from")
     protected GraphicNode sourceNode;
@@ -36,16 +44,18 @@ public class GraphicSection {
     protected GraphicNode targetNode;
     
     @ElementList
-    protected ArrayList<GraphicLane>forwardLanes = new ArrayList<GraphicLane>();
+    protected ArrayList<GraphicLane>forwardLanes = new ArrayList<>();
     
     @ElementList
-    protected ArrayList<GraphicLane>backwardLanes = new ArrayList<GraphicLane>();
+    protected ArrayList<GraphicLane>backwardLanes = new ArrayList<>();
     
     /**
      * Default constructor
      */
     public GraphicSection() {
         this.section = null;
+        this.setStrokeLineCap(StrokeLineCap.BUTT);
+        this.setFill(Color.GRAY);
     }
     
     /**
@@ -58,6 +68,8 @@ public class GraphicSection {
         this.section = section;
         sourceNode = from.getGraphicNode();
         targetNode = to.getGraphicNode();
+        this.setStrokeLineCap(StrokeLineCap.BUTT);
+        this.setFill(Color.GRAY);
     }
     
     /**
@@ -99,6 +111,30 @@ public class GraphicSection {
     public ArrayList<GraphicLane> getBackwardLanes() {
         return backwardLanes;
     }
+    
+    /**
+     * Get delta x or delta longitude
+     * @return delta x or delta longitude
+     */
+    public double getDeltaX() {
+        return deltaX;
+    }
+
+    /**
+     * Get delta y or delta latitude
+     * @return delta y or delta latitude
+     */
+    public double getDeltaY() {
+        return deltaY;
+    }
+    
+    /**
+     * Get longitude and latitude points list
+     * @return Points list
+     */
+    public ArrayList<Double> getLongLatPoints() {
+        return longLatPoints;
+    }
 
     /**
      * Set section
@@ -139,6 +175,30 @@ public class GraphicSection {
     public void setBackwardLanes(ArrayList<GraphicLane> backwardLanes) {
         this.backwardLanes = backwardLanes;
     }
+    
+    /**
+     * Set delta x or delta longitude
+     * @param deltaX new delta x or delta longitude
+     */
+    public void setDeltaX(double deltaX) {
+        this.deltaX = deltaX;
+    }
+
+    /**
+     * Set delta y or delta latitude
+     * @param deltaY new delta y or delta latitude
+     */
+    public void setDeltaY(double deltaY) {
+        this.deltaY = deltaY;
+    }
+    
+    /**
+     * Set longitude and latitude points list
+     * @param longLatPoints New points list
+     */
+    public void setLongLatPoints(ArrayList<Double> longLatPoints) {
+        this.longLatPoints = longLatPoints;
+    }
 
     @Override
     public String toString() {
@@ -147,6 +207,12 @@ public class GraphicSection {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
         final GraphicSection other = (GraphicSection) obj;
         if (!Objects.equals(this.section, other.section)) {
             return false;

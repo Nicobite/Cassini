@@ -5,7 +5,7 @@
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
 *
-*     http://www.apache.org/licenses/LICENSE-2.0
+*     thtp://www.apache.org/licenses/LICENSE-2.0
 *
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,13 @@ package org.insa.view.panel;
 
 import java.util.ArrayList;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicPoint;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
@@ -29,8 +32,8 @@ import org.insa.view.graphicmodel.GraphicSection;
  */
 public class RoadDrawingPanel extends Pane {
     
-    private DrawingPanel drawingPanel;
-    private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    private final DrawingPanel drawingPanel;
+    private final RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
 
     /**
      * Constructor
@@ -47,24 +50,31 @@ public class RoadDrawingPanel extends Pane {
      */
     private void init() {
         for(Road r : roads.getRoads()) {
-            for(GraphicSection gSection : r.getGraphicRoad().getSections()) {   
+            for(GraphicSection gSection : r.getGraphicRoad().getSections()) {                
                 double x1 = drawingPanel.longToX(gSection.getSourceNode().getLongitude()) ;
                 double x2 = drawingPanel.longToX(gSection.getTargetNode().getLongitude()) ;
                 double y1 = drawingPanel.latToY(gSection.getSourceNode().getLatitude()) ;
                 double y2 = drawingPanel.latToY(gSection.getTargetNode().getLatitude()) ;
 
                 double angle = drawingPanel.angle(x1, y1, x2, y2);
-                double deltaX = this.getDeltaX(angle, drawingPanel.getLaneSize(), x1, y1, x2, y2);
-                double deltaY = this.getDeltaY(angle, drawingPanel.getLaneSize(), x1, y1, x2, y2);
+                double deltaX = this.getDeltaX(angle, drawingPanel.getLaneSize() / 2, x1, y1, x2, y2);
+                double deltaY = this.getDeltaY(angle, drawingPanel.getLaneSize() / 2, x1, y1, x2, y2);
                 
+                gSection.setDeltaX(drawingPanel.xToLong(x1 + deltaX) - drawingPanel.xToLong(x1));
+                gSection.setDeltaY(drawingPanel.yToLat(y1 + deltaY) - drawingPanel.yToLat(y1));
+                    
+                gSection.setLongLatPoints(getPoints(gSection));
+                 
                 for(int i=0; i< gSection.getForwardLanes().size(); i++) {
                     GraphicLane lane = gSection.getForwardLanes().get(i);
-                    lane.setLongLatPoints((getPoints(x1 + i*deltaX, y1 + i*deltaY, x2 + i*deltaX, y2 + i*deltaY, deltaX, deltaY)));
+                    lane.setSourcePoint(new GraphicPoint(drawingPanel.xToLong(x1) + 2 * i * gSection.getDeltaX(), drawingPanel.yToLat(y1) + 2 * i * gSection.getDeltaY()));
+                    lane.setTargetPoint(new GraphicPoint(drawingPanel.xToLong(x2) + 2 * i * gSection.getDeltaX(), drawingPanel.yToLat(y2) + 2 * i * gSection.getDeltaY()));
                 }
-                   
+                
                 for(int i=0; i< gSection.getBackwardLanes().size(); i++) {
                     GraphicLane lane = gSection.getBackwardLanes().get(i);
-                    lane.setLongLatPoints(getPoints(x1 - i*deltaX, y1 - i*deltaY, x2 - i*deltaX, y2 - i*deltaY, -deltaX, -deltaY));
+                    lane.setSourcePoint(new GraphicPoint(drawingPanel.xToLong(x1) - (2*i) * gSection.getDeltaX(), drawingPanel.yToLat(y1) - (2*i) * gSection.getDeltaY()));
+                    lane.setTargetPoint(new GraphicPoint(drawingPanel.xToLong(x2) - (2*i) * gSection.getDeltaX(), drawingPanel.yToLat(y2) - (2*i) * gSection.getDeltaY()));
                 }
             }
         }
@@ -72,26 +82,23 @@ public class RoadDrawingPanel extends Pane {
     
     /**
      * Get graphic lane points
-     * @param x1 x coordinate of first known point
-     * @param y1 y coordiante of first known point
-     * @param x2 x coordinate of second known point 
-     * @param y2 x coordinate of second known point
-     * @param deltaX delta x
-     * @param deltaY delta y
+     * @param section
      * @return 
      */
-    public ArrayList<Double> getPoints(double x1, double y1, double x2, double y2, double deltaX, double deltaY) {
+    public ArrayList<Double> getPoints(GraphicSection section) {
         ArrayList<Double> points = new ArrayList<>();
-        
-        points.add(0, drawingPanel.xToLong(x1)) ;
-        points.add(1, drawingPanel.yToLat(y1)) ;
-        points.add(2, drawingPanel.xToLong(x2)) ;
-        points.add(3, drawingPanel.yToLat(y2)) ;
-        points.add(4, drawingPanel.xToLong(x2 + deltaX)) ;
-        points.add(5, drawingPanel.yToLat(y2 + deltaY)) ;
-        points.add(6, drawingPanel.xToLong(x1 + deltaX)) ;
-        points.add(7, drawingPanel.yToLat(y1 + deltaY)) ;
-        
+        int forwardSize = section.getForwardLanes().size();
+        int backwardSize = section.getBackwardLanes().size();
+                
+        points.add(0, section.getSourceNode().getLongitude() + 2 * section.getDeltaX() * forwardSize) ;
+        points.add(1, section.getSourceNode().getLatitude() + 2 * section.getDeltaY() * forwardSize) ;
+        points.add(2, section.getTargetNode().getLongitude() + 2 * section.getDeltaX() * forwardSize) ;
+        points.add(3, section.getTargetNode().getLatitude() + 2 * section.getDeltaY() * forwardSize) ;
+        points.add(4, section.getTargetNode().getLongitude() - 2 * section.getDeltaX() * backwardSize) ;
+        points.add(5, section.getTargetNode().getLatitude() - 2 * section.getDeltaY() * backwardSize) ;
+        points.add(6, section.getSourceNode().getLongitude() - 2 * section.getDeltaX() * backwardSize) ;
+        points.add(7, section.getSourceNode().getLatitude() - 2 * section.getDeltaY() * backwardSize) ;
+
         return points;
     }
     
@@ -158,38 +165,38 @@ public class RoadDrawingPanel extends Pane {
     }
     
     /**
-     * Transform the graphic lane by convertising each point into the latitude and longitude point list to X/Y coordinates
-     * @param lane Lane to transform
+     * Transform the graphic section by convertising each point from latitude/longitude to X/Y coordinates
+     * @param section Section to transform
      */
-    public void transform(GraphicLane lane) {
+    public void transform(GraphicSection section) {
         double res ;
-        for(int j=0; j<lane.getLongLatPoints().size(); j++) {
+        section.getPoints().clear();
+        for(int j=0; j<section.getLongLatPoints().size(); j++) {
             if(j%2 == 0)
-                res = drawingPanel.longToX(lane.getLongLatPoints().get(j));
+                res = drawingPanel.longToX(section.getLongLatPoints().get(j));
             else
-                res = drawingPanel.latToY(lane.getLongLatPoints().get(j));
-            
-            lane.getPoints().add(res);
+                res = drawingPanel.latToY(section.getLongLatPoints().get(j));
+            section.getPoints().add(res);
         }
     }
     
     /**
      * Paint roads into panel
      */
-    public void paint() {
+    public final void paint() {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
-                for(int i=0; i< gSection.getForwardLanes().size(); i++) {
-                    GraphicLane lane = gSection.getForwardLanes().get(i);
-                    lane.getPoints().clear();
-                    transform(lane);
-                    this.getChildren().add(lane);
+                transform(gSection);
+                this.getChildren().add(gSection);
+                for(GraphicLane lane : gSection.getForwardLanes()) {
+                    Line line = new Line(drawingPanel.longToX(lane.getSourcePoint().getX()), drawingPanel.latToY(lane.getSourcePoint().getY()), drawingPanel.longToX(lane.getTargetPoint().getX()), drawingPanel.latToY(lane.getTargetPoint().getY()));
+                    line.setStroke(Color.WHITE);
+                    this.getChildren().add(line);
                 }
-                for(int i=0; i< gSection.getBackwardLanes().size(); i++) {
-                    GraphicLane lane = gSection.getBackwardLanes().get(i);
-                    lane.getPoints().clear();
-                    transform(lane);
-                    this.getChildren().add(lane);
+                for(GraphicLane lane : gSection.getBackwardLanes() ) {
+                    Line line = new Line(drawingPanel.longToX(lane.getSourcePoint().getX()), drawingPanel.latToY(lane.getSourcePoint().getY()), drawingPanel.longToX(lane.getTargetPoint().getX()), drawingPanel.latToY(lane.getTargetPoint().getY()));
+                    line.setStroke(Color.WHITE);
+                    this.getChildren().add(line);
                 }
             }
         }

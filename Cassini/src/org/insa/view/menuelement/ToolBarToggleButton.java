@@ -15,6 +15,7 @@
  */
 package org.insa.view.menuelement;
 
+import javafx.geometry.Orientation;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,8 +38,14 @@ public class ToolBarToggleButton extends ToggleButton {
         super(name);
         this.imageName = imageName;
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
-        this.setPrefWidth(50);
-        this.setPrefHeight(50);
+        if(toolBar.getOrientation() == Orientation.HORIZONTAL) {
+            this.setPrefHeight(50);
+        }
+        if(toolBar.getOrientation() == Orientation.VERTICAL) {
+            this.setPrefWidth(50);
+        }
+        this.setMinWidth(50);
+        this.setMinHeight(50);
         this.setOnMouseClicked(toolBar);
         this.getStyleClass().clear();
         this.getStyleClass().add("tool-bar-button");
@@ -63,7 +70,7 @@ public class ToolBarToggleButton extends ToggleButton {
         this(imageName,"",toolBar); 
         this.getStyleClass().clear();
         this.getStyleClass().add(cssClass);
-    }
+    } 
 
     /**
      * Get image name

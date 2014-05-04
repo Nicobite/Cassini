@@ -18,8 +18,8 @@ package org.insa.core.roadnetwork;
 import java.util.Objects;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.view.graphicmodel.GraphicPoint;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
@@ -50,8 +50,7 @@ public class Node {
      */
     public Node(float longitude, float latitude) {
         gNode = new GraphicNode(this);
-        gNode.setLatitude(latitude);
-        gNode.setLongitude(longitude);
+        gNode.setPoint(new GraphicPoint(longitude, latitude));
     }
     
     /**

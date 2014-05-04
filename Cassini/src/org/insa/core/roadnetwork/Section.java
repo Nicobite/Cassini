@@ -196,8 +196,8 @@ public class Section {
      * @return the section length
      */
     private float computeLength(Node from, Node to){
-        double dLatitude = Math.toRadians(to.getGraphicNode().getLatitude()-from.getGraphicNode().getLatitude());
-        double dLongitude = Math.toRadians(to.getGraphicNode().getLongitude()-from.getGraphicNode().getLongitude());
+        double dLatitude = Math.toRadians(to.getGraphicNode().getLatitude() - from.getGraphicNode().getLatitude());
+        double dLongitude = Math.toRadians(to.getGraphicNode().getLongitude() - from.getGraphicNode().getLongitude());
         double a = Math.sin(dLatitude/2) * Math.sin(dLatitude/2) +
                 Math.cos(Math.toRadians(from.getGraphicNode().getLatitude())) * Math.cos(Math.toRadians(to.getGraphicNode().getLatitude())) *
                 Math.sin(dLongitude/2) * Math.sin(dLongitude/2);

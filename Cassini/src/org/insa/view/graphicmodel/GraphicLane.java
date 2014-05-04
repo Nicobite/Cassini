@@ -15,42 +15,35 @@
  */
 package org.insa.view.graphicmodel;
 
-import java.util.ArrayList;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.insa.core.roadnetwork.Lane;
-import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Element;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class GraphicLane extends Polygon {
+public class GraphicLane {
     protected Lane lane;
     
-    @ElementList
-    protected ArrayList<Double> longLatPoints = new ArrayList<>();
+    @Element
+    protected GraphicPoint sourcePoint;
+    
+    @Element
+    protected GraphicPoint targetPoint;
     
     /**
      * Default constructor
      */
     public GraphicLane() {
         this.lane = null;
-        this.setStrokeLineCap(StrokeLineCap.BUTT);
-        this.setFill(Color.GRAY);
     }
     
     /**
      * Constructor
      * @param lane Reference to lane
-     * @param points Points of the polygon wich represents the lane
      */
-    public GraphicLane(Lane lane, double... points) {
-        super(points);
+    public GraphicLane(Lane lane) {
         this.lane = lane;
-        this.setStrokeLineCap(StrokeLineCap.BUTT);
-        this.setFill(Color.GRAY);
     }
  
     /**
@@ -60,20 +53,36 @@ public class GraphicLane extends Polygon {
     public Lane getLane() {
         return lane;
     }
-    
+
     /**
-     * Get longitude and latitude points list
-     * @return Points list
+     * Get source point
+     * @return Source point
      */
-    public ArrayList<Double> getLongLatPoints() {
-        return longLatPoints;
+    public GraphicPoint getSourcePoint() {
+        return sourcePoint;
     }
 
     /**
-     * Set longitude and latitude points list
-     * @param longLatPoints New points list
+     * Get target point
+     * @return Target point
      */
-    public void setLongLatPoints(ArrayList<Double> longLatPoints) {
-        this.longLatPoints = longLatPoints;
+    public GraphicPoint getTargetPoint() {
+        return targetPoint;
+    }
+
+    /**
+     * Set source point
+     * @param sourcePoint New source point 
+     */
+    public void setSourcePoint(GraphicPoint sourcePoint) {
+        this.sourcePoint = sourcePoint;
+    }
+
+    /**
+     * Set target point
+     * @param targetPoint New target point 
+     */
+    public void setTargetPoint(GraphicPoint targetPoint) {
+        this.targetPoint = targetPoint;
     }
 }

@@ -15,8 +15,9 @@
  */
 package org.insa.view.graphicmodel;
 
+import java.util.Objects;
 import org.insa.core.roadnetwork.Node;
-import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 
 /**
  *
@@ -25,11 +26,8 @@ import org.simpleframework.xml.Attribute;
 public class GraphicNode {
     protected Node node;
     
-    @Attribute(name="lon")
-    protected float longitude;
-
-    @Attribute(name="lat")
-    protected float latitude;
+    @Element
+    protected GraphicPoint point;
     
     /**
      * Default constructor
@@ -47,42 +45,42 @@ public class GraphicNode {
     }
 
     /**
-     * Get longitude
-     * @return Longitude
+     * Get point
+     * @return Graphic point
      */
-    public float getLongitude() {
-        return longitude;
-    }
-
-    /**
-     * Get latitude
-     * @return Latitude
-     */
-    public float getLatitude() {
-        return latitude;
+    public GraphicPoint getPoint() {
+        return point;
     }
     
     /**
-     * Set longitude
-     * @param longitude New longitude 
+     * Get longitude
+     * @return longitude
      */
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
+    public double getLongitude() {
+        return point.getX();
+    }
+    
+    /**
+     * Get latitude
+     * @return latitude
+     */
+    public double getLatitude() {
+        return point.getY();
     }
 
     /**
-     * Set latitude
-     * @param latitude New latitude
+     * Set point
+     * @param point New point 
      */
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
+    public void setPoint(GraphicPoint point) {
+        this.point = point;
     }
 
     @Override
     public String toString() {
-        return "Node: lon = "+longitude+",lat="+latitude;
+        return "GraphicNode{" + "point=" + point + '}';
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -92,10 +90,7 @@ public class GraphicNode {
             return false;
         }
         final GraphicNode other = (GraphicNode) obj;
-        if (Float.floatToIntBits(this.longitude) != Float.floatToIntBits(other.longitude)) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.latitude) != Float.floatToIntBits(other.latitude)) {
+        if (!Objects.equals(this.point, other.point)) {
             return false;
         }
         return true;

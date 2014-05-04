@@ -15,6 +15,7 @@
  */
 package org.insa.view.menuelement;
 
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,8 +38,14 @@ public class ToolBarButton extends Button {
         super(name);
         this.imageName = imageName;
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
-        this.setPrefWidth(50);
-        this.setPrefHeight(50);
+        if(toolBar.getOrientation() == Orientation.HORIZONTAL) {
+            this.setPrefHeight(50);
+        }
+        if(toolBar.getOrientation() == Orientation.VERTICAL) {
+            this.setPrefWidth(50);
+        }
+        this.setMinWidth(50);
+        this.setMinHeight(50);
         this.setOnMouseClicked(toolBar);
         this.getStyleClass().clear();
         this.getStyleClass().add("tool-bar-button");
