@@ -120,7 +120,7 @@ public class MainController {
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
-        simulationController = new SimulationController(1000);
+        simulationController = new SimulationController(500, false);
         simulationPanel = new SimulationPanel();
         mainPanel.setCenter(simulationPanel);
         if(drawingPanel != null) {

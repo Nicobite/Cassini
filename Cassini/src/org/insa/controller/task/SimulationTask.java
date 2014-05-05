@@ -15,6 +15,7 @@
 */
 package org.insa.controller.task;
 
+import java.util.Random;
 import java.util.TimerTask;
 import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
@@ -41,14 +42,17 @@ public class SimulationTask extends TimerTask {
      */
     private final int simuStep;
     
+    private boolean debug;
+    
     /**
      * Constructor
      * @param model Link to general model
      * @param simuStep
      */
-    public SimulationTask(Model model, int simuStep){
+    public SimulationTask(Model model, int simuStep, boolean debug){
         this.model = model;
         this.simuStep = simuStep;
+        this.debug = debug;
     }
     
     
@@ -75,12 +79,14 @@ public class SimulationTask extends TimerTask {
         if(model.getNbDrivingVehicles() < model.getNbVehicles()){
             Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
             veh.getDriving().setDecision(Decision.ACCELERATE);
-            //first lane of first section of first road of the road network
-            GraphicSection sect = model.getRoadModel().getRoads().get(0).getGraphicRoad().getSections().get(0);
+            //vehicle chooses a random road from the road network
+            int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
+            GraphicSection sect = model.getRoadModel().getRoads().get(indice).getGraphicRoad().getSections().get(0);
             Lane lane = sect.getForwardLanes().get(sect.getForwardLanes().size()-1).getLane();
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
-            System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());
+            if(debug)
+                System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());
         }
     }
     /**
@@ -106,7 +112,8 @@ public class SimulationTask extends TimerTask {
             if(vehicle.getDriving().getDecision() == Decision.OFF)
                 model.getDrivingVehiclesModel().removeVehicle(vehicle);
             
-            System.out.println("Vehicle numero "+i+": acc : "+vehicle.getDriving().getAcceleration()+
+            if(debug)
+                System.out.println("Vehicle numero "+i+": acc : "+vehicle.getDriving().getAcceleration()+
                                 ",vit = "+vehicle.getDriving().getSpeed()+
                                 ",position "+vehicle.getDriving().getPosition());
         }

@@ -169,17 +169,19 @@ public class Vehicle {
       */
       public void updateSpeed(int simuStep){
           float speed ;
-          speed = this.driving.getSpeed() + this.driving.getAcceleration()*simuStep/1000;
+          float scale = 0.50f;
+          speed = this.driving.getSpeed() + scale*this.driving.getAcceleration()*simuStep/1000;
           speed = min(speed, this.getMaxSpeed());
           speed = max(speed, 0);
           this.getDriving().setSpeed(speed);
       }
       
       public void updatePosition(int simuStep){
+          float scale =0.50f;
           if(this.driving.getSpeed() != 0){
                 VehiclePosition position = this.getDriving().getPosition() ;
-                System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
-                float distance = position.getOffset() + this.driving.getSpeed()*(float)simuStep/1000f;
+                //System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
+                float distance = position.getOffset() + scale*this.driving.getSpeed()*(float)simuStep/1000f;
                 
                 //check whether we reach the end of the current section
                 float laneLength = position.getLane().getSection().getLength();
@@ -198,7 +200,7 @@ public class Vehicle {
                     else{
                         int indice = new Random().nextInt(previousLane.getNextLanes().size());
                         Lane nextLane = previousLane.getNextLanes().get(indice).getTargetLane(); 
-                        System.err.println("indice = "+indice);
+                        //System.err.println("indice = "+indice);
                         // remove the vehicle from the previous lane
                         previousLane.getVehicles().remove(this) ;
                         

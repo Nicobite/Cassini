@@ -87,7 +87,7 @@ public class Section {
         this.targetNode = to;
         //gSection.setSourceNode(new GraphicNode(sourceNode));
         //gSection.setTargetNode(new GraphicNode(targetNode));
-        this.length = computeLength(from, to);
+        this.length = computeLength(from, to)*8;
         successors = new ArrayList<>();
     }
     
@@ -210,7 +210,7 @@ public class Section {
         
         double radiusEarth = 6371; // km
         double distance = radiusEarth * c;
-        return (float)distance*1000*10;
+        return (float)distance*1000;
     }
     
     @Override

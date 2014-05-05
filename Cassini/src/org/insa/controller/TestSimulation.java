@@ -24,30 +24,31 @@ import org.insa.xml.XmlParser;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class TestSimulation
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas
+ * Thiebaud Class TestSimulation
  */
 public class TestSimulation {
-    public static void main(String args[]){
-     
+
+    public static void main(String args[]) {
+
         try {
-            SimulationController ctrl = new SimulationController(1000);
+            SimulationController ctrl = new SimulationController(500, true);
             ctrl.setModel(loadModel());
             ctrl.start();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(TestSimulation.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
-    public static Model loadModel() throws Exception{
+
+    public static Model loadModel() throws Exception {
         Model model = new Model();
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter the name (without extension) of osm file : ");
-        String pathMap = "data/osm/"+sc.nextLine()+".osm";
+        String pathMap = "data/osm/" + sc.nextLine() + ".osm";
         System.out.print("Enter the name (without extension) of vehicle xml file : ");
-        String pathVhc = "data/vehicles/"+sc.nextLine()+".vhc.xml";
+        String pathVhc = "data/vehicles/" + sc.nextLine() + ".vhc.xml";
         try {
             model.setVehiclesModel((new XmlParser()).readVehiclesData(new File(pathVhc)));
             model.setRoadModel((new XmlParser()).readOsmData(new File(pathMap)));
