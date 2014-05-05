@@ -280,3 +280,10 @@
     -fx-border-width : 0 0 0 4;
     -fx-border-color : transparent transparent transparent orange;
 }
+
+.dock {
+    -fx-background-color:  #FFFFFF;
+    -fx-border-color : #E2E5E6;
+    -fx-padding: 0;
+    -fx-border-width: 1 0 0 1;
+}

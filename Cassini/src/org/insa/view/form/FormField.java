@@ -22,9 +22,6 @@ import javafx.scene.control.Control;
  * @author Thomas Thiebaud
  */
 public class FormField {
-    
-    private final int CONTROL_WIDTH = 300;
-    
     protected String legend = "";
     protected Control control = null;
     
@@ -34,9 +31,21 @@ public class FormField {
      * @param control Field (user input)
      */
     public FormField(String legend, Control control) {
+        this(legend,control,300);
         this.legend = legend;
         this.control = control;
-        control.setMinWidth(CONTROL_WIDTH);
+    }
+    
+    /**
+     * Constructor
+     * @param legend Field text description
+     * @param control Field (user input)
+     * @param controlWidth Control width
+     */
+    public FormField(String legend, Control control, int controlWidth) {
+        this.legend = legend;
+        this.control = control;
+        control.setMinWidth(controlWidth);
     }
     
     /**

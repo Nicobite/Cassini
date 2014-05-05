@@ -248,7 +248,8 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                drawingPanel = new DrawingPanel(1450,850);
+                                //if(drawingPanel == null)
+                                    drawingPanel = new DrawingPanel(1450,850);
                                 mapPanel.setCenter(drawingPanel);
                             }
                         });
@@ -267,7 +268,8 @@ public class MainController {
      * Display map editor in order to create a map
      */
     public void performDisplayMapEditor() {
-        mainPanel.setCenter(new EditorPanel(1450,850));
+        drawingPanel = new DrawingPanel(1450,850);
+        mainPanel.setCenter(new EditorPanel(drawingPanel));
     }
     
     /**

@@ -15,18 +15,41 @@
 */
 package org.insa.view.panel;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
+import org.insa.view.dock.DefaultDock;
+import org.insa.view.dock.ResizeMapDock;
+import org.insa.view.menu.EditorToolBar;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class EditorPanel extends BorderPane {       
-    public EditorPanel(int width, int height) {
-        /*
-        this.setTop(new EditorMenu());
-        this.setCenter(new EditorArea());
-        this.setRight(new EditorDock())
-        */
+public class EditorPanel extends BorderPane {   
+    
+    protected EditorArea editorArea;
+    
+    /**
+     * Constructor
+     * @param drawingPanel Reference to drawing panel
+     */
+    public EditorPanel(DrawingPanel drawingPanel) {   
+        this.editorArea = new EditorArea(drawingPanel);
+        
+        editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                 editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+            }
+
+        });
+        
+        this.setTop(new EditorToolBar());
+        this.setCenter(editorArea);
+        this.setRight(new ResizeMapDock());
+        
     }
 }

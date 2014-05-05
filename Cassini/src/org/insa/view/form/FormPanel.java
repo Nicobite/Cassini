@@ -57,4 +57,6 @@ public abstract class FormPanel extends GridPane implements SubmitFormListener{
     public void setInformationText(String information) {
         informationLabel.setText(information);
     }
+    
+    
 }

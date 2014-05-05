@@ -40,6 +40,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     
     protected RoadDrawingPanel roadDrawingPanel;
     protected VehicleDrawingPanel vehicleDrawingPanel;
+    protected EditorArea editorArea;
     
     protected float initialMinLong = 0;
     protected float initialMaxLong = 0;
@@ -98,7 +99,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
             }
 
         });
-        
+
         this.getChildren().add(roadDrawingPanel);
         this.getChildren().add(vehicleDrawingPanel);
         
