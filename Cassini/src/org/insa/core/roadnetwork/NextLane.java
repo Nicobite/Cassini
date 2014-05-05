@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,21 +24,21 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class Transition
- * models movement possibility from current lane
- * section1         section2
- * --------------+------------
- * L1            +   L4        
- * --------------+------------
- *               +
- * L2            +   L5
- *               +
- * --------------+------------
- * L3            +   L6
- * --------------+------------
- * 
- * Transistions of L2 : L2->L1 (go to left lane)
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
+ Class NextLane
+ models movement possibility from current lane
+ section1         section2
+ --------------+------------
+ L1            +   L4        
+ --------------+------------
+               +
+ L2            +   L5
+               +
+ --------------+------------
+ L3            +   L6
+ --------------+------------
+ 
+ Transistions of L2 : L2->L1 (go to left lane)
  *                      L2->L3 (go to right lane)
  *                      L2->L5 (go straight)
  * 
@@ -46,7 +46,7 @@ import org.simpleframework.xml.Root;
  * See http://simple.sourceforge.net/ for further details.
  */
 @Root
-public class Transition {
+public class NextLane {
     /**
      * target lane
      * This is a lane accessible from current lane
@@ -72,7 +72,7 @@ public class Transition {
     @Attribute
     private TrafficSignaling signal;
     
-    public Transition(){
+    public NextLane(){
         super();
     }
 

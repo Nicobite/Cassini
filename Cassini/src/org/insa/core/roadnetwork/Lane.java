@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Lane
  * A lane is a container of vehicles and is located inside a section.
  * Uses Simple framework for xml serialization.
@@ -55,13 +55,13 @@ public class Lane {
      * i.e All lanes visibles from current lane
      */
     @ElementList(required = false)
-    private ArrayList<Transition> transitions;
+    private ArrayList<NextLane> nextLanes;
     
     
     public Lane() {
         gLane = new GraphicLane(this);
         this.vehicles = new ArrayList<>();
-        this.transitions = new ArrayList<>();
+        this.nextLanes = new ArrayList<>();
     }
 
     public Section getSection() {
@@ -72,22 +72,22 @@ public class Lane {
         this.section = section;
     }
     
-    public ArrayList<Transition>  getTransitions() {
-        return transitions;
+    public ArrayList<NextLane>  getNextLanes() {
+        return nextLanes;
     }
 
-    public void setTransition(ArrayList<Transition> transitions) {
-        this.transitions = transitions;
+    public void setTransition(ArrayList<NextLane> transitions) {
+        this.nextLanes = transitions;
     }
     
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
-    public void addTransition(Transition t){
-        this.transitions.add(t);
+    public void addTransition(NextLane t){
+        this.nextLanes.add(t);
     }
-    public void removeTransition(Transition t){
-        this.transitions.remove(t);
+    public void removeTransition(NextLane t){
+        this.nextLanes.remove(t);
     }
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
@@ -110,7 +110,7 @@ public class Lane {
         return direction;
     }
     public boolean hasTransition(){
-        return this.getTransitions().size()>0;
+        return this.getNextLanes().size()>0;
     }
 
     @Override

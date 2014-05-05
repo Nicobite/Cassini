@@ -1,6 +1,6 @@
 
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 */
 package org.insa.core.roadnetwork;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.enums.Direction;
 import org.insa.view.graphicmodel.GraphicLane;
@@ -26,7 +27,7 @@ import org.simpleframework.xml.core.Commit;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Section
  * road section as represented below
  *
@@ -68,6 +69,13 @@ public class Section {
     @Element(required = false)
     private float maxSpeed;
     
+      /**
+     * the next sections that can be rached from the current one 
+     */
+    private ArrayList<Section> successors; 
+    
+    private Road road;
+    
     /**
      *
      * @param from
@@ -80,6 +88,7 @@ public class Section {
         //gSection.setSourceNode(new GraphicNode(sourceNode));
         //gSection.setTargetNode(new GraphicNode(targetNode));
         this.length = computeLength(from, to);
+        successors = new ArrayList<>();
     }
     
     public Section() {
@@ -126,7 +135,7 @@ public class Section {
     }
     
     /**
-     * add a nomber of forward lanes to this section \n
+     * add a given number of forward and backward lanes to this section \n
      * uses precedingSection to add connections between lanes
      * @param nbLanes
      * @param dir 
@@ -141,39 +150,35 @@ public class Section {
             if(dir == Direction.FORWARD){
                 gSection.getForwardLanes().add(lane.getGraphicLane());
                 if(precedingSection!=null)
-                    addConnectionFwd(precedingSection, this);
+                    addConnections(precedingSection.getGraphicSection().getForwardLanes(),
+                            this.gSection.getForwardLanes());
             }
             else{
                 gSection.getBackwardLanes().add(lane.getGraphicLane());
                 if(precedingSection!=null)
-                    addConnectionBwd(this, precedingSection);
+                    addConnections(this.gSection.getBackwardLanes(),
+                            precedingSection.getGraphicSection().getBackwardLanes());
             }
         }
         this.lane = lane;
     }
     
-    private void addConnectionFwd(Section from, Section to){
-        int nb1 = from.getGraphicSection().getForwardLanes().size(), nb2 = to.getGraphicSection().getForwardLanes().size();
+    /**
+     * Add connection(link) between lanes
+     * @param from origin 
+     * @param to target
+     */
+    public void addConnections(ArrayList<GraphicLane> from, ArrayList<GraphicLane>to){
+        int nb1 = from.size(), nb2 = to.size();
         int indice;
-        Transition transition;
-        for(int i=0; i<nb1; i++){
-          indice = i<nb2 ? i : nb2-1;
-          transition = new Transition();
-          transition.setTargetLane(to.getGraphicSection().getForwardLanes().get(indice).getLane());
-          from.getGraphicSection().getForwardLanes().get(i).getLane().addTransition(transition);
-        }
-    }
-    
-      private void addConnectionBwd(Section from, Section to){
-        int nb1 = from.getGraphicSection().getBackwardLanes().size(), nb2 = to.getGraphicSection().getBackwardLanes().size();
-        int indice;
-        Transition transition;
-        for(int i=0; i<nb1; i++){
-          indice = i<nb2 ? i : nb2-1;
-          transition = new Transition();
-          transition.setTargetLane(to.getGraphicSection().getBackwardLanes().get(indice).getLane());
-          from.getGraphicSection().getBackwardLanes().get(i).getLane().addTransition(transition);
-        }
+        NextLane nextLane;
+        if(nb1>0 && nb2>0)
+            for(int i=0; i<nb1; i++){
+              indice = i<nb2 ? i : nb2-1;
+              nextLane = new NextLane();
+              nextLane.setTargetLane(to.get(indice).getLane());
+              from.get(i).getLane().addTransition(nextLane);
+            }
     }
     /**
      * called when deserializing this object
@@ -230,6 +235,21 @@ public class Section {
         }
         return true;
     }
+       
+    /**
+     * Add a section to the successor list
+     * @param succ 
+     */
+    public void addSuccessor(Section succ){
+        this.successors.add(succ);
+    }
+    /**
+     * Remove a section form the successor list
+     * @param succ 
+     */
+    public void removeSuccessor(Section succ){
+        this.successors.remove(succ);
+    }
     
     public GraphicSection getGraphicSection() {
         return gSection;
@@ -242,4 +262,18 @@ public class Section {
     public Lane getLane() {
         return lane;
     }
+
+    public ArrayList<Section> getSuccessors() {
+        return successors;
+    }
+
+    public Road getRoad() {
+        return road;
+    }
+
+    public void setRoad(Road road) {
+        this.road = road;
+    }
+    
+    
 }

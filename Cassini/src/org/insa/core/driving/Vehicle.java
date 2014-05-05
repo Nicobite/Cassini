@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 */
 package org.insa.core.driving;
 
+import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
 import org.insa.core.roadnetwork.Lane;
@@ -24,7 +25,7 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Vehicle
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
@@ -195,7 +196,9 @@ public class Vehicle {
                         this.driving.setDecision(Decision.OFF); 
                     }
                     else{
-                        Lane nextLane = previousLane.getTransitions().get(0).getTargetLane() ; 
+                        int indice = new Random().nextInt(previousLane.getNextLanes().size());
+                        Lane nextLane = previousLane.getNextLanes().get(indice).getTargetLane(); 
+                        System.err.println("indice = "+indice);
                         // remove the vehicle from the previous lane
                         previousLane.getVehicles().remove(this) ;
                         

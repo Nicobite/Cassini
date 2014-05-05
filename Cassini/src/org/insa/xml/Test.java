@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,14 @@ package org.insa.xml;
 import java.io.File;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.Road;
+import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui &
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &
  * Thomas Thiebaud Class Test
  */
 public class Test {
@@ -35,18 +36,8 @@ public class Test {
            RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
            //parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
          for(Road r : map.getRoads()){
-             if(r.getType()== RoadType.ROUNDABOUT){
-                 System.out.println("road n° "+r.getId()+"\n");
-                 for(GraphicSection sect : r.getGraphicRoad().getSections()){
-      
-                     for(GraphicLane l : sect.getForwardLanes()){
-                        System.out.println(l.getLane().getDirection()); 
-                     }
-          
-                     for(GraphicLane l : sect.getBackwardLanes()){
-                        System.out.println(l.getLane().getDirection()); 
-                     }
-                 }
+             for(GraphicSection s : r.getGraphicRoad().getSections()){
+                 System.out.println("route "+r.getId()+" nb "+s.getSection().getSuccessors().size());
              }
          }
 

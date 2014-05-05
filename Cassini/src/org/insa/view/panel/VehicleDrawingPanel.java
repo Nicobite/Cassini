@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ public class VehicleDrawingPanel extends Pane {
      * Paint vehicles into panel
      */
     public void paint() {
-        vehicles = MainController.getInstance().getModel().getVehiclesModel();
+        vehicles = MainController.getInstance().getModel().getDrivingVehiclesModel();
         for(Vehicle v : vehicles.getVehicles()) {
             if(v.getDriving().getPosition() != null) {
                 double point[] = this.getPoint(v.getDriving().getPosition().getLane().getGraphicLane(), v.getDriving().getPosition().getOffset());

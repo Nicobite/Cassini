@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,10 +22,11 @@ import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.model.Model;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class SimulationTask
  * Execute simulation logic
  */
@@ -75,7 +76,8 @@ public class SimulationTask extends TimerTask {
             Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
             veh.getDriving().setDecision(Decision.ACCELERATE);
             //first lane of first section of first road of the road network
-            Lane lane = model.getRoadModel().getRoads().get(0).getGraphicRoad().getSections().get(0).getForwardLanes().get(0).getLane();
+            GraphicSection sect = model.getRoadModel().getRoads().get(0).getGraphicRoad().getSections().get(0);
+            Lane lane = sect.getForwardLanes().get(sect.getForwardLanes().size()-1).getLane();
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
             System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());

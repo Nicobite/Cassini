@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,14 +17,16 @@ package org.insa.core.roadnetwork;
 
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
+import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.graphicmodel.GraphicRoad;
+import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Road
  * represent a road way.
  * Uses Simple framework for xml serialization.
@@ -44,57 +46,102 @@ public class Road {
     @Attribute(required = false)
     private long id;
     
+    /**
+     * whether this lane is one-way
+     */
+    private boolean oneway;
     public Road() {
         gRoad = new GraphicRoad(this);
     }
-    
-    /*
-    * getters ans setters
-    */
+    /**
+     * Get the first section of the road
+     * @return
+     */
     public Section getFirstSection() {
         return gRoad.getFirstSection();
     }
-    
-    
+    /**
+     * Get the last section of the road
+     * @return
+     */
     public Section getLastSection() {
         Section sect = null;
         if(gRoad.getSections().size()>0)
-             sect = gRoad.getSections().get(gRoad.getSections().size()-1).getSection();
+            sect = gRoad.getSections().get(gRoad.getSections().size()-1).getSection();
         return sect;
     }
+    /**
+     * Get the section of this road where this node is a source node
+     * @param source
+     * @return the section ;
+     */
+    public Section findSectionBySourceNode(Node source){
+        Section result = null;
+        for(GraphicSection sect : this.gRoad.getSections()){
+            if(sect.getSourceNode().getNode().getId() == source.getId()){
+                result = sect.getSection();
+            }
+        }
+        return result;
+    }
+    /**
+     * Get the section of this road where this node is a target node
+     * @param target
+     * @return the section ;
+     */
+    public Section findSectionByTargetNode(Node target){
+        Section result = null;
+        for(GraphicSection sect : this.gRoad.getSections()){
+            if(sect.getTargetNode().getNode().getId() == target.getId()){
+                result = sect.getSection();
+            }
+        }
+        return result;
+    }
+    
+    /* getters ans setters*/
     
     public void addSection(Section s){
         gRoad.addSection(s);
+        s.setRoad(this);
     }
     public void removeSection(Section s){
         gRoad.removeSection(s);
     }
-
+    
     public RoadType getType() {
         return type;
     }
-
+    
     public void setType(RoadType type) {
         this.type = type;
     }
-
+    
     public long getId() {
         return id;
     }
-
+    
     public void setId(long id) {
         this.id = id;
     }
-    
-    public GraphicRoad getGraphicRoad() {
-        return gRoad; 
+
+    public boolean isOneway() {
+        return oneway;
+    }
+
+    public void setOneway(boolean oneway) {
+        this.oneway = oneway;
     }
     
+    
+    public GraphicRoad getGraphicRoad() {
+        return gRoad;
+    }
     @Override
     public String toString(){
         return gRoad.toString();
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -109,4 +156,5 @@ public class Road {
         }
         return true;
     }
+    
 }
