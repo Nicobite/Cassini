@@ -117,6 +117,31 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     	return rayon_terre*Math.acos(Math.sin(Math.toRadians(lat1))*Math.sin(Math.toRadians(lat2))+Math.cos(Math.toRadians(lat1))*Math.cos(Math.toRadians(lat2))*Math.cos(Math.toRadians(long2-long1)));
     }
     
+    /**
+     * Get the intersecion point of two lines
+     * @param x1 first line x cordinate of source point
+     * @param y1 first line y cordinate of source point 
+     * @param x2 first line x cordinate of target point
+     * @param y2 first line y cordinate of target point
+     * @param x3 second line x cordinate of source point
+     * @param y3 second line y cordinate of source point
+     * @param x4 second line x cordinate of target point
+     * @param y4 second line y cordinate of target point
+     * @return Intersection point of two lines
+     */
+    public GraphicPoint intersection(double x1,double y1,double x2,double y2,double x3, double y3, double x4,double y4) {
+        double d = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4);
+        if (d == 0)
+            return null;
+        
+        double xi = ((x3-x4)*(x1*y2-y1*x2)-(x1-x2)*(x3*y4-y3*x4))/d;
+        double yi = ((y3-y4)*(x1*y2-y1*x2)-(y1-y2)*(x3*y4-y3*x4))/d;
+        
+        GraphicPoint p = new GraphicPoint(xi,yi);
+        
+        return p;
+    }
+    
     @Override
     public void handle(MouseEvent t) {
         
@@ -257,19 +282,6 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
                 roadDrawingPanel.repaint();
             }
         });
-    }
-    
-    public GraphicPoint intersection(double x1,double y1,double x2,double y2,double x3, double y3, double x4,double y4) {
-        double d = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4);
-        if (d == 0)
-            return null;
-        
-        double xi = ((x3-x4)*(x1*y2-y1*x2)-(x1-x2)*(x3*y4-y3*x4))/d;
-        double yi = ((y3-y4)*(x1*y2-y1*x2)-(y1-y2)*(x3*y4-y3*x4))/d;
-        
-        GraphicPoint p = new GraphicPoint(xi,yi);
-        
-        return p;
     }
 }
 

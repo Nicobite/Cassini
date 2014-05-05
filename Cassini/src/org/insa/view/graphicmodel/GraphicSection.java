@@ -31,8 +31,11 @@ import org.simpleframework.xml.ElementList;
  */
 public class GraphicSection extends Polygon {
     protected Section section;
-    protected double deltaX;
-    protected double deltaY;
+    
+    protected double sourceDeltaX;
+    protected double sourceDeltaY;
+    protected double targetDeltaX;
+    protected double targetDeltaY;
     
     @ElementList
     protected ArrayList<Double> longLatPoints = new ArrayList<>();
@@ -113,19 +116,35 @@ public class GraphicSection extends Polygon {
     }
     
     /**
-     * Get delta x or delta longitude
-     * @return delta x or delta longitude
+     * Get source delta x
+     * @return Source delta x
      */
-    public double getDeltaX() {
-        return deltaX;
+    public double getSourceDeltaX() {
+        return sourceDeltaX;
     }
 
     /**
-     * Get delta y or delta latitude
-     * @return delta y or delta latitude
+     * Get source delta y
+     * @return Source delta y
      */
-    public double getDeltaY() {
-        return deltaY;
+    public double getSourceDeltaY() {
+        return sourceDeltaY;
+    }
+
+    /**
+     * Get target delta x
+     * @return 
+     */
+    public double getTargetDeltaX() {
+        return targetDeltaX;
+    }
+
+    /**
+     * Get target delta y
+     * @return Target delta y
+     */
+    public double getTargetDeltaY() {
+        return targetDeltaY;
     }
     
     /**
@@ -175,21 +194,37 @@ public class GraphicSection extends Polygon {
     public void setBackwardLanes(ArrayList<GraphicLane> backwardLanes) {
         this.backwardLanes = backwardLanes;
     }
-    
+   
     /**
-     * Set delta x or delta longitude
-     * @param deltaX new delta x or delta longitude
+     * Set source delta x
+     * @param sourceDeltaX New source delta x 
      */
-    public void setDeltaX(double deltaX) {
-        this.deltaX = deltaX;
+    public void setSourceDeltaX(double sourceDeltaX) {
+        this.sourceDeltaX = sourceDeltaX;
     }
 
     /**
-     * Set delta y or delta latitude
-     * @param deltaY new delta y or delta latitude
+     * Set source delta y
+     * @param sourceDeltaY New source delta y 
      */
-    public void setDeltaY(double deltaY) {
-        this.deltaY = deltaY;
+    public void setSourceDeltaY(double sourceDeltaY) {
+        this.sourceDeltaY = sourceDeltaY;
+    }
+
+    /**
+     * Set target delta x
+     * @param targetDeltaX New source delta x 
+     */
+    public void setTargetDeltaX(double targetDeltaX) {
+        this.targetDeltaX = targetDeltaX;
+    }
+
+    /**
+     * Set target delta y
+     * @param targetDeltaY New source delta y
+     */
+    public void setTargetDeltaY(double targetDeltaY) {
+        this.targetDeltaY = targetDeltaY;
     }
     
     /**
@@ -218,5 +253,5 @@ public class GraphicSection extends Polygon {
             return false;
         }
         return true;
-    }
+    }    
 }
