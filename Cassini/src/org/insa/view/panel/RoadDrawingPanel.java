@@ -24,6 +24,7 @@ import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicPoint;
+import org.insa.view.graphicmodel.GraphicRoad;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
@@ -34,6 +35,15 @@ public class RoadDrawingPanel extends Pane {
     
     private final DrawingPanel drawingPanel;
     private final RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    
+    private double forwardPreviousX = 0;
+    private double forwardPreviousY = 0;
+    private double forwardCurrentX = 0;
+    private double forwardCurrentY = 0;
+    private double backwardPreviousX = 0;
+    private double backwardPreviousY = 0;
+    private double backwardCurrentX = 0;
+    private double backwardCurrentY = 0;
 
     /**
      * Constructor
@@ -79,7 +89,81 @@ public class RoadDrawingPanel extends Pane {
             }
         }
     }
-    
+    /*
+    public void drawRoad(GraphicRoad road) {
+       
+        for(int i=0; i<road.getSections().size(); i++) {
+            GraphicSection currentSection = null;
+            GraphicSection nextSection = null;
+            
+            currentSection = road.getSections().get(i);
+            if(i<road.getSections().size()-1)
+                nextSection = road.getSections().get(i+1);
+            
+            int forwardRoadWidth = currentSection.getForwardLanes().size();
+            int backwardRoadWidth = currentSection.getForwardLanes().size();
+            
+            double currentX1 = drawingPanel.longToX(currentSection.getSourceNode().getLongitude()) ;
+            double currentX2 = drawingPanel.longToX(currentSection.getTargetNode().getLongitude()) ;
+            double currentY1 = drawingPanel.latToY(currentSection.getSourceNode().getLatitude()) ;
+            double currentY2 = drawingPanel.latToY(currentSection.getTargetNode().getLatitude()) ;
+            
+            double currentAngle = drawingPanel.angle(currentX1, currentY1, currentX2, currentY2);
+            double currentDeltaX =  this.getDeltaX(currentAngle, drawingPanel.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
+            double currentDeltaY =  this.getDeltaY(currentAngle, drawingPanel.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
+            
+            
+            if(road.getSections().size() == 1) {
+                currentSection.setDeltaX(drawingPanel.xToLong(currentX1 + currentDeltaX) - drawingPanel.xToLong(currentX1));
+                currentSection.setDeltaY(drawingPanel.yToLat(currentY1 + currentDeltaY) - drawingPanel.yToLat(currentY1));
+                
+                forwardPreviousX = 0;
+                forwardPreviousY = 0;
+                forwardCurrentX = 0;
+                forwardCurrentY = 0;
+                return;
+            }
+            
+            if(nextSection != null) {
+                double nextX1 = drawingPanel.longToX(nextSection.getSourceNode().getLongitude()) ;
+                double nextX2 = drawingPanel.longToX(nextSection.getTargetNode().getLongitude()) ;
+                double nextY1 = drawingPanel.latToY(nextSection.getSourceNode().getLatitude()) ;
+                double nextY2 = drawingPanel.latToY(nextSection.getTargetNode().getLatitude()) ;
+                
+                double nextAngle = drawingPanel.angle(nextX1, nextY1, nextX2, nextY2);
+                double nextDeltaX =  this.getDeltaX(nextAngle, drawingPanel.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
+                double nextDeltaY =  this.getDeltaY(nextAngle, drawingPanel.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
+                
+                if(forwardPreviousX == 0 && forwardPreviousY == 0) {
+                    forwardPreviousX = currentX1 + currentDeltaX;
+                    forwardPreviousY = currentY1 + currentDeltaY;
+                }
+                
+                GraphicPoint p = drawingPanel.intersection(currentX1 + currentDeltaX, currentY1 + currentDeltaY, currentX2 + currentDeltaX, currentY2 + currentDeltaY, nextX1 + nextDeltaX, nextY1 + nextDeltaY, nextX2 + nextDeltaX, nextY2 + nextDeltaY);
+                if(p != null) {
+                    forwardCurrentX = p.getX();
+                    forwardCurrentY = p.getY();
+                } else {
+                    forwardCurrentX = currentX1 + currentDeltaX;
+                    forwardCurrentY = currentY1 + currentDeltaY;
+                }
+            } else {
+                forwardCurrentX = currentX2 + currentDeltaX;
+                forwardCurrentY = currentY2 + currentDeltaY;
+            }
+            
+            this.drawPolygon(currentX1, currentY1, currentX2, currentY2, (int)forwardCurrentX, (int)forwardCurrentY, (int)forwardPreviousX, (int)forwardPreviousY);
+            
+            forwardPreviousX = forwardCurrentX;
+            forwardPreviousY = forwardCurrentY;
+        }
+        
+        forwardPreviousX = 0;
+        forwardPreviousY = 0;
+        forwardCurrentX = 0;
+        forwardCurrentY = 0;
+    }
+    */
     /**
      * Get graphic lane points
      * @param section

@@ -31,6 +31,7 @@ public class NavigationToolBar extends CustomToolBar {
      */
     public NavigationToolBar() {
         super(Orientation.VERTICAL, "navigation-menu");
+        this.addCssClass("left-tool-bar");
         this.add(new ToolBarToggleButton("draw",this,"navigation-element"));
         this.add(new ToolBarToggleButton("map",this,"navigation-element"));
         this.add(new ToolBarToggleButton("car",this,"navigation-element"));

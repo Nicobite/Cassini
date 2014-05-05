@@ -15,6 +15,7 @@
  */
 package org.insa.view.menu;
 
+import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
 import org.insa.view.menuelement.ToolBarButton;
@@ -29,6 +30,7 @@ public class VehicleToolBar extends CustomToolBar {
      * Default constructor
      */
     public VehicleToolBar() {
+        super(Orientation.HORIZONTAL, "top-tool-bar");
         this.add(new ToolBarButton("reset","Reset",this));
         this.add(new ToolBarButton("open","Open", this));
         this.add(new ToolBarButton("save","Save", this));

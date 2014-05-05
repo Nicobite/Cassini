@@ -17,37 +17,6 @@
     Author     : Thomas Thiebaud
 */
 
-
-
-/*******************************************************************************
- *                                                                             *
- * Navigation menu                                                             *
- *                                                                             *
- ******************************************************************************/
-
-.navigation-menu {
-    -fx-background-color : #272A2D;
-    -fx-border-width : 0 1 0 0;
-    -fx-border-color: transparent #272A2D transparent  transparent;
-    -fx-padding: 0;
-}
-
-.navigation-element {
-    -fx-background-color : transparent;
-    -fx-background-radius : 0px;
-    -fx-background-insets : 0px;
-    -fx-border-width : 0px;
-    -fx-border-color : transparent;
-    -fx-border-radius : 0px;
-    -fx-padding: 5 5 5 5;
-}
-
-.navigation-element:selected {
-    -fx-background-color : #1B1D1F;
-    -fx-border-width : 0 0 0 4;
-    -fx-border-color : transparent transparent transparent orange;
-}
-
 /*******************************************************************************
  *                                                                             *
  * ScrollPane                                                                  *
@@ -240,22 +209,6 @@
     -fx-padding:-7;
 }
 
-.tool-bar-button {
-    -fx-background-color : transparent;
-    -fx-background-radius : 0px;
-    -fx-background-insets : 0px;
-    -fx-border-width : 0px;
-    -fx-border-color : transparent;
-    -fx-border-radius : 0px;
-    -fx-padding: 5 5 5 5;
-}
-
-.tool-bar-button:selected {
-    -fx-background-color : #1B1D1F;
-    -fx-border-width : 0 0 0 4;
-    -fx-border-color : transparent transparent transparent orange;
-}
-
 /*******************************************************************************
  *                                                                             *
  * Tool bar                                                                    *
@@ -279,7 +232,7 @@
     -fx-border-width: 1 0 0 0;
 }
 
-.right-tool-bar {
+.left-tool-bar {
     -fx-border-width: 0 1 0 0;
 }
 
@@ -297,4 +250,33 @@
     -fx-background-color : #EFEFEF ;
     -fx-border-width : 1 0 0 0;
     -fx-border-color : #B6B6B6 transparent transparent transparent; 
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Navigation menu                                                             *
+ *                                                                             *
+ ******************************************************************************/
+
+.navigation-menu {
+    -fx-background-color : #272A2D;
+    -fx-border-width : 0 1 0 0;
+    -fx-border-color: transparent #272A2D transparent  transparent;
+    -fx-padding: 0;
+}
+
+.navigation-element {
+    -fx-background-color : transparent;
+    -fx-background-radius : 0px;
+    -fx-background-insets : 0px;
+    -fx-border-width : 0px;
+    -fx-border-color : transparent;
+    -fx-border-radius : 0px;
+    -fx-padding: 5 5 5 5;
+}
+
+.navigation-element:selected {
+    -fx-background-color : #1B1D1F;
+    -fx-border-width : 0 0 0 4;
+    -fx-border-color : transparent transparent transparent orange;
 }

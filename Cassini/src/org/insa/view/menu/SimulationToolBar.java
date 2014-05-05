@@ -15,6 +15,7 @@
  */
 package org.insa.view.menu;
 
+import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
 import org.insa.view.menuelement.ToolBarToggleButton;
@@ -29,6 +30,7 @@ public class SimulationToolBar extends CustomToolBar {
      * Default constructor
      */
     public SimulationToolBar() {
+        super(Orientation.HORIZONTAL, "bottom-tool-bar");
         this.add(new ToolBarToggleButton("backward",this));
         this.add(new ToolBarToggleButton("play",this));
         this.add(new ToolBarToggleButton("pause",this));

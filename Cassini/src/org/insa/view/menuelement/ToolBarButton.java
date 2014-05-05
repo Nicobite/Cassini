@@ -47,7 +47,7 @@ public class ToolBarButton extends Button {
         this.setMinWidth(50);
         this.setMinHeight(50);
         this.setOnMouseClicked(toolBar);
-        this.getStyleClass().clear();
+        //this.getStyleClass().clear();
         this.getStyleClass().add("tool-bar-button");
     }
     

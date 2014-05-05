@@ -57,8 +57,11 @@ public abstract class CustomToolBar extends ToolBar implements EventHandler<Mous
      * @param cssClass Css class name
      */
     public CustomToolBar(Orientation orientation, String cssClass) {
-        this(orientation);
-        this.getStyleClass().clear();
+        this(orientation); 
+        this.getStyleClass().add(cssClass);
+    }
+    
+    public void addCssClass(String cssClass) {
         this.getStyleClass().add(cssClass);
     }
     

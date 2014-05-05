@@ -34,7 +34,7 @@ public class ToolBarToggleButton extends ToggleButton {
      * @param name Button string
      * @param toolBar Reference to tool bar
      */
-    public ToolBarToggleButton(String imageName, String name, CustomToolBar toolBar) {
+    public ToolBarToggleButton(String imageName, String name, CustomToolBar toolBar, String cssClass) {
         super(name);
         this.imageName = imageName;
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
@@ -47,8 +47,11 @@ public class ToolBarToggleButton extends ToggleButton {
         this.setMinWidth(50);
         this.setMinHeight(50);
         this.setOnMouseClicked(toolBar);
-        this.getStyleClass().clear();
-        this.getStyleClass().add("tool-bar-button");
+        //this.getStyleClass().clear();
+        if(cssClass.isEmpty())
+            this.getStyleClass().add("tool-bar-button");
+        else 
+            this.getStyleClass().add(cssClass);
     }
     
     /**
@@ -57,7 +60,7 @@ public class ToolBarToggleButton extends ToggleButton {
      * @param toolBar Reference to tool bar
      */
     public ToolBarToggleButton(String imageName, CustomToolBar toolBar) {
-        this(imageName,"",toolBar); 
+        this(imageName,"",toolBar,""); 
     }
     
     /**
@@ -67,9 +70,7 @@ public class ToolBarToggleButton extends ToggleButton {
      * @param cssClass Css class name
      */
     public ToolBarToggleButton(String imageName, CustomToolBar toolBar, String cssClass) {
-        this(imageName,"",toolBar); 
-        this.getStyleClass().clear();
-        this.getStyleClass().add(cssClass);
+        this(imageName,"",toolBar,cssClass); 
     } 
 
     /**
