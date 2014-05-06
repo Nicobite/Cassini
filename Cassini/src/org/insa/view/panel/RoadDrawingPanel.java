@@ -23,6 +23,8 @@ import javafx.scene.shape.Line;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
+import org.insa.view.utils.DrawingUtils;
+import org.insa.view.graphicmodel.GraphicBounds;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicPoint;
 import org.insa.view.graphicmodel.GraphicRoad;
@@ -33,24 +35,23 @@ import org.insa.view.graphicmodel.GraphicSection;
  * @author Thomas Thiebaud
  */
 public class RoadDrawingPanel extends Pane {
-    private final DrawingPanel drawingPanel;
+    private final DrawingUtils drawingUtils;
     private final RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
 
     /**
      * Constructor
      * @param panel Reference to drawing panel
      */
-    public RoadDrawingPanel(DrawingPanel panel) {
-        this.drawingPanel = panel;
-        this.init();
-        this.paint();
+    public RoadDrawingPanel(DrawingUtils drawingUtils) {
+        this.drawingUtils = drawingUtils;
+        drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
     }
     
     /**
      * Initialize by calculting all the graphic lanes
      */
-    private void init() {
-        for(Road r : roads.getRoads()) {
+    public void init() {
+        for(Road r : roads.getRoads()) { 
             this.initSection(r.getGraphicRoad());
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) {                
                 this.initLane(gSection);
@@ -94,42 +95,41 @@ public class RoadDrawingPanel extends Pane {
             if(i<road.getSections().size()-1)
                 nextSection = road.getSections().get(i+1);
             
-            double currentX1 = drawingPanel.longToX(currentSection.getSourceNode().getLongitude()) ;
-            double currentX2 = drawingPanel.longToX(currentSection.getTargetNode().getLongitude()) ;
-            double currentY1 = drawingPanel.latToY(currentSection.getSourceNode().getLatitude()) ;
-            double currentY2 = drawingPanel.latToY(currentSection.getTargetNode().getLatitude()) ;
+            double currentX1 = drawingUtils.longToX(currentSection.getSourceNode().getLongitude()) ;
+            double currentX2 = drawingUtils.longToX(currentSection.getTargetNode().getLongitude()) ;
+            double currentY1 = drawingUtils.latToY(currentSection.getSourceNode().getLatitude()) ;
+            double currentY2 = drawingUtils.latToY(currentSection.getTargetNode().getLatitude()) ;
             
-            double currentAngle = drawingPanel.angle(currentX1, currentY1, currentX2, currentY2);
-            double currentDeltaX =  this.getDeltaX(currentAngle, drawingPanel.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
-            double currentDeltaY =  this.getDeltaY(currentAngle, drawingPanel.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
-            
+            double currentAngle = drawingUtils.angle(currentX1, currentY1, currentX2, currentY2);
+            double currentDeltaX =  this.getDeltaX(currentAngle, drawingUtils.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
+            double currentDeltaY =  this.getDeltaY(currentAngle, drawingUtils.getLaneSize() / 2, currentX1, currentY1, currentX2, currentY2);
             
             if(road.getSections().size() == 1) {
-                currentSection.setSourceDeltaX(drawingPanel.xToLong(currentX1 + currentDeltaX) - drawingPanel.xToLong(currentX1));
-                currentSection.setSourceDeltaY(drawingPanel.yToLat(currentY1 + currentDeltaY) - drawingPanel.yToLat(currentY1));
-                currentSection.setTargetDeltaX(drawingPanel.xToLong(currentX1 + currentDeltaX) - drawingPanel.xToLong(currentX1));
-                currentSection.setTargetDeltaY(drawingPanel.yToLat(currentY1 + currentDeltaY) - drawingPanel.yToLat(currentY1));
+                currentSection.setSourceDeltaX(drawingUtils.xToLong(currentX1 + currentDeltaX) - drawingUtils.xToLong(currentX1));
+                currentSection.setSourceDeltaY(drawingUtils.yToLat(currentY1 + currentDeltaY) - drawingUtils.yToLat(currentY1));
+                currentSection.setTargetDeltaX(drawingUtils.xToLong(currentX1 + currentDeltaX) - drawingUtils.xToLong(currentX1));
+                currentSection.setTargetDeltaY(drawingUtils.yToLat(currentY1 + currentDeltaY) - drawingUtils.yToLat(currentY1));
                 
                 currentSection.setLongLatPoints(getPoints(currentSection));
                 return;
             }
             
             if(nextSection != null) {
-                double nextX1 = drawingPanel.longToX(nextSection.getSourceNode().getLongitude()) ;
-                double nextX2 = drawingPanel.longToX(nextSection.getTargetNode().getLongitude()) ;
-                double nextY1 = drawingPanel.latToY(nextSection.getSourceNode().getLatitude()) ;
-                double nextY2 = drawingPanel.latToY(nextSection.getTargetNode().getLatitude()) ;
+                double nextX1 = drawingUtils.longToX(nextSection.getSourceNode().getLongitude()) ;
+                double nextX2 = drawingUtils.longToX(nextSection.getTargetNode().getLongitude()) ;
+                double nextY1 = drawingUtils.latToY(nextSection.getSourceNode().getLatitude()) ;
+                double nextY2 = drawingUtils.latToY(nextSection.getTargetNode().getLatitude()) ;
                 
-                double nextAngle = drawingPanel.angle(nextX1, nextY1, nextX2, nextY2);
-                double nextDeltaX =  this.getDeltaX(nextAngle, drawingPanel.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
-                double nextDeltaY =  this.getDeltaY(nextAngle, drawingPanel.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
+                double nextAngle = drawingUtils.angle(nextX1, nextY1, nextX2, nextY2);
+                double nextDeltaX =  this.getDeltaX(nextAngle, drawingUtils.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
+                double nextDeltaY =  this.getDeltaY(nextAngle, drawingUtils.getLaneSize() / 2, nextX1, nextY1, nextX2, nextY2);
                 
                 if(sourceX == 0 && sourceY == 0) {
                     sourceX = currentX1 + currentDeltaX;
                     sourceY = currentY1 + currentDeltaY;
                 }
                 
-                GraphicPoint p = drawingPanel.intersection(currentX1 + currentDeltaX, currentY1 + currentDeltaY, currentX2 + currentDeltaX, currentY2 + currentDeltaY, nextX1 + nextDeltaX, nextY1 + nextDeltaY, nextX2 + nextDeltaX, nextY2 + nextDeltaY);
+                GraphicPoint p = drawingUtils.intersection(currentX1 + currentDeltaX, currentY1 + currentDeltaY, currentX2 + currentDeltaX, currentY2 + currentDeltaY, nextX1 + nextDeltaX, nextY1 + nextDeltaY, nextX2 + nextDeltaX, nextY2 + nextDeltaY);
                 if(p != null) {
                     targetX = p.getX();
                     targetY = p.getY();
@@ -142,10 +142,10 @@ public class RoadDrawingPanel extends Pane {
                 targetY = currentY2 + currentDeltaY;
             }
             
-            currentSection.setSourceDeltaX(drawingPanel.xToLong(sourceX) - drawingPanel.xToLong(currentX1));
-            currentSection.setSourceDeltaY(drawingPanel.yToLat(sourceY) - drawingPanel.yToLat(currentY1));
-            currentSection.setTargetDeltaX(drawingPanel.xToLong(targetX) - drawingPanel.xToLong(currentX2));
-            currentSection.setTargetDeltaY(drawingPanel.yToLat(targetY) - drawingPanel.yToLat(currentY2));
+            currentSection.setSourceDeltaX(drawingUtils.xToLong(sourceX) - drawingUtils.xToLong(currentX1));
+            currentSection.setSourceDeltaY(drawingUtils.yToLat(sourceY) - drawingUtils.yToLat(currentY1));
+            currentSection.setTargetDeltaX(drawingUtils.xToLong(targetX) - drawingUtils.xToLong(currentX2));
+            currentSection.setTargetDeltaY(drawingUtils.yToLat(targetY) - drawingUtils.yToLat(currentY2));
             
             currentSection.setLongLatPoints(getPoints(currentSection));
             
@@ -247,9 +247,9 @@ public class RoadDrawingPanel extends Pane {
         section.getPoints().clear();
         for(int j=0; j<section.getLongLatPoints().size(); j++) {
             if(j%2 == 0)
-                res = drawingPanel.longToX(section.getLongLatPoints().get(j));
+                res = drawingUtils.longToX(section.getLongLatPoints().get(j));
             else
-                res = drawingPanel.latToY(section.getLongLatPoints().get(j));
+                res = drawingUtils.latToY(section.getLongLatPoints().get(j));
             section.getPoints().add(res);
         }
     }
@@ -264,12 +264,12 @@ public class RoadDrawingPanel extends Pane {
                 this.getChildren().add(gSection);
                 
                 for(GraphicLane lane : gSection.getForwardLanes()) {
-                    Line line = new Line(drawingPanel.longToX(lane.getSourcePoint().getX()), drawingPanel.latToY(lane.getSourcePoint().getY()), drawingPanel.longToX(lane.getTargetPoint().getX()), drawingPanel.latToY(lane.getTargetPoint().getY()));
+                    Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
                     line.setStroke(Color.WHITE);
                     this.getChildren().add(line);
                 }
                 for(GraphicLane lane : gSection.getBackwardLanes() ) {
-                    Line line = new Line(drawingPanel.longToX(lane.getSourcePoint().getX()), drawingPanel.latToY(lane.getSourcePoint().getY()), drawingPanel.longToX(lane.getTargetPoint().getX()), drawingPanel.latToY(lane.getTargetPoint().getY()));
+                    Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
                     line.setStroke(Color.WHITE);
                     this.getChildren().add(line);
                 }
@@ -283,5 +283,13 @@ public class RoadDrawingPanel extends Pane {
     public void repaint() {
         this.getChildren().clear();
         this.paint();
+    }
+    
+    /**
+     * Get initial bounds
+     * @return Initial bounds
+     */
+    public GraphicBounds getInitialBounds() {
+        return drawingUtils.getInitialBounds();
     }
 }

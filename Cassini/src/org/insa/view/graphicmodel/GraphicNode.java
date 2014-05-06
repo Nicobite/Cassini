@@ -33,15 +33,17 @@ public class GraphicNode {
      * Default constructor
      */
     public GraphicNode() {
-        this.node = null;
+        this.node = new Node(this);
     }
     
     /**
      * Constructor
-     * @param node Refernce to node
+     * @param longitude
+     * @param latitude 
      */
-    public GraphicNode(Node node) {
-        this.node = node;
+    public GraphicNode(float longitude, float latitude) {
+        this.node = new Node(this);
+        point = new GraphicPoint(longitude, latitude);
     }
 
     /**
@@ -67,6 +69,14 @@ public class GraphicNode {
     public double getLatitude() {
         return point.getY();
     }
+    
+    /**
+     * Get node
+     * @return Node
+     */
+    public Node getNode() {
+        return node;
+    }
 
     /**
      * Set point
@@ -80,11 +90,6 @@ public class GraphicNode {
     public String toString() {
         return "GraphicNode{" + "point=" + point + '}';
     }
-
-    public Node getNode() {
-        return node;
-    }
-    
     
     @Override
     public boolean equals(Object obj) {

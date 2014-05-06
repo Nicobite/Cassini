@@ -15,21 +15,20 @@
  */
 package org.insa.view.panel;
 
-import javafx.scene.layout.Pane;
+import org.insa.view.utils.DrawingUtils;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class EditorArea extends Pane {
-        
-    protected DrawingPanel drawingPanel;
-    
+public class EditorArea extends RoadDrawingPanel {
     /**
      * Constructor
-     * @param drawingPanel Reference to drawing panel 
+     * @param drawingUtils Reference to drawing utils 
      */
-    public EditorArea(DrawingPanel drawingPanel) {
-        this.drawingPanel = drawingPanel;
+    public EditorArea(DrawingUtils drawingUtils) {
+        super(drawingUtils);
+        this.init();
+        this.paint();
     }
 }

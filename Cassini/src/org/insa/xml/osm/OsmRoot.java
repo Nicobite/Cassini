@@ -16,10 +16,8 @@
 package org.insa.xml.osm;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
@@ -120,7 +118,7 @@ public class OsmRoot {
                 others = new ArrayList<>(osmNode.getRoads());
                 others.remove(road);
                 if(others.size()>0)
-                 connectRoads(osmNode.createNode(), road, others);
+                    connectRoads(osmNode.createNode().getNode(), road, others);
             }
             
         }
@@ -141,15 +139,15 @@ public class OsmRoot {
             if(otherSource != null){
                 if(target!=null){
                     //add connections between lanes
-                    target.addConnections(target.getGraphicSection().getForwardLanes(),
+                    target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    target.addSuccessor(new NextSection(otherSource));
+                    target.addSuccessor(new NextSection(otherSource.getGraphicSection()));
                     //System.err.println("f-f"+road.getId()+","+r.getId());
                 }
                 if(source!=null && !road.isOneway()){
-                    source.addConnections(source.getGraphicSection().getBackwardLanes(),
+                    source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    source.addSuccessor(new NextSection(otherSource));
+                    source.addSuccessor(new NextSection(otherSource.getGraphicSection()));
                    // System.err.println("b-f"+road.getId()+","+r.getId());
                 }
             }
@@ -157,16 +155,16 @@ public class OsmRoot {
             otherTarget = r.findSectionByTargetNode(node);
             if(otherTarget != null){
                 if(target!=null && !r.isOneway()){
-                    target.addConnections(target.getGraphicSection().getForwardLanes(),
+                    target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    target.addSuccessor(new NextSection(otherTarget));
+                    target.addSuccessor(new NextSection(otherTarget.getGraphicSection()));
                     //System.err.println("f-b"+road.getId()+","+r.getId());
                 }
                 
                 if(source!=null && !road.isOneway()&& !r.isOneway()){
-                    source.addConnections(source.getGraphicSection().getBackwardLanes(),
+                    source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    source.addSuccessor(new NextSection(otherTarget));
+                    source.addSuccessor(new NextSection(otherTarget.getGraphicSection()));
                    // System.err.println("b-b"+road.getId()+","+r.getId());
                 }
             }

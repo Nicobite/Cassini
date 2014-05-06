@@ -20,9 +20,9 @@ import java.util.HashMap;
 import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.NextSection;
-import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
@@ -53,11 +53,12 @@ public class OsmWay {
     @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
     private HashMap<String, String> tags;
     
-    public OsmWay(){
+    public OsmWay() {
         this.nodesRef = new ArrayList<>();
         this.tags = new HashMap<>();
     }
-       /**
+    
+    /**
      *  get the number of lanes of this way\n
      * @return the number of way if defined, default numbers otherwise
      */
@@ -73,6 +74,7 @@ public class OsmWay {
                 +"roundabout = "+isRoundabout();
         return str;
     }
+    
     /**
      * creates a Road from the current Osm way
      * @param osmNodes the list of all the osm nodes
@@ -89,10 +91,12 @@ public class OsmWay {
         while(i<this.nodesRef.size()-1){
             refSrc  = this.nodesRef.get(i).getRef();
             refDest = this.nodesRef.get(i+1).getRef();
-            if(osmNodes.containsKey(refSrc) && osmNodes.containsKey(refDest)){
-                src = osmNodes.get(refSrc); dest = osmNodes.get(refDest);
+            if(osmNodes.containsKey(refSrc) && osmNodes.containsKey(refDest)) {
+                src = osmNodes.get(refSrc);
+                dest = osmNodes.get(refDest);
                 //Add the current road to the nodes roads membership
-                src.addRoad(road); dest.addRoad(road);
+                src.addRoad(road);
+                dest.addRoad(road);
                 this.createSections(road, src, dest);
             }
             i++;
@@ -100,68 +104,72 @@ public class OsmWay {
         //add connection between backward lanes and forward lanes at the end of the road
         if(isOneWay()){
             Section first = road.getFirstSection();
-            Section last = road.getLastSection();
-            first.addConnections(first.getGraphicSection().getBackwardLanes(),
+            Section last = road.getLastSection().getSection();
+            first.getGraphicSection().addConnections(first.getGraphicSection().getBackwardLanes(),
                     first.getGraphicSection().getForwardLanes());
-            last.addConnections(last.getGraphicSection().getForwardLanes(), 
+            last.getGraphicSection().addConnections(last.getGraphicSection().getForwardLanes(),
                     last.getGraphicSection().getBackwardLanes());
         }
         //if roundabout connect first section to last section
         if(isRoundabout()){
-           Section first = road.getFirstSection();
-           Section last = road.getLastSection();
-           last.addConnections(last.getGraphicSection().getForwardLanes(), 
-                   first.getGraphicSection().getForwardLanes());
-           last.addSuccessor(new NextSection(first));
+            Section first = road.getFirstSection();
+            Section last = road.getLastSection().getSection();
+            last.getGraphicSection().addConnections(last.getGraphicSection().getForwardLanes(),
+                    first.getGraphicSection().getForwardLanes());
+            last.addSuccessor(new NextSection(first.getGraphicSection()));
         }
         return road;
     }
-        
+    
     /**
      * create and add road section linking 2 nodes to a given road
      * @param road the road at which the section will be added
      * @param src
-     * @param dest 
+     * @param dest
      */
-    private void createSections(Road road, OsmNode src, OsmNode dest){
-        Section sect = new Section(src.createNode(), dest.createNode());
-        sect.setMaxSpeed(this.getMaxSpeed());
+    private void createSections(Road road, OsmNode src, OsmNode dest) {
+        GraphicSection gSection = new GraphicSection(src.createNode(), dest.createNode());
+        gSection.getSection().setMaxSpeed(this.getMaxSpeed());
         int nbForwardLanes = this.getNbLanes();
         int nbBackwardLanes = 0;
         if(!this.isOneWay()){
             nbForwardLanes = this.getForwardNbLanes();
             nbBackwardLanes = getNbLanes() - getForwardNbLanes();
         }
-        sect.addLanes(nbForwardLanes, Direction.FORWARD, road.getLastSection());
-        sect.addLanes(nbBackwardLanes, Direction.BACKWARD, road.getLastSection());
-        road.addSection(sect);   
+        gSection.addLanes(nbForwardLanes, Direction.FORWARD, road.getLastSection());
+        gSection.addLanes(nbBackwardLanes, Direction.BACKWARD, road.getLastSection());
+        road.addSection(gSection.getSection());
     }
+    
     /**
      * checks whether this osm way is a highway (osm way can be building, river,...)
-     * @return 
+     * @return
      */
     public boolean isHighway(){
         return this.tags.containsKey("highway");
     }
+    
     /**
      * checks whether this osm way is one-way
-     * @return 
+     * @return
      */
     private boolean isOneWay() {
         return this.tags.containsKey("oneway") || this.isRoundabout();
     }
+    
     /**
      * check whether this osm way is a roundabout
-     * @return 
+     * @return
      */
     private boolean isRoundabout() {
         return  (   tags.containsKey("junction")
                 && tags.get("junction").equalsIgnoreCase("roundabout"))
                 ||  tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
+    
     /**
      * get the max speed of this way
-     * @return 
+     * @return
      */
     private float getMaxSpeed() {
         float maxspeed = 50;
@@ -177,6 +185,7 @@ public class OsmWay {
         }
         return maxspeed;
     }
+    
     /**
      * get the number of lanes of this way\n
      * @return the number of way if defined, default numbers otherwise
@@ -187,7 +196,7 @@ public class OsmWay {
                 Integer.parseInt(tags.get("lanes")) : def;
         return nbLanes;
     }
- 
+    
     /**
      * Sets the type of the road and its priority
      * @param road
@@ -213,34 +222,34 @@ public class OsmWay {
                 priority = 11;
                 road.setType(RoadType.SECONDARY);
                 break;
-            /*case "motorway_link":
+                /*case "motorway_link":
                 priority = 10;
                 break;
-            case "trunk_link":
+                case "trunk_link":
                 priority = 9;
                 break;
-            case "primary_link":
+                case "primary_link":
                 priority = 8;
                 break;
-            case "secondary_link":
+                case "secondary_link":
                 priority = 7;
                 break;
-            case "tertiary" :
+                case "tertiary" :
                 priority = 6;
                 break;
-            case "residential":
+                case "residential":
                 priority = 5;
                 break;
-            case "unclassified":
+                case "unclassified":
                 priority = 4;
                 break;
-            case "road":
+                case "road":
                 priority = 3;
                 break;
-            case "living_street":
+                case "living_street":
                 priority = 2;
                 break;
-            case "service":
+                case "service":
                 priority = 1;
                 break;*/
             default:
@@ -267,7 +276,6 @@ public class OsmWay {
     public void setTags(HashMap<String, String> tags) {
         this.tags = tags;
     }
-    
     
     public ArrayList<OsmNodeRef> getNodesRef() {
         return nodesRef;

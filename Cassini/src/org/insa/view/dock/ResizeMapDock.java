@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.insa.view.graphicmodel.GraphicBounds;
 
 /**
  *
@@ -27,10 +28,10 @@ import javafx.scene.text.Text;
  */
 public class ResizeMapDock extends AbstractDock {
     
-    private final TextField minLong = new TextField();
-    private final TextField maxLong = new TextField();
-    private final TextField minLat = new TextField();
-    private final TextField maxLat = new TextField();
+    private TextField minLong = new TextField();
+    private TextField maxLong = new TextField();
+    private TextField minLat = new TextField();
+    private TextField maxLat = new TextField();
     
     private final Button submit = new Button("Redimensionner");
     
@@ -41,6 +42,18 @@ public class ResizeMapDock extends AbstractDock {
      */
     public ResizeMapDock() {
         super();
+        this.init();
+    }
+
+    /**
+     * Constructor
+     * @param initialBounds Bounds of the current map 
+     */
+    public ResizeMapDock(GraphicBounds initialBounds) {
+        minLong = new TextField(String.valueOf(initialBounds.getMinLong()));
+        maxLong = new TextField(String.valueOf(initialBounds.getMaxLong()));
+        minLat = new TextField(String.valueOf(initialBounds.getMinLat()));
+        maxLat = new TextField(String.valueOf(initialBounds.getMaxLat()));
         this.init();
     }
     

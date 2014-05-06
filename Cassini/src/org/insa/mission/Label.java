@@ -2,6 +2,7 @@ package org.insa.mission;
 
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Section;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  * Label pour l'algo A Star
@@ -26,8 +27,8 @@ public class Label implements Comparable<Label>{
         this.cout = Float.POSITIVE_INFINITY;// infini
         this.pere = null;//pas de pere
         //used just to get the distance between the current node and the destination one
-        Section s = new Section(current.getSourceNode(), dest.getTargetNode());
-        this.estimation = s.getLength();
+        GraphicSection s = new GraphicSection(current.getGraphicSection().getSourceNode(), dest.getGraphicSection().getTargetNode());
+        this.estimation = s.getSection().getLength();
     }      
     
     //Des getters et setters

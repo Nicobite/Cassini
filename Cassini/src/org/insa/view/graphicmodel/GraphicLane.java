@@ -31,19 +31,22 @@ public class GraphicLane {
     @Element
     protected GraphicPoint targetPoint;
     
+    protected GraphicSection section;
+    
     /**
      * Default constructor
      */
     public GraphicLane() {
-        this.lane = null;
+        this.lane = new Lane(this);
     }
     
     /**
      * Constructor
-     * @param lane Reference to lane
+     * @param gSection Reference to graphic section
      */
-    public GraphicLane(Lane lane) {
-        this.lane = lane;
+    public GraphicLane(GraphicSection gSection) {
+        this.lane = new Lane(this);
+        this.section = section;
     }
  
     /**
@@ -69,6 +72,14 @@ public class GraphicLane {
     public GraphicPoint getTargetPoint() {
         return targetPoint;
     }
+    
+    /**
+     * Get section
+     * @return Section
+     */
+    public GraphicSection getSection() {
+        return section;
+    }
 
     /**
      * Set source point
@@ -84,5 +95,21 @@ public class GraphicLane {
      */
     public void setTargetPoint(GraphicPoint targetPoint) {
         this.targetPoint = targetPoint;
+    }
+    
+    /**
+     * Set graphic section
+     * @param gSection New graphic section
+     */
+    public void setSection(GraphicSection gSection) {
+        this.section = gSection;
+    }
+
+    /**
+     * Set lane
+     * @param lane New lane 
+     */
+    public void setLane(Lane lane) {
+        this.lane = lane;
     }
 }

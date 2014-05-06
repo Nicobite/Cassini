@@ -20,18 +20,24 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
+import org.insa.view.utils.DrawingUtils;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
+import org.insa.view.panel.EditorArea;
 import org.insa.view.panel.EditorPanel;
 import org.insa.view.panel.MainPanel;
 import org.insa.view.panel.MapPanel;
@@ -58,11 +64,13 @@ public class MainController {
     private VehiclesPanel vehiclesPanel = null;
     private VehicleDataPanel vehicleDataPanel = null;
     private DrawingPanel drawingPanel = null;
+    private EditorPanel editorPanel = null;
     
     
     private Model model = new Model();
     
     private SimulationController simulationController = null;
+    
     /**
      * Default private constructor
      */
@@ -180,7 +188,7 @@ public class MainController {
         pi.setVisible(true);
         pi.setMaxWidth(50);
         pi.setMaxHeight(50);
-        mapPanel.setCenter(pi);
+        editorPanel.setCenter(pi);
         
         if(file != null) {
             new Thread() {
@@ -202,7 +210,7 @@ public class MainController {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                mapPanel.setCenter(drawingPanel);
+                                editorPanel.setCenter(editorPanel.getEditorArea());
                             }
                         });
                     }
@@ -216,7 +224,7 @@ public class MainController {
     /**
      * Open a map
      */
-    public void performOpenMap() {
+    public void performOpenMap(final boolean isMapEditor) {
         FileChooser fileChooser = new FileChooser();
         
         fileChooser.setTitle("Open map");
@@ -225,7 +233,9 @@ public class MainController {
         );
         
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", "*.map.xml"));
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
+        
+        if(isMapEditor)
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
         
         final File file = fileChooser.showOpenDialog(primaryStage);
         
@@ -233,7 +243,11 @@ public class MainController {
         pi.setVisible(true);
         pi.setMaxWidth(50);
         pi.setMaxHeight(50);
-        mapPanel.setCenter(pi);
+        
+        if(isMapEditor)
+            editorPanel.setCenter(pi);
+        else
+            mapPanel.setCenter(pi);
         
         if(file != null) {
             new Thread() {
@@ -245,12 +259,26 @@ public class MainController {
                             model.setRoadModel(p.readOsmData(file));
                         else
                             model.setRoadModel(p.readMapData(file));
+                        
+                        
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                //if(drawingPanel == null)
+                                if(isMapEditor) {
+                                    final EditorArea editorArea = new EditorArea(new DrawingUtils(850, 1200));
+                                    editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+                                        @Override
+                                        public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                                            editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                                        }
+                                    });
+                                    editorPanel.setEditorArea(editorArea);
+                                    editorPanel.setCenter(editorArea);
+                                } else {
                                     drawingPanel = new DrawingPanel(1450,850);
-                                mapPanel.setCenter(drawingPanel);
+                                    mapPanel.setCenter(drawingPanel);
+                                }
+                                
                             }
                         });
                     } catch (Exception ex) {
@@ -260,7 +288,10 @@ public class MainController {
             }.start();
         }
         else {
-            this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture de la carte");
+            if(isMapEditor)
+               this.performDisplayMessage(editorPanel, "Erreur lors de l'ouverture de la carte"); 
+            else
+                this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture de la carte");
         }
     }
     
@@ -268,8 +299,21 @@ public class MainController {
      * Display map editor in order to create a map
      */
     public void performDisplayMapEditor() {
-        drawingPanel = new DrawingPanel(1450,850);
-        mainPanel.setCenter(new EditorPanel(drawingPanel));
+        editorPanel = new EditorPanel();
+        mainPanel.setCenter(editorPanel);
+    }
+    
+    public void performOpenMapIntoEditor() {
+        final EditorArea editorArea = new EditorArea(new DrawingUtils(850, 1200));
+        
+        editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+            }
+        });
+        
+        editorPanel.setCenter(editorArea);
     }
     
     /**
@@ -455,7 +499,7 @@ public class MainController {
      * @return Simulation controller
      */
     public SimulationController getSimulationController(){
-        return this.simulationController ; 
+        return this.simulationController ;
     }
     
     /**
@@ -474,5 +518,13 @@ public class MainController {
         if(drawingPanel != null) {
             drawingPanel.repaintRoads();
         }
+    }
+    
+    /**
+     * Display resize map dock
+     */
+    public void performDisplayResizeMapDock() {
+        if(editorPanel != null)
+            editorPanel.displayResizeMapDock();
     }
 }

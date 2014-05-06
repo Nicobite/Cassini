@@ -19,7 +19,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import org.insa.view.menu.CustomToolBar;
+import org.insa.view.toolbar.CustomToolBar;
 
 /**
  *

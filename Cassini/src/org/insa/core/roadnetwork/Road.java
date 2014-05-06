@@ -17,7 +17,6 @@ package org.insa.core.roadnetwork;
 
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
-import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.graphicmodel.GraphicRoad;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
@@ -50,30 +49,37 @@ public class Road {
      * whether this lane is one-way
      */
     private boolean oneway;
+    
+    /**
+     * Default constructor
+     */
     public Road() {
         gRoad = new GraphicRoad(this);
     }
+    
     /**
      * Get the first section of the road
-     * @return
+     * @return First section
      */
     public Section getFirstSection() {
         return gRoad.getFirstSection();
     }
+    
     /**
      * Get the last section of the road
-     * @return
+     * @return Last section
      */
-    public Section getLastSection() {
-        Section sect = null;
-        if(gRoad.getSections().size()>0)
-            sect = gRoad.getSections().get(gRoad.getSections().size()-1).getSection();
+    public GraphicSection getLastSection() {
+        GraphicSection sect = null;
+        if(gRoad.getSections().size() > 0)
+            sect = gRoad.getSections().get(gRoad.getSections().size()-1);
         return sect;
     }
+    
     /**
      * Get the section of this road where this node is a source node
-     * @param source
-     * @return the section ;
+     * @param source Given node
+     * @return Section found;
      */
     public Section findSectionBySourceNode(Node source){
         Section result = null;
@@ -84,6 +90,7 @@ public class Road {
         }
         return result;
     }
+    
     /**
      * Get the section of this road where this node is a target node
      * @param target
@@ -98,45 +105,80 @@ public class Road {
         }
         return result;
     }
-    
-    /* getters ans setters*/
-    
+
+    /**
+     * Add a section to the road
+     * @param s Section to add
+     */
     public void addSection(Section s){
         gRoad.addSection(s);
         s.setRoad(this);
     }
+    
+    /**
+     * Remove a section from a road
+     * @param s Section to remove
+     */
     public void removeSection(Section s){
         gRoad.removeSection(s);
     }
     
+    /**
+     * Get type
+     * @return Type
+     */
     public RoadType getType() {
         return type;
     }
     
-    public void setType(RoadType type) {
-        this.type = type;
-    }
-    
+    /**
+     * Get id
+     * @return Id 
+     */
     public long getId() {
         return id;
     }
     
-    public void setId(long id) {
-        this.id = id;
-    }
-
+    /**
+     * Get oneway
+     * @return true if oneway, false otherwise
+     */
     public boolean isOneway() {
         return oneway;
     }
-
+    
+    /**
+     * Get graphic road
+     * @return Graphic road
+     */
+    public GraphicRoad getGraphicRoad() {
+        return gRoad;
+    }
+    
+    /**
+     * Set type
+     * @param type New type 
+     */
+    public void setType(RoadType type) {
+        this.type = type;
+    }
+    
+    /**
+     * Set id
+     * @param id New id 
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+    
+    /**
+     * Set oneway
+     * @param oneway new oneway boolean 
+     */
     public void setOneway(boolean oneway) {
         this.oneway = oneway;
     }
     
-    
-    public GraphicRoad getGraphicRoad() {
-        return gRoad;
-    }
     @Override
     public String toString(){
         return gRoad.toString();
@@ -156,5 +198,4 @@ public class Road {
         }
         return true;
     }
-    
 }

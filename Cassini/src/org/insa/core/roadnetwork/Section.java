@@ -18,13 +18,10 @@ package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import org.insa.core.enums.Direction;
-import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -48,21 +45,7 @@ public class Section {
     
     protected Lane lane;
     
-    /**
-     * source node
-     */
-    @Element(name="from")
-    private Node sourceNode;
-    /**
-     *target node
-     */
-    @Element(name="to")
-    private Node targetNode;
-    
-    /**
-     * link length in m
-     */
-    private float length;
+    private Road road;
     
     /**
      * max speed in this section
@@ -70,158 +53,128 @@ public class Section {
     @Element(required = false)
     private float maxSpeed;
     
-      /**
-     * the next sections that can be rached from the current one 
+    /**
+     * the next sections that can be rached from the current one
      */
     @ElementList
-    private ArrayList<NextSection> successors; 
-    
-    private Road road;
+    private ArrayList<NextSection> successors;
     
     /**
-     *
-     * @param from
-     * @param to
+     * Constructor
+     * @param gSection Reference to graphic section
      */
-    public Section(Node from, Node to){
-        gSection = new GraphicSection(this, from, to);
-        this.sourceNode = from;
-        this.targetNode = to;
-        //gSection.setSourceNode(new GraphicNode(sourceNode));
-        //gSection.setTargetNode(new GraphicNode(targetNode));
-        this.length = computeLength(from, to)*8;
+    public Section(GraphicSection gSection) {
+        this.gSection = gSection;
         successors = new ArrayList<>();
     }
     
-    public Section() {
-        gSection = new GraphicSection(this,null,null);
+    /**
+     * Add a section to the successor list
+     * @param succ
+     */
+    public void addSuccessor(NextSection succ){
+        this.successors.add(succ);
     }
     
-    /*
-    * getters ans setters
-    */
-    public Node getTargetNode() {
-        return targetNode;
+    /**
+     * Remove a section form the successor list
+     * @param succ
+     */
+    public void removeSuccessor(NextSection succ){
+        this.successors.remove(succ);
     }
     
-    public void setTargetNode(Node targetNode) {
-        this.targetNode = targetNode;
-    }
-    
-    public Node getSourceNode() {
-        return sourceNode;
-    }
-    
-    public void setSourceNode(Node sourceNode) {
-        this.sourceNode = sourceNode;
-    }
-    
+    /**
+     * Get length
+     * @return Length
+     */
     public float getLength() {
-        return length;
+        return gSection.getLength();
     }
     
-    public void setLength(int length) {
-        this.length = length;
-    }
-    
-    public void setMaxSpeed(float maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-    
+    /**
+     * Get max speed
+     * @return Max speed
+     */
     public float getMaxSpeed() {
         return maxSpeed;
     }
     
-    public void setLength(float length) {
-        this.length = length;
+    /**
+     * Get lane
+     * @return Lane
+     */
+    public Lane getLane() {
+        return lane;
     }
     
     /**
-     * add a given number of forward and backward lanes to this section \n
-     * uses precedingSection to add connections between lanes
-     * @param nbLanes
-     * @param dir 
-     * @param precedingSection 
+     * Get road
+     * @return Road
      */
-    public void addLanes(int nbLanes, Direction dir, Section precedingSection){
-        Lane lane = null;
-        for(int i = 0; i<nbLanes; i++){
-            lane = new Lane();
-            lane.setDirection(dir);
-            lane.setSection(this);
-            if(dir == Direction.FORWARD){
-                gSection.getForwardLanes().add(lane.getGraphicLane());
-                if(precedingSection!=null){
-                    addConnections(precedingSection.getGraphicSection().getForwardLanes(),
-                            this.gSection.getForwardLanes());
-                    precedingSection.addSuccessor(new NextSection(this));
-                }
-            }
-            else{
-                gSection.getBackwardLanes().add(lane.getGraphicLane());
-                if(precedingSection!=null){
-                    addConnections(this.gSection.getBackwardLanes(),
-                            precedingSection.getGraphicSection().getBackwardLanes());
-                    this.addSuccessor(new NextSection(precedingSection));
-                }
-            }
-        }
+    public Road getRoad() {
+        return road;
+    }
+    
+    /**
+     * Get graphic section
+     * @return Graphic section
+     */
+    public GraphicSection getGraphicSection() {
+        return gSection;
+    }
+    
+    /**
+     * Get successors
+     * @return Successors list
+     */
+    public ArrayList<NextSection> getSuccessors() {
+        return successors;
+    }
+    
+    /**
+     * Set length
+     * @param length New length
+     */
+    public void setLength(int length) {
+        gSection.setLength(maxSpeed);
+    }
+    
+    /**
+     * Set length
+     * @param length New length
+     */
+    public void setLength(float length) {
+        gSection.setLength(length);
+    }
+    
+    /**
+     * Set max speed
+     * @param maxSpeed New max speed
+     */
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+    
+    /**
+     * Set lane
+     * @param lane New lane
+     */
+    public void setLane(Lane lane) {
         this.lane = lane;
     }
     
     /**
-     * Add connection(link) between lanes
-     * @param from origin 
-     * @param to target
+     * Set road
+     * @param road New road
      */
-    public void addConnections(ArrayList<GraphicLane> from, ArrayList<GraphicLane>to){
-        int nb1 = from.size(), nb2 = to.size();
-        int indice;
-        NextLane nextLane;
-        if(nb1>0 && nb2>0)
-            for(int i=0; i<nb1; i++){
-              indice = i<nb2 ? i : nb2-1;
-              nextLane = new NextLane();
-              nextLane.setTargetLane(to.get(indice).getLane());
-              from.get(i).getLane().addTransition(nextLane);
-            }
-    }
-    /**
-     * called when deserializing this object
-     */
-    @Commit
-    private void build(){
-        for(GraphicLane l : this.getGraphicSection().getForwardLanes()){
-            l.getLane().setSection(this);
-        }
-        for(GraphicLane l : this.getGraphicSection().getBackwardLanes()){
-            l.getLane().setSection(this);
-        }
-        
-        this.length = computeLength(sourceNode, targetNode);
-    }
-    /**
-     * compute the length between the source node and the target node
-     * @param from
-     * @param to
-     * @return the section length
-     */
-    private float computeLength(Node from, Node to){
-        double dLatitude = Math.toRadians(to.getGraphicNode().getLatitude() - from.getGraphicNode().getLatitude());
-        double dLongitude = Math.toRadians(to.getGraphicNode().getLongitude() - from.getGraphicNode().getLongitude());
-        double a = Math.sin(dLatitude/2) * Math.sin(dLatitude/2) +
-                Math.cos(Math.toRadians(from.getGraphicNode().getLatitude())) * Math.cos(Math.toRadians(to.getGraphicNode().getLatitude())) *
-                Math.sin(dLongitude/2) * Math.sin(dLongitude/2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        
-        double radiusEarth = 6371; // km
-        double distance = radiusEarth * c;
-        return (float)distance*1000;
+    public void setRoad(Road road) {
+        this.road = road;
     }
     
     @Override
-    public String toString(){
-        return "src ="+sourceNode+",dest="+targetNode+",length = "+length+"\n";
+    public String toString() {
+        return "Section{" + "gSection=" + gSection + '}';
     }
     
     @Override
@@ -233,61 +186,19 @@ public class Section {
             return false;
         }
         final Section other = (Section) obj;
-        if (!Objects.equals(this.sourceNode, other.sourceNode)) {
-            return false;
-        }
-        if (!Objects.equals(this.targetNode, other.targetNode)) {
+        if (!Objects.equals(this.gSection, other.gSection)) {
             return false;
         }
         return true;
     }
+    
     /**
      * Equals v2
      * @param b
-     * @return 
+     * @return
      */
     public boolean isEqualTo(Section b){
-        return (this.getSourceNode().getId() == b.getSourceNode().getId()
-                && this.getTargetNode().getId() == b.getTargetNode().getId());
-    } 
-    /**
-     * Add a section to the successor list
-     * @param succ 
-     */
-    public void addSuccessor(NextSection succ){
-        this.successors.add(succ);
+        return (this.getGraphicSection().getSourceNode().getNode().getId() == b.getGraphicSection().getSourceNode().getNode().getId()
+                && this.getGraphicSection().getTargetNode().getNode().getId() == b.getGraphicSection().getTargetNode().getNode().getId());
     }
-    /**
-     * Remove a section form the successor list
-     * @param succ 
-     */
-    public void removeSuccessor(NextSection succ){
-        this.successors.remove(succ);
-    }
-    
-    public GraphicSection getGraphicSection() {
-        return gSection;
-    }
-
-    public void setLane(Lane lane) {
-        this.lane = lane;
-    }
-
-    public Lane getLane() {
-        return lane;
-    }
-
-    public ArrayList<NextSection> getSuccessors() {
-        return successors;
-    }
-
-    public Road getRoad() {
-        return road;
-    }
-
-    public void setRoad(Road road) {
-        this.road = road;
-    }
-    
-    
 }

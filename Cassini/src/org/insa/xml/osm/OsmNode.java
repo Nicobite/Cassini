@@ -18,8 +18,8 @@ package org.insa.xml.osm;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.insa.core.enums.TrafficSignaling;
-import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
+import org.insa.view.graphicmodel.GraphicNode;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;
@@ -59,18 +59,18 @@ public class OsmNode {
     private HashMap<String, String> tags;
     
     /**
-     * set of roads (road id) containing this node 
+     * set of roads (road id) containing this node
      */
     private ArrayList<Road> roads;
     
     public long getId() {
         return id;
     }
-
+    
     public OsmNode() {
         roads = new ArrayList<>();
     }
-
+    
     
     /**
      * check wether this node is a rounabout\n
@@ -80,6 +80,7 @@ public class OsmNode {
         return  tags!=null && tags.containsKey("highway")
                 && tags.get("highway").equalsIgnoreCase("mini_roundabout") ;
     }
+    
     /**
      * check wether this node is a traffic light
      * @return true if traffic light and false otherwise
@@ -88,16 +89,18 @@ public class OsmNode {
         return  tags!=null && tags.containsKey("highway")
                 && tags.get("highway").equalsIgnoreCase("traffic_signals") ;
     }
+    
     /**
      * create a node from this osm node
      * @return the node created
      */
-    public Node createNode(){
-        Node node = new Node(lon, lat);
-        node.setId(id);
-        node.setSignaling(getSignaling());
-        return node;
+    public GraphicNode createNode(){
+        GraphicNode gNode = new GraphicNode(lon, lat);
+        gNode.getNode().setId(id);
+        gNode.getNode().setSignaling(getSignaling());
+        return gNode;
     }
+    
     /**
      * Add a road to the roads list
      * @param road
@@ -106,9 +109,10 @@ public class OsmNode {
         if(!this.roads.contains(road))
             this.roads.add(road);
     }
+    
     /**
      * retrieve traffic signaling attributes from osm node
-     * @return 
+     * @return
      */
     private TrafficSignaling getSignaling(){
         TrafficSignaling res = TrafficSignaling.NONE;
@@ -163,14 +167,14 @@ public class OsmNode {
     public void setTags(HashMap<String, String> tags) {
         this.tags = tags;
     }
-
+    
     public ArrayList<Road> getRoads() {
         return roads;
     }
-
+    
     public void setRoads(ArrayList<Road> roads) {
         this.roads = roads;
     }
-
- 
+    
+    
 }

@@ -86,13 +86,14 @@ public class AStar {
     }
     private void run(){
         double newCout=0;
-        Section succ; Label min, labSucc;
+        Section succ;
+        Label min, labSucc;
         init();
         while(!(heap.isEmpty()|| ((Label) labelDest).isMarque())){
             min= heap.deleteMin();
             min.setMarque(true);
             for(NextSection next : min.getCurrent().getSuccessors()){
-                succ = next.getSection();
+                succ = next.getSection().getSection();
                 labSucc= mapLabels.get(succ);
                 if(!labSucc.isMarque()){
                     newCout = min.getCout() + min.getCurrent().getLength();
@@ -112,8 +113,7 @@ public class AStar {
                     }
                 }
             }
-                
+            
         }
     }
- 
 }

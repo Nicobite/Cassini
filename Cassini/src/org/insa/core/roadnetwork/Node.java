@@ -18,12 +18,10 @@ package org.insa.core.roadnetwork;
 import java.util.Objects;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.view.graphicmodel.GraphicNode;
-import org.insa.view.graphicmodel.GraphicPoint;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 /**
- *
  * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Node
  * Represent a graph node
@@ -33,7 +31,9 @@ import org.simpleframework.xml.Root;
  */
 @Root(strict = false)
 public class Node {
+    
     protected GraphicNode gNode;
+    
     /**
      * node id (node number)
      */
@@ -44,41 +44,53 @@ public class Node {
     private TrafficSignaling signaling;
     
     /**
-     * Construction of graph nodes
-     * @param longitude
-     * @param latitude
+     * Constructor
+     * @param gNode reference to graphic node
      */
-    public Node(float longitude, float latitude) {
-        gNode = new GraphicNode(this);
-        gNode.setPoint(new GraphicPoint(longitude, latitude));
+    public Node(GraphicNode gNode) {
+        this.gNode = gNode;
     }
-    
+
     /**
-     *  Default constructor
+     * Get id
+     * @return Id 
      */
-    public Node() {
-        super();
-        gNode = new GraphicNode(this);
-    }
-    /*
-    * getters et setters
-    */
     public long getId() {
         return id;
     }
-    public void setId(long id) {
-        this.id = id;
-    }
-
+   
+    /**
+     * Get signaling
+     * @return signaling
+     */
     public TrafficSignaling getSignaling() {
         return signaling;
     }
-
+    
+    /**
+     * Get graphic node
+     * @return Graphic node
+     */
+    public GraphicNode getGraphicNode() {
+        return gNode;
+    }
+    
+    /**
+     * Set id
+     * @param id New id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+    
+    /**
+     * Set signaling
+     * @param signaling New signaling 
+     */
     public void setSignaling(TrafficSignaling signaling) {
         this.signaling = signaling;
     }
-    
-    
+
     @Override
     public String toString(){
         return gNode.toString();
@@ -93,13 +105,9 @@ public class Node {
             return false;
         }
         final Node other = (Node) obj;
-        if (!Objects.equals(this.gNode, other.gNode)) {
+        if(!Objects.equals(this.gNode, other.gNode)) {
             return false;
         }
         return true;
-    }
-    
-    public GraphicNode getGraphicNode() {
-        return gNode;
     }
 }

@@ -15,14 +15,10 @@
 */
 package org.insa.view.panel;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.shape.Rectangle;
 import org.insa.view.dock.DefaultDock;
 import org.insa.view.dock.ResizeMapDock;
-import org.insa.view.menu.EditorToolBar;
+import org.insa.view.toolbar.EditorToolBar;
 
 /**
  *
@@ -34,22 +30,33 @@ public class EditorPanel extends BorderPane {
     
     /**
      * Constructor
-     * @param drawingPanel Reference to drawing panel
+     * @param drawingUtils Reference to drawing utils
      */
-    public EditorPanel(DrawingPanel drawingPanel) {   
-        this.editorArea = new EditorArea(drawingPanel);
-        
-        editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-            @Override
-            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
-                 editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
-            }
-
-        });
-        
+    public EditorPanel() {   
         this.setTop(new EditorToolBar());
-        this.setCenter(editorArea);
-        this.setRight(new ResizeMapDock());
-        
+        this.setRight(new DefaultDock());
+    }
+
+    public void displayResizeMapDock() { 
+        if(editorArea != null) {
+            System.out.println("WAZAAAA");
+            this.setRight(new ResizeMapDock(editorArea.getInitialBounds()));
+        }
+    }
+    
+    /**
+     * Get editor area
+     * @return Editor area
+     */
+    public EditorArea getEditorArea() {
+        return editorArea;
+    }
+
+    /**
+     * Set editor area
+     * @param editorArea New editor area 
+     */
+    public void setEditorArea(EditorArea editorArea) {
+        this.editorArea = editorArea;
     }
 }

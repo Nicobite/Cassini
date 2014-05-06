@@ -20,6 +20,7 @@ import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.items.VehiclesModel;
+import org.insa.view.utils.DrawingUtils;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -29,16 +30,16 @@ import org.insa.view.graphicmodel.GraphicSection;
  */
 public class VehicleDrawingPanel extends Pane {
 
-    protected DrawingPanel drawingPanel;
+    protected DrawingUtils drawingUtils;
     private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
     private VehiclesModel vehicles;
 
     /**
      * Constructor
-     * @param panel Reference to drawing panel 
+     * @param drawingUtils Reference to drawing utils 
      */
-    public VehicleDrawingPanel(DrawingPanel panel) {
-        this.drawingPanel = panel;
+    public VehicleDrawingPanel(DrawingUtils drawingUtils) {
+        this.drawingUtils = drawingUtils;
         this.paint();
     }
     
@@ -50,7 +51,7 @@ public class VehicleDrawingPanel extends Pane {
         for(Vehicle v : vehicles.getVehicles()) {
             if(v.getDriving().getPosition() != null) {
                 double point[] = this.getPoint(v.getDriving().getPosition().getLane().getGraphicLane(), v.getDriving().getPosition().getOffset());
-                this.getChildren().add(drawingPanel.drawCircle(point[0], point[1], point[2]));
+                this.getChildren().add(drawingUtils.drawCircle(point[0], point[1], point[2]));
             }
         }
     }
@@ -64,21 +65,21 @@ public class VehicleDrawingPanel extends Pane {
     public double[] getPoint(GraphicLane lane, double offset) {
         double point[] = new double[3];
         
-        GraphicSection section = lane.getLane().getSection().getGraphicSection();
+        GraphicSection section = lane.getSection();
         
-        double widthX = drawingPanel.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) - drawingPanel.longToX(lane.getSourcePoint().getX());
-        double widthY = drawingPanel.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) - drawingPanel.latToY(lane.getSourcePoint().getY());
+        double widthX = drawingUtils.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) - drawingUtils.longToX(lane.getSourcePoint().getX());
+        double widthY = drawingUtils.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) - drawingUtils.latToY(lane.getSourcePoint().getY());
         double width = Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2));
                 
-        double ratio = offset / lane.getLane().getSection().getLength(); 
+        double ratio = offset / lane.getSection().getLength(); 
 
-        double deltaX = drawingPanel.longToX(lane.getTargetPoint().getX()) - drawingPanel.longToX(lane.getSourcePoint().getX());
-        double deltaY = drawingPanel.latToY(lane.getTargetPoint().getY()) - drawingPanel.latToY(lane.getSourcePoint().getY());
+        double deltaX = drawingUtils.longToX(lane.getTargetPoint().getX()) - drawingUtils.longToX(lane.getSourcePoint().getX());
+        double deltaY = drawingUtils.latToY(lane.getTargetPoint().getY()) - drawingUtils.latToY(lane.getSourcePoint().getY());
 
-        point[0] = drawingPanel.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) + ratio * deltaX;
-        point[1] = drawingPanel.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) + ratio * deltaY;
+        point[0] = drawingUtils.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) + ratio * deltaX;
+        point[1] = drawingUtils.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) + ratio * deltaY;
         point[2] = width;
-        
+                
         return point;
     }
     

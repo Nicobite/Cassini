@@ -16,7 +16,7 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.menu.NavigationToolBar;
+import org.insa.view.toolbar.NavigationToolBar;
 
 /**
  *

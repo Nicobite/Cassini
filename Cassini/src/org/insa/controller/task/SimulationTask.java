@@ -26,7 +26,6 @@ import org.insa.core.enums.IncidentType;
 import org.insa.core.enums.MissionStatus;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.core.trafficcontrol.Incident;
-import org.insa.mission.Mission;
 import org.insa.model.Model;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -107,6 +106,7 @@ public class SimulationTask extends TimerTask {
                 System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());
         }
     }
+    
     /**
      * update vehicles position in traffic
      */
@@ -166,7 +166,7 @@ public class SimulationTask extends TimerTask {
         for(Vehicle vhc : model.getDrivingVehiclesModel().getVehicles()){
             driving = vhc.getDriving();
             //speed limit
-            if(driving.getSpeed() > driving.getPosition().getLane().getMaxSpeed()){
+            if(driving.getSpeed() > driving.getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed()){
                 incident = new Incident(vhc);
                 incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
                 model.getControlUnitsModel().addIncident(incident);

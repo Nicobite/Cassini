@@ -86,7 +86,7 @@ public class GraphicRoad {
      */
     public void addSection(Section s){
         if(s.getGraphicSection() == null)
-            this.sections.add(new GraphicSection(s,null,null));
+            this.sections.add(new GraphicSection(null,null));
         else
             this.sections.add(s.getGraphicSection()); 
     }

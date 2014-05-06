@@ -77,8 +77,8 @@ public class Vehicle {
     //------------------------------------
     
     public Vehicle(){
-      super();
-      driving = new Driving();
+        super();
+        driving = new Driving();
     }
     
     
@@ -114,23 +114,23 @@ public class Vehicle {
     public int getMaxDeceleration() {
         return maxDeceleration.get();
     }
-
+    
     public Driving getDriving() {
         return driving;
     }
-
+    
     public void setDriving(Driving driving) {
         this.driving = driving;
     }
-
+    
     public void setMission(Mission mission) {
         this.mission = mission;
     }
-
+    
     public Mission getMission() {
         return mission;
     }
-
+    
     public void setHasMission(boolean hasMission) {
         this.hasMission = hasMission;
     }
@@ -149,7 +149,7 @@ public class Vehicle {
         }
         /*
         if (myPosition close to next vehicle (inf to safetyDistance)){
-            this.getDriving().setDecesion(Decision.DECELERATE) ; 
+        this.getDriving().setDecesion(Decision.DECELERATE) ;
         }
         */
     }
@@ -160,12 +160,12 @@ public class Vehicle {
     public void executeDecision(){
         switch(this.driving.getDecision()){
             case STOP :
-                // if the decision of the vehicle is to stop, we dont have to change the decision but 
+                // if the decision of the vehicle is to stop, we dont have to change the decision but
                 // the acceleration. it's not the same decision
                 //this.driving.setDecision(Decision.DECELARATE);
                 
                 // here the vehicle will decelerate and we have to change the action
-                // in the other function that make the vehicle stops when it reaches 
+                // in the other function that make the vehicle stops when it reaches
                 // 0km/h
                 if (this.getDriving().getSpeed() == 0.0){
                     this.getDriving().setAcceleration(0);
@@ -179,89 +179,87 @@ public class Vehicle {
             case ACCELERATE :
                 this.driving.setAcceleration(this.getMaxAcceleration());
                 break;
-            
+                
             case DECELARATE :
                 this.driving.setAcceleration(-this.getMaxDeceleration());
                 break;
-            
+                
             case GO_STRAIGHT :
                 this.driving.setAcceleration(0);
                 break;
             default:
-            
+                
         }
     }
-        
-     /**
-      * update speed
+    
+    /**
+     * Update speed
      * @param simuStep
-      */
-      public void updateSpeed(int simuStep){
-          float speed ;
-          float scale = 0.50f;
-          speed = this.driving.getSpeed() + scale*this.driving.getAcceleration()*simuStep/1000;
-          speed = min(speed, this.getMaxSpeed());
-          speed = max(speed, 0);
-          this.getDriving().setSpeed(speed);
-      }
-      
-      public void updatePosition(int simuStep){
-          float scale =0.50f;
-          if(this.driving.getSpeed() != 0){
-                VehiclePosition position = this.getDriving().getPosition() ;
-                //System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
-                float distance = position.getOffset() + scale*this.driving.getSpeed()*(float)simuStep/1000f;
+     */
+    public void updateSpeed(int simuStep){
+        float speed ;
+        float scale = 0.50f;
+        speed = this.driving.getSpeed() + scale*this.driving.getAcceleration()*simuStep/1000;
+        speed = Math.min(speed, this.getMaxSpeed());
+        speed = Math.max(speed, 0);
+        this.getDriving().setSpeed(speed);
+    }
+    
+    /**
+     * Update position
+     * @param simuStep
+     */
+    public void updatePosition(int simuStep){
+        float scale =0.50f;
+        if(this.driving.getSpeed() != 0){
+            VehiclePosition position = this.getDriving().getPosition() ;
+            //System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
+            float distance = position.getOffset() + scale*this.driving.getSpeed()*(float)simuStep/1000f;
+            
+            //check whether we reach the end of the current section
+            float laneLength = position.getLane().getGraphicLane().getSection().getLength();
+            if(distance < laneLength){
+                position.setOffset(distance);
+            }
+            //go to the next section
+            else {
+                // compute new offset on the next lane (in the next section)
+                position.setOffset(distance - laneLength);
+                Lane previousLane = position.getLane() ;
                 
-                //check whether we reach the end of the current section
-                float laneLength = position.getLane().getLength();
-                if(distance < laneLength){
-                    position.setOffset(distance);
+                boolean destinationReached = this.hasMission() && previousLane.getGraphicLane().getSection().getSection().isEqualTo(this.mission.getPath().getLastSection().getSection());
+                if(!previousLane.hasTransition() || destinationReached ){
+                    this.driving.setDecision(Decision.OFF);
+                    this.driving.setSpeed(0);
+                    this.driving.setAcceleration(0);
                 }
-                 //go to the next section
-                else {
-                    // compute new offset on the next lane (in the next section)
-                    position.setOffset(distance - laneLength);
-                    Lane previousLane = position.getLane() ;
-                    
-                    boolean destinationReached = this.hasMission() && previousLane.getSection()
-                            .isEqualTo(this.mission.getPath().getLastSection());
-                    if(!previousLane.hasTransition() || destinationReached ){
-                        this.driving.setDecision(Decision.OFF); 
-                        this.driving.setSpeed(0);
-                        this.driving.setAcceleration(0);
+                else{
+                    //change section : if mission follow the path
+                    Lane nextLane;
+                    if(this.hasMission){
+                        this.mission.updateCurrentSection();
+                        nextLane = this.mission.getNextLane(previousLane).getTargetLane();
                     }
                     else{
-                        //change section : if mission follow the path
-                        Lane nextLane;
-                        if(this.hasMission){
-                            this.mission.updateCurrentSection();
-                            nextLane = this.mission.getNextLane(previousLane).getTargetLane();
-                        }
-                        else{
-                            int indice = new Random().nextInt(previousLane.getNextLanes().size());
-                            nextLane = previousLane.getNextLanes().get(indice).getTargetLane(); 
-                        }
-
-                        
-                        // remove the vehicle from the previous lane
-                        previousLane.getVehicles().remove(this) ;
-                        
-                        // add it to the new lane
-                        nextLane.getVehicles().add(this) ;
-                        
-                        //in that case choose the lane (first in the array for now)
-                        position.setLane(nextLane);   
-                        
+                        int indice = new Random().nextInt(previousLane.getNextLanes().size());
+                        nextLane = previousLane.getNextLanes().get(indice).getTargetLane();
                     }
+                    
+                    
+                    // remove the vehicle from the previous lane
+                    previousLane.getVehicles().remove(this) ;
+                    
+                    // add it to the new lane
+                    nextLane.getVehicles().add(this) ;
+                    
+                    //in that case choose the lane (first in the array for now)
+                    position.setLane(nextLane);
+                    
                 }
             }
-      }
-      
-      private float max(float a, float b){
-          return (a>b?a:b);
-      }
-      private float min(float a, float b){
-          return a<b?a:b;
-      }
-      
+        }
+    }
 }
+
+
+
