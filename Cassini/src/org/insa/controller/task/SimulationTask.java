@@ -23,8 +23,10 @@ import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
 import org.insa.core.enums.IncidentType;
+import org.insa.core.enums.MissionStatus;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.core.trafficcontrol.Incident;
+import org.insa.mission.Mission;
 import org.insa.model.Model;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -84,12 +86,21 @@ public class SimulationTask extends TimerTask {
      */
     public void putVehiclesInDriving(){
         if(!model.getVehiclesModel().getVehicles().isEmpty()){
+            GraphicSection section;
+            //pick the first vehicle
             Vehicle veh = model.getVehiclesModel().getVehicles().remove(0);
             veh.getDriving().setDecision(Decision.ACCELERATE);
+            
             //vehicle chooses a random road from the road network
-            int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
-            GraphicSection sect = model.getRoadModel().getRoads().get(indice).getGraphicRoad().getSections().get(0);
-            Lane lane = sect.getForwardLanes().get(sect.getForwardLanes().size()-1).getLane();
+            if(veh.hasMission()){
+                section = veh.getMission().getPath().getFirstSection().getGraphicSection();
+            }
+            else{
+                int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
+                section = model.getRoadModel().getRoads().get(indice).getFirstSection()
+                        .getGraphicSection();
+            }
+            Lane lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
             if(debug)
@@ -103,10 +114,10 @@ public class SimulationTask extends TimerTask {
         Vehicle vehicle;
         for(int i = 0; i< model.getNbDrivingVehicles(); i++){
             vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);
-            // Make decision 
+            // Make decision
             vehicle.makeDecision();
             
-            // Execute decision 
+            // Execute decision
             vehicle.executeDecision();
             
             // Update speed
@@ -118,13 +129,18 @@ public class SimulationTask extends TimerTask {
             // Remove vehicles which reached their destination from the simulation
             if(vehicle.getDriving().getDecision() == Decision.OFF){
                 model.getDrivingVehiclesModel().removeVehicle(vehicle);
-                model.getVehiclesModel().addVehicle(vehicle);
+                if(vehicle.hasMission()){
+                    vehicle.getMission().setStatus(MissionStatus.COMPLETED);
+                }
+                else{
+                    model.getVehiclesModel().addVehicle(vehicle);
+                }
             }
             
             if(debug)
                 System.out.println("Vehicle numero "+i+": acc : "+vehicle.getDriving().getAcceleration()+
-                                ",vit = "+vehicle.getDriving().getSpeed()+
-                                ",position "+vehicle.getDriving().getPosition());
+                        ",vit = "+vehicle.getDriving().getSpeed()+
+                        ",position "+vehicle.getDriving().getPosition());
         }
     }
     
@@ -142,7 +158,7 @@ public class SimulationTask extends TimerTask {
         
     }
     /**
-     * report driving 
+     * report driving
      */
     private void reportIncidents() {
         Driving driving;

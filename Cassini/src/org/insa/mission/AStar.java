@@ -30,15 +30,15 @@ import org.insa.view.graphicmodel.GraphicSection;
  * Class AStar
  */
 public class AStar {
-    private  RoadsModel roads;
-    private  Section origin;
-    private  Section destination;
+    private final  RoadsModel roads;
+    private final  Section origin;
+    private final  Section destination;
     //the heap
-    private  BinaryHeap<Label> heap;
+    private final  BinaryHeap<Label> heap;
     //Le labels
-    private   ArrayList<Label> labels;
+    private final   ArrayList<Label> labels;
     //fait correspondre un noeud à un label
-    private  HashMap< Section, Label> mapLabels;
+    private final  HashMap< Section, Label> mapLabels;
     private Label labelDest;
     
     public AStar(RoadsModel roads, Section src, Section dest) {
@@ -74,11 +74,11 @@ public class AStar {
                 labels.add(label);
                 mapLabels.put(section, label);
                 //check if origin section
-                if(areEquals(section, origin)){
+                if(section.isEqualTo(origin)){
                     label.setCout(0);
                     heap.insert(label);
                 }
-                if(areEquals(section, destination)){
+                if(section.isEqualTo(destination)){
                     labelDest = label;
                 }
             }
@@ -115,8 +115,5 @@ public class AStar {
                 
         }
     }
-    private boolean areEquals(Section a, Section b){
-        return (a.getSourceNode().getId() == b.getSourceNode().getId()
-                && a.getTargetNode().getId() == b.getTargetNode().getId());
-    }
+ 
 }

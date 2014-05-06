@@ -241,7 +241,15 @@ public class Section {
         }
         return true;
     }
-       
+    /**
+     * Equals v2
+     * @param b
+     * @return 
+     */
+    public boolean isEqualTo(Section b){
+        return (this.getSourceNode().getId() == b.getSourceNode().getId()
+                && this.getTargetNode().getId() == b.getTargetNode().getId());
+    } 
     /**
      * Add a section to the successor list
      * @param succ 

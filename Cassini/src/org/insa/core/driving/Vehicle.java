@@ -19,6 +19,7 @@ import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
 import org.insa.core.roadnetwork.Lane;
+import org.insa.mission.Mission;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -61,6 +62,19 @@ public class Vehicle {
      */
     @Element(required = false)
     private Driving driving;
+    
+    //-----------Mission ---------------
+    /**
+     * mission assigned to this vehicle
+     */
+    private Mission mission;
+    
+    /**
+     * whether this vehicle has a trajectory to follow (a mission)
+     */
+    private boolean hasMission;
+    
+    //------------------------------------
     
     public Vehicle(){
       super();
@@ -108,7 +122,22 @@ public class Vehicle {
     public void setDriving(Driving driving) {
         this.driving = driving;
     }
+
+    public void setMission(Mission mission) {
+        this.mission = mission;
+    }
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public void setHasMission(boolean hasMission) {
+        this.hasMission = hasMission;
+    }
     
+    public boolean hasMission(){
+        return this.hasMission;
+    }
     /*--------------------- driving logic ---------------------*/
     
     /**
@@ -188,21 +217,32 @@ public class Vehicle {
                 if(distance < laneLength){
                     position.setOffset(distance);
                 }
+                 //go to the next section
                 else {
                     // compute new offset on the next lane (in the next section)
                     position.setOffset(distance - laneLength);
-                    //go to the next section
                     Lane previousLane = position.getLane() ;
                     
-                    if(!previousLane.hasTransition()){
+                    boolean destinationReached = this.hasMission() && previousLane.getSection()
+                            .isEqualTo(this.mission.getPath().getLastSection());
+                    if(!previousLane.hasTransition() || destinationReached ){
                         this.driving.setDecision(Decision.OFF); 
                         this.driving.setSpeed(0);
                         this.driving.setAcceleration(0);
                     }
                     else{
-                        int indice = new Random().nextInt(previousLane.getNextLanes().size());
-                        Lane nextLane = previousLane.getNextLanes().get(indice).getTargetLane(); 
-                        //System.err.println("indice = "+indice);
+                        //change section : if mission follow the path
+                        Lane nextLane;
+                        if(this.hasMission){
+                            this.mission.updateCurrentSection();
+                            nextLane = this.mission.getNextLane(previousLane).getTargetLane();
+                        }
+                        else{
+                            int indice = new Random().nextInt(previousLane.getNextLanes().size());
+                            nextLane = previousLane.getNextLanes().get(indice).getTargetLane(); 
+                        }
+
+                        
                         // remove the vehicle from the previous lane
                         previousLane.getVehicles().remove(this) ;
                         

@@ -151,4 +151,19 @@ public class Lane {
     public float getLength(){
         return section.getLength();
     }
+    
+    /**
+     * find the transition to the next lane of a given section
+     * @param section
+     * @return 
+     */
+    public NextLane findNextLaneBySection(Section section){
+        NextLane result = null;
+        for(NextLane transition : this.getNextLanes()){
+            if(transition.getTargetLane().getSection().isEqualTo(section)){
+               result = transition; 
+            }
+        }
+        return result;
+    }
 }
