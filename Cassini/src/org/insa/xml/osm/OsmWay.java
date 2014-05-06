@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
+import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
@@ -95,7 +96,24 @@ public class OsmWay {
                 this.createSections(road, src, dest);
             }
             i++;
-        }  
+        }
+        //add connection between backward lanes and forward lanes at the end of the road
+        if(isOneWay()){
+            Section first = road.getFirstSection();
+            Section last = road.getLastSection();
+            first.addConnections(first.getGraphicSection().getBackwardLanes(),
+                    first.getGraphicSection().getForwardLanes());
+            last.addConnections(last.getGraphicSection().getForwardLanes(), 
+                    last.getGraphicSection().getBackwardLanes());
+        }
+        //if roundabout connect first section to last section
+        if(isRoundabout()){
+           Section first = road.getFirstSection();
+           Section last = road.getLastSection();
+           last.addConnections(last.getGraphicSection().getForwardLanes(), 
+                   first.getGraphicSection().getForwardLanes());
+           last.addSuccessor(new NextSection(first));
+        }
         return road;
     }
         

@@ -76,8 +76,8 @@ public class SimulationTask extends TimerTask {
      * put vehicles in driving (one by one)
      */
     public void putVehiclesInDriving(){
-        if(model.getNbDrivingVehicles() < model.getNbVehicles()){
-            Vehicle veh = model.getVehiclesModel().getVehicles().get(model.getNbDrivingVehicles());
+        if(!model.getVehiclesModel().getVehicles().isEmpty()){
+            Vehicle veh = model.getVehiclesModel().getVehicles().remove(0);
             veh.getDriving().setDecision(Decision.ACCELERATE);
             //vehicle chooses a random road from the road network
             int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
@@ -109,8 +109,10 @@ public class SimulationTask extends TimerTask {
             vehicle.updatePosition(simuStep);
             
             // Remove vehicles which reached their destination from the simulation
-            if(vehicle.getDriving().getDecision() == Decision.OFF)
+            if(vehicle.getDriving().getDecision() == Decision.OFF){
                 model.getDrivingVehiclesModel().removeVehicle(vehicle);
+                model.getVehiclesModel().addVehicle(vehicle);
+            }
             
             if(debug)
                 System.out.println("Vehicle numero "+i+": acc : "+vehicle.getDriving().getAcceleration()+

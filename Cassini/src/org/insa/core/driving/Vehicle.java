@@ -196,6 +196,8 @@ public class Vehicle {
                     
                     if(!previousLane.hasTransition()){
                         this.driving.setDecision(Decision.OFF); 
+                        this.driving.setSpeed(0);
+                        this.driving.setAcceleration(0);
                     }
                     else{
                         int indice = new Random().nextInt(previousLane.getNextLanes().size());
