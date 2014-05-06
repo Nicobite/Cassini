@@ -144,7 +144,7 @@ public class OsmRoot {
                     target.addConnections(target.getGraphicSection().getForwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
                     target.addSuccessor(new NextSection(otherSource));
-                    System.err.println("f-f"+road.getId()+","+r.getId());
+                    //System.err.println("f-f"+road.getId()+","+r.getId());
                 }
                 if(source!=null && !road.isOneway()){
                     source.addConnections(source.getGraphicSection().getBackwardLanes(),
