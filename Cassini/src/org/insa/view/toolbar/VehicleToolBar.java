@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.menu;
+package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
+import org.insa.controller.MainController;
 import org.insa.view.menuelement.ToolBarButton;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class EditorToolBar extends CustomToolBar {
+public class VehicleToolBar extends CustomToolBar {
 
     /**
      * Default constructor
      */
-    public EditorToolBar() {
+    public VehicleToolBar() {
         super(Orientation.HORIZONTAL, "top-tool-bar");
-        this.add(new ToolBarButton("new",this));
-        this.add(new ToolBarButton("open",this));
-        this.add(new ToolBarButton("save",this));
-        this.add(new ToolBarButton("resize",this));
+        this.add(new ToolBarButton("reset","Reset",this));
+        this.add(new ToolBarButton("open","Open", this));
+        this.add(new ToolBarButton("save","Save", this));
     }
     
     @Override
     public void handle(MouseEvent t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ToolBarButton button = (ToolBarButton)t.getSource();
+        switch(button.getImageName()) {
+            case "reset":
+                MainController.getInstance().performResetVehiclesModel();
+                break;
+            case "open" :
+                MainController.getInstance().performOpenVehicles();
+                break;
+            case "save" :
+                MainController.getInstance().performSaveVehicles();
+                break;
+        }
     }
 }

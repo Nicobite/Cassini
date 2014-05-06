@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.menu;
+package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
@@ -24,30 +24,33 @@ import org.insa.view.menuelement.ToolBarButton;
  *
  * @author Thiebaud Thomas
  */
-public class VehicleToolBar extends CustomToolBar {
+public class EditorToolBar extends CustomToolBar {
 
     /**
      * Default constructor
      */
-    public VehicleToolBar() {
+    public EditorToolBar() {
         super(Orientation.HORIZONTAL, "top-tool-bar");
-        this.add(new ToolBarButton("reset","Reset",this));
-        this.add(new ToolBarButton("open","Open", this));
-        this.add(new ToolBarButton("save","Save", this));
+        this.add(new ToolBarButton("new",this));
+        this.add(new ToolBarButton("open",this));
+        this.add(new ToolBarButton("save",this));
+        this.add(new ToolBarButton("resize",this));
     }
     
     @Override
     public void handle(MouseEvent t) {
         ToolBarButton button = (ToolBarButton)t.getSource();
         switch(button.getImageName()) {
-            case "reset":
-                MainController.getInstance().performResetVehiclesModel();
+            case "new" :
                 break;
             case "open" :
-                MainController.getInstance().performOpenVehicles();
+                MainController.getInstance().performOpenMap(true);
                 break;
             case "save" :
-                MainController.getInstance().performSaveVehicles();
+                MainController.getInstance().performSaveMap();
+                break;
+            case "resize" :
+                MainController.getInstance().performDisplayResizeMapDock();
                 break;
         }
     }

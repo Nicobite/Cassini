@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.menu;
+package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
 import javafx.scene.input.MouseEvent;
@@ -48,7 +48,7 @@ public class NavigationToolBar extends CustomToolBar {
                 break;
             case "map" :
                 MainController.getInstance().performDisplayMapPanel();
-                MainController.getInstance().performOpenMap();
+                MainController.getInstance().performOpenMap(false);
                 break;
             case "car" :
                 MainController.getInstance().performDisplayVehiclesPanel();

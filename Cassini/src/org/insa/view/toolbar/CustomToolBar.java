@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.menu;
+package org.insa.view.toolbar;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
@@ -61,6 +61,10 @@ public abstract class CustomToolBar extends ToolBar implements EventHandler<Mous
         this.getStyleClass().add(cssClass);
     }
     
+    /**
+     * Add css class to tool bar
+     * @param cssClass 
+     */
     public void addCssClass(String cssClass) {
         this.getStyleClass().add(cssClass);
     }
