@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.core.trafficcontrol;
+package org.insa.core.enums;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class ControlUnit
+ * @author ouedraog
  */
-public class ControlUnit {
-
+public enum Severity {
+    CRITICAL,
+    HIGH,
+    MEDIUM,
+    LOW
 }

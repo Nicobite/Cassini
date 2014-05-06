@@ -137,4 +137,18 @@ public class Lane {
     public GraphicLane getGraphicLane() {
         return gLane;
     }
+    /**
+     * Get max speed (from the section)
+     * @return 
+     */
+    public float getMaxSpeed(){
+        return section.getMaxSpeed();
+    }
+    /**
+     * Get the section length
+     * @return 
+     */
+    public float getLength(){
+        return section.getLength();
+    }
 }

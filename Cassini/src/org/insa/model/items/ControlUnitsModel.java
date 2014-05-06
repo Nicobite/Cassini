@@ -16,7 +16,9 @@
 package org.insa.model.items;
 
 import java.util.ArrayList;
-import org.insa.core.trafficcontrol.ControlUnit;
+import org.insa.core.trafficcontrol.Collision;
+import org.insa.core.trafficcontrol.Incident;
+import org.insa.core.trafficcontrol.TrafficLight;
 
 /**
  *
@@ -26,21 +28,71 @@ import org.insa.core.trafficcontrol.ControlUnit;
  */
 public class ControlUnitsModel{
     /**
-     * control units
+     * All the incidents occured in the simulation
      */
-    private ArrayList<ControlUnit>controlUnits;
+    private ArrayList<Incident>incidents;
     
-    private ControlUnitsModel(){
-        
+    /**
+     * All the accidents
+     */
+    private ArrayList<Collision> collisions;
+    
+    /**
+     * All the traffic lights
+     */
+    private ArrayList<TrafficLight> trafficLights;
+    
+    public ControlUnitsModel(){
+        incidents = new ArrayList<>();
+        collisions = new ArrayList<>();
+        trafficLights = new ArrayList<>();
     }
 
-    public ArrayList<ControlUnit> getControlUnits() {
-        return controlUnits;
+    //-----------Getters and setters-----------------
+    public ArrayList<Collision> getCollisions() {
+        return collisions;
     }
 
-    public void setControlUnits(ArrayList<ControlUnit> controlUnits) {
-        this.controlUnits = controlUnits;
+    public void setCollisions(ArrayList<Collision> collisions) {
+        this.collisions = collisions;
+    }
+
+    public ArrayList<Incident> getIncidents() {
+        return incidents;
+    }
+
+    public void setIncidents(ArrayList<Incident> incidents) {
+        this.incidents = incidents;
+    }
+
+    public ArrayList<TrafficLight> getTrafficLights() {
+        return trafficLights;
+    }
+
+    public void setTrafficLights(ArrayList<TrafficLight> trafficLights) {
+        this.trafficLights = trafficLights;
     }
     
+    //-----------Add and remove elements-----------------
+    public void addCollision(Collision c){
+        this.collisions.add(c);
+    }
+    public void removeCollision(Collision c){
+        this.collisions.remove(c);
+    }
+    
+    public void addIncident(Incident i){
+        this.incidents.add(i);
+    }
+    public void removeIncident(Incident i){
+        this.incidents.remove(i);
+    }
+    
+    public void addTrafficLight(TrafficLight t){
+        this.trafficLights.add(t);
+    }
+    public void removeTrafficLight(TrafficLight t){
+        this.trafficLights.remove(t);
+    }
     
 }

@@ -18,10 +18,13 @@ package org.insa.controller.task;
 import java.util.Random;
 import java.util.TimerTask;
 import org.insa.controller.MainController;
+import org.insa.core.driving.Driving;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
+import org.insa.core.enums.IncidentType;
 import org.insa.core.roadnetwork.Lane;
+import org.insa.core.trafficcontrol.Incident;
 import org.insa.model.Model;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -42,12 +45,13 @@ public class SimulationTask extends TimerTask {
      */
     private final int simuStep;
     
-    private boolean debug;
+    private final boolean debug;
     
     /**
      * Constructor
      * @param model Link to general model
      * @param simuStep
+     * @param debug
      */
     public SimulationTask(Model model, int simuStep, boolean debug){
         this.model = model;
@@ -66,6 +70,9 @@ public class SimulationTask extends TimerTask {
         
         //update vehicle driving (speed, position, decisions, ...)
         updateDrivings();
+        
+        //report incidents
+        reportIncidents();
         
         //update the GUI in consequence
         updateView();
@@ -133,5 +140,22 @@ public class SimulationTask extends TimerTask {
      */
     private void updateTrafficLights(){
         
+    }
+    /**
+     * report driving 
+     */
+    private void reportIncidents() {
+        Driving driving;
+        Incident incident;
+        for(Vehicle vhc : model.getDrivingVehiclesModel().getVehicles()){
+            driving = vhc.getDriving();
+            //speed limit
+            if(driving.getSpeed() > driving.getPosition().getLane().getMaxSpeed()){
+                incident = new Incident(vhc);
+                incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
+                model.getControlUnitsModel().addIncident(incident);
+            }
+            
+        }
     }
 }

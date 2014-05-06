@@ -184,7 +184,7 @@ public class Vehicle {
                 float distance = position.getOffset() + scale*this.driving.getSpeed()*(float)simuStep/1000f;
                 
                 //check whether we reach the end of the current section
-                float laneLength = position.getLane().getSection().getLength();
+                float laneLength = position.getLane().getLength();
                 if(distance < laneLength){
                     position.setOffset(distance);
                 }

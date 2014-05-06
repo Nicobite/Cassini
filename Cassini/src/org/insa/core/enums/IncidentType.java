@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.core.trafficcontrol;
+package org.insa.core.enums;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- * Class Priority
+ * @author ouedraog
  */
-public class Priority {
-
+public enum IncidentType {
+   WRONG_DIRECTION, //vehicle running in wrong direction
+   WRONG_SPEED_LIMIT, //speed limit not respected
+   WRONG_PRIORITY, //priority not respected
+   WRONG_STOP //stops not respected (traffic lights, stops, ...)
 }

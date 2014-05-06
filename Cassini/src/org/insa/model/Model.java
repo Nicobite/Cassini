@@ -46,7 +46,7 @@ public class Model {
     
     /**
      * traffic control unit : traffic light management, priority management,
-     * incidents dectection (accident, congestion,...)
+     * incidents detection (accident, congestion,...)
      */
     private ControlUnitsModel controlUnitsModel;
     
@@ -55,6 +55,7 @@ public class Model {
         vehiclesModel = new VehiclesModel();
         drivingVehiclesModel = new VehiclesModel();
         roadModel = new RoadsModel();
+        controlUnitsModel = new ControlUnitsModel();
     }
     
     /**
