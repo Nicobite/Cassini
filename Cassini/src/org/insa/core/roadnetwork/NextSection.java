@@ -15,8 +15,8 @@
  */
 package org.insa.core.roadnetwork;
 
-import java.util.ArrayList;
 import org.insa.core.enums.TurnRestriction;
+import org.simpleframework.xml.Element;
 
 /**
  *
@@ -32,14 +32,15 @@ public class NextSection {
     /**
      * the next sections that can be rached from the current one 
      */
+    @Element
     private Section section; 
     /**
      * check whether this section cannot be reached from the current one (banned road,..)
      */
     private TurnRestriction restriction;
 
-    public NextSection() {
-        
+    public NextSection(Section section) {
+        this.section = section;
     }
     
     /* getters and setters */

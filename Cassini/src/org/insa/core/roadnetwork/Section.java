@@ -22,6 +22,7 @@ import org.insa.core.enums.Direction;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.core.Commit;
 
@@ -72,7 +73,8 @@ public class Section {
       /**
      * the next sections that can be rached from the current one 
      */
-    private ArrayList<Section> successors; 
+    @ElementList
+    private ArrayList<NextSection> successors; 
     
     private Road road;
     
@@ -149,15 +151,19 @@ public class Section {
             lane.setSection(this);
             if(dir == Direction.FORWARD){
                 gSection.getForwardLanes().add(lane.getGraphicLane());
-                if(precedingSection!=null)
+                if(precedingSection!=null){
                     addConnections(precedingSection.getGraphicSection().getForwardLanes(),
                             this.gSection.getForwardLanes());
+                    precedingSection.addSuccessor(new NextSection(this));
+                }
             }
             else{
                 gSection.getBackwardLanes().add(lane.getGraphicLane());
-                if(precedingSection!=null)
+                if(precedingSection!=null){
                     addConnections(this.gSection.getBackwardLanes(),
                             precedingSection.getGraphicSection().getBackwardLanes());
+                    this.addSuccessor(new NextSection(precedingSection));
+                }
             }
         }
         this.lane = lane;
@@ -240,14 +246,14 @@ public class Section {
      * Add a section to the successor list
      * @param succ 
      */
-    public void addSuccessor(Section succ){
+    public void addSuccessor(NextSection succ){
         this.successors.add(succ);
     }
     /**
      * Remove a section form the successor list
      * @param succ 
      */
-    public void removeSuccessor(Section succ){
+    public void removeSuccessor(NextSection succ){
         this.successors.remove(succ);
     }
     
@@ -263,7 +269,7 @@ public class Section {
         return lane;
     }
 
-    public ArrayList<Section> getSuccessors() {
+    public ArrayList<NextSection> getSuccessors() {
         return successors;
     }
 

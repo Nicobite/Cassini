@@ -19,6 +19,7 @@ import java.io.File;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.mission.AStar;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
@@ -35,12 +36,18 @@ public class Test {
         try {
            RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
            //parser.saveMapData(map, new File("data/maps/jean-jaures.map.xml"));
-         for(Road r : map.getRoads()){
-             for(GraphicSection s : r.getGraphicRoad().getSections()){
-                 System.out.println("route "+r.getId()+" nb "+s.getSection().getSuccessors().size());
-             }
-         }
-
+         Section org = null;
+         Section dest = map.getRoads().get(10).getLastSection();
+          for(Road road : map.getRoads()){
+               if(road.getId() == 14689628 )
+                   org = road.getFirstSection();
+               if(road.getId() == 4299503)
+                   dest = road.getLastSection();
+           }
+         AStar a = new AStar(map, org, dest);
+         Road r = a.getShortestPath();
+         
+            System.out.println(r.getGraphicRoad().getSections().size());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
