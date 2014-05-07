@@ -39,6 +39,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     
     protected RoadDrawingPanel roadDrawingPanel;
     protected VehicleDrawingPanel vehicleDrawingPanel;
+    protected NodeDrawingPanel nodeDrawingPanel;
     
     protected DrawingUtils drawingUtils; 
 
@@ -49,9 +50,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
      */
     public DrawingPanel(int width, int height) {        
         drawingUtils = new DrawingUtils(height, width);
-        
-        //drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
-        
+                
         roadDrawingPanel = new RoadDrawingPanel(drawingUtils);
         vehicleDrawingPanel = new VehicleDrawingPanel(drawingUtils);
         
@@ -99,6 +98,8 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     public void paint() {
         roadDrawingPanel.paint();
         vehicleDrawingPanel.paint();
+        if(nodeDrawingPanel != null)
+            roadDrawingPanel.paint();
     }
     
     /**
@@ -107,6 +108,10 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     public void repaint() {
         this.repaintRoads();
         this.repaintVehicles();
+        if(nodeDrawingPanel != null) {
+            nodeDrawingPanel.repaint();
+        }
+            
     }
     
     /**
@@ -131,6 +136,34 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
                 roadDrawingPanel.repaint();
             }
         });
+    }
+
+    /**
+     * Add a layer to drawing panel in order to display nodes
+     */
+    public void performDisplayNode() {
+        nodeDrawingPanel = new NodeDrawingPanel(drawingUtils);
+        
+        nodeDrawingPanel.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                if(nodeDrawingPanel != null) {
+                    nodeDrawingPanel.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+                }
+            }
+        });
+        
+        this.getChildren().add(nodeDrawingPanel);
+        nodeDrawingPanel.paint();
+    }
+
+    /**
+     * Remove all the nodes into the layer and force it to null
+     */
+    public void performHideNode() {
+        nodeDrawingPanel.getChildren().clear();
+        nodeDrawingPanel = null;
     }
 }
 

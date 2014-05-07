@@ -40,7 +40,7 @@ public class RoadDrawingPanel extends Pane {
 
     /**
      * Constructor
-     * @param panel Reference to drawing panel
+     * @param drawingUtils Reference to drawing utils
      */
     public RoadDrawingPanel(DrawingUtils drawingUtils) {
         this.drawingUtils = drawingUtils;
@@ -283,7 +283,6 @@ public class RoadDrawingPanel extends Pane {
     public void repaint() {
         this.getChildren().clear();
         this.paint();
-        System.out.println(roads.getMinLon());
     }
     
     /**

@@ -16,6 +16,11 @@
 package org.insa.view.graphicmodel;
 
 import java.util.Objects;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Element;
 
@@ -23,8 +28,10 @@ import org.simpleframework.xml.Element;
  *
  * @author Thiebaud Thomas
  */
-public class GraphicNode {
+public class GraphicNode extends Circle {
     protected Node node;
+    
+    protected GraphicSection gSection;
     
     @Element
     protected GraphicPoint point;
@@ -34,6 +41,18 @@ public class GraphicNode {
      */
     public GraphicNode() {
         this.node = new Node(this);
+        this.setFill(Color.ORANGE);
+        this.setRadius(4);
+        
+        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent event) {
+                MainController.getInstance().performEndGetNode((GraphicNode)event.getSource());
+                event.consume();
+            }
+        
+        });
     }
     
     /**
@@ -42,8 +61,8 @@ public class GraphicNode {
      * @param latitude 
      */
     public GraphicNode(float longitude, float latitude) {
+        this();
         point = new GraphicPoint(longitude, latitude);
-        this.node = new Node(this);
     }
 
     /**
@@ -105,4 +124,14 @@ public class GraphicNode {
         }
         return true;
     }
+
+    public GraphicSection getgSection() {
+        return gSection;
+    }
+
+    public void setgSection(GraphicSection gSection) {
+        this.gSection = gSection;
+    }
+    
+    
 }

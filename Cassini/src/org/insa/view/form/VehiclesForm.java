@@ -15,12 +15,16 @@
 */
 package org.insa.view.form;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import org.insa.controller.MainController;
 import org.insa.controller.validator.VehiclesValidator;
 import org.insa.core.driving.Vehicle;
+import org.insa.mission.Mission;
+import org.insa.mission.PathNotFoundException;
 
 /**
  *
@@ -33,6 +37,7 @@ public class VehiclesForm extends FormPanel {
     private final TextField maxDeceleration = new TextField();
     private final TextField length = new TextField();
     private final TextField quantity = new TextField("1");
+    private final MissionPicker mission = new MissionPicker();
     private final SubmitButton submit = new SubmitButton("Ajouter", this);
     
     /**
@@ -49,6 +54,7 @@ public class VehiclesForm extends FormPanel {
         this.addFormField(new FormField("Décélération maximale", maxDeceleration));
         this.addFormField(new FormField("Longueur", length));
         this.addFormField(new FormField("Quantité", quantity));
+        this.addFormField(new FormField("Mission", mission));
         this.addFormField(new FormField("", submit));
         
         this.setPadding(new Insets(10));
@@ -63,8 +69,14 @@ public class VehiclesForm extends FormPanel {
             vehicle.setMaxDeceleration(Integer.valueOf(maxDeceleration.getText()));
             vehicle.setLength(Integer.valueOf(length.getText()));
             
-            MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
-            informationLabel.setText(formValidator.getSuccess());
+            try {
+                vehicle.setMission(new Mission(mission.getSourceNodePicker().getNode().getGraphicNode().getgSection().getSection(), mission.getTargetNodePicker().getNode().getGraphicNode().getgSection().getSection()));
+                MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
+                informationLabel.setText(formValidator.getSuccess());
+            } catch (PathNotFoundException ex) {
+                informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
+                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             informationLabel.setText(formValidator.getError());
         }

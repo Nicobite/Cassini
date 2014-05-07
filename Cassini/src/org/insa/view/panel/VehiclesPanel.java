@@ -24,11 +24,21 @@ import org.insa.view.toolbar.VehicleToolBar;
  */
 public class VehiclesPanel extends BorderPane {
     
+    private VehicleDataPanel vehicleDataPanel = new VehicleDataPanel();
+    
     /**
      * Default constructor
      */
     public VehiclesPanel() {
         this.setTop(new VehicleToolBar());
-        this.setCenter(new VehicleDataPanel());
+        this.setCenter(vehicleDataPanel);
+    }
+
+    /**
+     * Get vehicles data panel
+     * @return Vehicles data panel
+     */
+    public VehicleDataPanel getVehicleDataPanel() {
+        return vehicleDataPanel;
     }
 }

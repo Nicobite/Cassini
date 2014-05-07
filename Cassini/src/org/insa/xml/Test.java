@@ -33,7 +33,7 @@ public class Test {
         XmlParser parser = new XmlParser();
         try {
             //RoadsModel map = parser.readMapData(new File("data/maps/map.map.xml"));
-            RoadsModel map =parser.readOsmData(new File("data/osm/map.osm"));
+            RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
             parser.saveMapData(map, new File("data/maps/map.map.xml"));
             RoadsModel map2 = parser.readMapData(new File("data/maps/map.map.xml"));
             
@@ -56,7 +56,7 @@ public class Test {
             }
             //org = map2.getRoads().get(1).getFirstSection();
             //dest = map2.getRoads().get(1).getLastSection();
-            AStar a = new AStar(map2, org, dest.getSection());
+            AStar a = new AStar(/*map2,*/ org, dest.getSection());
             Road r = a.getShortestPath();
             
             System.out.println(r.getGraphicRoad().getSections().size());

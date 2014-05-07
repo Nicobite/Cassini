@@ -21,7 +21,7 @@ import javafx.scene.layout.BorderPane;
  *
  * @author Thomas Thiebaud
  */
-public class MapPanel extends BorderPane{
+public class MapPanel extends BorderPane {
     /**
      * Default constructor
      */

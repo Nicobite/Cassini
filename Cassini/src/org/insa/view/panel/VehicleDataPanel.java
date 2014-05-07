@@ -31,12 +31,13 @@ import org.insa.view.form.VehiclesForm;
  */
 public class VehicleDataPanel extends BorderPane {
     private TableView<Vehicle> table = new TableView<Vehicle>();
+    private VehiclesForm vehiclesForm = new VehiclesForm();
     
     /**
      * Default constructor
      */
     public VehicleDataPanel() {
-        this.setTop(new VehiclesForm());
+        this.setTop(vehiclesForm);
 
         TableColumn maxSpeed = new TableColumn("Vitesse maximale");
         maxSpeed.setCellValueFactory(new PropertyValueFactory<Vehicle,Integer>("maxSpeed"));
@@ -65,5 +66,13 @@ public class VehicleDataPanel extends BorderPane {
      */
     public void performUpdateData(ArrayList<Vehicle> vehicles) {
         table.setItems(FXCollections.observableList(vehicles));
+    }
+
+    /**
+     * Get vehicles form
+     * @return Vehicles form
+     */
+    public VehiclesForm getVehiclesForm() {
+        return vehiclesForm;
     }
 }

@@ -34,6 +34,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
+import org.insa.view.form.NodePicker;
+import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.utils.DrawingUtils;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
@@ -65,6 +67,7 @@ public class MainController {
     private VehicleDataPanel vehicleDataPanel = null;
     private DrawingPanel drawingPanel = null;
     private EditorPanel editorPanel = null;
+    private NodePicker lastNodePicker = null;
     
     
     private Model model = new Model();
@@ -526,5 +529,31 @@ public class MainController {
     public void performDisplayResizeMapDock() {
         if(editorPanel != null)
             editorPanel.displayResizeMapDock();
+    }
+
+    /**
+     * Begin to get a node from the map
+     * @param nodePicker Reference to the node picker control
+     */
+    public void performBeginGetNode(NodePicker nodePicker) {
+        if(mapPanel != null) {     
+            lastNodePicker = nodePicker;
+            drawingPanel.performDisplayNode();
+            mapPanel.setCenter(drawingPanel);
+            mainPanel.setCenter(mapPanel);
+        } else {
+            this.performDisplayMessage(mainPanel, "Aucune carte sélectionnée");
+        }
+    }
+
+    /**
+     * Finish to get a node from the map and send it to the last node picker control used
+     * @param graphicNode Graphic node got from the map
+     */
+    public void performEndGetNode(GraphicNode graphicNode) {
+        if(lastNodePicker != null) 
+            lastNodePicker.setNode(graphicNode.getNode());
+        drawingPanel.performHideNode();
+        mainPanel.setCenter(vehiclesPanel);
     }
 }

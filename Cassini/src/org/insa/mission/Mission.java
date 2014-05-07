@@ -16,12 +16,9 @@
 package org.insa.mission;
 
 import org.insa.core.enums.MissionStatus;
-import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.NextLane;
-import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
-import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
 
 /**
@@ -55,7 +52,7 @@ public class Mission {
     
     private int currentSectNum;
     
-    public Mission(RoadsModel roads, Section org, Section dest) throws PathNotFoundException {
+    public Mission(Section org, Section dest) throws PathNotFoundException {
         this.origin = org;
         this.destination = dest;
         this.duration = 0;
@@ -63,7 +60,7 @@ public class Mission {
         this.currentSectNum = 0;
         
         //compute the path
-        AStar a = new AStar(roads, org, dest);
+        AStar a = new AStar(org, dest);
         path = a.getShortestPath();
     }
     

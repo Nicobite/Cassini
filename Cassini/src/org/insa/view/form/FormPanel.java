@@ -27,7 +27,7 @@ import javafx.scene.text.Font;
  * @author Thomas Thiebaud
  */
 public abstract class FormPanel extends GridPane implements SubmitFormListener{
-    private ArrayList<FormField> formFields = new ArrayList<FormField>();
+    private final ArrayList<FormField> formFields = new ArrayList<FormField>();
     protected FormValidator formValidator = null;
     protected Label informationLabel = new Label();
     
@@ -57,6 +57,4 @@ public abstract class FormPanel extends GridPane implements SubmitFormListener{
     public void setInformationText(String information) {
         informationLabel.setText(information);
     }
-    
-    
 }

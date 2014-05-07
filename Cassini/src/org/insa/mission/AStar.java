@@ -18,6 +18,7 @@ package org.insa.mission;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
@@ -40,6 +41,15 @@ public class AStar {
     //fait correspondre un noeud à un label
     private final  HashMap< Section, Label> mapLabels;
     private Label labelDest;
+    
+    public AStar(Section src, Section dest) {
+        this.roads = MainController.getInstance().getModel().getRoadModel();
+        this.destination = dest;
+        this.origin = src;
+        this.heap = new BinaryHeap<>();
+        this.labels = new ArrayList<>();
+        this.mapLabels = new HashMap<>();
+    }
     
     public AStar(RoadsModel roads, Section src, Section dest) {
         this.roads = roads;

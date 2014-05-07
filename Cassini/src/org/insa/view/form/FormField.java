@@ -15,7 +15,7 @@
 */
 package org.insa.view.form;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 
 /**
  *
@@ -23,14 +23,14 @@ import javafx.scene.control.Control;
  */
 public class FormField {
     protected String legend = "";
-    protected Control control = null;
+    protected Node control = null;
     
     /**
      * Constructor
      * @param legend Field text description
      * @param control Field (user input)
      */
-    public FormField(String legend, Control control) {
+    public FormField(String legend, Node control) {
         this(legend,control,300);
         this.legend = legend;
         this.control = control;
@@ -42,10 +42,10 @@ public class FormField {
      * @param control Field (user input)
      * @param controlWidth Control width
      */
-    public FormField(String legend, Control control, int controlWidth) {
+    public FormField(String legend, Node control, int controlWidth) {
         this.legend = legend;
         this.control = control;
-        control.setMinWidth(controlWidth);
+        //control.setMinWidth(controlWidth);
     }
     
     /**
@@ -60,7 +60,7 @@ public class FormField {
      * Get control
      * @return Control (user input)
      */
-    public Control getControl() {
+    public Node getControl() {
         return control;
     }
 }
