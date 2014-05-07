@@ -21,6 +21,7 @@ import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
 
 /**
@@ -33,11 +34,11 @@ public class Mission {
     /**
      * origin : departure point
      */
-    private Node origin;
+    private Section origin;
     /**
      * destination to reach
      */
-    private Node destination;
+    private Section destination;
     
     /**
      * shorthest path to take from the origin to join the destination
@@ -54,28 +55,32 @@ public class Mission {
     
     private int currentSectNum;
     
-    public Mission(Node org, Node dest) {
+    public Mission(RoadsModel roads, Section org, Section dest) throws PathNotFoundException {
         this.origin = org;
         this.destination = dest;
         this.duration = 0;
         this.status = MissionStatus.STARTED;
         this.currentSectNum = 0;
+        
+        //compute the path
+        AStar a = new AStar(roads, org, dest);
+        path = a.getShortestPath();
     }
     
     /*     getters and setters */
-    public Node getOrigin() {
+    public Section getOrigin() {
         return origin;
     }
     
-    public void setOrigin(Node origin) {
+    public void setOrigin(Section origin) {
         this.origin = origin;
     }
     
-    public Node getDestination() {
+    public Section getDestination() {
         return destination;
     }
     
-    public void setDestination(Node destination) {
+    public void setDestination(Section destination) {
         this.destination = destination;
     }
     

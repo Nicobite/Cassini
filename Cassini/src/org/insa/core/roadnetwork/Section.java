@@ -146,6 +146,10 @@ public class Section {
     public ArrayList<NextSection> getSuccessors() {
         return successors;
     }
+
+    public void setgSection(GraphicSection gSection) {
+        this.gSection = gSection;
+    }
     
     /**
      * Set length
@@ -213,8 +217,7 @@ public class Section {
      * @return
      */
     public boolean isEqualTo(Section b){
-        return (this.getGraphicSection().getSourceNode().getNode().getId() == b.getGraphicSection().getSourceNode().getNode().getId()
-                && this.getGraphicSection().getTargetNode().getNode().getId() == b.getGraphicSection().getTargetNode().getNode().getId());
+        return (id == b.getId());
     }
     
     public String getId() {

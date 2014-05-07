@@ -27,7 +27,8 @@ public class Label implements Comparable<Label>{
         this.cout = Float.POSITIVE_INFINITY;// infini
         this.pere = null;//pas de pere
         //used just to get the distance between the current node and the destination one
-        GraphicSection s = new GraphicSection(current.getGraphicSection().getSourceNode(), dest.getGraphicSection().getTargetNode());
+        GraphicSection s = new GraphicSection(current.getGraphicSection().getSourceNode(), 
+                dest.getGraphicSection().getTargetNode());
         this.estimation = s.getSection().getLength();
     }      
     
@@ -80,7 +81,10 @@ public class Label implements Comparable<Label>{
         }
         return val;
     }
-    
+    @Override
+    public String toString(){
+        return this.current.getId()+" cout = "+cout;
+    }
     
 }
 

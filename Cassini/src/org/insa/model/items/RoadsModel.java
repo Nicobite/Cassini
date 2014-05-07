@@ -136,8 +136,9 @@ public class RoadsModel {
         }
         for(Road road : this.roads){
             for(GraphicSection sect : road.getGraphicRoad().getSections()){
+               //System.err.println(sect.getLength());
                 for(NextSection next : sect.getSection().getSuccessors()){
-                    next.setSection(sectionsMap.get(next.getRef()).getGraphicSection());
+                    next.setSection(sectionsMap.get(next.getRef()));
                 }
                 for(GraphicLane lane : sect.getForwardLanes()){
                     for(NextLane next : lane.getNextLanes()){

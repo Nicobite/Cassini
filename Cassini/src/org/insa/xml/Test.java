@@ -35,20 +35,31 @@ public class Test {
             //RoadsModel map = parser.readMapData(new File("data/maps/map.map.xml"));
             RoadsModel map =parser.readOsmData(new File("data/osm/map.osm"));
             parser.saveMapData(map, new File("data/maps/map.map.xml"));
-            //RoadsModel map = parser.readMapData(new File("data/maps/map.map.xml"));
+            RoadsModel map2 = parser.readMapData(new File("data/maps/map.map.xml"));
             
-            /* Section org = null;
-             GraphicSection dest = map.getRoads().get(10).getLastSection();
-             for(Road road : map.getRoads()){
-             if(road.getId() == 14689628 )
-             org = road.getFirstSection();
-             if(road.getId() == 4299503)
-             dest = road.getLastSection();
-             }
-             AStar a = new AStar(map, org, dest.getSection());
-             Road r = a.getShortestPath();
+            Section org = null;
+            GraphicSection dest = map.getRoads().get(10).getLastSection();
+            int i=0;
+            for(Road road : map2.getRoads()){
+                
+                if(road.getId() == 14689628 ){
+                    org = road.getFirstSection();
+                }
+                
+                if(road.getId() == 4299503)
+                    dest = road.getLastSection();
+                /*for( i=0; i< road.getGraphicRoad().getSections().size();i++){
+                    System.out.print(map.getRoads().get(i).getFirstSection().getSuccessors().size()+"\t");
+                    System.out.println(map2.getRoads().get(i).getFirstSection().getSuccessors().size());
+
+                }*/
+            }
+            //org = map2.getRoads().get(1).getFirstSection();
+            //dest = map2.getRoads().get(1).getLastSection();
+            AStar a = new AStar(map2, org, dest.getSection());
+            Road r = a.getShortestPath();
             
-             System.out.println(r.getGraphicRoad().getSections().size());*/
+            System.out.println(r.getGraphicRoad().getSections().size());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

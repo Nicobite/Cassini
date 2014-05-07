@@ -131,11 +131,11 @@ public class GraphicSection extends Polygon {
         }
         if(precedingSection!=null && dir == Direction.FORWARD) {
             addConnections(precedingSection.getForwardLanes(),forwardLanes);
-            precedingSection.addSuccessor(new NextSection(this));
+            precedingSection.addSuccessor(new NextSection(this.section));
         }
         else if(precedingSection!=null && dir == Direction.BACKWARD){
             addConnections(backwardLanes,precedingSection.getBackwardLanes());
-            this.addSuccessor(new NextSection(precedingSection));
+            this.addSuccessor(new NextSection(precedingSection.section));
         }
     }
     
@@ -168,7 +168,7 @@ public class GraphicSection extends Polygon {
         for(GraphicLane l : backwardLanes){
             l.setSection(this);
         }
-        this.section = new Section(this);
+        this.section.setgSection(this);
         //length = computeLength(sourceNode, targetNode)*8;
     }
     

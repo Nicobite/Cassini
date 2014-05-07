@@ -141,13 +141,13 @@ public class OsmRoot {
                     //add connections between lanes
                     target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    target.addSuccessor(new NextSection(otherSource.getGraphicSection()));
+                    target.addSuccessor(new NextSection(otherSource));
                     //System.err.println("f-f"+road.getId()+","+r.getId());
                 }
                 if(source!=null && !road.isOneway()){
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    source.addSuccessor(new NextSection(otherSource.getGraphicSection()));
+                    source.addSuccessor(new NextSection(otherSource));
                    // System.err.println("b-f"+road.getId()+","+r.getId());
                 }
             }
@@ -157,14 +157,14 @@ public class OsmRoot {
                 if(target!=null && !r.isOneway()){
                     target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    target.addSuccessor(new NextSection(otherTarget.getGraphicSection()));
+                    target.addSuccessor(new NextSection(otherTarget));
                     //System.err.println("f-b"+road.getId()+","+r.getId());
                 }
                 
                 if(source!=null && !road.isOneway()&& !r.isOneway()){
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    source.addSuccessor(new NextSection(otherTarget.getGraphicSection()));
+                    source.addSuccessor(new NextSection(otherTarget));
                    // System.err.println("b-b"+road.getId()+","+r.getId());
                 }
             }

@@ -91,9 +91,10 @@ public class AStar {
         init();
         while(!(heap.isEmpty()|| ((Label) labelDest).isMarque())){
             min= heap.deleteMin();
+            //heap.print();
             min.setMarque(true);
             for(NextSection next : min.getCurrent().getSuccessors()){
-                succ = next.getSection().getSection();
+                succ = next.getSection();
                 labSucc= mapLabels.get(succ);
                 if(!labSucc.isMarque()){
                     newCout = min.getCout() + min.getCurrent().getLength();

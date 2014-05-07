@@ -32,7 +32,7 @@ public class NextSection {
     /**
      * the next sections that can be rached from the current one
      */
-    private GraphicSection gSection;
+    private Section section;
     /**
      * check whether this section cannot be reached from the current one (banned road,..)
      */
@@ -45,9 +45,9 @@ public class NextSection {
      * Constructor
      * @param gSection reference to graphic section
      */
-    public NextSection(GraphicSection gSection) {
-        this.gSection = gSection;
-        if(ref==null) ref = gSection.getSection().getId();
+    public NextSection(Section gSection) {
+        this.section = gSection;
+        if(ref==null) ref = section.getId();
     }
     public NextSection(){
         
@@ -64,8 +64,8 @@ public class NextSection {
      * Get section
      * @return Section
      */
-    public GraphicSection getSection() {
-        return gSection;
+    public Section getSection() {
+        return section;
     }  
     
     /**
@@ -80,8 +80,8 @@ public class NextSection {
      * Set section
      * @param section New section 
      */
-    public void setSection(GraphicSection section) {
-        this.gSection = section;
+    public void setSection(Section section) {
+        this.section = section;
     }
 
     public String getRef() {
