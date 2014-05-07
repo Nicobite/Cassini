@@ -56,7 +56,7 @@ public class Test {
             }
             //org = map2.getRoads().get(1).getFirstSection();
             //dest = map2.getRoads().get(1).getLastSection();
-            AStar a = new AStar(/*map2,*/ org, dest.getSection());
+            AStar a = new AStar(map2, org, dest.getSection());
             Road r = a.getShortestPath();
             
             System.out.println(r.getGraphicRoad().getSections().size());
