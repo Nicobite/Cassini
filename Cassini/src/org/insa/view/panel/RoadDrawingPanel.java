@@ -35,8 +35,8 @@ import org.insa.view.graphicmodel.GraphicSection;
  * @author Thomas Thiebaud
  */
 public class RoadDrawingPanel extends Pane {
-    private final DrawingUtils drawingUtils;
-    private final RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    protected final DrawingUtils drawingUtils;
+    protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
 
     /**
      * Constructor
@@ -283,6 +283,7 @@ public class RoadDrawingPanel extends Pane {
     public void repaint() {
         this.getChildren().clear();
         this.paint();
+        System.out.println(roads.getMinLon());
     }
     
     /**

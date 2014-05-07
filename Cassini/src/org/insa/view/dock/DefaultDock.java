@@ -27,7 +27,7 @@ public class DefaultDock extends AbstractDock {
      * Default constructor
      */
     public DefaultDock() {
-        super();
+        super(null);
         this.setCenter(new Text("Nothing to display"));
     }
     

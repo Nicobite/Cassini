@@ -39,8 +39,7 @@ public class EditorPanel extends BorderPane {
 
     public void displayResizeMapDock() { 
         if(editorArea != null) {
-            System.out.println("WAZAAAA");
-            this.setRight(new ResizeMapDock(editorArea.getInitialBounds()));
+            this.setRight(new ResizeMapDock(editorArea,editorArea.getInitialBounds()));
         }
     }
     

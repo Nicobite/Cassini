@@ -16,6 +16,7 @@
 package org.insa.view.dock;
 
 import javafx.scene.layout.BorderPane;
+import org.insa.view.panel.EditorArea;
 
 /**
  *
@@ -25,10 +26,13 @@ public abstract class AbstractDock extends BorderPane {
     
     protected final int WIDTH = 250;
     
+    protected EditorArea editorArea;
+    
     /**
      * Default constructor
      */
-    public AbstractDock() {
+    public AbstractDock(EditorArea editorArea) {
+        this.editorArea = editorArea;
         this.setMinWidth(WIDTH);
         this.setMaxWidth(WIDTH);
         this.setPrefWidth(WIDTH);
