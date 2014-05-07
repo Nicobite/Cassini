@@ -126,6 +126,7 @@ public class Vehicle {
     
     public void setMission(Mission mission) {
         this.mission = mission;
+        this.hasMission = true;
     }
     
     public Mission getMission() {

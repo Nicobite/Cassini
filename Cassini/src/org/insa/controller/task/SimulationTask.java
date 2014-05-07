@@ -85,7 +85,7 @@ public class SimulationTask extends TimerTask {
      */
     public void putVehiclesInDriving(){
         if(!model.getVehiclesModel().getVehicles().isEmpty()){
-            GraphicSection section;
+            GraphicSection section; Lane lane;
             //pick the first vehicle
             Vehicle veh = model.getVehiclesModel().getVehicles().remove(0);
             veh.getDriving().setDecision(Decision.ACCELERATE);
@@ -93,13 +93,24 @@ public class SimulationTask extends TimerTask {
             //vehicle chooses a random road from the road network
             if(veh.hasMission()){
                 section = veh.getMission().getPath().getFirstSection().getGraphicSection();
+                lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
+                //determine direction
+                GraphicSection nextSection = veh.getMission().getPath().getGraphicRoad().getSections().get(1);
+                if(nextSection!=null && !nextSection.getSection().isEqualTo(lane.getGraphicLane().getSection().getSection())){
+                    lane = section.getBackwardLanes().get(section.getBackwardLanes().size()-1).getLane();
+                    System.err.println("Backward");
+                }
+                else{
+                    System.err.println("Forward");
+                }
+              
             }
             else{
                 int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
                 section = model.getRoadModel().getRoads().get(indice).getFirstSection()
                         .getGraphicSection();
+                   lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
             }
-            Lane lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
             if(debug)
@@ -131,6 +142,7 @@ public class SimulationTask extends TimerTask {
                 model.getDrivingVehiclesModel().removeVehicle(vehicle);
                 if(vehicle.hasMission()){
                     vehicle.getMission().setStatus(MissionStatus.COMPLETED);
+                    System.out.println("Mission successful");
                 }
                 else{
                     model.getVehiclesModel().addVehicle(vehicle);

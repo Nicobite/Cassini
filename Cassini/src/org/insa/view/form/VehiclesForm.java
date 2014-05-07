@@ -75,7 +75,7 @@ public class VehiclesForm extends FormPanel {
                 informationLabel.setText(formValidator.getSuccess());
             } catch (PathNotFoundException ex) {
                 informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
-                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
             }
         } else {
             informationLabel.setText(formValidator.getError());
