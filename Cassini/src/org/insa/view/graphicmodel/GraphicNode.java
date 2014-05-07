@@ -42,8 +42,8 @@ public class GraphicNode {
      * @param latitude 
      */
     public GraphicNode(float longitude, float latitude) {
-        this.node = new Node(this);
         point = new GraphicPoint(longitude, latitude);
+        this.node = new Node(this);
     }
 
     /**

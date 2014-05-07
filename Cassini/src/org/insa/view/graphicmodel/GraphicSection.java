@@ -1,18 +1,18 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ import org.simpleframework.xml.core.Commit;
  * @author Thiebaud Thomas
  */
 public class GraphicSection extends Polygon {
+    @Element
     protected Section section;
     
     @Attribute
@@ -62,14 +63,13 @@ public class GraphicSection extends Polygon {
     
     @ElementList
     protected ArrayList<GraphicLane>backwardLanes = new ArrayList<>();
-    
+    @Attribute
     private float length;
     
     /**
      * Default constructor
      */
     public GraphicSection() {
-        this.section = new Section(this);
         this.setStrokeLineCap(StrokeLineCap.BUTT);
         this.setFill(Color.GRAY);
     }
@@ -79,13 +79,13 @@ public class GraphicSection extends Polygon {
      * @param from Source node
      * @param to Target node
      */
-    public GraphicSection(GraphicNode from,GraphicNode to) {
-        this.section = new Section(this);
+    public GraphicSection(GraphicNode from, GraphicNode to) {
         sourceNode = from;
         targetNode = to;
         length = computeLength(sourceNode, targetNode) * 8;
         this.setStrokeLineCap(StrokeLineCap.BUTT);
         this.setFill(Color.GRAY);
+        this.section = new Section(this);
     }
     
     /**
@@ -111,36 +111,37 @@ public class GraphicSection extends Polygon {
      * add a given number of forward and backward lanes to this section \n
      * uses precedingSection to add connections between lanes
      * @param nbLanes
-     * @param dir 
-     * @param precedingSection 
+     * @param dir
+     * @param precedingSection
      */
     public void addLanes(int nbLanes, Direction dir, GraphicSection precedingSection){
         GraphicLane gLane = null;
         for(int i = 0; i<nbLanes; i++){
-            
             gLane = new GraphicLane();
-            gLane.getLane().setDirection(dir);
+            gLane.setDirection(dir);
             gLane.setSection(this);
             if(dir == Direction.FORWARD){
                 forwardLanes.add(gLane);
-                if(precedingSection!=null) {
-                    addConnections(precedingSection.getForwardLanes(),forwardLanes);
-                    precedingSection.addSuccessor(new NextSection(this));
-                }
+                gLane.setId(this.getSection().getId()+"F"+i);
             }
             else{
                 backwardLanes.add(gLane);
-                if(precedingSection!=null) {
-                    addConnections(backwardLanes,precedingSection.getBackwardLanes());
-                    this.addSuccessor(new NextSection(precedingSection));
-                }
+                gLane.setId(this.getSection().getId()+"B"+i);
             }
-        }   
+        }
+        if(precedingSection!=null && dir == Direction.FORWARD) {
+            addConnections(precedingSection.getForwardLanes(),forwardLanes);
+            precedingSection.addSuccessor(new NextSection(this));
+        }
+        else if(precedingSection!=null && dir == Direction.BACKWARD){
+            addConnections(backwardLanes,precedingSection.getBackwardLanes());
+            this.addSuccessor(new NextSection(precedingSection));
+        }
     }
     
     /**
      * Add connection(link) between lanes
-     * @param from origin 
+     * @param from origin
      * @param to target
      */
     public void addConnections(ArrayList<GraphicLane> from, ArrayList<GraphicLane>to){
@@ -149,10 +150,10 @@ public class GraphicSection extends Polygon {
         NextLane nextLane;
         if(nb1>0 && nb2>0)
             for(int i=0; i<nb1; i++){
-              indice = i<nb2 ? i : nb2-1;
-              nextLane = new NextLane();
-              nextLane.setTargetLane(to.get(indice).getLane());
-              from.get(i).getLane().addTransition(nextLane);
+                indice = i<nb2 ? i : nb2-1;
+                nextLane = new NextLane();
+                nextLane.setTargetLane(to.get(indice));
+                from.get(i).addTransition(nextLane);
             }
     }
     
@@ -167,12 +168,13 @@ public class GraphicSection extends Polygon {
         for(GraphicLane l : backwardLanes){
             l.setSection(this);
         }
-        length = computeLength(sourceNode, targetNode);
+        this.section = new Section(this);
+        //length = computeLength(sourceNode, targetNode)*8;
     }
     
     /**
      * Add a section to the successor list
-     * @param succ 
+     * @param succ
      */
     public void addSuccessor(NextSection succ){
         this.section.addSuccessor(succ);
@@ -180,7 +182,7 @@ public class GraphicSection extends Polygon {
     
     /**
      * Remove a section form the successor list
-     * @param succ 
+     * @param succ
      */
     public void removeSuccessor(NextSection succ){
         this.section.removeSuccessor(succ);
@@ -193,7 +195,7 @@ public class GraphicSection extends Polygon {
     public Section getSection() {
         return section;
     }
-
+    
     /**
      * Get source node
      * @return Source node
@@ -201,7 +203,7 @@ public class GraphicSection extends Polygon {
     public GraphicNode getSourceNode() {
         return sourceNode;
     }
-
+    
     /**
      * Get target node
      * @return Target node
@@ -209,7 +211,7 @@ public class GraphicSection extends Polygon {
     public GraphicNode getTargetNode() {
         return targetNode;
     }
-
+    
     /**
      * Get forward lanes
      * @return Forward lanes list
@@ -217,7 +219,7 @@ public class GraphicSection extends Polygon {
     public ArrayList<GraphicLane> getForwardLanes() {
         return forwardLanes;
     }
-
+    
     /**
      * Get backward lanes
      * @return Backward lanes list
@@ -233,7 +235,7 @@ public class GraphicSection extends Polygon {
     public double getSourceDeltaX() {
         return sourceDeltaX;
     }
-
+    
     /**
      * Get source delta y
      * @return Source delta y
@@ -241,15 +243,15 @@ public class GraphicSection extends Polygon {
     public double getSourceDeltaY() {
         return sourceDeltaY;
     }
-
+    
     /**
      * Get target delta x
-     * @return 
+     * @return
      */
     public double getTargetDeltaX() {
         return targetDeltaX;
     }
-
+    
     /**
      * Get target delta y
      * @return Target delta y
@@ -273,7 +275,7 @@ public class GraphicSection extends Polygon {
     public float getLength() {
         return length;
     }
-
+    
     /**
      * Set section
      * @param section New section
@@ -281,63 +283,63 @@ public class GraphicSection extends Polygon {
     public void setSection(Section section) {
         this.section = section;
     }
-
+    
     /**
      * Set source node
-     * @param sourceNode New source node 
+     * @param sourceNode New source node
      */
     public void setSourceNode(GraphicNode sourceNode) {
         this.sourceNode = sourceNode;
     }
-
+    
     /**
      * Set target node
-     * @param targetNode New target node 
+     * @param targetNode New target node
      */
     public void setTargetNode(GraphicNode targetNode) {
         this.targetNode = targetNode;
     }
-
+    
     /**
      * Set forward lanes
-     * @param forwardLanes New forward lanes list 
+     * @param forwardLanes New forward lanes list
      */
     public void setForwardLanes(ArrayList<GraphicLane> forwardLanes) {
         this.forwardLanes = forwardLanes;
     }
-
+    
     /**
      * Set backward lanes
-     * @param backwardLanes New backward lanes list 
+     * @param backwardLanes New backward lanes list
      */
     public void setBackwardLanes(ArrayList<GraphicLane> backwardLanes) {
         this.backwardLanes = backwardLanes;
     }
-   
+    
     /**
      * Set source delta x
-     * @param sourceDeltaX New source delta x 
+     * @param sourceDeltaX New source delta x
      */
     public void setSourceDeltaX(double sourceDeltaX) {
         this.sourceDeltaX = sourceDeltaX;
     }
-
+    
     /**
      * Set source delta y
-     * @param sourceDeltaY New source delta y 
+     * @param sourceDeltaY New source delta y
      */
     public void setSourceDeltaY(double sourceDeltaY) {
         this.sourceDeltaY = sourceDeltaY;
     }
-
+    
     /**
      * Set target delta x
-     * @param targetDeltaX New source delta x 
+     * @param targetDeltaX New source delta x
      */
     public void setTargetDeltaX(double targetDeltaX) {
         this.targetDeltaX = targetDeltaX;
     }
-
+    
     /**
      * Set target delta y
      * @param targetDeltaY New source delta y
@@ -356,7 +358,7 @@ public class GraphicSection extends Polygon {
     
     /**
      * Set length
-     * @param length New length 
+     * @param length New length
      */
     public void setLength(float length) {
         this.length = length;
@@ -370,12 +372,12 @@ public class GraphicSection extends Polygon {
     public void setLength(GraphicNode from, GraphicNode to) {
         length = computeLength(from, to);
     }
-
+    
     @Override
     public String toString() {
         return "GraphicSection{sourceNode=" + sourceNode + ", targetNode=" + targetNode + ", forwardLanes=" + forwardLanes + ", backwardLanes=" + backwardLanes + '}';
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -389,5 +391,5 @@ public class GraphicSection extends Polygon {
             return false;
         }
         return true;
-    }   
+    }
 }

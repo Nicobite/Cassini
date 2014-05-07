@@ -21,6 +21,7 @@ package org.insa.core.enums;
  * see http://wiki.openstreetmap.org/wiki/Restriction for further details
  */
 public enum TurnRestriction {
+    NONE,
     NO_LEFT_TURN,
     NO_RIGHT_TURN,
     NO_U_TURN,

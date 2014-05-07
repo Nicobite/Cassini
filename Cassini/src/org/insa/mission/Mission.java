@@ -21,6 +21,7 @@ import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.view.graphicmodel.GraphicLane;
 
 /**
  *
@@ -114,7 +115,7 @@ public class Mission {
      * @param currentLane
      * @return 
      */
-    public NextLane getNextLane(Lane currentLane){
+    public NextLane getNextLane(GraphicLane currentLane){
         NextLane result;
         Section nextSection = this.getPath().getGraphicRoad().getSections()
                 .get(this.getCurrentSectNum()).getSection();

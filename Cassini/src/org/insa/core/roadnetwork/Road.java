@@ -15,13 +15,16 @@
 */
 package org.insa.core.roadnetwork;
 
+import java.util.HashMap;
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
+import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicRoad;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -198,4 +201,5 @@ public class Road {
         }
         return true;
     }
+
 }

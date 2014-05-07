@@ -45,13 +45,15 @@ public class TestSimulation {
     public static Model loadModel() throws Exception {
         Model model = new Model();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the name (without extension) of osm file : ");
-        String pathMap = "data/osm/" + sc.nextLine() + ".osm";
+        //System.out.print("Enter the name (without extension) of osm file : ");
+        //String pathMap = "data/osm/" + sc.nextLine() + ".osm";
+        String pathMap = "data/maps/map.map.xml";
         System.out.print("Enter the name (without extension) of vehicle xml file : ");
         String pathVhc = "data/vehicles/" + sc.nextLine() + ".vhc.xml";
         try {
             model.setVehiclesModel((new XmlParser()).readVehiclesData(new File(pathVhc)));
-            model.setRoadModel((new XmlParser()).readOsmData(new File(pathMap)));
+            //model.setRoadModel((new XmlParser()).readOsmData(new File(pathMap)));
+            model.setRoadModel((new XmlParser()).readMapData(new File(pathMap)));
         } catch (Exception ex) {
             Logger.getLogger(TestSimulation.class.getName()).log(Level.SEVERE, null, ex);
         }

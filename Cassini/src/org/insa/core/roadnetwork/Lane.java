@@ -31,29 +31,15 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root
+
 public class Lane {
     protected GraphicLane gLane;
-    
-    /**
-     * direction of this lane
-     * FORWARD if same direction as the road and
-     * BACKWARD otherwise
-     */
-    @Attribute
-    private Direction direction;
     
     /**
      * list of vehicle in this lane
      */
     private ArrayList<Vehicle> vehicles;
     
-    /**
-     * possible movement from current lane
-     * i.e All lanes visibles from current lane
-     */
-    @ElementList(required = false)
-    private ArrayList<NextLane> nextLanes;
     
     /**
      * Constructor
@@ -62,24 +48,13 @@ public class Lane {
     public Lane(GraphicLane gLane) {
         this.gLane = gLane;
         this.vehicles = new ArrayList<>();
-        this.nextLanes = new ArrayList<>();
+        
+    }
+
+    public Lane() {
+        this.vehicles = new ArrayList<>();
     }
     
-    /**
-     * Add a transition to the transitions list
-     * @param t Transition to add
-     */
-    public void addTransition(NextLane t){
-        this.nextLanes.add(t);
-    }
-    
-    /**
-     * Remove a transition from the transition list
-     * @param t Transition to remove
-     */
-    public void removeTransition(NextLane t){
-        this.nextLanes.remove(t);
-    }
     
     /**
      * Add a vehicle to the vehicles list
@@ -105,14 +80,7 @@ public class Lane {
     public boolean containsVehicle(Vehicle v){
         return this.vehicles.contains(v);
     }
-    
-    /**
-     * Check if the transitions list is not empty
-     * @return true if the transitions list is not empty, false otherwise
-     */
-    public boolean hasTransition(){
-        return !this.getNextLanes().isEmpty();
-    }
+ 
     
     /**
      * Get vehicles
@@ -122,21 +90,7 @@ public class Lane {
         return vehicles;
     }
     
-    /**
-     * Get direction
-     * @return Direction
-     */
-    public Direction getDirection() {
-        return direction;
-    }
     
-    /**
-     * Get next lane
-     * @return Next lane
-     */
-    public ArrayList<NextLane> getNextLanes() {
-        return nextLanes;
-    }
     
     /**
      * Get graphic lane
@@ -145,6 +99,8 @@ public class Lane {
     public GraphicLane getGraphicLane() {
         return gLane;
     }
+
+    
     
     /**
      * Set vehicles
@@ -154,21 +110,7 @@ public class Lane {
         this.vehicles = vehicles;
     }
     
-    /**
-     * Set direction
-     * @param direction New direction 
-     */
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
     
-    /**
-     * Set transitions
-     * @param transitions New transitions list 
-     */
-    public void setTransition(ArrayList<NextLane> transitions) {
-        this.nextLanes = transitions;
-    }
     
     @Override
     public int hashCode() {
@@ -185,24 +127,8 @@ public class Lane {
             return false;
         }
         final Lane other = (Lane) obj;
-        if (this.direction != other.direction) {
-            return false;
-        }
         return true;
     }
     
-    /**
-     * find the transition to the next lane of a given section
-     * @param section
-     * @return 
-     */
-    public NextLane findNextLaneBySection(Section section){
-        NextLane result = null;
-        for(NextLane transition : this.getNextLanes()){
-            if(transition.getTargetLane().getGraphicLane().getSection().getSection().isEqualTo(section)){
-               result = transition; 
-            }
-        }
-        return result;
-    }
+
 }

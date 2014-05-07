@@ -18,6 +18,7 @@ package org.insa.core.roadnetwork;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.enums.TurnRestriction;
 import org.insa.core.enums.TurningIndication;
+import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
@@ -51,8 +52,8 @@ public class NextLane {
      * target lane
      * This is a lane accessible from current lane
      */
-    @Element
-    private Lane targetLane;
+    
+    private GraphicLane targetLane;
     
     /**
      * turn restrictions (banned turns,...)
@@ -72,15 +73,22 @@ public class NextLane {
     @Attribute
     private TrafficSignaling signal;
     
+    @Attribute
+    private String ref;
+    
     public NextLane(){
         super();
+        this.restriction = TurnRestriction.NONE;
+        this.indication = TurningIndication.NONE;
+        this.signal = TrafficSignaling.NONE;
     }
     
-    public void setTargetLane(Lane targetLane) {
+    public void setTargetLane(GraphicLane targetLane) {
         this.targetLane = targetLane;
+        if(ref==null) ref = targetLane.getId();
     }
-    
-    public Lane getTargetLane() {
+
+    public GraphicLane getTargetLane() {
         return targetLane;
     }
     
@@ -107,4 +115,14 @@ public class NextLane {
     public void setRestriction(TurnRestriction restriction) {
         this.restriction = restriction;
     }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+    
+    
 }

@@ -17,6 +17,7 @@ package org.insa.core.roadnetwork;
 
 import org.insa.core.enums.TurnRestriction;
 import org.insa.view.graphicmodel.GraphicSection;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 
 /**
@@ -31,12 +32,14 @@ public class NextSection {
     /**
      * the next sections that can be rached from the current one
      */
-    @Element
     private GraphicSection gSection;
     /**
      * check whether this section cannot be reached from the current one (banned road,..)
      */
     private TurnRestriction restriction;
+    
+    @Attribute
+    private String ref;
     
     /**
      * Constructor
@@ -44,8 +47,11 @@ public class NextSection {
      */
     public NextSection(GraphicSection gSection) {
         this.gSection = gSection;
+        if(ref==null) ref = gSection.getSection().getId();
     }
-    
+    public NextSection(){
+        
+    }
     /**
      * Get restriction
      * @return Restriction
@@ -77,4 +83,13 @@ public class NextSection {
     public void setSection(GraphicSection section) {
         this.gSection = section;
     }
+
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+    
 }

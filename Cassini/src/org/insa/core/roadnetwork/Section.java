@@ -19,9 +19,11 @@ package org.insa.core.roadnetwork;
 import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.view.graphicmodel.GraphicSection;
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -39,7 +41,7 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root
+
 public class Section {
     protected GraphicSection gSection;
     
@@ -59,6 +61,13 @@ public class Section {
     @ElementList
     private ArrayList<NextSection> successors;
     
+    @Attribute
+    private String id;
+    
+    public Section() {
+        successors = new ArrayList<>();
+        
+    }
     /**
      * Constructor
      * @param gSection Reference to graphic section
@@ -66,6 +75,12 @@ public class Section {
     public Section(GraphicSection gSection) {
         this.gSection = gSection;
         successors = new ArrayList<>();
+        id = gSection.getSourceNode().getNode().getId()+"-"
+                +gSection.getTargetNode().getNode().getId();
+    }
+    
+    public void setSuccessors(ArrayList<NextSection> successors) {
+        this.successors = successors;
     }
     
     /**
@@ -201,4 +216,15 @@ public class Section {
         return (this.getGraphicSection().getSourceNode().getNode().getId() == b.getGraphicSection().getSourceNode().getNode().getId()
                 && this.getGraphicSection().getTargetNode().getNode().getId() == b.getGraphicSection().getTargetNode().getNode().getId());
     }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    
+    
 }
