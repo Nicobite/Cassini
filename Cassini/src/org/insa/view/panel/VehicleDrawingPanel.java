@@ -18,6 +18,7 @@ package org.insa.view.panel;
 import javafx.scene.layout.Pane;
 import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
+import org.insa.core.enums.Direction;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.items.VehiclesModel;
 import org.insa.view.utils.DrawingUtils;
@@ -73,11 +74,20 @@ public class VehicleDrawingPanel extends Pane {
                 
         double ratio = offset / lane.getSection().getLength(); 
 
-        double deltaX = drawingUtils.longToX(lane.getTargetPoint().getX()) - drawingUtils.longToX(lane.getSourcePoint().getX());
-        double deltaY = drawingUtils.latToY(lane.getTargetPoint().getY()) - drawingUtils.latToY(lane.getSourcePoint().getY());
-
-        point[0] = drawingUtils.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) + ratio * deltaX;
-        point[1] = drawingUtils.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) + ratio * deltaY;
+        double deltaX;
+        double deltaY;
+        
+        if(lane.getDirection() == Direction.FORWARD) {
+            deltaX = drawingUtils.longToX(lane.getTargetPoint().getX()) - drawingUtils.longToX(lane.getSourcePoint().getX());
+            deltaY = drawingUtils.latToY(lane.getTargetPoint().getY()) - drawingUtils.latToY(lane.getSourcePoint().getY());
+            point[0] = drawingUtils.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) + ratio * deltaX;
+            point[1] = drawingUtils.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) + ratio * deltaY;
+        } else if (lane.getDirection() == Direction.BACKWARD) {
+            deltaX = drawingUtils.longToX(lane.getSourcePoint().getX()) - drawingUtils.longToX(lane.getTargetPoint().getX());
+            deltaY = drawingUtils.latToY(lane.getSourcePoint().getY()) - drawingUtils.latToY(lane.getTargetPoint().getY());
+            point[0] = drawingUtils.longToX(lane.getTargetPoint().getX() + section.getTargetDeltaX()) + ratio * deltaX;
+            point[1] = drawingUtils.latToY(lane.getTargetPoint().getY() + section.getTargetDeltaY()) + ratio * deltaY;
+        }
         point[2] = width;
                 
         return point;

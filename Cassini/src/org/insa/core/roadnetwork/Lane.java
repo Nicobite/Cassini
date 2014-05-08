@@ -16,12 +16,8 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
-import org.insa.core.enums.Direction;
 import org.insa.core.driving.Vehicle;
 import org.insa.view.graphicmodel.GraphicLane;
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
 
 /**
  *

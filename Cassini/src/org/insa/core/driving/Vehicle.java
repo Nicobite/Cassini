@@ -18,7 +18,7 @@ package org.insa.core.driving;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
-import org.insa.core.roadnetwork.Lane;
+import org.insa.core.enums.Direction;
 import org.insa.mission.Mission;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;

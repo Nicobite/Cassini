@@ -18,6 +18,7 @@ package org.insa.view.panel;
 
 import java.util.ArrayList;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.insa.controller.MainController;
@@ -34,9 +35,10 @@ import org.insa.view.graphicmodel.GraphicSection;
  *
  * @author Thomas Thiebaud
  */
-public class RoadDrawingPanel extends Pane {
+public class RoadDrawingPanel extends StackPane {
     protected final DrawingUtils drawingUtils;
     protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    protected Pane roadPane = new Pane();
 
     /**
      * Constructor
@@ -45,6 +47,7 @@ public class RoadDrawingPanel extends Pane {
     public RoadDrawingPanel(DrawingUtils drawingUtils) {
         this.drawingUtils = drawingUtils;
         drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
+        this.getChildren().add(roadPane);
     }
     
     /**
@@ -261,17 +264,17 @@ public class RoadDrawingPanel extends Pane {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
                 transform(gSection);
-                this.getChildren().add(gSection);
+                roadPane.getChildren().add(gSection);
                 
                 for(GraphicLane lane : gSection.getForwardLanes()) {
                     Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
                     line.setStroke(Color.WHITE);
-                    this.getChildren().add(line);
+                    roadPane.getChildren().add(line);
                 }
                 for(GraphicLane lane : gSection.getBackwardLanes() ) {
                     Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
                     line.setStroke(Color.WHITE);
-                    this.getChildren().add(line);
+                    roadPane.getChildren().add(line);
                 }
             }
         }
@@ -281,7 +284,7 @@ public class RoadDrawingPanel extends Pane {
      * Repaint all road by clearing the old ones and painting new ones
      */
     public void repaint() {
-        this.getChildren().clear();
+        roadPane.getChildren().clear();
         this.paint();
     }
     
