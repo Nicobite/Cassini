@@ -74,8 +74,8 @@ public class GraphicSection extends Polygon {
         this.setFill(Color.GRAY);
         sourceNode = new GraphicNode();
         targetNode = new GraphicNode();
-        sourceNode.setgSection(this);
-        targetNode.setgSection(this);
+        sourceNode.addgSection(this);
+        targetNode.addgSection(this);
     }
     
     /**
@@ -86,8 +86,8 @@ public class GraphicSection extends Polygon {
     public GraphicSection(GraphicNode from, GraphicNode to) {
         sourceNode = from;
         targetNode = to;
-        sourceNode.setgSection(this);
-        targetNode.setgSection(this);
+        sourceNode.addgSection(this);
+        targetNode.addgSection(this);
         length = computeLength(sourceNode, targetNode) * 8;
         this.setStrokeLineCap(StrokeLineCap.BUTT);
         this.setFill(Color.GRAY);
@@ -175,8 +175,8 @@ public class GraphicSection extends Polygon {
             l.setSection(this);
         }
         this.section.setgSection(this);
-        sourceNode.setgSection(this);
-        targetNode.setgSection(this);
+        sourceNode.addgSection(this);
+        targetNode.addgSection(this);
         //length = computeLength(sourceNode, targetNode)*8;
     }
     

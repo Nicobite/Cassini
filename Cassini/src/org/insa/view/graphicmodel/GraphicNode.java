@@ -15,6 +15,7 @@
  */
 package org.insa.view.graphicmodel;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -31,7 +32,7 @@ import org.simpleframework.xml.Element;
 public class GraphicNode extends Circle {
     protected Node node;
     
-    protected GraphicSection gSection;
+    protected ArrayList<GraphicSection> gSections = new ArrayList<GraphicSection>();
     
     @Element
     protected GraphicPoint point;
@@ -125,6 +126,7 @@ public class GraphicNode extends Circle {
         return true;
     }
 
+    /*
     public GraphicSection getgSection() {
         return gSection;
     }
@@ -132,6 +134,16 @@ public class GraphicNode extends Circle {
     public void setgSection(GraphicSection gSection) {
         this.gSection = gSection;
     }
+    */
+    
+    public void addgSection(GraphicSection section) {
+        this.gSections.add(section);
+    }
+
+    public ArrayList<GraphicSection> getgSections() {
+        return gSections;
+    }
+    
     
     
 }

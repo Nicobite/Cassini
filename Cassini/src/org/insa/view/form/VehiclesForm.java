@@ -25,6 +25,8 @@ import org.insa.controller.validator.VehiclesValidator;
 import org.insa.core.driving.Vehicle;
 import org.insa.mission.Mission;
 import org.insa.mission.PathNotFoundException;
+import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
@@ -70,12 +72,31 @@ public class VehiclesForm extends FormPanel {
             vehicle.setLength(Integer.valueOf(length.getText()));
             
             try {
-                vehicle.setMission(new Mission(mission.getSourceNodePicker().getNode().getGraphicNode().getgSection().getSection(), mission.getTargetNodePicker().getNode().getGraphicNode().getgSection().getSection()));
+                GraphicNode sourceNode = mission.getSourceNodePicker().getNode().getGraphicNode();
+                GraphicNode targetNode = mission.getTargetNodePicker().getNode().getGraphicNode();
+                GraphicSection sourceSection = null;
+                GraphicSection targetSection = null;
+                for(GraphicSection s : mission.getSourceNodePicker().getNode().getGraphicNode().getgSections()) {
+                    if(s.getSourceNode().equals(sourceNode)) {
+                        sourceSection = s;
+                        break;
+                    }
+                }
+                for(GraphicSection s : mission.getTargetNodePicker().getNode().getGraphicNode().getgSections()) {
+                    if(s.getTargetNode().equals(targetNode)) {
+                        targetSection = s;
+                        break;
+                    }
+                }
+                vehicle.setMission(new Mission(sourceSection.getSection(), targetSection.getSection()));
                 MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
                 informationLabel.setText(formValidator.getSuccess());
             } catch (PathNotFoundException ex) {
                 informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
                 Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
+            } catch (NullPointerException ex) {
+                informationLabel.setText("Carte corrompue");
+                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
             }
         } else {
             informationLabel.setText(formValidator.getError());

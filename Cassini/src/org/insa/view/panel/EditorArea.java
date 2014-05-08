@@ -25,7 +25,7 @@ import org.insa.view.utils.DrawingUtils;
  * @author Thiebaud Thomas
  */
 public class EditorArea extends RoadDrawingPanel {
-    private final Pane boundLines = new Pane();
+    private final Pane boundPane = new Pane();
     
     private Line minLong = new Line();
     private Line maxLong = new Line();
@@ -40,7 +40,7 @@ public class EditorArea extends RoadDrawingPanel {
         super(drawingUtils);
         this.init();
         this.paint();
-        this.getChildren().add(boundLines);
+        this.getChildren().add(boundPane);
     }
     
     /**
@@ -79,17 +79,17 @@ public class EditorArea extends RoadDrawingPanel {
      * Repaint bounds
      */
     private void repaintBoundLines() {
-        boundLines.getChildren().clear();
+        boundPane.getChildren().clear();
         
         minLong.setStroke(Color.RED);
         maxLong.setStroke(Color.RED);
         minLat.setStroke(Color.RED);
         maxLat.setStroke(Color.RED);
         
-        boundLines.getChildren().add(minLong);
-        boundLines.getChildren().add(maxLong);
-        boundLines.getChildren().add(minLat);
-        boundLines.getChildren().add(maxLat);
+        boundPane.getChildren().add(minLong);
+        boundPane.getChildren().add(maxLong);
+        boundPane.getChildren().add(minLat);
+        boundPane.getChildren().add(maxLat);
     }
     
     /**
@@ -97,8 +97,8 @@ public class EditorArea extends RoadDrawingPanel {
      */
     public void repaint() {
         super.repaint();
-        boundLines.getChildren().clear();
-        this.getChildren().add(boundLines);
+        boundPane.getChildren().clear();
+        this.getChildren().add(boundPane);
     }
     
     /**
