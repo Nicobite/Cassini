@@ -18,6 +18,7 @@ package org.insa.xml;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.items.VehiclesModel;
 
@@ -27,7 +28,8 @@ import org.insa.model.items.VehiclesModel;
  * Class TestVehicle
  */
 public class TestVehicle {
-    public static void main(String args[]){
+    public static void main(String args[]) throws InterruptedException{
+        MainController.getInstance().performDisplayJConsole();
         VehiclesModel model = new VehiclesModel();
         Vehicle v;
         for(int i=0; i<10; i++){
@@ -37,6 +39,7 @@ public class TestVehicle {
             v.setMaxDeceleration(20);
             v.setLength(1);
             model.addVehicle(v);
+            Thread.sleep(1000000000);
         }
             XmlParser p = new XmlParser();
         try {

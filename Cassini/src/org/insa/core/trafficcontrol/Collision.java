@@ -21,7 +21,7 @@ import org.insa.core.enums.Severity;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Collision
  * Collision between 2 vehicles 
  */
@@ -42,6 +42,10 @@ public class Collision {
      * position of the accident
      */
     private VehiclePosition position;
+    /**
+     * time of the accident
+     */
+    private int time;
     /**
      * viewed or not
      */
@@ -85,9 +89,18 @@ public class Collision {
     public void setViewed(boolean viewed) {
         this.viewed = viewed;
     }
+    
 
     public void setPosition(VehiclePosition position) {
         this.position = position;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
     
     

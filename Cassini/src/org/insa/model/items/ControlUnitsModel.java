@@ -17,6 +17,7 @@ package org.insa.model.items;
 
 import java.util.ArrayList;
 import org.insa.core.trafficcontrol.Collision;
+import org.insa.core.trafficcontrol.Congestion;
 import org.insa.core.trafficcontrol.Incident;
 import org.insa.core.trafficcontrol.TrafficLight;
 
@@ -36,6 +37,10 @@ public class ControlUnitsModel{
      * All the accidents
      */
     private ArrayList<Collision> collisions;
+    /**
+     * All the congestions
+     */
+    private ArrayList<Congestion> congestions;
     
     /**
      * All the traffic lights
@@ -46,6 +51,7 @@ public class ControlUnitsModel{
         incidents = new ArrayList<>();
         collisions = new ArrayList<>();
         trafficLights = new ArrayList<>();
+        congestions = new ArrayList<>();
     }
 
     //-----------Getters and setters-----------------
@@ -72,6 +78,15 @@ public class ControlUnitsModel{
     public void setTrafficLights(ArrayList<TrafficLight> trafficLights) {
         this.trafficLights = trafficLights;
     }
+
+    public ArrayList<Congestion> getCongestions() {
+        return congestions;
+    }
+
+    public void setCongestions(ArrayList<Congestion> congestions) {
+        this.congestions = congestions;
+    }
+    
     
     //-----------Add and remove elements-----------------
     public void addCollision(Collision c){
@@ -95,4 +110,10 @@ public class ControlUnitsModel{
         this.trafficLights.remove(t);
     }
     
+    public void addCongestion(Congestion c){
+        this.congestions.add(c);
+    }
+    public void removeCongestion(Congestion c){
+        this.congestions.remove(c);
+    }
 }

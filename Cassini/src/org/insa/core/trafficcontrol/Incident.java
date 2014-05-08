@@ -21,7 +21,7 @@ import org.insa.core.enums.IncidentType;
 
 /**
  *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
  * Class Incident
  */
 public class Incident {
@@ -37,6 +37,10 @@ public class Incident {
      * place of the incident
      */
     private VehiclePosition position;
+    /**
+     * time when the incident take place
+     */
+    private int time;
     /**
      * viewed or not 
      */
@@ -79,6 +83,14 @@ public class Incident {
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+    }
+
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
     }
     
     

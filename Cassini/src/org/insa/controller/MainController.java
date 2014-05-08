@@ -17,6 +17,7 @@
 package org.insa.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -32,11 +33,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.hyperic.sigar.Sigar;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
 import org.insa.view.form.NodePicker;
 import org.insa.view.graphicmodel.GraphicNode;
-import org.insa.view.utils.DrawingUtils;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
 import org.insa.view.panel.EditorArea;
@@ -47,6 +48,7 @@ import org.insa.view.panel.ResultPanel;
 import org.insa.view.panel.SimulationPanel;
 import org.insa.view.panel.VehicleDataPanel;
 import org.insa.view.panel.VehiclesPanel;
+import org.insa.view.utils.DrawingUtils;
 import org.insa.xml.XmlParser;
 
 /**
@@ -81,6 +83,15 @@ public class MainController {
         //Empty for the moment
     }
     
+   public void performDisplayJConsole(){
+        try {
+            Sigar sigar = new Sigar();
+            long pid = sigar.getPid();
+            Process proc = Runtime.getRuntime().exec("jconsole "+pid);
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+   }
     /**
      * Return the unique instance of the class
      * @return The unique instance of the class

@@ -1,0 +1,34 @@
+<vehiclesModel>
+   <vehicles>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+      <vehicle maxSpeed="50" maxacc="20" maxdec="20" length="1">
+         <driving/>
+      </vehicle>
+   </vehicles>
+</vehiclesModel>
