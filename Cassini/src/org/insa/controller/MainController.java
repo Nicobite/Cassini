@@ -535,10 +535,10 @@ public class MainController {
      * Begin to get a node from the map
      * @param nodePicker Reference to the node picker control
      */
-    public void performBeginGetNode(NodePicker nodePicker) {
+    public void performBeginGetNode(NodePicker nodePicker,boolean isSourceNode) {
         if(mapPanel != null) {     
             lastNodePicker = nodePicker;
-            drawingPanel.performDisplayNode();
+            drawingPanel.performDisplayNode(isSourceNode);
             mapPanel.setCenter(drawingPanel);
             mainPanel.setCenter(mapPanel);
         } else {

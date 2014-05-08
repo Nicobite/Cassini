@@ -35,11 +35,14 @@ public class NodePicker extends HBox implements EventHandler<MouseEvent> {
     private final TextField longField = new TextField();
     private final TextField latField = new TextField();
     private final Button getNodeButton = new Button();
-        
+    private boolean isSourceNodePicker;   
+    
+    
     /**
      * Default constructor
      */
-    public NodePicker() {
+    public NodePicker(boolean isSourceNodePicker) {
+        this.isSourceNodePicker = isSourceNodePicker;
         longField.setPrefWidth(300);
         longField.setMaxWidth(Double.MAX_VALUE);
         longField.setEditable(false);
@@ -105,6 +108,6 @@ public class NodePicker extends HBox implements EventHandler<MouseEvent> {
     
     @Override
     public void handle(MouseEvent event) {
-        MainController.getInstance().performBeginGetNode(this);
+        MainController.getInstance().performBeginGetNode(this,isSourceNodePicker);
     }
 }

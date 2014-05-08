@@ -141,7 +141,7 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
     /**
      * Add a layer to drawing panel in order to display nodes
      */
-    public void performDisplayNode() {
+    public void performDisplayNode(boolean isSourceNode) {
         nodeDrawingPanel = new NodeDrawingPanel(drawingUtils);
         
         nodeDrawingPanel.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
@@ -155,7 +155,10 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
         });
         
         this.getChildren().add(nodeDrawingPanel);
-        nodeDrawingPanel.paint();
+        if(isSourceNode)
+            nodeDrawingPanel.paintSourceNode();
+        else
+            nodeDrawingPanel.paintTargetNode();
     }
 
     /**

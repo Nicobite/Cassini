@@ -95,7 +95,7 @@ public class SimulationTask extends TimerTask {
                 section = veh.getMission().getPath().getFirstSection().getGraphicSection();
                 lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
                 //determine direction
-                GraphicSection nextSection = veh.getMission().getPath().getGraphicRoad().getSections().get(1);
+                GraphicSection nextSection = veh.getMission().getPath().getGraphicRoad().getSections().get(0);
                 if(nextSection!=null && !nextSection.getSection().isEqualTo(lane.getGraphicLane().getSection().getSection())){
                     lane = section.getBackwardLanes().get(section.getBackwardLanes().size()-1).getLane();
                     System.err.println("Backward");

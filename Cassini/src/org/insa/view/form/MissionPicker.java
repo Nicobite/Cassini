@@ -23,8 +23,8 @@ import javafx.scene.layout.GridPane;
  * @author Thiebaud Thomas
  */
 public class MissionPicker extends GridPane {
-    private NodePicker sourceNodePicker = new NodePicker();
-    private NodePicker targetNodePicker = new NodePicker();
+    private NodePicker sourceNodePicker = new NodePicker(true);
+    private NodePicker targetNodePicker = new NodePicker(false);
     
     /**
      * Default constructor

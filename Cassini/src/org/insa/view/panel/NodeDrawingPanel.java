@@ -30,6 +30,7 @@ import org.insa.view.utils.DrawingUtils;
 public class NodeDrawingPanel extends Pane {
     protected final DrawingUtils drawingUtils;
     protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    boolean isSourceNode = false;
 
     /**
      * Constructor
@@ -44,17 +45,31 @@ public class NodeDrawingPanel extends Pane {
      * Paint all nodes
      */
     public void paint() {
+        if(isSourceNode)
+            this.paintSourceNode();
+        else
+            this.paintTargetNode();
+    }
+    
+    public void paintSourceNode() {
+        isSourceNode = true;
         for(Road r : roads.getRoads()) { 
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
                 GraphicNode sourceNode = gSection.getSourceNode();
                 sourceNode.setCenterX(drawingUtils.longToX(sourceNode.getLongitude()));
                 sourceNode.setCenterY(drawingUtils.latToY(sourceNode.getLatitude()));
-                
+                this.getChildren().add(sourceNode);
+            }
+        }
+    }
+    
+    public void paintTargetNode() {
+        isSourceNode = false;
+        for(Road r : roads.getRoads()) { 
+            for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
                 GraphicNode targetNode = gSection.getTargetNode();
                 targetNode.setCenterX(drawingUtils.longToX(targetNode.getLongitude()));
                 targetNode.setCenterY(drawingUtils.latToY(targetNode.getLatitude()));
-
-                this.getChildren().add(sourceNode);
                 this.getChildren().add(targetNode);
             }
         }
