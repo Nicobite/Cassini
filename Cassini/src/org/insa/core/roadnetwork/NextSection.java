@@ -15,6 +15,7 @@
 */
 package org.insa.core.roadnetwork;
 
+import org.insa.core.enums.Direction;
 import org.insa.core.enums.TurnRestriction;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
@@ -40,13 +41,18 @@ public class NextSection {
     
     @Attribute
     private String ref;
+        
+    @Attribute
+    private Direction direction;
     
     /**
      * Constructor
      * @param gSection reference to graphic section
+     * @param direction
      */
-    public NextSection(Section gSection) {
+    public NextSection(Section gSection, Direction direction) {
         this.section = gSection;
+        this.direction = direction;
         if(ref==null) ref = section.getId();
     }
     public NextSection(){
@@ -91,5 +97,14 @@ public class NextSection {
     public void setRef(String ref) {
         this.ref = ref;
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+    
     
 }

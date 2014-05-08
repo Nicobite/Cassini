@@ -92,18 +92,8 @@ public class SimulationTask extends TimerTask {
             
             //vehicle chooses a random road from the road network
             if(veh.hasMission()){
-                section = veh.getMission().getPath().getFirstSection().getGraphicSection();
-                lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
-                //determine direction
-                GraphicSection nextSection = veh.getMission().getPath().getGraphicRoad().getSections().get(0);
-                if(nextSection!=null && !nextSection.getSection().isEqualTo(lane.getGraphicLane().getSection().getSection())){
-                    lane = section.getBackwardLanes().get(section.getBackwardLanes().size()-1).getLane();
-                    System.err.println("Backward");
-                }
-                else{
-                    System.err.println("Forward");
-                }
-              
+                lane = veh.getMission().getInitialLane();
+                 
             }
             else{
                 int indice = new Random().nextInt(model.getRoadModel().getRoads().size());

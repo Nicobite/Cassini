@@ -116,7 +116,7 @@ public class OsmWay {
             Section last = road.getLastSection().getSection();
             last.getGraphicSection().addConnections(last.getGraphicSection().getForwardLanes(),
                     first.getGraphicSection().getForwardLanes());
-            last.addSuccessor(new NextSection(first));
+            last.addSuccessor(new NextSection(first, Direction.BACKWARD));
         }
         return road;
     }

@@ -18,6 +18,7 @@ package org.insa.xml.osm;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
@@ -141,13 +142,13 @@ public class OsmRoot {
                     //add connections between lanes
                     target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    target.addSuccessor(new NextSection(otherSource));
+                    target.addSuccessor(new NextSection(otherSource, Direction.FORWARD));
                     //System.err.println("f-f"+road.getId()+","+r.getId());
                 }
                 if(source!=null && !road.isOneway()){
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
-                    source.addSuccessor(new NextSection(otherSource));
+                    source.addSuccessor(new NextSection(otherSource, Direction.BACKWARD));
                    // System.err.println("b-f"+road.getId()+","+r.getId());
                 }
             }
@@ -157,14 +158,14 @@ public class OsmRoot {
                 if(target!=null && !r.isOneway()){
                     target.getGraphicSection().addConnections(target.getGraphicSection().getForwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    target.addSuccessor(new NextSection(otherTarget));
+                    target.addSuccessor(new NextSection(otherTarget, Direction.FORWARD));
                     //System.err.println("f-b"+road.getId()+","+r.getId());
                 }
                 
                 if(source!=null && !road.isOneway()&& !r.isOneway()){
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
-                    source.addSuccessor(new NextSection(otherTarget));
+                    source.addSuccessor(new NextSection(otherTarget, Direction.BACKWARD));
                    // System.err.println("b-b"+road.getId()+","+r.getId());
                 }
             }

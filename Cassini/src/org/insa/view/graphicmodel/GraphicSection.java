@@ -137,11 +137,11 @@ public class GraphicSection extends Polygon {
         }
         if(precedingSection!=null && dir == Direction.FORWARD) {
             addConnections(precedingSection.getForwardLanes(),forwardLanes);
-            precedingSection.addSuccessor(new NextSection(this.section));
+            precedingSection.addSuccessor(new NextSection(this.section, Direction.FORWARD));
         }
         else if(precedingSection!=null && dir == Direction.BACKWARD){
             addConnections(backwardLanes,precedingSection.getBackwardLanes());
-            this.addSuccessor(new NextSection(precedingSection.section));
+            this.addSuccessor(new NextSection(precedingSection.section, Direction.BACKWARD));
         }
     }
     

@@ -15,11 +15,16 @@
 */
 package org.insa.mission;
 
+import org.insa.core.enums.Direction;
 import org.insa.core.enums.MissionStatus;
+import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.NextLane;
+import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
@@ -61,6 +66,17 @@ public class Mission {
         
         //compute the path
         AStar a = new AStar(org, dest);
+        path = a.getShortestPath();
+    }
+      public Mission(RoadsModel m, Section org, Section dest) throws PathNotFoundException {
+        this.origin = org;
+        this.destination = dest;
+        this.duration = 0;
+        this.status = MissionStatus.STARTED;
+        this.currentSectNum = 0;
+        
+        //compute the path
+        AStar a = new AStar(m, org, dest);
         path = a.getShortestPath();
     }
     
@@ -124,5 +140,22 @@ public class Mission {
         result = currentLane.findNextLaneBySection(nextSection);
         return result;
     }
-
+  /**
+     * get the initial lane to take
+     * @return 
+     */
+    public Lane getInitialLane(){
+        Lane result; NextSection next = null;
+        Section section = this.getPath().getGraphicRoad().getSections()
+                .get(1).getSection();
+        for(NextSection s : origin.getSuccessors()){
+            if(s.getSection().isEqualTo(section)){
+                next = s;
+            }
+        }
+        result = (next.getDirection() == Direction.FORWARD) ?
+                origin.getGraphicSection().getForwardLanes().get(0).getLane() :
+                origin.getGraphicSection().getBackwardLanes().get(0).getLane()       ;
+        return result;
+    }
 }

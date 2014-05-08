@@ -19,6 +19,7 @@ import java.io.File;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.mission.AStar;
+import org.insa.mission.Mission;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -56,6 +57,8 @@ public class Test {
             }
             //org = map2.getRoads().get(1).getFirstSection();
             //dest = map2.getRoads().get(1).getLastSection();
+            Mission m = new Mission(map2, org, dest.getSection());
+            m.getInitialLane();
             AStar a = new AStar(map2, org, dest.getSection());
             Road r = a.getShortestPath();
             
