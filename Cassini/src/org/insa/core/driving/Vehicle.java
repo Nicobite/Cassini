@@ -32,12 +32,12 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root
+
 public class Vehicle {
     /**
      * vehicle max speed (km/h)
      */
-    @Attribute()
+    @Attribute
     private SimpleIntegerProperty maxSpeed;
     
     /**

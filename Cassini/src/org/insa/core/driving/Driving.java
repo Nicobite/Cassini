@@ -59,7 +59,7 @@ public class Driving {
     /**
      * vehicle's driving behavior
      */
-    @Element
+    @Element(required = false)
     private Behavior behavior;
     
     public Driving() {

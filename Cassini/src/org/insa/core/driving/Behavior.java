@@ -15,6 +15,7 @@
  */
 package org.insa.core.driving;
 
+import javafx.beans.property.SimpleFloatProperty;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
@@ -25,13 +26,13 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root
+
 public class Behavior {
     /**
      * safe distance gap
      */
     @Attribute
-    private float safetyDistance;
+    private SimpleFloatProperty safetyDistance;
     
     /**
      * Default constructor
@@ -45,7 +46,7 @@ public class Behavior {
      * @return Safety distance
      */
     public float getSafetyDistance() {
-        return safetyDistance;
+        return safetyDistance.get();
     }
 
     /**
@@ -53,6 +54,6 @@ public class Behavior {
      * @param safetyDistance New safety distance 
      */
     public void setSafetyDistance(float safetyDistance) {
-        this.safetyDistance = safetyDistance;
+        this.safetyDistance.set(safetyDistance);
     }
 }
