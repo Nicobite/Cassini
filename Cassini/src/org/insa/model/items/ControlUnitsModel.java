@@ -1,21 +1,22 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.insa.model.items;
 
 import java.util.ArrayList;
+import org.insa.core.enums.IncidentType;
 import org.insa.core.trafficcontrol.Collision;
 import org.insa.core.trafficcontrol.Congestion;
 import org.insa.core.trafficcontrol.Incident;
@@ -53,36 +54,72 @@ public class ControlUnitsModel{
         trafficLights = new ArrayList<>();
         congestions = new ArrayList<>();
     }
-
+    
     //-----------Getters and setters-----------------
     public ArrayList<Collision> getCollisions() {
         return collisions;
     }
-
+    
     public void setCollisions(ArrayList<Collision> collisions) {
         this.collisions = collisions;
     }
-
-    public ArrayList<Incident> getIncidents() {
+    
+    public ArrayList<Incident> getAllIncidents() {
         return incidents;
     }
-
+    
+    public ArrayList<Incident> getDirectionIncidents() {
+        ArrayList<Incident> result = new ArrayList<>();
+        for(Incident i : this.incidents){
+            if(i.getIncident() == IncidentType.WRONG_DIRECTION){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    public ArrayList<Incident> getSpeedLimitIncidents() {
+        ArrayList<Incident> result = new ArrayList<>();
+        for(Incident i : this.incidents){
+            if(i.getIncident() == IncidentType.WRONG_SPEED_LIMIT){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    public ArrayList<Incident> getPriorityIncidents() {
+        ArrayList<Incident> result = new ArrayList<>();
+        for(Incident i : this.incidents){
+            if(i.getIncident() == IncidentType.WRONG_PRIORITY){
+                result.add(i);
+            }
+        }
+        return result;
+    }
+    public ArrayList<Incident> getStopIncidents() {
+        ArrayList<Incident> result = new ArrayList<>();
+        for(Incident i : this.incidents){
+            if(i.getIncident() == IncidentType.WRONG_STOP){
+                result.add(i);
+            }
+        }
+        return result;
+    }
     public void setIncidents(ArrayList<Incident> incidents) {
         this.incidents = incidents;
     }
-
+    
     public ArrayList<TrafficLight> getTrafficLights() {
         return trafficLights;
     }
-
+    
     public void setTrafficLights(ArrayList<TrafficLight> trafficLights) {
         this.trafficLights = trafficLights;
     }
-
+    
     public ArrayList<Congestion> getCongestions() {
         return congestions;
     }
-
+    
     public void setCongestions(ArrayList<Congestion> congestions) {
         this.congestions = congestions;
     }
