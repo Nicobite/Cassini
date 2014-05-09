@@ -15,13 +15,16 @@
  */
 package org.insa.view.panel;
 
+import java.util.ArrayList;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.insa.core.enums.Direction;
+import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
+import org.insa.core.roadnetwork.Section;
 import org.insa.view.dock.EditorToolsDock;
 import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.graphicmodel.GraphicSection;
@@ -227,6 +230,36 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         this.drawRoad(graphicNode);
         if(isDrawingRoad && currentDrawingRoad.size() > 0)
             isDrawingRoad = false;
+        //will add connection between road
+        ArrayList<GraphicSection> sections = graphicNode.getGraphicSections();
+        Section current = currentDrawingRoad.getGraphicRoad().getLastSection();
+        ArrayList<GraphicSection> others = new ArrayList<>(sections);
+        others.remove(current.getGraphicSection());
+        for(GraphicSection s : others){
+            if(s.equals(s.getSection().getRoad().getLastSection())){
+                if(!s.getBackwardLanes().isEmpty()){
+                    current.addSuccessor(new NextSection(s.getSection(), Direction.FORWARD));
+                    current.getGraphicSection().addConnections(current.getGraphicSection().getForwardLanes(),
+                            s.getBackwardLanes());
+                }
+                if(!current.getGraphicSection().getBackwardLanes().isEmpty()){
+                    s.addSuccessor(new NextSection(current, Direction.FORWARD));
+                    s.addConnections(s.getForwardLanes(), current.getGraphicSection().getBackwardLanes());
+                }
+            }
+            else if(s.equals(s.getSection().getRoad().getFirstSection())){
+                current.addSuccessor(new NextSection(s.getSection(), Direction.FORWARD));
+                current.getGraphicSection().addConnections(current.getGraphicSection().getForwardLanes(),
+                        s.getForwardLanes());
+                if(!s.getBackwardLanes().isEmpty() &&
+                        !current.getGraphicSection().getBackwardLanes().isEmpty()){
+                    s.addSuccessor(new NextSection(current, Direction.BACKWARD));
+                    s.addConnections(s.getBackwardLanes(), current.getGraphicSection().getBackwardLanes());
+                }
+                
+            }
+   
+        }
     }
     
     /**

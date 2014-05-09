@@ -93,6 +93,7 @@ public class GraphicRoad {
     
     public void addSection(GraphicSection s) {
         this.sections.add(s);
+        s.getSection().setRoad(this.road);
     }
     
     /**

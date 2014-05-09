@@ -410,9 +410,7 @@ public class GraphicSection extends Polygon {
             return false;
         }
         final GraphicSection other = (GraphicSection) obj;
-        if (!Objects.equals(this.section, other.section)) {
-            return false;
-        }
-        return true;
+        return (this.getSourceNode().equals(other.getSourceNode())) &&
+                (this.getTargetNode().equals(other.getTargetNode()));
     }
 }

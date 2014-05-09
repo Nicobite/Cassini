@@ -147,6 +147,6 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
         if (!Objects.equals(this.point, other.point)) {
             return false;
         }
-        return true;
+        return (this.getLatitude()==other.getLatitude()&& this.getLongitude()==other.getLongitude());
     }
 }
