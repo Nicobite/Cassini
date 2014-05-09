@@ -33,13 +33,17 @@ public class VehiclesModel {
      * vehicles
      */
     @ElementList
-    private ArrayList<Vehicle>vehicles;
+    private ArrayList<Vehicle> vehicles;
     
     /**
      * driving vehicles
      */
     public VehiclesModel(){
         this.vehicles = new ArrayList<>();
+    }
+    
+    public void clear() {
+        vehicles.clear();
     }
 
     public ArrayList<Vehicle> getVehicles() {

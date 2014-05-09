@@ -15,16 +15,13 @@
 */
 package org.insa.core.roadnetwork;
 
-import java.util.HashMap;
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
-import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicRoad;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -64,8 +61,16 @@ public class Road {
      * Get the first section of the road
      * @return First section
      */
-    public Section getFirstSection() {
-        return gRoad.getFirstSection();
+    public GraphicSection getFirstSection() {
+        return gRoad.getSections().get(0);
+    }
+    
+    /**
+     * Get the number of sections
+     * @return Number of sections
+     */
+    public int size() {
+        return gRoad.getSections().size();
     }
     
     /**

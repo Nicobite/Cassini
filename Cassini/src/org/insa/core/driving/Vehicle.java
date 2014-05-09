@@ -18,12 +18,10 @@ package org.insa.core.driving;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
-import org.insa.core.enums.Direction;
 import org.insa.mission.Mission;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
 
 /**
  *
@@ -213,7 +211,7 @@ public class Vehicle {
      */
     public void updatePosition(int simuStep){
         float scale =0.50f;
-        if(this.driving.getSpeed() != 0){
+        if(this.driving.getSpeed() != 0) {
             VehiclePosition position = this.getDriving().getPosition() ;
             //System.out.println(this.driving.getSpeed()*(float)simuStep/1000f) ;
             float distance = position.getOffset() + scale*this.driving.getSpeed()*(float)simuStep/1000f;

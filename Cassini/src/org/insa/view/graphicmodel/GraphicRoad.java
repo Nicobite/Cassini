@@ -91,6 +91,10 @@ public class GraphicRoad {
             this.sections.add(s.getGraphicSection()); 
     }
     
+    public void addSection(GraphicSection s) {
+        this.sections.add(s);
+    }
+    
     /**
      * Remove section
      * @param s Section to remove

@@ -44,7 +44,7 @@ public class Test {
             for(Road road : map2.getRoads()){
                 
                 if(road.getId() == 14689628 ){
-                    org = road.getFirstSection();
+                    org = road.getFirstSection().getSection();
                 }
                 
                 if(road.getId() == 4299503)

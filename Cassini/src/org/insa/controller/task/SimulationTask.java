@@ -97,8 +97,7 @@ public class SimulationTask extends TimerTask {
             }
             else{
                 int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
-                section = model.getRoadModel().getRoads().get(indice).getFirstSection()
-                        .getGraphicSection();
+                section = model.getRoadModel().getRoads().get(indice).getFirstSection();
                    lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
             }
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
@@ -159,6 +158,7 @@ public class SimulationTask extends TimerTask {
     private void updateTrafficLights(){
         
     }
+    
     /**
      * report driving
      */
@@ -172,8 +172,7 @@ public class SimulationTask extends TimerTask {
                 incident = new Incident(vhc);
                 incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
                 model.getControlUnitsModel().addIncident(incident);
-            }
-            
+            }  
         }
     }
 }

@@ -54,7 +54,7 @@ public class RoadDrawingPanel extends StackPane {
      * Initialize by calculting all the graphic lanes
      */
     public void init() {
-        for(Road r : roads.getRoads()) { 
+        for(Road r : roads.getRoads()) {
             this.initSection(r.getGraphicRoad());
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) {                
                 this.initLane(gSection);

@@ -49,6 +49,7 @@ public class Node {
      */
     public Node(GraphicNode gNode) {
         this.gNode = gNode;
+        this.id = hashCode();
     }
 
     /**
@@ -109,5 +110,14 @@ public class Node {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.gNode);
+        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 59 * hash + Objects.hashCode(this.signaling);
+        return hash;
     }
 }

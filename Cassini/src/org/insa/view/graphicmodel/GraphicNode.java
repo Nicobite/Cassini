@@ -1,18 +1,18 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
@@ -29,10 +29,10 @@ import org.simpleframework.xml.Element;
  *
  * @author Thiebaud Thomas
  */
-public class GraphicNode extends Circle {
+public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
     protected Node node;
     
-    protected ArrayList<GraphicSection> gSections = new ArrayList<GraphicSection>();
+    protected ArrayList<GraphicSection> gSections = new ArrayList<>();
     
     @Element
     protected GraphicPoint point;
@@ -45,27 +45,51 @@ public class GraphicNode extends Circle {
         this.setFill(Color.ORANGE);
         this.setRadius(4);
         
-        this.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent event) {
-                MainController.getInstance().performEndGetNode((GraphicNode)event.getSource());
-                event.consume();
-            }
-        
-        });
+        this.setOnMouseClicked(this);
+        this.setOnMouseEntered(this);
+        this.setOnMouseExited(this);
     }
     
     /**
      * Constructor
      * @param longitude
-     * @param latitude 
+     * @param latitude
      */
     public GraphicNode(float longitude, float latitude) {
         this();
         point = new GraphicPoint(longitude, latitude);
     }
-
+    
+    @Override
+    public void handle(MouseEvent event) {
+        if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
+            MainController.getInstance().performGetNode((GraphicNode)event.getSource());
+        }
+        if(event.getEventType() == MouseEvent.MOUSE_ENTERED) {
+            this.setFill(Color.RED);
+        }
+        if(event.getEventType() == MouseEvent.MOUSE_EXITED) {
+            this.setFill(Color.ORANGE);
+        } 
+        event.consume();
+    }
+    
+    /**
+     * Add a graphic section 
+     * @param section Graphic section to add
+     */
+    public void addGraphicSection(GraphicSection section) {
+        this.gSections.add(section);
+    }
+    
+    /**
+     * Get graphic section list
+     * @return Graphic section list
+     */
+    public ArrayList<GraphicSection> getGraphicSections() {
+        return gSections;
+    }
+    
     /**
      * Get point
      * @return Graphic point
@@ -97,15 +121,15 @@ public class GraphicNode extends Circle {
     public Node getNode() {
         return node;
     }
-
+    
     /**
      * Set point
-     * @param point New point 
+     * @param point New point
      */
     public void setPoint(GraphicPoint point) {
         this.point = point;
     }
-
+    
     @Override
     public String toString() {
         return "GraphicNode{" + "point=" + point + '}';
@@ -125,25 +149,4 @@ public class GraphicNode extends Circle {
         }
         return true;
     }
-
-    /*
-    public GraphicSection getgSection() {
-        return gSection;
-    }
-
-    public void setgSection(GraphicSection gSection) {
-        this.gSection = gSection;
-    }
-    */
-    
-    public void addgSection(GraphicSection section) {
-        this.gSections.add(section);
-    }
-
-    public ArrayList<GraphicSection> getgSections() {
-        return gSections;
-    }
-    
-    
-    
 }

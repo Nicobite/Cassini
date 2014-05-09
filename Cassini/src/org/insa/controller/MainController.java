@@ -75,6 +75,8 @@ public class MainController {
     private Model model = new Model();
     
     private SimulationController simulationController = null;
+    private boolean isPickingNode = false;
+    private GraphicNode pickingNode = null;
     
     /**
      * Default private constructor
@@ -87,7 +89,7 @@ public class MainController {
         try {
             Sigar sigar = new Sigar();
             long pid = sigar.getPid();
-            Process proc = Runtime.getRuntime().exec("jconsole "+pid);
+            Process proc = Runtime.getRuntime().exec("jconsole " + pid);
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -288,6 +290,7 @@ public class MainController {
                                     });
                                     editorPanel.setEditorArea(editorArea);
                                     editorPanel.setCenter(editorArea);
+                                    editorPanel.displayEditorToolsDock();
                                 } else {
                                     drawingPanel = new DrawingPanel(1450,850);
                                     mapPanel.setCenter(drawingPanel);
@@ -552,19 +555,44 @@ public class MainController {
             drawingPanel.performDisplayNode(isSourceNode);
             mapPanel.setCenter(drawingPanel);
             mainPanel.setCenter(mapPanel);
+            isPickingNode = true;
         } else {
             this.performDisplayMessage(mainPanel, "Aucune carte sélectionnée");
         }
     }
 
     /**
-     * Finish to get a node from the map and send it to the last node picker control used
+     * Get a node from the map
      * @param graphicNode Graphic node got from the map
      */
-    public void performEndGetNode(GraphicNode graphicNode) {
-        if(lastNodePicker != null) 
+    public void performGetNode(GraphicNode graphicNode) {
+        if(isPickingNode) {
             lastNodePicker.setNode(graphicNode.getNode());
-        drawingPanel.performHideNode();
-        mainPanel.setCenter(vehiclesPanel);
+            drawingPanel.performHideNode();
+            mainPanel.setCenter(vehiclesPanel);
+            isPickingNode = false;
+        } else {
+            editorPanel.getEditorArea().addConnectionBetweenRoads(graphicNode);
+        }
+    }
+
+    /**
+     * Ask for map size in order to create a new map
+     */
+    public void performCreateNewMap() {
+        model.clear();
+        editorPanel.createEditoArea();
+        editorPanel.getEditorArea().setIsWaitingSize(true);
+        this.performDisplayMessage(editorPanel, "Veuillez entrer les dimensions de la carte");
+        editorPanel.displayResizeMapDock();
+    }
+
+    /**
+     * Display editor tools and drawing area in order to draw a new map
+     */
+    public void performDisplayEditorArea() {
+        editorPanel.displayEditorArea();
+        editorPanel.displayEditorToolsDock();
+        editorPanel.getEditorArea().setIsWaitingSize(false);
     }
 }

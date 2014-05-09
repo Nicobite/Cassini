@@ -27,7 +27,7 @@ import org.insa.controller.MainController;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicBounds;
 import org.insa.view.panel.EditorArea;
-import org.insa.view.utils.FloatSpinner;
+import org.insa.view.form.FloatSpinner;
 
 /**
  *
@@ -107,13 +107,12 @@ public class ResizeMapDock extends AbstractDock {
             @Override
             public void handle(MouseEvent event) {       
                 model.setMinLon(minLong.getValue());
-                
-                System.out.println(model.getMinLon());
-                
                 model.setMaxLon(maxLong.getValue());
                 model.setMinLat(minLat.getValue());
                 model.setMaxLat(maxLat.getValue());
                 editorArea.reload();
+                if(editorArea.isWaitingSize())
+                    MainController.getInstance().performDisplayEditorArea();
             }
         });
         

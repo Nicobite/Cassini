@@ -17,7 +17,6 @@ package org.insa.model.items;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
@@ -67,6 +66,10 @@ public class RoadsModel {
     
     public RoadsModel(){
         this.roads = new ArrayList<>();
+    }
+    
+    public void clear() {
+        roads.clear();
     }
     
     public ArrayList<Road> getRoads() {

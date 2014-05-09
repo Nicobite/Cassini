@@ -51,6 +51,9 @@ public class NodeDrawingPanel extends Pane {
             this.paintTargetNode();
     }
     
+    /**
+     * Paint all source nodes
+     */
     public void paintSourceNode() {
         isSourceNode = true;
         for(Road r : roads.getRoads()) { 
@@ -63,6 +66,9 @@ public class NodeDrawingPanel extends Pane {
         }
     }
     
+    /**
+     * Paint all target nodes
+     */
     public void paintTargetNode() {
         isSourceNode = false;
         for(Road r : roads.getRoads()) { 
@@ -75,6 +81,46 @@ public class NodeDrawingPanel extends Pane {
         }
     }
     
+    /**
+     * Paint all first source node and all last target node
+     */
+    public void paintFirstAndLast() {
+        this.getChildren().clear();
+        for(Road r : roads.getRoads()) {
+            GraphicNode node = null;
+            
+            if((node = r.getLastSection().getTargetNode()) != null) {
+                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+                if(!this.getChildren().contains(node))
+                    this.getChildren().add(node);
+            }
+            
+            if((node = r.getFirstSection().getSourceNode()) != null) {
+                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+                if(!this.getChildren().contains(node))
+                    this.getChildren().add(node);
+            }
+        }
+    }
+    
+    /**
+     * Paint all first source node
+     */
+    void paintFirst() {
+        for(Road r : roads.getRoads()) {
+            GraphicNode node = null;
+            
+            if((node = r.getFirstSection().getSourceNode()) != null) {
+                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+                if(!this.getChildren().contains(node))
+                    this.getChildren().add(node);
+            }
+        }
+    }
+
     /**
      * Remove all nodes from pane and paint them again
      */

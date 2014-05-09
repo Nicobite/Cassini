@@ -58,6 +58,11 @@ public class Model {
         controlUnitsModel = new ControlUnitsModel();
     }
     
+    public void clear() {
+        roadModel.clear();
+        vehiclesModel.clear();
+    }
+    
     /**
      * Get road model
      * @return Road model

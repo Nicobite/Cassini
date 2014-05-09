@@ -76,28 +76,29 @@ public class VehiclesForm extends FormPanel {
                 GraphicNode targetNode = mission.getTargetNodePicker().getNode().getGraphicNode();
                 GraphicSection sourceSection = null;
                 GraphicSection targetSection = null;
-                for(GraphicSection s : mission.getSourceNodePicker().getNode().getGraphicNode().getgSections()) {
+                for(GraphicSection s : mission.getSourceNodePicker().getNode().getGraphicNode().getGraphicSections()) {
                     if(s.getSourceNode().equals(sourceNode)) {
                         sourceSection = s;
                         break;
                     }
                 }
-                for(GraphicSection s : mission.getTargetNodePicker().getNode().getGraphicNode().getgSections()) {
+                for(GraphicSection s : mission.getTargetNodePicker().getNode().getGraphicNode().getGraphicSections()) {
                     if(s.getTargetNode().equals(targetNode)) {
                         targetSection = s;
                         break;
                     }
                 }
                 vehicle.setMission(new Mission(sourceSection.getSection(), targetSection.getSection()));
-                MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
-                informationLabel.setText(formValidator.getSuccess());
             } catch (PathNotFoundException ex) {
                 informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
                 Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
             } catch (NullPointerException ex) {
-                informationLabel.setText("Carte corrompue");
-                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
+                //Easy way to allow a null mission
+                
+                //Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
             }
+            MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
+            informationLabel.setText(formValidator.getSuccess());
         } else {
             informationLabel.setText(formValidator.getError());
         }

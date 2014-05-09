@@ -15,10 +15,16 @@
 */
 package org.insa.view.panel;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Bounds;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
 import org.insa.view.dock.DefaultDock;
+import org.insa.view.dock.EditorToolsDock;
 import org.insa.view.dock.ResizeMapDock;
 import org.insa.view.toolbar.EditorToolBar;
+import org.insa.view.utils.DrawingUtils;
 
 /**
  *
@@ -30,17 +36,47 @@ public class EditorPanel extends BorderPane {
     
     /**
      * Constructor
-     * @param drawingUtils Reference to drawing utils
      */
     public EditorPanel() {   
         this.setTop(new EditorToolBar());
         this.setRight(new DefaultDock());
     }
 
-    public void displayResizeMapDock() { 
-        if(editorArea != null) {
-            this.setRight(new ResizeMapDock(editorArea,editorArea.getInitialBounds()));
+    /**
+     * Create editor area
+     */
+    public void createEditoArea() {
+        editorArea = new EditorArea(new DrawingUtils(850, 1200));
+        editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+            @Override
+            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
+                editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
+            }
+        });
+    }
+    
+    /**
+     * Displayt the editor area into the editor panel
+     */
+    public void displayEditorArea() {
+        if(editorArea == null) {
+            this.createEditoArea();
         }
+        this.setCenter(editorArea);
+    }
+    
+    /**
+     * Display resize dock into editor panel
+     */
+    public void displayResizeMapDock() {  
+        this.setRight(new ResizeMapDock(editorArea,editorArea.getInitialBounds()));
+    }
+    
+    /**
+     * Display editor tools dock
+     */
+    public void displayEditorToolsDock() {
+        this.setRight(new EditorToolsDock(editorArea));
     }
     
     /**

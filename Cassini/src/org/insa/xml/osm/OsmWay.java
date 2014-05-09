@@ -21,7 +21,6 @@ import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
-import org.insa.core.roadnetwork.Section;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
@@ -103,20 +102,17 @@ public class OsmWay {
         }
         //add connection between backward lanes and forward lanes at the end of the road
         if(isOneWay()){
-            Section first = road.getFirstSection();
-            Section last = road.getLastSection().getSection();
-            first.getGraphicSection().addConnections(first.getGraphicSection().getBackwardLanes(),
-                    first.getGraphicSection().getForwardLanes());
-            last.getGraphicSection().addConnections(last.getGraphicSection().getForwardLanes(),
-                    last.getGraphicSection().getBackwardLanes());
+            GraphicSection first = road.getFirstSection();
+            GraphicSection last = road.getLastSection();
+            first.addConnections(first.getBackwardLanes(),first.getForwardLanes());
+            last.addConnections(last.getForwardLanes(),last.getBackwardLanes());
         }
         //if roundabout connect first section to last section
         if(isRoundabout()){
-            Section first = road.getFirstSection();
-            Section last = road.getLastSection().getSection();
-            last.getGraphicSection().addConnections(last.getGraphicSection().getForwardLanes(),
-                    first.getGraphicSection().getForwardLanes());
-            last.addSuccessor(new NextSection(first, Direction.BACKWARD));
+            GraphicSection first = road.getFirstSection();
+            GraphicSection last = road.getLastSection();
+            last.addConnections(last.getForwardLanes(),first.getForwardLanes());
+            last.addSuccessor(new NextSection(first.getSection(), Direction.BACKWARD));
         }
         return road;
     }

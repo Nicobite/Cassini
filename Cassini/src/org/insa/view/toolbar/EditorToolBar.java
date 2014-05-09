@@ -35,6 +35,7 @@ public class EditorToolBar extends CustomToolBar {
         this.add(new ToolBarButton("open",this));
         this.add(new ToolBarButton("save",this));
         this.add(new ToolBarButton("resize",this));
+        this.add(new ToolBarButton("move",this));
     }
     
     @Override
@@ -42,6 +43,7 @@ public class EditorToolBar extends CustomToolBar {
         ToolBarButton button = (ToolBarButton)t.getSource();
         switch(button.getImageName()) {
             case "new" :
+                MainController.getInstance().performCreateNewMap();
                 break;
             case "open" :
                 MainController.getInstance().performOpenMap(true);
@@ -51,6 +53,8 @@ public class EditorToolBar extends CustomToolBar {
                 break;
             case "resize" :
                 MainController.getInstance().performDisplayResizeMapDock();
+                break;
+            case "move" :
                 break;
         }
     }

@@ -22,8 +22,6 @@ import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
-import org.simpleframework.xml.core.Commit;
 
 /**
  *
@@ -66,7 +64,7 @@ public class Section {
     
     public Section() {
         successors = new ArrayList<>();
-        
+        id = String.valueOf(hashCode());
     }
     /**
      * Constructor
@@ -97,6 +95,14 @@ public class Section {
      */
     public void removeSuccessor(NextSection succ){
         this.successors.remove(succ);
+    }
+    
+    /**
+     * Get id
+     * @return Id
+     */
+    public String getId() {
+        return id;
     }
     
     /**
@@ -146,9 +152,13 @@ public class Section {
     public ArrayList<NextSection> getSuccessors() {
         return successors;
     }
-
-    public void setgSection(GraphicSection gSection) {
-        this.gSection = gSection;
+    
+    /**
+     * Set id
+     * @param id New id 
+     */
+    public void setId(String id) {
+        this.id = id;
     }
     
     /**
@@ -191,6 +201,14 @@ public class Section {
         this.road = road;
     }
     
+    /**
+     * Set graphic section
+     * @param gSection New graphic section
+     */
+    public void setGraphicSection(GraphicSection gSection) {
+        this.gSection = gSection;
+    }
+    
     @Override
     public String toString() {
         return "Section{" + "gSection=" + gSection + '}';
@@ -219,15 +237,16 @@ public class Section {
     public boolean isEqualTo(Section b){
         return (id == b.getId());
     }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.gSection);
+        hash = 97 * hash + Objects.hashCode(this.lane);
+        hash = 97 * hash + Objects.hashCode(this.road);
+        hash = 97 * hash + Float.floatToIntBits(this.maxSpeed);
+        hash = 97 * hash + Objects.hashCode(this.successors);
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }  
 }
