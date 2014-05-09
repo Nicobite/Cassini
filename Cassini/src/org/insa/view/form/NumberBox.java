@@ -38,8 +38,8 @@ public class NumberBox extends BorderPane {
         this.title = new Label(title);
         this.number = new Label(""+number);
         
-        this.title.setFont(Font.font(18));
-        this.number.setFont(Font.font(50));
+        this.title.setFont(new Font(18));
+        this.number.setFont(new Font(50));
 
         this.getStyleClass().add("tool-bar");
         this.getStyleClass().add("left-tool-bar");
