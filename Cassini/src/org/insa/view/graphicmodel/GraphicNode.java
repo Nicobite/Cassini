@@ -24,12 +24,14 @@ import javafx.scene.shape.Circle;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Node;
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.core.Commit;
 
 /**
  *
  * @author Thiebaud Thomas
  */
 public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
+    @Element
     protected Node node;
     
     protected ArrayList<GraphicSection> gSections = new ArrayList<>();
@@ -148,5 +150,12 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
             return false;
         }
         return (this.getLatitude()==other.getLatitude()&& this.getLongitude()==other.getLongitude());
+    }
+       /**
+     * called when deserializing this object
+     */
+    @Commit
+    private void build(){
+        this.node.setgNode(this);
     }
 }

@@ -24,7 +24,7 @@ import org.insa.core.roadnetwork.Node;
  Class TrafficLight
  */
 public class TrafficLight {
-    
+    private long id;
     private Node position ; 
 
     private int counter ;
@@ -35,14 +35,22 @@ public class TrafficLight {
     
     private StateTrafficLight state ;
 
-    public TrafficLight(Node position, int redTime, int orangeTime, int greenTime) {
+    public TrafficLight(Node position, int id, int redTime, int orangeTime, int greenTime) {
+        this.id = id;
         this.position = position;
         this.redTime = redTime;
         this.orangeTime = orangeTime;
         this.greenTime = greenTime;
-        this.state = StateTrafficLight.RED ; 
+        this.state = StateTrafficLight.ORANGE ; 
     }
-    
+      public TrafficLight(long id, Node position) {
+        this.position = position;
+        this.id = id;
+        this.redTime = 10;
+        this.orangeTime = 1;
+        this.greenTime = 10;
+        this.state = StateTrafficLight.ORANGE ; 
+    }
     
     public Node getPosition() {
         return position;
@@ -90,6 +98,14 @@ public class TrafficLight {
 
     public void setState(StateTrafficLight state) {
         this.state = state;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 

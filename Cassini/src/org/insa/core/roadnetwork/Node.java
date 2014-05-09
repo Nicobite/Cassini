@@ -50,6 +50,16 @@ public class Node {
     public Node(GraphicNode gNode) {
         this.gNode = gNode;
         this.id = hashCode();
+        this.signaling = TrafficSignaling.NONE;
+    }
+
+    public Node(GraphicNode gNode, long id, TrafficSignaling signaling) {
+        this.gNode = gNode;
+        this.id = id;
+        this.signaling = signaling;
+    }
+    
+    public Node() {
     }
 
     /**
@@ -74,6 +84,10 @@ public class Node {
      */
     public GraphicNode getGraphicNode() {
         return gNode;
+    }
+
+    public void setgNode(GraphicNode gNode) {
+        this.gNode = gNode;
     }
     
     /**

@@ -17,12 +17,17 @@ package org.insa.model.items;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.NextSection;
+import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.xml.osm.OsmNode;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -170,4 +175,25 @@ public class RoadsModel {
         lanesMap=null; sectionsMap = null;
     }
     
+      /**
+     * Get all the traffic lights from the roads network
+     * @return 
+     */
+    public ArrayList<TrafficLight> getTrafficLightFromRoads(){
+        ArrayList<TrafficLight> result = new ArrayList<>();
+        HashMap<Long, Node> nodes = new HashMap();
+        for(Road road : this.roads){
+            for(GraphicSection s : road.getGraphicRoad().getSections()){
+                nodes.put(s.getSourceNode().getNode().getId(), s.getSourceNode().getNode());
+                nodes.put(s.getTargetNode().getNode().getId(), s.getTargetNode().getNode());
+            }
+        }
+        for (Node n : nodes.values()) {
+             if(n.getSignaling() == TrafficSignaling.TRAFFIC_LIGHT){
+                result.add(new TrafficLight(n.getId(), n.getGraphicNode().getNode()));
+            }
+        }
+        
+        return result;
+    }
 }

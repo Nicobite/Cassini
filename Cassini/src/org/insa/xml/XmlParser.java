@@ -103,10 +103,9 @@ public class XmlParser {
      * @return 
      * @throws java.lang.Exception
      */
-    public RoadsModel readOsmData(File source) throws Exception{
+    public OsmRoot readOsmData(File source) throws Exception{
         Serializer serializer = new Persister(new CustomMatcher());
         OsmRoot root = serializer.read(OsmRoot.class, source);
-        RoadsModel roads = root.buildRoadModel();
-        return roads;
+        return root;
     }
 }

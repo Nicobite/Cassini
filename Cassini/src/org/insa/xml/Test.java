@@ -18,10 +18,12 @@ package org.insa.xml;
 import java.io.File;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.mission.AStar;
 import org.insa.mission.Mission;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.xml.osm.OsmRoot;
 
 /**
  *
@@ -30,20 +32,29 @@ import org.insa.view.graphicmodel.GraphicSection;
  */
 public class Test {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception {
         XmlParser parser = new XmlParser();
-        try {
-            //RoadsModel map = parser.readMapData(new File("data/maps/map.map.xml"));
-            RoadsModel map = parser.readOsmData(new File("data/osm/map.osm"));
+      
+            OsmRoot r = parser.readOsmData(new File("data/osm/insa.osm"));
+            parser.saveMapData(r.buildRoadModel(), new File("data/maps/insa.map.xml"));
+            for(TrafficLight l : r.getTrafficLightFromRoads()){
+                System.out.println(l.getId());
+            }
+            System.out.println("Map traffic lights");
+            RoadsModel map = parser.readMapData(new File("data/maps/insa.map.xml"));
+             for(TrafficLight l : map.getTrafficLightFromRoads()){
+                System.out.println(l.getId());
+            }
+           /* RoadsModel map = parser.readOsmData(new File("data/osm/map.osm")).buildRoadModel();
             parser.saveMapData(map, new File("data/maps/map.map.xml"));
             RoadsModel map2 = parser.readMapData(new File("data/maps/map.map.xml"));
             
             Section org = null;
             GraphicSection dest = map.getRoads().get(10).getLastSection();
             int i=0;
-            for(Road road : map2.getRoads()){
+            for(Road road : map.getRoads()){
                 
-                if(road.getId() == 14689628 ){
+               /* if(road.getId() == 14689628 ){
                     org = road.getFirstSection().getSection();
                 }
                 
@@ -57,7 +68,7 @@ public class Test {
             }
             //org = map2.getRoads().get(1).getFirstSection();
             //dest = map2.getRoads().get(1).getLastSection();
-            Mission m = new Mission(map2, org, dest.getSection());
+          /*  Mission m = new Mission(map2, org, dest.getSection());
             m.getInitialLane();
             AStar a = new AStar(map2, org, dest.getSection());
             Road r = a.getShortestPath();
@@ -65,6 +76,6 @@ public class Test {
             System.out.println(r.getGraphicRoad().getSections().size());
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
+        }*/
     }
-}
+

@@ -124,7 +124,7 @@ public class OsmWay {
      * @param dest
      */
     private void createSections(Road road, OsmNode src, OsmNode dest) {
-        GraphicSection gSection = new GraphicSection(src.createNode(), dest.createNode());
+        GraphicSection gSection = new GraphicSection(src.getGraphicNode(), dest.getGraphicNode());
         gSection.getSection().setMaxSpeed(this.getMaxSpeed());
         int nbForwardLanes = this.getNbLanes();
         int nbBackwardLanes = 0;

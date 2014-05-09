@@ -23,6 +23,7 @@ import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
+import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.items.RoadsModel;
 import org.insa.xml.osm.entities.OsmBound;
 import org.simpleframework.xml.Element;
@@ -64,7 +65,7 @@ public class OsmRoot {
      */
     @ElementList(inline = true)
     private ArrayList<OsmWay> osmWays;
-    
+
     /**
      * build road model from osm data
      * @return the road network
@@ -96,9 +97,20 @@ public class OsmRoot {
             }
         }
         addConnections(roadsModel, nodes);
-        //free the following objects
-        osmWays = null; bounds = null; nodes = null;
         return roadsModel;
+    }
+    /**
+     * Get all the traffic lights from the roads network
+     * @return 
+     */
+    public ArrayList<TrafficLight> getTrafficLightFromRoads(){
+        ArrayList<TrafficLight> result = new ArrayList<>();
+        for(OsmNode n : this.osmNodes){
+            if(n.isTrafficLight()){
+                result.add(new TrafficLight(n.getId(), n.getGraphicNode().getNode()));
+            }
+        }
+        return result;
     }
     /**
      * Adds connections between roads at network-wide
@@ -119,7 +131,7 @@ public class OsmRoot {
                 others = new ArrayList<>(osmNode.getRoads());
                 others.remove(road);
                 if(others.size()>0)
-                    connectRoads(osmNode.createNode().getNode(), road, others);
+                    connectRoads(osmNode.getGraphicNode().getNode(), road, others);
             }
             
         }
@@ -182,8 +194,6 @@ public class OsmRoot {
         for(OsmNode o : list){
             map.put(o.getId(), o);
         }
-        //free osmNodes
-        osmNodes = null;
         return map;
     }
     /**

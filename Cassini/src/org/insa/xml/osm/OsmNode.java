@@ -85,7 +85,7 @@ public class OsmNode {
      * check wether this node is a traffic light
      * @return true if traffic light and false otherwise
      */
-    private boolean isTrafficLight(){
+    public boolean isTrafficLight(){
         return  tags!=null && tags.containsKey("highway")
                 && tags.get("highway").equalsIgnoreCase("traffic_signals") ;
     }
@@ -94,7 +94,7 @@ public class OsmNode {
      * create a node from this osm node
      * @return the node created
      */
-    public GraphicNode createNode(){
+    public GraphicNode getGraphicNode(){
         GraphicNode gNode = new GraphicNode(lon, lat);
         gNode.getNode().setId(id);
         gNode.getNode().setSignaling(getSignaling());

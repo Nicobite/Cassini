@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 import org.hyperic.sigar.Sigar;
 import org.insa.core.driving.Vehicle;
 import org.insa.model.Model;
+import org.insa.model.items.RoadsModel;
 import org.insa.view.form.NodePicker;
 import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.panel.DefaultPanel;
@@ -54,6 +55,7 @@ import org.insa.view.panel.VehicleDataPanel;
 import org.insa.view.panel.VehiclesPanel;
 import org.insa.view.utils.DrawingUtils;
 import org.insa.xml.XmlParser;
+import org.insa.xml.osm.OsmRoot;
 
 /**
  *
@@ -285,10 +287,16 @@ public class MainController {
                     XmlParser p = new XmlParser();
                     try {
                         String extension = file.getAbsolutePath().split("\\.")[1];
-                        if(extension.equals("osm"))
-                            model.setRoadModel(p.readOsmData(file));
-                        else
-                            model.setRoadModel(p.readMapData(file));
+                        if(extension.equals("osm")){
+                            OsmRoot r = p.readOsmData(file);
+                            model.setRoadModel(r.buildRoadModel());
+                            model.getControlUnitsModel().setTrafficLights(r.getTrafficLightFromRoads());
+                        }
+                        else{
+                            RoadsModel r = p.readMapData(file);
+                            model.setRoadModel(r);
+                            model.getControlUnitsModel().setTrafficLights(r.getTrafficLightFromRoads());
+                        }
                         
                         
                         Platform.runLater(new Runnable() {
