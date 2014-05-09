@@ -196,12 +196,12 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
 
         currentDrawingRoad.getGraphicRoad().addSection(section);
         this.getChildren().add(section);  
-        this.init();
+        this.init(currentDrawingRoad);
         this.repaint();
 
         sourceNode = targetNode;
         targetNode = null;
-        nodeDrawingPanel.paintFirst();
+        nodeDrawingPanel.paintFirst(currentDrawingRoad);
     }
     
     /**
@@ -217,9 +217,9 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         currentDrawingRoad.getGraphicRoad().addSection(section);
         isDrawingRoad = false;
 
-        this.init();
+        this.init(currentDrawingRoad);
         this.repaint();
-        nodeDrawingPanel.paintFirstAndLast();
+        nodeDrawingPanel.paintFirstAndLast(currentDrawingRoad);
     }
 
     /**
@@ -233,8 +233,10 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         //will add connection between road
         ArrayList<GraphicSection> sections = graphicNode.getGraphicSections();
         Section current = currentDrawingRoad.getGraphicRoad().getLastSection();
+        
         ArrayList<GraphicSection> others = new ArrayList<>(sections);
         others.remove(current.getGraphicSection());
+        
         for(GraphicSection s : others){
             if(s.equals(s.getSection().getRoad().getLastSection())){
                 if(!s.getBackwardLanes().isEmpty()){
@@ -255,10 +257,8 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
                         !current.getGraphicSection().getBackwardLanes().isEmpty()){
                     s.addSuccessor(new NextSection(current, Direction.BACKWARD));
                     s.addConnections(s.getBackwardLanes(), current.getGraphicSection().getBackwardLanes());
-                }
-                
+                }  
             }
-   
         }
     }
     

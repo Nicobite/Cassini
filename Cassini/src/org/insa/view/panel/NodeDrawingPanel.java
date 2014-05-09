@@ -87,22 +87,32 @@ public class NodeDrawingPanel extends Pane {
     public void paintFirstAndLast() {
         this.getChildren().clear();
         for(Road r : roads.getRoads()) {
-            GraphicNode node = null;
-            
-            if((node = r.getLastSection().getTargetNode()) != null) {
-                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
-                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
-                if(!this.getChildren().contains(node))
-                    this.getChildren().add(node);
-            }
-            
-            if((node = r.getFirstSection().getSourceNode()) != null) {
-                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
-                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
-                if(!this.getChildren().contains(node))
-                    this.getChildren().add(node);
-            }
+            this.paintFirstAndLast(r);
         }
+    }
+    
+    /**
+     * Paint all first source node and all last target node of the given road
+     * @param r Given road
+     */
+    public void paintFirstAndLast(Road r) {
+        this.getChildren().clear();
+        GraphicNode node = null;
+
+        if((node = r.getLastSection().getTargetNode()) != null) {
+            node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+            node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+            if(!this.getChildren().contains(node))
+                this.getChildren().add(node);
+        }
+
+        if((node = r.getFirstSection().getSourceNode()) != null) {
+            node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+            node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+            if(!this.getChildren().contains(node))
+                this.getChildren().add(node);
+        }
+        
     }
     
     /**
@@ -110,14 +120,22 @@ public class NodeDrawingPanel extends Pane {
      */
     void paintFirst() {
         for(Road r : roads.getRoads()) {
-            GraphicNode node = null;
-            
-            if((node = r.getFirstSection().getSourceNode()) != null) {
-                node.setCenterX(drawingUtils.longToX(node.getLongitude()));
-                node.setCenterY(drawingUtils.latToY(node.getLatitude()));
-                if(!this.getChildren().contains(node))
-                    this.getChildren().add(node);
-            }
+            this.paintFirst(r);
+        }
+    }
+    
+    /**
+     * Paint all first source node of the given road
+     * @param r Given road
+     */
+    void paintFirst(Road r) {
+        GraphicNode node = null;
+
+        if((node = r.getFirstSection().getSourceNode()) != null) {
+            node.setCenterX(drawingUtils.longToX(node.getLongitude()));
+            node.setCenterY(drawingUtils.latToY(node.getLatitude()));
+            if(!this.getChildren().contains(node))
+                this.getChildren().add(node);
         }
     }
 
