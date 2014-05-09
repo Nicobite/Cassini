@@ -24,8 +24,10 @@ import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
 import org.insa.core.enums.IncidentType;
 import org.insa.core.enums.MissionStatus;
+import org.insa.core.enums.StateTrafficLight;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.core.trafficcontrol.Incident;
+import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.Model;
 import org.insa.view.graphicmodel.GraphicSection;
 
@@ -161,6 +163,37 @@ public class SimulationTask extends TimerTask {
      * update traffic lights
      */
     private void updateTrafficLights(){
+        
+        int counter  ;
+       
+        for (TrafficLight tf : model.getControlUnitsModel().getTrafficLights()){
+            counter = tf.getCounter()+1;
+        
+            switch(tf.getState()){
+                case GREEN:
+                    if (counter > tf.getGreenTime()){
+                        tf.setState(StateTrafficLight.ORANGE);
+                        counter = 0 ;
+                    }
+                    break ;
+                case RED :
+                    if (counter > tf.getRedTime()){
+                       tf.setState(StateTrafficLight.GREEN);
+                       counter = 0 ;
+                    }
+                    break ;
+                   case ORANGE : 
+                    if (counter > tf.getOrangeTime()){
+                        tf.setState(StateTrafficLight.RED) ;
+                        counter = 0 ;
+                    }
+                    break ;
+                default :
+                    break ;
+            }
+            
+            tf.setCounter(counter); 
+        }
         
     }
     
