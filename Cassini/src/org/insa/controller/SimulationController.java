@@ -47,6 +47,8 @@ public class SimulationController {
      */
     private boolean debug;
     
+    private SimulationTask simulationTask = null;
+    
     /**
      * constructor
      * @param step
@@ -63,7 +65,8 @@ public class SimulationController {
      */
     public void start(){
         this.timer = new Timer();
-        this.timer.scheduleAtFixedRate(new SimulationTask(this.model, simulationStep, debug),0, simulationStep);
+        simulationTask = new SimulationTask(this.model, simulationStep, debug);
+        this.timer.scheduleAtFixedRate(simulationTask,0, simulationStep);
     }
     
     /**
@@ -71,7 +74,6 @@ public class SimulationController {
      */
     public void pause(){
         this.timer.cancel();
-        System.out.println("#####\nPause\n#####");
     }
      
     /**
@@ -103,8 +105,20 @@ public class SimulationController {
     public void setModel(Model model) {
         this.model = model;
     }
+    
+    public Timer getTimer() {
+        return timer;
+    }
 
     public Model getModel() {
         return model;
+    }
+    
+    /**
+     * Get total time from simulation beginning
+     * @return Total time
+     */
+    public int getTotalTime() {
+        return simulationTask.getTotalTime();
     }
 }

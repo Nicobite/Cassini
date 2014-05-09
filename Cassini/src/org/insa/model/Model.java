@@ -61,6 +61,7 @@ public class Model {
     public void clear() {
         roadModel.clear();
         vehiclesModel.clear();
+        drivingVehiclesModel.clear();
     }
     
     /**

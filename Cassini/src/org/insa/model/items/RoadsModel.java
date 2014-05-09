@@ -68,6 +68,18 @@ public class RoadsModel {
         this.roads = new ArrayList<>();
     }
     
+    public int getRoadNumber() {
+        return roads.size();
+    }
+    
+    public int getSectionNumber() {
+        int res = 0;
+        for(Road r : roads) {
+            res += r.getGraphicRoad().getSections().size();
+        }
+        return res;
+    }
+    
     public void clear() {
         roads.clear();
     }

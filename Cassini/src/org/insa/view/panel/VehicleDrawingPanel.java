@@ -89,6 +89,7 @@ public class VehicleDrawingPanel extends Pane {
             point[1] = drawingUtils.latToY(lane.getTargetPoint().getY() + section.getTargetDeltaY()) + ratio * deltaY;
         }
         point[2] = width;
+        
                 
         return point;
     }

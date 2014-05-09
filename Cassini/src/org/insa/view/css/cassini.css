@@ -287,3 +287,7 @@
     -fx-padding: 0;
     -fx-border-width: 1 0 0 1;
 }
+
+.default-padding {
+    -fx-padding: 10px;
+}

@@ -42,6 +42,10 @@ public class VehiclesModel {
         this.vehicles = new ArrayList<>();
     }
     
+    public int getVehicleNumber() {
+        return vehicles.size();
+    }
+    
     public void clear() {
         vehicles.clear();
     }

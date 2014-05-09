@@ -46,6 +46,8 @@ public class SimulationTask extends TimerTask {
      */
     private final int simuStep;
     
+    private int totalTime = 0;
+    
     private final boolean debug;
     
     /**
@@ -63,6 +65,9 @@ public class SimulationTask extends TimerTask {
     
     @Override
     public void run() {
+        
+        totalTime += simuStep ;
+        
         //put vehicles into traffic until all vehicles are driving
         putVehiclesInDriving();
         
@@ -174,5 +179,13 @@ public class SimulationTask extends TimerTask {
                 model.getControlUnitsModel().addIncident(incident);
             }  
         }
+    }
+
+    /**
+     * Get total time from simulation beginning
+     * @return Total time
+     */
+    public int getTotalTime() {
+        return totalTime;
     }
 }

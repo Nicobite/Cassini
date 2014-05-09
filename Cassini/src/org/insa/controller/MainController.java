@@ -18,13 +18,17 @@ package org.insa.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -76,7 +80,6 @@ public class MainController {
     
     private SimulationController simulationController = null;
     private boolean isPickingNode = false;
-    private GraphicNode pickingNode = null;
     
     /**
      * Default private constructor
@@ -145,13 +148,16 @@ public class MainController {
      */
     public void performDisplaySimulationPanel() {
         simulationController = new SimulationController(500, false);
-        simulationPanel = new SimulationPanel();
+        simulationPanel = new SimulationPanel(); 
+        resultPanel = new ResultPanel();
         mainPanel.setCenter(simulationPanel);
-        if(drawingPanel != null) {
-            simulationPanel.setCenter(drawingPanel);
-        }
-        else
+        
+        if(model.getRoadModel().getRoads().isEmpty())
             this.performDisplayMessage(simulationPanel, "Aucune carte sélectionnée");
+        else if(model.getVehiclesModel().getVehicles().isEmpty())
+            this.performDisplayMessage(simulationPanel, "Aucun véhicule sélectionné");   
+        else
+            simulationPanel.setCenter(drawingPanel);
     }
     
     /**
@@ -166,9 +172,17 @@ public class MainController {
      * Display map panel
      */
     public void performDisplayResultPanel() {
-        resultPanel = new ResultPanel();
+        if(resultPanel == null)
+            resultPanel = new ResultPanel();
         mainPanel.setCenter(resultPanel);
-        this.performDisplayMessage(resultPanel, "Not implemented yet");
+        
+        model.clear();
+        drawingPanel = null;
+        
+        if(simulationController != null)
+            simulationController.stop();
+        else
+            this.performDisplayMessage(mainPanel, "Aucune simulation en cours. Pas de résultats à afficher");
     }
     
     /**
@@ -594,5 +608,33 @@ public class MainController {
         editorPanel.displayEditorArea();
         editorPanel.displayEditorToolsDock();
         editorPanel.getEditorArea().setIsWaitingSize(false);
+    }
+
+    /**
+     * Add incident into result panel
+     */
+    public void performAddIncident() {
+        if(resultPanel == null)
+            resultPanel = new ResultPanel();
+        resultPanel.addIncidents(simulationController.getTotalTime());
+        
+        int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
+        int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
+        int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
+        int speedIncidents = model.getControlUnitsModel().getSpeedLimitIncidents().size() * 100 / allIncidents;
+        int stopIncidents = model.getControlUnitsModel().getStopIncidents().size() * 100 / allIncidents;
+        
+        ArrayList<PieChart.Data> data = new ArrayList<>();
+        if(directionsIncidents != 0)
+            data.add(new PieChart.Data("Sens", directionsIncidents));
+        if(priorityIncidents != 0)
+            data.add(new PieChart.Data("Priorité", priorityIncidents));
+        if(speedIncidents != 0)
+            data.add(new PieChart.Data("Vitesse", speedIncidents));
+        if(stopIncidents != 0)
+            data.add(new PieChart.Data("Stop", stopIncidents));
+        
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
+        resultPanel.updateIncidentDistribution(pieChartData);
     }
 }
