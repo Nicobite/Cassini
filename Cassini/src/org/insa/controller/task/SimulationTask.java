@@ -15,6 +15,7 @@
 */
 package org.insa.controller.task;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
 import org.insa.controller.MainController;
@@ -24,11 +25,16 @@ import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Decision;
 import org.insa.core.enums.IncidentType;
 import org.insa.core.enums.MissionStatus;
+import org.insa.core.enums.Severity;
 import org.insa.core.enums.StateTrafficLight;
 import org.insa.core.roadnetwork.Lane;
+import org.insa.core.roadnetwork.Road;
+import org.insa.core.roadnetwork.Section;
+import org.insa.core.trafficcontrol.Collision;
 import org.insa.core.trafficcontrol.Incident;
 import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.Model;
+import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
@@ -81,6 +87,9 @@ public class SimulationTask extends TimerTask {
         
         //report incidents
         reportIncidents();
+        
+        //report collisions
+        reportCollisions() ;
         
         //update the GUI in consequence
         updateView();
@@ -210,10 +219,52 @@ public class SimulationTask extends TimerTask {
                 incident = new Incident(vhc,IncidentType.WRONG_SPEED_LIMIT);
                 //incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
                 model.getControlUnitsModel().addIncident(incident);
-            }  
+            }
         }
     }
 
+    /**
+     * report collision
+     */
+    private void reportCollisions() {
+        
+        for(Road road : model.getRoadModel().getRoads()) {
+            for (GraphicSection section : road.getGraphicRoad().getSections()) {
+                for(GraphicLane blane : section.getBackwardLanes()) {
+                    detectCollision(blane.getLane()) ;
+                }
+                for(GraphicLane flane : section.getForwardLanes()) {
+                    detectCollision(flane.getLane()) ;
+                }
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * Detects a collision in a lane
+     */
+    private int detectCollision(Lane lane) {
+        Vehicle v1, v2 ;
+        ArrayList<Vehicle> vhcList = lane.getVehicles() ;
+        int max = vhcList.size() ;
+        int j = 0 ;
+        int i = 0 ;
+        for( j=0 ; j<max ; j++) {
+            v1 = vhcList.get(j) ;
+            for(i=j+1 ; i<max ; i++) {
+                v2 = vhcList.get(i) ;
+                if( (v1.getDriving().getPosition().getOffset() - v2.getDriving().getPosition().getOffset()) < (v1.getLength()/2 + v2.getLength()/2) ) {
+                    Collision collision = new Collision(v1, v2,Severity.LOW);
+                    model.getControlUnitsModel().addCollision(collision);
+                }
+            }
+        }        
+        return 0 ;
+    }
+    
+    
     /**
      * Get total time from simulation beginning
      * @return Total time
