@@ -15,6 +15,7 @@
 */
 package org.insa.core.driving;
 
+import java.util.Objects;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
@@ -260,6 +261,38 @@ public class Vehicle {
             }
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vehicle other = (Vehicle) obj;
+        if (!Objects.equals(this.maxSpeed, other.maxSpeed)) {
+            return false;
+        }
+        if (!Objects.equals(this.maxAcceleration, other.maxAcceleration)) {
+            return false;
+        }
+        if (!Objects.equals(this.maxDeceleration, other.maxDeceleration)) {
+            return false;
+        }
+        if (!Objects.equals(this.length, other.length)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }
 
 

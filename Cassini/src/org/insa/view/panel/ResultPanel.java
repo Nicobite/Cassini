@@ -15,6 +15,7 @@
 */
 package org.insa.view.panel;
 
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.LineChart;
@@ -33,8 +34,13 @@ import org.insa.view.form.NumberBox;
 public class ResultPanel extends BorderPane {
     
     protected XYChart.Series incidents = new XYChart.Series();
+    ArrayList<Integer> incidentsQueue = new ArrayList<>();
+    
     protected XYChart.Series collisions = new XYChart.Series();
+    ArrayList<Integer> collisionsQueue = new ArrayList<>();
+    
     protected XYChart.Series congestions = new XYChart.Series();
+    ArrayList<Integer> congestionsQueue = new ArrayList<>();
     
     ObservableList<PieChart.Data> pieChartData = null;
     
@@ -63,10 +69,6 @@ public class ResultPanel extends BorderPane {
         collisions.setName("Collisions");
         congestions.setName("Embouteillage");
         
-        incidents.getData().add(new XYChart.Data(0,incidentNumber));
-        incidents.getData().add(new XYChart.Data(0,collisionNumber));
-        incidents.getData().add(new XYChart.Data(0,congestionNumber));
-        
         resultChart.getData().add(incidents);
         resultChart.getData().add(collisions);
         resultChart.getData().add(congestions);
@@ -92,31 +94,34 @@ public class ResultPanel extends BorderPane {
     }
     
     /**
+     * Create chart by getting elements from queues 
+     */
+    public void voidQueue() {
+        for(int i=0;i<incidentsQueue.size(); i++) {
+            incidents.getData().add(new XYChart.Data(incidentsQueue.get(i),i));
+        }
+        for(int i=0;i<collisionsQueue.size(); i++) {
+            collisions.getData().add(new XYChart.Data(collisionsQueue.get(i),i));
+        }
+        for(int i=0;i<congestionsQueue.size(); i++) {
+            congestions.getData().add(new XYChart.Data(congestionsQueue.get(i),i));
+        }
+    }
+    
+    /**
      * Add incident into incidents serie
      * @param totalTime incident' time
      */
-    public void addIncidents(final int totalTime) {
-        incidentNumber++;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                incidents.getData().add(new XYChart.Data(totalTime, incidentNumber));
-            }
-        });
+    public void addIncident(final int totalTime) {
+        incidentsQueue.add(totalTime);
     }
     
     /**
      * Add collision into collision serie
      * @param totalTime Collision' time
      */
-    public void addCollisions(final int totalTime) {
-        collisionNumber++;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                collisions.getData().add(new XYChart.Data(totalTime, collisionNumber));
-            }
-        });
+    public void addCollision(final int totalTime) {
+        collisionsQueue.add(totalTime);
     }
     
     /**
@@ -124,13 +129,7 @@ public class ResultPanel extends BorderPane {
      * @param totalTime Congestion' time
      */
     public void addCongestion(final int totalTime) {
-        congestionNumber++;
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                congestions.getData().add(new XYChart.Data(totalTime, congestionNumber));
-            }
-        });
+        congestionsQueue.add(totalTime);
     }
     
     /**

@@ -49,15 +49,89 @@ public class ControlUnitsModel{
      */
     private ArrayList<TrafficLight> trafficLights;
     
-    public ControlUnitsModel(){
+    /**
+     * Default constructor
+     */
+    public ControlUnitsModel() {
         incidents = new ArrayList<>();
         collisions = new ArrayList<>();
         trafficLights = new ArrayList<>();
         congestions = new ArrayList<>();
     }
     
+    /**
+     * Get traffic light number
+     * @return Number of traffic lights
+     */
     public int getTrafficLightNumber() {
         return trafficLights.size();
+    }
+    
+    /**
+     * Add a collision
+     * @param c Collision to add
+     */
+    public void addCollision(Collision c){
+        this.collisions.add(c);
+        MainController.getInstance().performAddCollision(c);
+    }
+    
+    /**
+     * Remove a collision
+     * @param c Collision to remove
+     */
+    public void removeCollision(Collision c){
+        this.collisions.remove(c);
+    }
+    
+    /**
+     * Add an incident
+     * @param i Incident to remove
+     */
+    public void addIncident(Incident i){
+        this.incidents.add(i);
+        MainController.getInstance().performAddIncident(i);
+    }
+    
+    /**
+     * Remove an incident
+     * @param i Incident to remove
+     */
+    public void removeIncident(Incident i){
+        this.incidents.remove(i);
+    }
+    
+    /**
+     * Add a traffic ligth
+     * @param t Traffic light to add
+     */
+    public void addTrafficLight(TrafficLight t){
+        this.trafficLights.add(t);
+    }
+    
+    /**
+     * Remove a traffic light
+     * @param t Traffic light to remove
+     */
+    public void removeTrafficLight(TrafficLight t){
+        this.trafficLights.remove(t);
+    }
+    
+    /**
+     * Add a congestion
+     * @param c Congestion to add
+     */
+    public void addCongestion(Congestion c){
+        this.congestions.add(c);
+        MainController.getInstance().performAddCongestion(c);
+    }
+    
+    /**
+     * Remove a congestion 
+     * @param c Congestion to remove
+     */
+    public void removeCongestion(Congestion c){
+        this.congestions.remove(c);
     }
     
     //-----------Getters and setters-----------------
@@ -127,36 +201,5 @@ public class ControlUnitsModel{
     
     public void setCongestions(ArrayList<Congestion> congestions) {
         this.congestions = congestions;
-    }
-    
-    
-    //-----------Add and remove elements-----------------
-    public void addCollision(Collision c){
-        this.collisions.add(c);
-    }
-    public void removeCollision(Collision c){
-        this.collisions.remove(c);
-    }
-    
-    public void addIncident(Incident i){
-        this.incidents.add(i);
-        MainController.getInstance().performAddIncident();
-    }
-    public void removeIncident(Incident i){
-        this.incidents.remove(i);
-    }
-    
-    public void addTrafficLight(TrafficLight t){
-        this.trafficLights.add(t);
-    }
-    public void removeTrafficLight(TrafficLight t){
-        this.trafficLights.remove(t);
-    }
-    
-    public void addCongestion(Congestion c){
-        this.congestions.add(c);
-    }
-    public void removeCongestion(Congestion c){
-        this.congestions.remove(c);
     }
 }

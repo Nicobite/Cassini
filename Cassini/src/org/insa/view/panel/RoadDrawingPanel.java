@@ -22,10 +22,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import org.insa.controller.MainController;
+import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.Road;
+import org.insa.core.trafficcontrol.Congestion;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.utils.DrawingUtils;
 import org.insa.view.graphicmodel.GraphicBounds;
+import org.insa.view.graphicmodel.GraphicCongestion;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicPoint;
 import org.insa.view.graphicmodel.GraphicRoad;
@@ -38,7 +41,9 @@ import org.insa.view.graphicmodel.GraphicSection;
 public class RoadDrawingPanel extends StackPane {
     protected final DrawingUtils drawingUtils;
     protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    
     protected Pane roadPane = new Pane();
+    protected Pane congestionPane = new Pane();
 
     /**
      * Constructor
@@ -48,6 +53,7 @@ public class RoadDrawingPanel extends StackPane {
         this.drawingUtils = drawingUtils;
         drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
         this.getChildren().add(roadPane);
+        this.getChildren().add(congestionPane);
     }
     
     /**
@@ -271,20 +277,24 @@ public class RoadDrawingPanel extends StackPane {
     public final void paint() {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
-                transform(gSection);
-                roadPane.getChildren().add(gSection);
-                
-                for(GraphicLane lane : gSection.getForwardLanes()) {
-                    Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
-                    line.setStroke(Color.WHITE);
-                    roadPane.getChildren().add(line);
-                }
-                for(GraphicLane lane : gSection.getBackwardLanes() ) {
-                    Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
-                    line.setStroke(Color.WHITE);
-                    roadPane.getChildren().add(line);
-                }
+                paint(gSection);
             }
+        }
+    }
+    
+    public void paint(GraphicSection gSection) {
+        transform(gSection);
+        roadPane.getChildren().add(gSection);
+
+        for(GraphicLane lane : gSection.getForwardLanes()) {
+            Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
+            line.setStroke(Color.WHITE);
+            roadPane.getChildren().add(line);
+        }
+        for(GraphicLane lane : gSection.getBackwardLanes() ) {
+            Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
+            line.setStroke(Color.WHITE);
+            roadPane.getChildren().add(line);
         }
     }
     
@@ -302,5 +312,26 @@ public class RoadDrawingPanel extends StackPane {
      */
     public GraphicBounds getInitialBounds() {
         return drawingUtils.getInitialBounds();
+    }
+
+    /**
+     * Display congestions
+     * @param congestion Congestions to display
+     */
+    public void displayCongestion(Congestion congestion) {
+        for(Lane l : congestion.getLanes()) {
+            transform(l.getGraphicLane().getSection());
+            roadPane.getChildren().add(l.getGraphicLane().getSection());
+        }
+    }
+
+    /**
+     * Hide congestions
+     * @param gCongestion Congestions to hide 
+     */
+    public void hideCongestion(GraphicCongestion gCongestion) {
+        for(Lane l : gCongestion.getCongestion().getLanes()) {
+            congestionPane.getChildren().remove(l.getGraphicLane().getSection());
+        }
     }
 }

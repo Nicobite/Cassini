@@ -17,6 +17,8 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
+import org.insa.view.form.ProblemStack;
+import org.insa.view.graphicmodel.AbstractGraphicProblem;
 import org.insa.view.toolbar.SimulationToolBar;
 
 /**
@@ -25,11 +27,29 @@ import org.insa.view.toolbar.SimulationToolBar;
  */
 public class SimulationPanel extends BorderPane{
     
+    private ProblemStack problemStack = new ProblemStack(17);
+    
     /**
      * Default constructor
      */
     public SimulationPanel() {
         this.setBottom(new SimulationToolBar());
+        this.setRight(problemStack);
+    }
+
+    /**
+     * Add a problem into the problem stack
+     * @param problem Problem to add
+     */
+    public void add(AbstractGraphicProblem problem) {
+        problemStack.add(problem);
     }
     
+    /**
+     * Remove a problem from the problem stack
+     * @param problem Problem to remove
+     */
+    public void remove(AbstractGraphicProblem problem) {
+        problemStack.remove(problem);
+    }
 }

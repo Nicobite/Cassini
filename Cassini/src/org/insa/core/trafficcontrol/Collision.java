@@ -15,9 +15,11 @@
  */
 package org.insa.core.trafficcontrol;
 
+import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Severity;
+import org.insa.view.graphicmodel.GraphicCollision;
 
 /**
  *
@@ -50,58 +52,87 @@ public class Collision {
      * viewed or not
      */
     private boolean viewed;
+    
+    private final GraphicCollision gCollision;
 
-    public Collision() {
+    /**
+     * Default constructor
+     */
+    public Collision(Vehicle guilty, Vehicle victim, Severity severity) {
+        this.guilty = guilty;
+        this.victim = victim;
+        this.severity = severity;
+        this.position = new VehiclePosition(victim.getDriving().getPosition());
+        gCollision = new GraphicCollision(this);
     }
 
     public Vehicle getGuilty() {
         return guilty;
     }
 
-    public Severity getSeverity() {
-        return severity;
-    }
-
     public Vehicle getVictim() {
         return victim;
     }
 
-    public boolean isViewed() {
-        return viewed;
+    public Severity getSeverity() {
+        return severity;
     }
 
     public VehiclePosition getPosition() {
         return position;
-    }
-    
-    public void setGuilty(Vehicle guilty) {
-        this.guilty = guilty;
-    }
-
-    public void setSeverity(Severity severity) {
-        this.severity = severity;
-    }
-
-    public void setVictim(Vehicle victim) {
-        this.victim = victim;
-    }
-
-    public void setViewed(boolean viewed) {
-        this.viewed = viewed;
-    }
-    
-
-    public void setPosition(VehiclePosition position) {
-        this.position = position;
     }
 
     public int getTime() {
         return time;
     }
 
+    public boolean isViewed() {
+        return viewed;
+    }
+
+    public GraphicCollision getGraphicCollision() {
+        return gCollision;
+    }
+
+    public void setGuilty(Vehicle guilty) {
+        this.guilty = guilty;
+    }
+
+    public void setVictim(Vehicle victim) {
+        this.victim = victim;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
+
+    public void setPosition(VehiclePosition position) {
+        this.position = position;
+    }
+
     public void setTime(int time) {
         this.time = time;
     }
-    
-    
+
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Collision other = (Collision) obj;
+        if (!Objects.equals(this.position, other.position)) {
+            return false;
+        }
+        if (this.time != other.time) {
+            return false;
+        }
+        return true;
+    }
 }

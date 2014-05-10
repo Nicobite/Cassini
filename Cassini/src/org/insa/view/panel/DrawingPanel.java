@@ -168,5 +168,21 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
         nodeDrawingPanel.getChildren().clear();
         nodeDrawingPanel = null;
     }
+    
+    /**
+     * Get vehicle drawing panel
+     * @return Vehicle drawing panel
+     */
+    public VehicleDrawingPanel getVehicleDrawingPanel() {
+        return vehicleDrawingPanel;
+    }
+
+    /**
+     * Get road drawing panel
+     * @return Road drawing panel
+     */
+    public RoadDrawingPanel getRoadDrawingPanel() {
+        return roadDrawingPanel;
+    }
 }
 

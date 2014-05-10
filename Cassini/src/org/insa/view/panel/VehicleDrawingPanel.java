@@ -16,24 +16,34 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import org.insa.controller.MainController;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.enums.Direction;
+import org.insa.core.trafficcontrol.Collision;
+import org.insa.core.trafficcontrol.Incident;
 import org.insa.model.items.RoadsModel;
 import org.insa.model.items.VehiclesModel;
+import org.insa.view.graphicmodel.GraphicCollision;
+import org.insa.view.graphicmodel.GraphicIncident;
 import org.insa.view.utils.DrawingUtils;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.view.graphicmodel.GraphicTarget;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class VehicleDrawingPanel extends Pane {
+public class VehicleDrawingPanel extends StackPane {
 
     protected DrawingUtils drawingUtils;
     private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
     private VehiclesModel vehicles;
+    
+    private Pane vehiclePane = new Pane();
+    private Pane incidentPane = new Pane();
+    private Pane collisionPane = new Pane();
 
     /**
      * Constructor
@@ -42,6 +52,9 @@ public class VehicleDrawingPanel extends Pane {
     public VehicleDrawingPanel(DrawingUtils drawingUtils) {
         this.drawingUtils = drawingUtils;
         this.paint();
+        this.getChildren().add(vehiclePane);
+        this.getChildren().add(incidentPane);
+        this.getChildren().add(collisionPane);
     }
     
     /**
@@ -52,7 +65,7 @@ public class VehicleDrawingPanel extends Pane {
         for(Vehicle v : vehicles.getVehicles()) {
             if(v.getDriving().getPosition() != null) {
                 double point[] = this.getPoint(v.getDriving().getPosition().getLane().getGraphicLane(), v.getDriving().getPosition().getOffset());
-                this.getChildren().add(drawingUtils.drawCircle(point[0], point[1], point[2]));
+                vehiclePane.getChildren().add(drawingUtils.drawCircle(point[0], point[1], point[2]));
             }
         }
     }
@@ -95,10 +108,63 @@ public class VehicleDrawingPanel extends Pane {
     }
     
     /**
+     * Display an incident into the incident pane
+     * @param incident Incident to display
+     */
+    public void displayIncident(Incident incident) {
+        double point[] = this.getPoint(incident.getPosition().getLane().getGraphicLane(), incident.getPosition().getOffset());
+
+        GraphicTarget target = new GraphicTarget((int)point[0], (int)point[1]);
+        incident.getGraphicIncident().setGraphicTarget(target);
+        
+        incidentPane.getChildren().add(target);
+    }
+    
+    public void displayCollision(Collision collision) {
+        double point[] = this.getPoint(collision.getPosition().getLane().getGraphicLane(), collision.getPosition().getOffset());
+
+        GraphicTarget target;
+        switch(collision.getSeverity()) {
+            case CRITICAL :
+                target = new GraphicTarget((int)point[0], (int)point[1],"target_critical");
+                break;
+            case HIGH :
+                target = new GraphicTarget((int)point[0], (int)point[1],"target_hight");
+                break;
+            case MEDIUM :
+                target = new GraphicTarget((int)point[0], (int)point[1],"target_medium");
+                break;
+            default :
+                target = new GraphicTarget((int)point[0], (int)point[1]);
+                break;
+        }
+        
+        collision.getGraphicCollision().setGraphicTarget(target);
+        
+        collisionPane.getChildren().add(target);
+    }
+    
+    /**
+     * Hide an incident from the incident pane
+     * @param gIncident Incident to hide
+     */
+    public void hideIncident(GraphicIncident gIncident) {
+        incidentPane.getChildren().remove(gIncident.getGraphicTarget());
+    }
+    
+    /**
+     * Hide a collision from the collision pane
+     * @param gCollision Collision to hide
+     */
+    public void hideCollision(GraphicCollision gCollision) {
+        collisionPane.getChildren().remove(gCollision.getGraphicTarget());
+    }
+    
+    /**
      * Repaint all vehicle by clearing the old ones and painting new ones
      */
     public void repaint() {
-        this.getChildren().clear();
+        vehiclePane.getChildren().clear();
         this.paint();
-    }
+    } 
 }

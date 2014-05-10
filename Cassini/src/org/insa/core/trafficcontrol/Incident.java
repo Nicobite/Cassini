@@ -15,9 +15,11 @@
  */
 package org.insa.core.trafficcontrol;
 
+import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.IncidentType;
+import org.insa.view.graphicmodel.GraphicIncident;
 
 /**
  *
@@ -46,10 +48,14 @@ public class Incident {
      */
     private boolean viewed;
 
-    public Incident(Vehicle vhc) {
-        this.position = vhc.getDriving().getPosition();
+    private final GraphicIncident gIncident;
+    
+    public Incident(Vehicle vhc, IncidentType type) {
+        incident = type;
+        this.position = new VehiclePosition(vhc.getDriving().getPosition());
         this.vehicle = vhc;
-        this.viewed = false;
+        this.viewed = false; 
+        gIncident = new GraphicIncident(this);
     }
 
     //-----------Getters and setters ---------
@@ -91,6 +97,31 @@ public class Incident {
 
     public void setTime(int time) {
         this.time = time;
+    }
+    
+    public GraphicIncident getGraphicIncident() {
+        return gIncident;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Incident other = (Incident) obj;
+        if (this.incident != other.incident) {
+            return false;
+        }
+        if (!Objects.equals(this.position, other.position)) {
+            return false;
+        }
+        if (this.time != other.time) {
+            return false;
+        }
+        return true;
     }
     
     

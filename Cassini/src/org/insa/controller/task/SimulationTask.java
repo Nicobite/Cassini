@@ -207,8 +207,8 @@ public class SimulationTask extends TimerTask {
             driving = vhc.getDriving();
             //speed limit
             if(driving.getSpeed() > driving.getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed()){
-                incident = new Incident(vhc);
-                incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
+                incident = new Incident(vhc,IncidentType.WRONG_SPEED_LIMIT);
+                //incident.setIncident(IncidentType.WRONG_SPEED_LIMIT);
                 model.getControlUnitsModel().addIncident(incident);
             }  
         }

@@ -16,8 +16,10 @@
 package org.insa.core.trafficcontrol;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.roadnetwork.Lane;
+import org.insa.view.graphicmodel.GraphicCongestion;
 
 /**
  *
@@ -41,10 +43,20 @@ public class Congestion {
      * viewed or not
      */
     private boolean viewed;
+    
+    private final GraphicCongestion gCongestion;
 
+    /**
+     * Default constructor
+     */
     public Congestion() {
+        gCongestion = new GraphicCongestion(this);
         this.vehicles = new ArrayList<>();
         this.lanes = new ArrayList<>();
+    }
+    
+    public GraphicCongestion getGraphicCongestion() {
+        return gCongestion;
     }
 
 
@@ -85,5 +97,23 @@ public class Congestion {
     }
     public void addLane(Lane l){
         this.lanes.add(l);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Congestion other = (Congestion) obj;
+        if (!Objects.equals(this.lanes, other.lanes)) {
+            return false;
+        }
+        if (this.time != other.time) {
+            return false;
+        }
+        return true;
     }
 }

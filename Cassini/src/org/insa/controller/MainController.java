@@ -39,9 +39,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.hyperic.sigar.Sigar;
 import org.insa.core.driving.Vehicle;
+import org.insa.core.trafficcontrol.Collision;
+import org.insa.core.trafficcontrol.Congestion;
+import org.insa.core.trafficcontrol.Incident;
 import org.insa.model.Model;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.form.NodePicker;
+import org.insa.view.graphicmodel.GraphicCollision;
+import org.insa.view.graphicmodel.GraphicCongestion;
+import org.insa.view.graphicmodel.GraphicIncident;
 import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.panel.DefaultPanel;
 import org.insa.view.panel.DrawingPanel;
@@ -97,7 +103,7 @@ public class MainController {
             Process proc = Runtime.getRuntime().exec("jconsole " + pid);
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
    }
     /**
      * Return the unique instance of the class
@@ -150,8 +156,9 @@ public class MainController {
      */
     public void performDisplaySimulationPanel() {
         simulationController = new SimulationController(500, false);
-        simulationPanel = new SimulationPanel(); 
         resultPanel = new ResultPanel();
+        simulationPanel = new SimulationPanel(); 
+        
         mainPanel.setCenter(simulationPanel);
         
         if(model.getRoadModel().getRoads().isEmpty())
@@ -177,6 +184,27 @@ public class MainController {
         if(resultPanel == null)
             resultPanel = new ResultPanel();
         mainPanel.setCenter(resultPanel);
+        
+        
+        resultPanel.voidQueue();
+        int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
+        int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
+        int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
+        int speedIncidents = model.getControlUnitsModel().getSpeedLimitIncidents().size() * 100 / allIncidents;
+        int stopIncidents = model.getControlUnitsModel().getStopIncidents().size() * 100 / allIncidents;
+        
+        ArrayList<PieChart.Data> data = new ArrayList<>();
+        if(directionsIncidents != 0)
+            data.add(new PieChart.Data("Sens", directionsIncidents));
+        if(priorityIncidents != 0)
+            data.add(new PieChart.Data("Priorité", priorityIncidents));
+        if(speedIncidents != 0)
+            data.add(new PieChart.Data("Vitesse", speedIncidents));
+        if(stopIncidents != 0)
+            data.add(new PieChart.Data("Stop", stopIncidents));
+        
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
+        resultPanel.updateIncidentDistribution(pieChartData);
         
         model.clear();
         drawingPanel = null;
@@ -621,28 +649,86 @@ public class MainController {
     /**
      * Add incident into result panel
      */
-    public void performAddIncident() {
+    public void performAddIncident(Incident i) {
         if(resultPanel == null)
             resultPanel = new ResultPanel();
-        resultPanel.addIncidents(simulationController.getTotalTime());
+        resultPanel.addIncident(simulationController.getTotalTime());
         
-        int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
-        int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
-        int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
-        int speedIncidents = model.getControlUnitsModel().getSpeedLimitIncidents().size() * 100 / allIncidents;
-        int stopIncidents = model.getControlUnitsModel().getStopIncidents().size() * 100 / allIncidents;
+        simulationPanel.add(i.getGraphicIncident());
+    }
+    
+    /**
+     * Add collision into result panel
+     * @param c Collision to add
+     */
+    public void performAddCollision(Collision c) {
+        if(resultPanel == null)
+            resultPanel = new ResultPanel();
+        resultPanel.addCollision(simulationController.getTotalTime());
         
-        ArrayList<PieChart.Data> data = new ArrayList<>();
-        if(directionsIncidents != 0)
-            data.add(new PieChart.Data("Sens", directionsIncidents));
-        if(priorityIncidents != 0)
-            data.add(new PieChart.Data("Priorité", priorityIncidents));
-        if(speedIncidents != 0)
-            data.add(new PieChart.Data("Vitesse", speedIncidents));
-        if(stopIncidents != 0)
-            data.add(new PieChart.Data("Stop", stopIncidents));
+        simulationPanel.add(c.getGraphicCollision());
+    }
+
+    /**
+     * Add congestion into result panel
+     * @param c Congestion to add
+     */
+    public void performAddCongestion(Congestion c) {
+        if(resultPanel == null)
+            resultPanel = new ResultPanel();
+        resultPanel.addCongestion(simulationController.getTotalTime());
         
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
-        resultPanel.updateIncidentDistribution(pieChartData);
+        simulationPanel.add(c.getGraphicCongestion());
+    }
+
+    /**
+     * Display an incident
+     * @param incident Incident to display
+     */
+    public void performDisplayIncident(Incident incident) {
+        drawingPanel.getVehicleDrawingPanel().displayIncident(incident);
+    }
+    
+    /**
+     * Display a congestion
+     * @param congestion Congestion to display
+     */
+    public void performDisplayCongestion(Congestion congestion) {
+        drawingPanel.getRoadDrawingPanel().displayCongestion(congestion);
+    }
+    
+    /**
+     * Display a collision
+     * @param collision Collision to display
+     */
+    public void performDisplayCollision(Collision collision) {
+        drawingPanel.getVehicleDrawingPanel().displayCollision(collision);
+    }
+    
+    /**
+     * Hide an incident
+     * @param gIncident Incident to hide
+     */
+    public void performHideIncident(GraphicIncident gIncident) {
+        simulationPanel.remove(gIncident);
+        drawingPanel.getVehicleDrawingPanel().hideIncident(gIncident);
+    }    
+
+    /**
+     * Hide a congestion
+     * @param gCongestion Congestion to hide 
+     */
+    public void performHideCongestion(GraphicCongestion gCongestion) {
+        simulationPanel.remove(gCongestion);
+        drawingPanel.getRoadDrawingPanel().hideCongestion(gCongestion);
+    }
+
+    /**
+     * Hide a collision
+     * @param gCollision Collision to hide
+     */
+    public void performHideCollision(GraphicCollision gCollision) {
+        simulationPanel.remove(gCollision);
+        drawingPanel.getVehicleDrawingPanel().hideCollision(gCollision);
     }
 }

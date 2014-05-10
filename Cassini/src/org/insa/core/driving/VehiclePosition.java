@@ -15,6 +15,7 @@
 */
 package org.insa.core.driving;
 
+import java.util.Objects;
 import org.insa.core.roadnetwork.Lane;
 
 /**
@@ -49,6 +50,15 @@ public class VehiclePosition {
     public VehiclePosition(Lane lane, float distance){
         this.lane = lane;
         this.offset = distance;
+    }
+    
+    /**
+     * Constructor
+     * @param position Refernece to another vehicle position in order to copy it
+     */
+    public VehiclePosition(VehiclePosition position) {
+        this.lane = position.getLane();
+        this.offset = position.getOffset();
     }
     
     /**
@@ -88,4 +98,24 @@ public class VehiclePosition {
         String str =""+offset+" lane length = "+lane.getGraphicLane().getSection().getLength();
         return str;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VehiclePosition other = (VehiclePosition) obj;
+        if (!Objects.equals(this.lane, other.lane)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.offset) != Float.floatToIntBits(other.offset)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

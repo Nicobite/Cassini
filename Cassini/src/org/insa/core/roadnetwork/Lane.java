@@ -16,6 +16,7 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.view.graphicmodel.GraphicLane;
 
@@ -113,7 +114,7 @@ public class Lane {
         int hash = 7;
         return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -123,8 +124,10 @@ public class Lane {
             return false;
         }
         final Lane other = (Lane) obj;
+        if (!Objects.equals(this.gLane, other.gLane)) {
+            return false;
+        }
         return true;
     }
     
-
 }

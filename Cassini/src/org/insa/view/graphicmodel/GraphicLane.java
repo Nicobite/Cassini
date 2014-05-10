@@ -16,6 +16,7 @@
 package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.NextLane;
@@ -208,5 +209,24 @@ public class GraphicLane {
     public boolean hasTransition(){
         return !this.getNextLanes().isEmpty();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final GraphicLane other = (GraphicLane) obj;
+        if (!Objects.equals(this.sourcePoint, other.sourcePoint)) {
+            return false;
+        }
+        if (!Objects.equals(this.targetPoint, other.targetPoint)) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }
