@@ -61,11 +61,11 @@ public class ProblemStack extends BorderPane {
             public void run() {
                 if(currentSize >= size) {
                     AbstractGraphicProblem pb = problems.get(problems.size() - 1);
-                    if(problem instanceof GraphicIncident)
+                    if(pb instanceof GraphicIncident)
                         MainController.getInstance().performHideIncident((GraphicIncident)pb); 
-                    else if(problem instanceof GraphicCollision)
+                    else if(pb instanceof GraphicCollision)
                         MainController.getInstance().performHideCollision((GraphicCollision)pb);
-                    else if(problem instanceof GraphicCongestion)
+                    else if(pb instanceof GraphicCongestion)
                         MainController.getInstance().performHideCongestion((GraphicCongestion)pb);
                 }
 

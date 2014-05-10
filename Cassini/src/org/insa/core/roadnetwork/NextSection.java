@@ -17,9 +17,7 @@ package org.insa.core.roadnetwork;
 
 import org.insa.core.enums.Direction;
 import org.insa.core.enums.TurnRestriction;
-import org.insa.view.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 
 /**
  * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
