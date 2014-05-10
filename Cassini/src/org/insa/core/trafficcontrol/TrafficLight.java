@@ -15,8 +15,10 @@
  */
 package org.insa.core.trafficcontrol;
 
+import org.insa.controller.MainController;
 import org.insa.core.enums.StateTrafficLight;
 import org.insa.core.roadnetwork.Node;
+import org.insa.model.Model;
 
 /**
  *
@@ -24,15 +26,25 @@ import org.insa.core.roadnetwork.Node;
  Class TrafficLight
  */
 public class TrafficLight {
+    /**
+     * Position of te traffic light    
+    */
     private long id;
     private Node position ; 
-
+    /**
+     * counter to determine in how much time the traffic light will swap 
+     * his state
+     */
     private int counter ;
-    
+    /**
+     * Timers that determine the time the light will stay in a specific state
+     */
     private int redTime ;
     private int orangeTime ;
     private int greenTime ;
-    
+    /**
+     * state of the traffic light
+     */
     private StateTrafficLight state ;
 
     public TrafficLight(Node position, int id, int redTime, int orangeTime, int greenTime) {
@@ -51,7 +63,9 @@ public class TrafficLight {
         this.greenTime = 10;
         this.state = StateTrafficLight.ORANGE ; 
     }
-    
+    /**
+     * getters & setters 
+     */
     public Node getPosition() {
         return position;
     }
@@ -110,6 +124,15 @@ public class TrafficLight {
 
 
     
-    
+    public static TrafficLight fromNode(Node node){
+        Model model = MainController.getInstance().getModel() ; 
+        TrafficLight light = null;        
+        for(TrafficLight trafficLight : model.getControlUnitsModel().getTrafficLights()){
+            if (trafficLight.getPosition().equals(node)){
+                light = trafficLight ;
+            }            
+        }        
+        return light ;
+    }
     
 }

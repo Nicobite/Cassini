@@ -34,6 +34,8 @@ public class Behavior {
     @Attribute
     private SimpleFloatProperty safetyDistance;
     
+    private float targetSpeed ; 
+    
     /**
      * Default constructor
      */
@@ -56,4 +58,14 @@ public class Behavior {
     public void setSafetyDistance(float safetyDistance) {
         this.safetyDistance.set(safetyDistance);
     }
+
+    public float getTargetSpeed() {
+        return targetSpeed;
+    }
+
+    public void setTargetSpeed(float targetSpeed) {
+        this.targetSpeed = targetSpeed;
+    }
+    
+    
 }

@@ -19,6 +19,11 @@ import java.util.Objects;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import org.insa.core.enums.Decision;
+import org.insa.core.enums.StateTrafficLight;
+import org.insa.core.enums.TrafficSignaling;
+import org.insa.core.roadnetwork.NextLane;
+import org.insa.core.roadnetwork.Node;
+import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.mission.Mission;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
@@ -142,12 +147,103 @@ public class Vehicle {
     /*--------------------- driving logic ---------------------*/
     
     /**
+     * Compare the speed of the vehicle with the max speed of the road
+     * or of the vehicle and set the decision.
+     */
+    private void testSpeed(){
+        float maxSpeedSection = this.getDriving().getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed() ;
+        if (maxSpeedSection < this.getMaxSpeed()){
+            if (this.getDriving().getSpeed() > maxSpeedSection-5){
+                this.getDriving().setSpeed(maxSpeedSection);
+                this.getDriving().setDecision(Decision.GO_STRAIGHT);
+            }
+        }else
+        {
+            if (this.getDriving().getSpeed() > this.getMaxSpeed()-0.5){
+                this.getDriving().setDecision(Decision.GO_STRAIGHT);
+            }            
+        } 
+    }
+    /**
+     * Return the distance between the vehicle and the next node
+     * @param node
+     * @return 
+     */
+    private float distanceToNextNode(Node node){
+        float distance ;        
+        distance = this.getDriving().getPosition().getLane().getGraphicLane().getSection().getLength() - this.getDriving().getPosition().getOffset() ;        
+        return distance ;
+    }
+    /**
+     * Compute the distance needed for the vehicle to stop
+     * @return 
+     */
+    private float distanceToStop(){
+        float distance ;
+        float speed = this.getDriving().getSpeed() ; 
+        float decceleration = this.getMaxDeceleration();
+        distance = (speed * speed) / ( 2.0f * decceleration) ;
+        return distance ;
+    }
+    /**
+     * Change the decision of the vehicle stop to the next node if he is close enough
+     * In the other case the vehicle continues to drive
+     * @param node 
+     */
+    private void stopAtNextNode(Node node){
+        if (this.distanceToNextNode(node) < distanceToStop()+15.0f){
+            this.getDriving().setDecision(Decision.STOP);
+        }
+    }
+    
+    /**
      * make driving decision
      */
     public void makeDecision(){
-        if (this.getDriving().getSpeed() > this.getMaxSpeed()){
-            this.getDriving().setDecision(Decision.GO_STRAIGHT);
+        
+        GraphicLane currentLane = this.getDriving().getPosition().getLane().getGraphicLane(); 
+        if (currentLane.hasTransition()){
+            NextLane nextLane = this.getDriving().getPosition().getLane().getGraphicLane().getNextLanes().get(0) ; 
+            
+            Node targetNode = currentLane.getSection().getSection().getGraphicSection().getTargetNode().getNode();
+            // if there is a red light at the end of the section
+            switch (targetNode.getSignaling()){
+                case TRAFFIC_LIGHT:
+                    TrafficLight light = TrafficLight.fromNode(targetNode) ;
+                    if (light == null){
+                        System.out.println("Error TrafficLight null.");
+                    }else
+                    {
+                        switch(light.getState()){
+                            case RED :
+                                stopAtNextNode(targetNode) ; 
+                                break ;
+                            case ORANGE :                                 
+                                break ;
+                            case GREEN : 
+                                if (this.getDriving().getSpeed()==0){
+                                    this.getDriving().setDecision(Decision.ACCELERATE);
+                                }else
+                                {
+                                    this.testSpeed();
+                                }
+                                break ; 
+                            default : 
+                                break ;
+                        } 
+                    }
+                    break ; 
+                case STOP : 
+                    stopAtNextNode(targetNode) ;
+                    if (this.getDriving().getSpeed() == 0){
+                        this.getDriving().setDecision(Decision.ACCELERATE);
+                    }
+                default :
+                    this.testSpeed();
+                    break;                    
+            }
         }
+        
         /*
         if (myPosition close to next vehicle (inf to safetyDistance)){
         this.getDriving().setDecesion(Decision.DECELERATE) ;
@@ -161,18 +257,10 @@ public class Vehicle {
     public void executeDecision(){
         switch(this.driving.getDecision()){
             case STOP :
-                // if the decision of the vehicle is to stop, we dont have to change the decision but
-                // the acceleration. it's not the same decision
-                //this.driving.setDecision(Decision.DECELARATE);
-                
-                // here the vehicle will decelerate and we have to change the action
-                // in the other function that make the vehicle stops when it reaches
-                // 0km/h
                 if (this.getDriving().getSpeed() == 0.0){
                     this.getDriving().setAcceleration(0);
                 }
-                else
-                {
+                else{
                     this.getDriving().setAcceleration(-this.getMaxDeceleration());
                 }
                 break;

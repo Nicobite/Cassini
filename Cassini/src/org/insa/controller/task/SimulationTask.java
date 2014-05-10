@@ -129,7 +129,7 @@ public class SimulationTask extends TimerTask {
     private void updateDrivings(){
         Vehicle vehicle;
         for(int i = 0; i< model.getNbDrivingVehicles(); i++){
-            vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);
+            vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);            
             // Make decision
             vehicle.makeDecision();
             
