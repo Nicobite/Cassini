@@ -64,8 +64,14 @@ public class SimulationController {
      *start simulation
      */
     public void start(){
+        int totalTime = 0;
         this.timer = new Timer();
+        if(simulationTask != null)
+            totalTime = simulationTask.getTotalTime();
+        
         simulationTask = new SimulationTask(this.model, simulationStep, debug);
+        simulationTask.setTotalTim(totalTime);
+        
         this.timer.scheduleAtFixedRate(simulationTask,0, simulationStep);
     }
     

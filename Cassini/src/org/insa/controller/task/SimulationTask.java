@@ -221,4 +221,12 @@ public class SimulationTask extends TimerTask {
     public int getTotalTime() {
         return totalTime;
     }
+    
+    /**
+     * Set total time
+     * @param totalTime New total time 
+     */
+    public void setTotalTim(int totalTime) {
+        this.totalTime = totalTime;
+    }
 }
