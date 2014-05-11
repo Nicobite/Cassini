@@ -255,9 +255,11 @@ public class SimulationTask extends TimerTask {
             v1 = vhcList.get(j) ;
             for(i=j+1 ; i<max ; i++) {
                 v2 = vhcList.get(i) ;
-                if( (v1.getDriving().getPosition().getOffset() - v2.getDriving().getPosition().getOffset()) < (v1.getLength()/2 + v2.getLength()/2) ) {
-                    Collision collision = new Collision(v1, v2,Severity.LOW);
-                    model.getControlUnitsModel().addCollision(collision);
+                if (v1 != null && v2 != null) {
+                    if( (v1.getDriving().getPosition().getOffset() - v2.getDriving().getPosition().getOffset()) < (v1.getLength()/2 + v2.getLength()/2) ) {
+                        Collision collision = new Collision(v1, v2,Severity.LOW);
+                        model.getControlUnitsModel().addCollision(collision);
+                    }
                 }
             }
         }        
