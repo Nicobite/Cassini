@@ -19,6 +19,8 @@ package org.insa.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -44,6 +46,7 @@ import org.insa.core.trafficcontrol.Congestion;
 import org.insa.core.trafficcontrol.Incident;
 import org.insa.model.Model;
 import org.insa.model.items.RoadsModel;
+import org.insa.model.items.VehiclesModel;
 import org.insa.view.form.NodePicker;
 import org.insa.view.graphicmodel.GraphicCollision;
 import org.insa.view.graphicmodel.GraphicCongestion;
@@ -494,7 +497,11 @@ public class MainController {
                         
                         XmlParser p = new XmlParser();
                         try {
+                            VehiclesModel toSave = new VehiclesModel();
+                            toSave.setVehicles(model.getVehiclesModel().getVehicles());
+                            toSave.getVehicles().addAll(model.getDrivingVehiclesModel().getVehicles());
                             p.saveVehiclesData(model.getVehiclesModel(), newFile);
+                            toSave = null;
                         } catch (Exception ex) {
                             Logger.getLogger(DrawingPanel.class.getName()).log(Level.SEVERE, null, ex);
                         }

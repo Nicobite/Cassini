@@ -29,17 +29,44 @@ import org.insa.model.items.VehiclesModel;
  */
 public class TestVehicle {
     public static void main(String args[]) throws InterruptedException{
-        MainController.getInstance().performDisplayJConsole();
+        //MainController.getInstance().performDisplayJConsole();
         VehiclesModel model = new VehiclesModel();
         Vehicle v;
-        for(int i=0; i<10; i++){
+           for(int i=0; i<30; i++){
             v = new Vehicle();
-            v.setMaxSpeed(50);
-            v.setMaxAcceleration(20);
-            v.setMaxDeceleration(20);
+            v.setMaxSpeed(40);
+            v.setMaxAcceleration(8);
+            v.setMaxDeceleration(7);
             v.setLength(1);
             model.addVehicle(v);
-            Thread.sleep(1000000000);
+            //Thread.sleep(1000000000);
+        }
+        for(int i=0; i<20; i++){
+            v = new Vehicle();
+            v.setMaxSpeed(50);
+            v.setMaxAcceleration(10);
+            v.setMaxDeceleration(10);
+            v.setLength(1);
+            model.addVehicle(v);
+            //Thread.sleep(1000000000);
+        }
+          for(int i=0; i<30; i++){
+            v = new Vehicle();
+            v.setMaxSpeed(60);
+            v.setMaxAcceleration(12);
+            v.setMaxDeceleration(10);
+            v.setLength(1);
+            model.addVehicle(v);
+            //Thread.sleep(1000000000);
+        }
+           for(int i=0; i<20; i++){
+            v = new Vehicle();
+            v.setMaxSpeed(70);
+            v.setMaxAcceleration(12);
+            v.setMaxDeceleration(10);
+            v.setLength(1);
+            model.addVehicle(v);
+            //Thread.sleep(1000000000);
         }
             XmlParser p = new XmlParser();
         try {
