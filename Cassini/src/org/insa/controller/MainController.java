@@ -188,24 +188,25 @@ public class MainController {
         
         resultPanel.voidQueue();
         int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
-        int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
-        int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
-        int speedIncidents = model.getControlUnitsModel().getSpeedLimitIncidents().size() * 100 / allIncidents;
-        int stopIncidents = model.getControlUnitsModel().getStopIncidents().size() * 100 / allIncidents;
-        
-        ArrayList<PieChart.Data> data = new ArrayList<>();
-        if(directionsIncidents != 0)
-            data.add(new PieChart.Data("Sens", directionsIncidents));
-        if(priorityIncidents != 0)
-            data.add(new PieChart.Data("Priorité", priorityIncidents));
-        if(speedIncidents != 0)
-            data.add(new PieChart.Data("Vitesse", speedIncidents));
-        if(stopIncidents != 0)
-            data.add(new PieChart.Data("Stop", stopIncidents));
-        
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
-        resultPanel.updateIncidentDistribution(pieChartData);
-        
+        if (allIncidents != 0) {
+            int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
+            int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
+            int speedIncidents = model.getControlUnitsModel().getSpeedLimitIncidents().size() * 100 / allIncidents;
+            int stopIncidents = model.getControlUnitsModel().getStopIncidents().size() * 100 / allIncidents;
+
+            ArrayList<PieChart.Data> data = new ArrayList<>();
+            if(directionsIncidents != 0)
+                data.add(new PieChart.Data("Sens", directionsIncidents));
+            if(priorityIncidents != 0)
+                data.add(new PieChart.Data("Priorité", priorityIncidents));
+            if(speedIncidents != 0)
+                data.add(new PieChart.Data("Vitesse", speedIncidents));
+            if(stopIncidents != 0)
+                data.add(new PieChart.Data("Stop", stopIncidents));
+
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
+            resultPanel.updateIncidentDistribution(pieChartData);
+        }
         model.clear();
         drawingPanel = null;
         
