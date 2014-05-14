@@ -18,7 +18,7 @@ package org.insa.core.roadnetwork;
 import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.driving.Vehicle;
-import org.insa.core.graphicmodel.GraphicLane;
+import org.insa.view.graphicmodel.GraphicLane;
 
 /**
  *

@@ -18,7 +18,7 @@ package org.insa.view.dock;
 import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import org.insa.view.control.IntegerSpinner;
+import org.insa.view.form.IntegerSpinner;
 import org.insa.view.panel.EditorArea;
 
 /**

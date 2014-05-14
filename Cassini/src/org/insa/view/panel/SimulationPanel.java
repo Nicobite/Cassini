@@ -17,8 +17,8 @@
 package org.insa.view.panel;
 
 import javafx.scene.layout.BorderPane;
-import org.insa.view.control.ProblemStack;
-import org.insa.core.graphicmodel.AbstractGraphicProblem;
+import org.insa.view.form.ProblemStack;
+import org.insa.view.graphicmodel.AbstractGraphicProblem;
 import org.insa.view.toolbar.SimulationToolBar;
 
 /**

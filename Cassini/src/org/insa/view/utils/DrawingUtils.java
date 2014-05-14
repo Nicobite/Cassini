@@ -15,9 +15,9 @@
  */
 package org.insa.view.utils;
 
-import org.insa.core.graphicmodel.GraphicBounds;
+import org.insa.view.graphicmodel.GraphicBounds;
 import javafx.scene.shape.Circle;
-import org.insa.core.graphicmodel.GraphicPoint;
+import org.insa.view.graphicmodel.GraphicPoint;
 
 /**
  *

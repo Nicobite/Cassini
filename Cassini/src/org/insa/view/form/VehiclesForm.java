@@ -28,6 +28,7 @@ import org.insa.mission.PathNotFoundException;
 import org.insa.view.graphicmodel.GraphicNode;
 import org.insa.view.graphicmodel.GraphicSection;
 
+
 /**
  *
  * @author Thomas Thiebaud

@@ -19,8 +19,8 @@ import javafx.scene.layout.Pane;
 import org.insa.controller.MainController;
 import org.insa.core.roadnetwork.Road;
 import org.insa.model.items.RoadsModel;
-import org.insa.core.graphicmodel.GraphicNode;
-import org.insa.core.graphicmodel.GraphicSection;
+import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.view.utils.DrawingUtils;
 
 /**

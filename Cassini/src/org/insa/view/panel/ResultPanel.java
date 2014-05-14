@@ -25,7 +25,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.insa.controller.MainController;
-import org.insa.view.control.NumberBox;
+import org.insa.view.form.NumberBox;
 
 /**
  *

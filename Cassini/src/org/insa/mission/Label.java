@@ -2,7 +2,7 @@ package org.insa.mission;
 
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Section;
-import org.insa.core.graphicmodel.GraphicSection;
+import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  * Label pour l'algo A Star
