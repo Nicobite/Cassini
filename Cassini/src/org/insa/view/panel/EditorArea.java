@@ -26,8 +26,8 @@ import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.view.dock.EditorToolsDock;
-import org.insa.view.graphicmodel.GraphicNode;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicNode;
+import org.insa.core.graphicmodel.GraphicSection;
 import org.insa.view.utils.DrawingUtils;
 
 /**

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.form;
+package org.insa.view.control;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -28,7 +28,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Thiebaud Thomas
  */
-public class IntegerSpinner extends HBox {
+public class FloatSpinner extends HBox {
     
     private TextField field;
     private final Button up = new Button();
@@ -39,7 +39,7 @@ public class IntegerSpinner extends HBox {
      * Constructor
      * @param value Initial value 
      */
-    public IntegerSpinner(int value) {
+    public FloatSpinner(float value) {
         field = new TextField(String.valueOf(value));
         field.setEditable(false);
         field.setPrefWidth(500);
@@ -63,8 +63,8 @@ public class IntegerSpinner extends HBox {
 
             @Override
             public void handle(MouseEvent event) {
-                int tmp = Integer.valueOf(field.getText());
-                tmp ++;
+                float tmp = Float.valueOf(field.getText());
+                tmp += 0.001;
                 
                 field.setText(String.valueOf(tmp));
                 
@@ -76,8 +76,8 @@ public class IntegerSpinner extends HBox {
 
             @Override
             public void handle(MouseEvent event) {
-                int tmp = Integer.valueOf(field.getText());
-                tmp --;
+                float tmp = Float.valueOf(field.getText());
+                tmp -= 0.001;
                 field.setText(String.valueOf(tmp));
             }
         
@@ -91,11 +91,11 @@ public class IntegerSpinner extends HBox {
     } 
 
     /**
-     * Get int value from field
-     * @return Int value from integer spinner
+     * Get float value from field
+     * @return Float value from float spinner
      */
-    public int getValue() {
-        return Integer.valueOf(field.getText());
+    public float getValue() {
+        return Float.valueOf(field.getText());
     }
     
     /**

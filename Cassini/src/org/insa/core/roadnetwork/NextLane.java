@@ -18,7 +18,7 @@ package org.insa.core.roadnetwork;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.enums.TurnRestriction;
 import org.insa.core.enums.TurningIndication;
-import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.core.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

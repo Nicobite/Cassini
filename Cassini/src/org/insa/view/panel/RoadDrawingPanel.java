@@ -27,12 +27,12 @@ import org.insa.core.roadnetwork.Road;
 import org.insa.core.trafficcontrol.Congestion;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.utils.DrawingUtils;
-import org.insa.view.graphicmodel.GraphicBounds;
-import org.insa.view.graphicmodel.GraphicCongestion;
-import org.insa.view.graphicmodel.GraphicLane;
-import org.insa.view.graphicmodel.GraphicPoint;
-import org.insa.view.graphicmodel.GraphicRoad;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicBounds;
+import org.insa.core.graphicmodel.GraphicCongestion;
+import org.insa.core.graphicmodel.GraphicLane;
+import org.insa.core.graphicmodel.GraphicPoint;
+import org.insa.core.graphicmodel.GraphicRoad;
+import org.insa.core.graphicmodel.GraphicSection;
 
 /**
  *

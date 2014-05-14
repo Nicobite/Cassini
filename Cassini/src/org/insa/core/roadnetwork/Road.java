@@ -17,8 +17,8 @@ package org.insa.core.roadnetwork;
 
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
-import org.insa.view.graphicmodel.GraphicRoad;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicRoad;
+import org.insa.core.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

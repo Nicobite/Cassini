@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.roadnetwork.Lane;
-import org.insa.view.graphicmodel.GraphicCongestion;
+import org.insa.core.graphicmodel.GraphicCongestion;
 
 /**
  *

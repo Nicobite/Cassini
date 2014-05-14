@@ -19,7 +19,7 @@ import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.Severity;
-import org.insa.view.graphicmodel.GraphicCollision;
+import org.insa.core.graphicmodel.GraphicCollision;
 
 /**
  *

@@ -22,7 +22,7 @@ import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.mission.AStar;
 import org.insa.mission.Mission;
 import org.insa.model.items.RoadsModel;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicSection;
 import org.insa.xml.osm.OsmRoot;
 
 /**

@@ -19,7 +19,7 @@ import java.util.Objects;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.driving.VehiclePosition;
 import org.insa.core.enums.IncidentType;
-import org.insa.view.graphicmodel.GraphicIncident;
+import org.insa.core.graphicmodel.GraphicIncident;
 
 /**
  *

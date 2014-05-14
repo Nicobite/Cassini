@@ -25,9 +25,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.insa.controller.MainController;
 import org.insa.model.items.RoadsModel;
-import org.insa.view.graphicmodel.GraphicBounds;
+import org.insa.core.graphicmodel.GraphicBounds;
 import org.insa.view.panel.EditorArea;
-import org.insa.view.form.FloatSpinner;
+import org.insa.view.control.FloatSpinner;
 
 /**
  *

@@ -34,8 +34,8 @@ import org.insa.core.trafficcontrol.Collision;
 import org.insa.core.trafficcontrol.Incident;
 import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.Model;
-import org.insa.view.graphicmodel.GraphicLane;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicLane;
+import org.insa.core.graphicmodel.GraphicSection;
 
 /**
  *

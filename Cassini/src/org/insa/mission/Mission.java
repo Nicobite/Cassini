@@ -23,8 +23,8 @@ import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
-import org.insa.view.graphicmodel.GraphicLane;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicLane;
+import org.insa.core.graphicmodel.GraphicSection;
 
 /**
  *

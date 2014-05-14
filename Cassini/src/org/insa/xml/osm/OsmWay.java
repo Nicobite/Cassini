@@ -21,7 +21,7 @@ import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmNodeRef;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementList;

@@ -17,7 +17,7 @@ package org.insa.core.roadnetwork;
 
 import java.util.Objects;
 import org.insa.core.enums.TrafficSignaling;
-import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.core.graphicmodel.GraphicNode;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 

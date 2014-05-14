@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.roadnetwork.Road;
-import org.insa.view.graphicmodel.GraphicNode;
+import org.insa.core.graphicmodel.GraphicNode;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.ElementMap;
 import org.simpleframework.xml.Root;

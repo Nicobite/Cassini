@@ -26,7 +26,7 @@ import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.mission.Mission;
-import org.insa.view.graphicmodel.GraphicLane;
+import org.insa.core.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 

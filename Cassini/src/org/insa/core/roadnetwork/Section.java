@@ -18,7 +18,7 @@ package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import org.insa.view.graphicmodel.GraphicSection;
+import org.insa.core.graphicmodel.GraphicSection;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;

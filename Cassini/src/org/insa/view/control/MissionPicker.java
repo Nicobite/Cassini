@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.insa.view.form;
+package org.insa.view.control;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
