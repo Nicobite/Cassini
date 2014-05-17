@@ -301,3 +301,42 @@
     -fx-border-width : 1 0 0 0;
     -fx-border-color : transparent transparent transparent transparent;
 }
+
+/*******************************************************************************
+ *                                                                             *
+ * TitledPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.titled-pane:focused {
+    -fx-text-fill: black;
+}
+
+.titled-pane > .title {
+    -fx-background-color:  #FFFFFF;
+    -fx-border-color : #E2E5E6;
+    -fx-border-width: 1 0 1 0;
+    -fx-padding: 5;
+}
+
+.titled-pane:focused > .title {
+    -fx-color: black;
+}
+
+.titled-pane > .title > .arrow-button {
+    -fx-background-color: null;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.0em 0.25em 0.0em 0.0em; /* 0 3 0 0 */
+}
+
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-background-color: black, black;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.25em 0.3125em 0.25em 0.3125em; /* 3 3.75 3 3.75 */
+    -fx-shape: "M 0 0 h 7 l -3.5 4 z";
+}
+
+.titled-pane:focused > .title > .arrow-button .arrow {
+    -fx-background-color: black;
+}

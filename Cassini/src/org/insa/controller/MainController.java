@@ -19,7 +19,6 @@ package org.insa.controller;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +27,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
@@ -39,8 +39,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import org.hyperic.sigar.Sigar;
+import javafx.stage.WindowEvent;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.trafficcontrol.Collision;
 import org.insa.core.trafficcontrol.Congestion;
@@ -90,6 +89,7 @@ public class MainController {
     private Model model = new Model();
     
     private SimulationController simulationController = null;
+    private ConsoleController consoleController = null;
     private boolean isPickingNode = false;
     
     private int height;
@@ -99,18 +99,9 @@ public class MainController {
      * Default private constructor
      */
     private MainController(){
-        //Empty for the moment
+        consoleController = new ConsoleController();
     }
     
-   public void performDisplayJConsole(){
-        try {
-            Sigar sigar = new Sigar();
-            long pid = sigar.getPid();
-            Process proc = Runtime.getRuntime().exec("jconsole " + pid);
-        } catch (IOException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-   }
     /**
      * Return the unique instance of the class
      * @return The unique instance of the class
@@ -140,8 +131,23 @@ public class MainController {
         root.getChildren().add(layout);
         
         primaryStage.setResizable(false);
-        primaryStage.setFullScreen(true);
+
+        if(!System.getProperty("os.name").toLowerCase().contains("mac"))
+            primaryStage.setFullScreen(true);
+        
         primaryStage.setFullScreenExitHint("");
+        
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            @Override
+            public void handle(WindowEvent event) {
+                if(simulationController != null)
+                    simulationController.stop();
+                
+                if(consoleController != null)
+                consoleController.stop();
+            }
+        });
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) screenSize.getWidth();
@@ -149,8 +155,7 @@ public class MainController {
         
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/org/insa/view/css/cassini.css");
-        
-        
+           
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -169,16 +174,16 @@ public class MainController {
      * Display simulation panel
      */
     public void performDisplaySimulationPanel() {
-        simulationController = new SimulationController(500, false);
-        resultPanel = new ResultPanel();
-        simulationPanel = new SimulationPanel(); 
+        if(simulationPanel == null) {
+            simulationController = new SimulationController(500, false);
+            resultPanel = new ResultPanel();
+            simulationPanel = new SimulationPanel(); 
+        }
         
         mainPanel.setCenter(simulationPanel);
         
         if(model.getRoadModel().getRoads().isEmpty())
             this.performDisplayMessage(simulationPanel, "Aucune carte sélectionnée");
-        else if(model.getVehiclesModel().getVehicles().isEmpty())
-            this.performDisplayMessage(simulationPanel, "Aucun véhicule sélectionné");   
         else
             simulationPanel.setCenter(drawingPanel);
     }
@@ -199,8 +204,6 @@ public class MainController {
             resultPanel = new ResultPanel();
         mainPanel.setCenter(resultPanel);
         
-        
-        resultPanel.voidQueue();
         int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
         if (allIncidents != 0) {
             int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
@@ -221,12 +224,8 @@ public class MainController {
             ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
             resultPanel.updateIncidentDistribution(pieChartData);
         }
-        model.clear();
-        drawingPanel = null;
-        
-        if(simulationController != null)
-            simulationController.stop();
-        else
+
+        if(simulationController == null)
             this.performDisplayMessage(mainPanel, "Aucune simulation en cours. Pas de résultats à afficher");
     }
     
@@ -324,6 +323,20 @@ public class MainController {
         else
             mapPanel.setCenter(pi);
         
+        
+        model.clear(); 
+        simulationPanel = null;
+        resultPanel = null;
+        if(simulationController != null) {
+            simulationController.stop();
+            simulationController = new SimulationController(500, isMapEditor);
+        }
+        if(consoleController != null) {
+            consoleController.stop();
+            consoleController = new ConsoleController();
+        }
+            
+        
         if(file != null) {
             new Thread() {
                 public void run() {
@@ -384,20 +397,7 @@ public class MainController {
         editorPanel = new EditorPanel();
         mainPanel.setCenter(editorPanel);
     }
-    
-    public void performOpenMapIntoEditor() {
-        final EditorArea editorArea = new EditorArea(new DrawingUtils(height - 50, width - 300));
-        
-        editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-            @Override
-            public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
-                editorArea.setClip(new Rectangle(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight()));
-            }
-        });
-        
-        editorPanel.setCenter(editorArea);
-    }
-    
+
     /**
      * Display a message in a pane
      * @param pane Pane containing the message
@@ -438,6 +438,9 @@ public class MainController {
         MainController.getInstance().performUpdateVehiclesTable();
     }
     
+    /**
+     * Open a xml file that contains vehicles
+     */
     public void performOpenVehicles() {
         FileChooser fileChooser = new FileChooser();
         
@@ -480,6 +483,9 @@ public class MainController {
         }
     }
     
+    /**
+     * Save vehicles from the model to a xml file
+     */
     public void performSaveVehicles() {
         FileChooser fileChooser = new FileChooser();
         
@@ -751,11 +757,55 @@ public class MainController {
         drawingPanel.getVehicleDrawingPanel().hideCollision(gCollision);
     }
     
+    /**
+     * Get app real height
+     * @return Height
+     */
     public int getHeight() {
         return height;
     }
     
+    /**
+     * Get app real width
+     * @return 
+     */
     public int getWidth() {
         return width;
+    }
+
+    /**
+     * Get the memory used by the app
+     * @param residentMemory Total memory used by the process
+     */
+    public void performDisplayMemoryInfo(long residentMemory) {
+        if(resultPanel != null) {
+            resultPanel.addMemoryInfo((int) residentMemory);
+        }
+    }
+
+    /**
+     * Get cpu used by the app
+     * @param cpuPercent Percent of cpu use by the app
+     */
+    public void performDisplayCpuInfo(double cpuPercent) {
+        if(resultPanel != null) {
+            resultPanel.addCpuInfo((int)(cpuPercent * 100));
+        }
+    }
+
+    /**
+     * Get simulation period
+     * @return Simulation period
+     */
+    public int performGetSimulationPeriod() {
+        return simulationController.getSimulationStep();
+    }
+
+    /**
+     * Get console period
+     * @return Console period
+     */
+    public int performGetConsolePeriod() {
+        return consoleController.getPeriod();
     }
 }

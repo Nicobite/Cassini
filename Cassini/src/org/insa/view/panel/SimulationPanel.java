@@ -29,13 +29,16 @@ import org.insa.view.toolbar.SimulationToolBar;
 public class SimulationPanel extends BorderPane{
     
     private ProblemStack problemStack = null;
+
+    private SimulationToolBar simulationToolBar = new SimulationToolBar();
     
     /**
      * Default constructor
      */
     public SimulationPanel() {
         problemStack = new ProblemStack((MainController.getInstance().getHeight() - 50) / 50);
-        this.setBottom(new SimulationToolBar());
+
+        this.setBottom(simulationToolBar);
         this.setRight(problemStack);
     }
 

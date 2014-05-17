@@ -30,7 +30,7 @@ public class SimulationToolBar extends CustomToolBar {
      * Default constructor
      */
     public SimulationToolBar() {
-        super(Orientation.HORIZONTAL, "bottom-tool-bar");
+        super(Orientation.HORIZONTAL, "bottom-tool-bar");  
         this.add(new ToolBarToggleButton("backward",this));
         this.add(new ToolBarToggleButton("play",this));
         this.add(new ToolBarToggleButton("pause",this));
@@ -59,5 +59,4 @@ public class SimulationToolBar extends CustomToolBar {
                 break;
         } 
     }
-    
 }

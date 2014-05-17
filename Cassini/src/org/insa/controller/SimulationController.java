@@ -92,6 +92,7 @@ public class SimulationController {
      * stop simulation
      */
     public void stop(){
+        simulationTask.setTotalTim(0);
         timer.cancel();
         timer.purge();
     }
