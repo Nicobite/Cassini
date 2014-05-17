@@ -265,7 +265,7 @@ public class RoadDrawingPanel extends StackPane {
         for(int j=0; j<section.getLongLatPoints().size(); j++) {
             if(j%2 == 0)
                 res = drawingUtils.longToX(section.getLongLatPoints().get(j));
-            else
+            else 
                 res = drawingUtils.latToY(section.getLongLatPoints().get(j));
             section.getPoints().add(res);
         }

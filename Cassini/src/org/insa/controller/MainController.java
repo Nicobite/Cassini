@@ -139,8 +139,9 @@ public class MainController {
         StackPane root = new StackPane();
         root.getChildren().add(layout);
         
-        //primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setResizable(false);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
         
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         width = (int) screenSize.getWidth();
