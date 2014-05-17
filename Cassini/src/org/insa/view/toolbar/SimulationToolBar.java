@@ -16,8 +16,10 @@
 package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
+import org.insa.view.menuelement.ToolBarButton;
 import org.insa.view.menuelement.ToolBarToggleButton;
 
 /**
@@ -26,16 +28,29 @@ import org.insa.view.menuelement.ToolBarToggleButton;
  */
 public class SimulationToolBar extends CustomToolBar {
 
+    private final ToolBarToggleButton backwardButton = new ToolBarToggleButton("backward",this);
+    private final ToolBarToggleButton playButton = new ToolBarToggleButton("play",this);
+    private final ToolBarToggleButton pauseButton = new ToolBarToggleButton("pause",this);
+    private final ToolBarToggleButton stopButton = new ToolBarToggleButton("stop",this);
+    private final ToolBarToggleButton forwardButton = new ToolBarToggleButton("forward",this);
+    
     /**
      * Default constructor
      */
     public SimulationToolBar() {
         super(Orientation.HORIZONTAL, "bottom-tool-bar");  
-        this.add(new ToolBarToggleButton("backward",this));
-        this.add(new ToolBarToggleButton("play",this));
-        this.add(new ToolBarToggleButton("pause",this));
-        this.add(new ToolBarToggleButton("stop",this));
-        this.add(new ToolBarToggleButton("forward",this));
+        
+        backwardButton.setTooltip(new Tooltip("Ralentir la simulation"));
+        playButton.setTooltip(new Tooltip("Lancer la simulation"));
+        pauseButton.setTooltip(new Tooltip("Suspendre la simulation"));
+        stopButton.setTooltip(new Tooltip("Arreter la simulation"));
+        forwardButton.setTooltip(new Tooltip("Accélérer la simulation"));
+        
+        this.add(backwardButton);
+        this.add(playButton);
+        this.add(pauseButton);
+        this.add(stopButton);
+        this.add(forwardButton);
     }
     
     @Override

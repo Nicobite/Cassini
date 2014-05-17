@@ -16,6 +16,7 @@
 package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
 import org.insa.view.menuelement.ToolBarToggleButton;
@@ -25,6 +26,11 @@ import org.insa.view.menuelement.ToolBarToggleButton;
  * @author Thiebaud Thomas
  */
 public class NavigationToolBar extends CustomToolBar {
+    private final ToolBarToggleButton drawButton = new ToolBarToggleButton("draw",this,"navigation-element");
+    private final ToolBarToggleButton mapButton = new ToolBarToggleButton("map",this,"navigation-element");
+    private final ToolBarToggleButton carButton = new ToolBarToggleButton("car",this,"navigation-element");
+    private final ToolBarToggleButton simulationButton = new ToolBarToggleButton("simulation",this,"navigation-element");
+    private final ToolBarToggleButton resultButton = new ToolBarToggleButton("result",this,"navigation-element");
     
     /**
      * Default constructor
@@ -32,11 +38,18 @@ public class NavigationToolBar extends CustomToolBar {
     public NavigationToolBar() {
         super(Orientation.VERTICAL, "navigation-menu");
         this.addCssClass("left-tool-bar");
-        this.add(new ToolBarToggleButton("draw",this,"navigation-element"));
-        this.add(new ToolBarToggleButton("map",this,"navigation-element"));
-        this.add(new ToolBarToggleButton("car",this,"navigation-element"));
-        this.add(new ToolBarToggleButton("simulation",this,"navigation-element"));
-        this.add(new ToolBarToggleButton("result",this,"navigation-element"));
+        
+        drawButton.setTooltip(new Tooltip("Ouvrir l'éditeur de cartes"));
+        mapButton.setTooltip(new Tooltip("Charger la carte pour la simulation"));
+        carButton.setTooltip(new Tooltip("Charger des véhicules pour la simulation"));
+        simulationButton.setTooltip(new Tooltip("Ouvrir la simulation"));
+        resultButton.setTooltip(new Tooltip("Afficher les résultats de la simulation"));
+        
+        this.add(drawButton);
+        this.add(mapButton);
+        this.add(carButton);
+        this.add(simulationButton);
+        this.add(resultButton);
     }
 
     @Override

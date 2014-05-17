@@ -16,6 +16,7 @@
 package org.insa.view.toolbar;
 
 import javafx.geometry.Orientation;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
 import org.insa.view.menuelement.ToolBarButton;
@@ -25,15 +26,23 @@ import org.insa.view.menuelement.ToolBarButton;
  * @author Thiebaud Thomas
  */
 public class VehicleToolBar extends CustomToolBar {
-
+    private final ToolBarButton resetButton = new ToolBarButton("reset",this);
+    private final ToolBarButton openButton = new ToolBarButton("open",this);
+    private final ToolBarButton saveButton = new ToolBarButton("save",this);
+    
     /**
      * Default constructor
      */
     public VehicleToolBar() {
         super(Orientation.HORIZONTAL, "top-tool-bar");
-        this.add(new ToolBarButton("reset","Reset",this));
-        this.add(new ToolBarButton("open","Open", this));
-        this.add(new ToolBarButton("save","Save", this));
+        
+        resetButton.setTooltip(new Tooltip("Réinitialiser la liste des véhicules"));
+        openButton.setTooltip(new Tooltip("Ouvrir une liste de véhicules au format .vhc.xml"));
+        saveButton.setTooltip(new Tooltip("Sauvegarder la liste des véhicules au format .vhc.xml"));
+        
+        this.add(resetButton);
+        this.add(openButton);
+        this.add(saveButton);
     }
     
     @Override
