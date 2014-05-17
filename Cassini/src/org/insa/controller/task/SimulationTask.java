@@ -248,6 +248,7 @@ public class SimulationTask extends TimerTask {
     private int detectCollision(Lane lane) {
         Vehicle v1, v2 ;
         ArrayList<Vehicle> vhcList = lane.getVehicles() ;
+        Collision collision ;
         int max = vhcList.size() ;
         int j = 0 ;
         int i = 0 ;
@@ -256,11 +257,12 @@ public class SimulationTask extends TimerTask {
             for(i=j+1 ; i<max ; i++) {
                 v2 = vhcList.get(i) ;
                 if (v1 != null && v2 != null) {
-                    if( (v1.getDriving().getPosition().getOffset() - v2.getDriving().getPosition().getOffset()) < (v1.getLength()/2 + v2.getLength()/2) ) {
-                        Collision collision = new Collision(v1, v2,Severity.LOW);
+                    if( Math.abs(v1.getDriving().getPosition().getOffset() - v2.getDriving().getPosition().getOffset()) < (v1.getLength()/2 + v2.getLength()/2) ) {       
+                        collision = new Collision(v1, v2,Severity.LOW);
                         model.getControlUnitsModel().addCollision(collision);
                     }
                 }
+                v2 = null ;
             }
         }        
         return 0 ;
