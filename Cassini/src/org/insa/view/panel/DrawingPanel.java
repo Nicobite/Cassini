@@ -155,10 +155,12 @@ public class DrawingPanel extends StackPane implements EventHandler<MouseEvent> 
         });
         
         this.getChildren().add(nodeDrawingPanel);
+        nodeDrawingPanel.paintFirstAndLast();
+        /*
         if(isSourceNode)
             nodeDrawingPanel.paintSourceNode();
         else
-            nodeDrawingPanel.paintTargetNode();
+            nodeDrawingPanel.paintTargetNode();*/
     }
 
     /**

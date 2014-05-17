@@ -44,6 +44,8 @@ public class VehicleDrawingPanel extends StackPane {
     private Pane vehiclePane = new Pane();
     private Pane incidentPane = new Pane();
     private Pane collisionPane = new Pane();
+    private double width = 0;
+    private GraphicLane initialLane = null;
 
     /**
      * Constructor
@@ -65,9 +67,21 @@ public class VehicleDrawingPanel extends StackPane {
         for(Vehicle v : vehicles.getVehicles()) {
             if(v.getDriving().getPosition() != null) {
                 double point[] = this.getPoint(v.getDriving().getPosition().getLane().getGraphicLane(), v.getDriving().getPosition().getOffset());
-                vehiclePane.getChildren().add(drawingUtils.drawCircle(point[0], point[1], point[2]));
+                vehiclePane.getChildren().add(drawingUtils.drawCircle(point[0], point[1], width));
             }
         }
+    }
+    
+    public void calculateWidth(GraphicLane lane) {
+        if(initialLane == null)
+            initialLane = lane;
+        
+        GraphicSection section = initialLane.getSection();
+
+        double widthX = drawingUtils.longToX(initialLane.getSourcePoint().getX() + section.getSourceDeltaX()) - drawingUtils.longToX(initialLane.getSourcePoint().getX());
+        double widthY = drawingUtils.latToY(initialLane.getSourcePoint().getY() + section.getSourceDeltaY()) - drawingUtils.latToY(initialLane.getSourcePoint().getY());
+
+        width = Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2));
     }
     
     /**
@@ -77,14 +91,12 @@ public class VehicleDrawingPanel extends StackPane {
      * @return 
      */
     public double[] getPoint(GraphicLane lane, double offset) {
-        double point[] = new double[3];
+        double point[] = new double[2];
         
         GraphicSection section = lane.getSection();
         
-        double widthX = drawingUtils.longToX(lane.getSourcePoint().getX() + section.getSourceDeltaX()) - drawingUtils.longToX(lane.getSourcePoint().getX());
-        double widthY = drawingUtils.latToY(lane.getSourcePoint().getY() + section.getSourceDeltaY()) - drawingUtils.latToY(lane.getSourcePoint().getY());
-        double width = Math.sqrt(Math.pow(widthX, 2) + Math.pow(widthY, 2));
-                
+        calculateWidth(lane);
+        
         double ratio = offset / lane.getSection().getLength(); 
 
         double deltaX;
@@ -101,8 +113,6 @@ public class VehicleDrawingPanel extends StackPane {
             point[0] = drawingUtils.longToX(lane.getTargetPoint().getX() + section.getTargetDeltaX()) + ratio * deltaX;
             point[1] = drawingUtils.latToY(lane.getTargetPoint().getY() + section.getTargetDeltaY()) + ratio * deltaY;
         }
-        point[2] = width;
-        
                 
         return point;
     }

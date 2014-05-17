@@ -16,11 +16,11 @@
 
 package org.insa.controller;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -39,6 +39,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.hyperic.sigar.Sigar;
 import org.insa.core.driving.Vehicle;
 import org.insa.core.trafficcontrol.Collision;
@@ -85,12 +86,14 @@ public class MainController {
     private DrawingPanel drawingPanel = null;
     private EditorPanel editorPanel = null;
     private NodePicker lastNodePicker = null;
-    
-    
+      
     private Model model = new Model();
     
     private SimulationController simulationController = null;
     private boolean isPickingNode = false;
+    
+    private int height;
+    private int width;
     
     /**
      * Default private constructor
@@ -137,14 +140,21 @@ public class MainController {
         root.getChildren().add(layout);
         
         //primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setResizable(false);
         
-        Scene scene = new Scene(root, 1500, 900);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        width = (int) screenSize.getWidth();
+        height = (int) screenSize.getHeight();
+        
+        Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/org/insa/view/css/cassini.css");
         
         
         primaryStage.setTitle("");
         primaryStage.setScene(scene);
         primaryStage.show();
+        width = (int) primaryStage.getWidth();
+        height = (int) primaryStage.getHeight();
     }
     
     /**
@@ -335,7 +345,7 @@ public class MainController {
                             @Override
                             public void run() {
                                 if(isMapEditor) {
-                                    final EditorArea editorArea = new EditorArea(new DrawingUtils(850, 1200));
+                                    final EditorArea editorArea = new EditorArea(new DrawingUtils(height - 50, width - 300));
                                     editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
                                         @Override
                                         public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {
@@ -346,7 +356,7 @@ public class MainController {
                                     editorPanel.setCenter(editorArea);
                                     editorPanel.displayEditorToolsDock();
                                 } else {
-                                    drawingPanel = new DrawingPanel(1450,850);
+                                    drawingPanel = new DrawingPanel(width - 50,height - 50);
                                     mapPanel.setCenter(drawingPanel);
                                 }
                                 
@@ -375,7 +385,7 @@ public class MainController {
     }
     
     public void performOpenMapIntoEditor() {
-        final EditorArea editorArea = new EditorArea(new DrawingUtils(850, 1200));
+        final EditorArea editorArea = new EditorArea(new DrawingUtils(height - 50, width - 300));
         
         editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
             @Override
@@ -738,5 +748,13 @@ public class MainController {
     public void performHideCollision(GraphicCollision gCollision) {
         simulationPanel.remove(gCollision);
         drawingPanel.getVehicleDrawingPanel().hideCollision(gCollision);
+    }
+    
+    public int getHeight() {
+        return height;
+    }
+    
+    public int getWidth() {
+        return width;
     }
 }

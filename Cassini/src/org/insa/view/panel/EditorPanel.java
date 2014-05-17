@@ -20,6 +20,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Rectangle;
+import org.insa.controller.MainController;
 import org.insa.view.dock.DefaultDock;
 import org.insa.view.dock.EditorToolsDock;
 import org.insa.view.dock.ResizeMapDock;
@@ -33,6 +34,8 @@ import org.insa.view.utils.DrawingUtils;
 public class EditorPanel extends BorderPane {   
     
     protected EditorArea editorArea;
+    private int width = MainController.getInstance().getWidth();
+    private int height = MainController.getInstance().getHeight();
     
     /**
      * Constructor
@@ -46,7 +49,7 @@ public class EditorPanel extends BorderPane {
      * Create editor area
      */
     public void createEditoArea() {
-        editorArea = new EditorArea(new DrawingUtils(850, 1200));
+        editorArea = new EditorArea(new DrawingUtils(height - 50, width - 300));
         editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
             @Override
             public void changed(ObservableValue<? extends Bounds> observable, Bounds oldBounds, Bounds bounds) {

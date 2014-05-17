@@ -96,9 +96,8 @@ public class NodeDrawingPanel extends Pane {
      * @param r Given road
      */
     public void paintFirstAndLast(Road r) {
-        this.getChildren().clear();
         GraphicNode node = null;
-
+        
         if((node = r.getLastSection().getTargetNode()) != null) {
             node.setCenterX(drawingUtils.longToX(node.getLongitude()));
             node.setCenterY(drawingUtils.latToY(node.getLatitude()));
