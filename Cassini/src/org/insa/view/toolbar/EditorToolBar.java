@@ -30,7 +30,6 @@ public class EditorToolBar extends CustomToolBar {
     private final ToolBarButton openButton = new ToolBarButton("open",this);
     private final ToolBarButton saveButton = new ToolBarButton("save",this);
     private final ToolBarButton resizeButton = new ToolBarButton("resize",this);
-    private final ToolBarButton moveButton = new ToolBarButton("move",this);
     
     /**
      * Default constructor
@@ -42,13 +41,11 @@ public class EditorToolBar extends CustomToolBar {
         openButton.setTooltip(new Tooltip("Ouvrir une carte au format .osm ou .map.xml"));
         saveButton.setTooltip(new Tooltip("Sauvegarder une carte au format .map.xml"));
         resizeButton.setTooltip(new Tooltip("Redimensionner une carte"));
-        moveButton.setTooltip(new Tooltip("Déplacer un point de la carte"));
         
         this.add(newButton);
         this.add(openButton);
         this.add(saveButton);
         this.add(resizeButton);
-        this.add(moveButton);
     }
     
     @Override
@@ -66,8 +63,6 @@ public class EditorToolBar extends CustomToolBar {
                 break;
             case "resize" :
                 MainController.getInstance().performDisplayResizeMapDock();
-                break;
-            case "move" :
                 break;
         }
     }

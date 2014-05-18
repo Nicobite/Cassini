@@ -31,7 +31,7 @@ import org.insa.view.utils.DrawingUtils;
  *
  * @author Thiebaud Thomas
  */
-public class EditorPanel extends BorderPane {   
+public class EditorPanel extends BorderPane {
     
     protected EditorArea editorArea;
     private int width = MainController.getInstance().getWidth();
@@ -40,15 +40,15 @@ public class EditorPanel extends BorderPane {
     /**
      * Constructor
      */
-    public EditorPanel() {   
+    public EditorPanel() {
         this.setTop(new EditorToolBar());
         this.setRight(new DefaultDock());
     }
-
+    
     /**
      * Create editor area
      */
-    public void createEditoArea() {
+    public void createEditorArea() {
         editorArea = new EditorArea(new DrawingUtils(height - 50, width - 300));
         editorArea.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
             @Override
@@ -63,7 +63,7 @@ public class EditorPanel extends BorderPane {
      */
     public void displayEditorArea() {
         if(editorArea == null) {
-            this.createEditoArea();
+            this.createEditorArea();
         }
         this.setCenter(editorArea);
     }
@@ -71,7 +71,7 @@ public class EditorPanel extends BorderPane {
     /**
      * Display resize dock into editor panel
      */
-    public void displayResizeMapDock() {  
+    public void displayResizeMapDock() {
         this.setRight(new ResizeMapDock(editorArea,editorArea.getInitialBounds()));
     }
     
@@ -89,10 +89,10 @@ public class EditorPanel extends BorderPane {
     public EditorArea getEditorArea() {
         return editorArea;
     }
-
+    
     /**
      * Set editor area
-     * @param editorArea New editor area 
+     * @param editorArea New editor area
      */
     public void setEditorArea(EditorArea editorArea) {
         this.editorArea = editorArea;

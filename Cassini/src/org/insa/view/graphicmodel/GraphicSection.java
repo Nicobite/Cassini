@@ -16,7 +16,6 @@
 package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;

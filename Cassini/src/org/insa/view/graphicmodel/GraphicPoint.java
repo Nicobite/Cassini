@@ -15,13 +15,14 @@
  */
 package org.insa.view.graphicmodel;
 
+import java.io.Serializable;
 import org.simpleframework.xml.Attribute;
 
 /**
  *
  * @author Thiebaud Thomas
  */
-public class GraphicPoint {
+public class GraphicPoint implements Serializable {
     @Attribute(name="lon")
     protected double x;
     
@@ -94,6 +95,4 @@ public class GraphicPoint {
         }
         return true;
     }
-    
-    
 }

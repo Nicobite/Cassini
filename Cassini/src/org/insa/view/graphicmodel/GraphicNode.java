@@ -15,10 +15,14 @@
 */
 package org.insa.view.graphicmodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 import javafx.event.EventHandler;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import org.insa.controller.MainController;
@@ -30,11 +34,11 @@ import org.simpleframework.xml.core.Commit;
  *
  * @author Thiebaud Thomas
  */
-public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
+public class GraphicNode extends Circle implements EventHandler<MouseEvent>, Serializable {
     @Element
-    protected Node node;
+    protected transient Node node;
     
-    protected ArrayList<GraphicSection> gSections = new ArrayList<>();
+    protected transient ArrayList<GraphicSection> gSections = new ArrayList<>();
     
     @Element
     protected GraphicPoint point;
@@ -46,10 +50,11 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
         this.node = new Node(this);
         this.setFill(Color.ORANGE);
         this.setRadius(4);
-        
+
         this.setOnMouseClicked(this);
         this.setOnMouseEntered(this);
         this.setOnMouseExited(this);
+        this.setOnDragDetected(this);
     }
     
     /**
@@ -64,6 +69,13 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
     
     @Override
     public void handle(MouseEvent event) {
+        if(event.getEventType() == MouseEvent.DRAG_DETECTED) {
+            Dragboard db = this.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            MainController.getInstance().performSetMovingNode(this);
+            content.putString("GraphicNode");
+            db.setContent(content);
+        }
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED) {
             MainController.getInstance().performGetNode((GraphicNode)event.getSource());
         }
@@ -72,12 +84,12 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
         }
         if(event.getEventType() == MouseEvent.MOUSE_EXITED) {
             this.setFill(Color.ORANGE);
-        } 
+        }
         event.consume();
     }
     
     /**
-     * Add a graphic section 
+     * Add a graphic section
      * @param section Graphic section to add
      */
     public void addGraphicSection(GraphicSection section) {
@@ -151,7 +163,8 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent> {
         }
         return (this.getLatitude()==other.getLatitude()&& this.getLongitude()==other.getLongitude());
     }
-       /**
+    
+    /**
      * called when deserializing this object
      */
     @Commit

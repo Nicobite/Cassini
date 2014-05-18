@@ -271,6 +271,9 @@ public class RoadDrawingPanel extends StackPane {
         }
     }
     
+    /**
+     * Paint roads into panel
+     */
     public final void paint() {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
@@ -280,7 +283,9 @@ public class RoadDrawingPanel extends StackPane {
     }
     
     /**
-     * Paint roads into panel
+     * Paint given road into given pane
+     * @param pane Given pane
+     * @param road Given pane
      */
     public final void paint(Pane pane, Road road) {
         for(GraphicSection gSection : road.getGraphicRoad().getSections()) { 
@@ -288,6 +293,11 @@ public class RoadDrawingPanel extends StackPane {
         }
     }
     
+    /**
+     * Paint given section into given pane
+     * @param gSection Given section
+     * @param pane Given pane
+     */
     public void paint(GraphicSection gSection, Pane pane) {
         transform(gSection);
         pane.getChildren().add(gSection);
@@ -312,6 +322,11 @@ public class RoadDrawingPanel extends StackPane {
         this.paint();
     }
     
+    /**
+     * Repaint given road into given pane
+     * @param pane Given pane
+     * @param road Given road
+     */
     public void repaint(Pane pane, Road road) {
         pane.getChildren().clear();
         this.paint(pane, road);

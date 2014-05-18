@@ -20,10 +20,15 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import org.insa.controller.MainController;
 import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Road;
@@ -37,7 +42,7 @@ import org.insa.view.utils.DrawingUtils;
  *
  * @author Thiebaud Thomas
  */
-public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEvent> {
+public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEvent> {
     private final Pane boundPane = new Pane();
     private final NodeDrawingPanel nodeDrawingPanel;
     private final Pane currentRoadPane = new Pane();
@@ -69,7 +74,12 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         this.getChildren().add(boundPane);
         this.getChildren().add(currentRoadPane);
         this.getChildren().add(nodeDrawingPanel);
+        
         this.setOnMouseClicked(this);
+        this.setOnDragOver(this);
+        this.setOnDragEntered(this);
+        this.setOnDragExited(this);
+        this.setOnDragDropped(this);
     }
     
     /**
@@ -138,12 +148,42 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
     }
     
     @Override
-    public void handle(MouseEvent event) {
-        if(event.getEventType() == MouseEvent.MOUSE_CLICKED)
-            mouseClicked(event);
-        
+    public void handle(InputEvent event) {
+        if(event instanceof MouseEvent)
+            this.handle((MouseEvent)event);
+        else if(event instanceof DragEvent)
+            if(!isDrawingRoad)
+                this.handle((DragEvent)event);
         event.consume();
     }
+    
+    /**
+     * Handle mouse event
+     * @param event Mouse event
+     */
+    public void handle(MouseEvent event) {
+        if(event.getEventType() == MouseEvent.MOUSE_CLICKED)
+            this.mouseClicked(event);
+    }
+    
+    /**
+     * Handle drag event
+     * @param event Drag event
+     */
+    public void handle(DragEvent event) {   
+        if(event.getEventType() == DragEvent.DRAG_DROPPED) {
+            this.dragDropped(event);
+        }   
+        else if(event.getEventType() == DragEvent.DRAG_EXITED) {
+            this.dragExited(event);
+        } 
+        else if(event.getEventType() == DragEvent.DRAG_ENTERED) {
+            this.dragEntered(event);
+        }  
+        else if(event.getEventType() == DragEvent.DRAG_OVER) {
+            this.dragOver(event);
+        } 
+    }  
     
     /**
      * Method called when an user clicks into the editor area
@@ -163,6 +203,63 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
                     this.finishDrawRoad(currentNode);
                 break;
         }
+    }
+    
+    /**
+     * Method called when the mouse is dragged over the editor area
+     * @param event Drag event
+     */
+    public void dragOver(DragEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+        
+        if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+            event.acceptTransferModes(TransferMode.ANY);
+            MainController.getInstance().performGetMovingNode().getPoint().setX(drawingUtils.xToLong(x));
+            MainController.getInstance().performGetMovingNode().getPoint().setY(drawingUtils.yToLat(y));
+
+            Road road = MainController.getInstance().performGetMovingNode().getGraphicSections().get(0).getSection().getRoad();
+            
+            super.init(road);
+            this.repaint(currentRoadPane, road);
+        }  
+    }
+    
+    /**
+     * Method called when the drag event begin to over the element
+     * @param event Drag event
+     */
+    public void dragEntered(DragEvent event) {
+        if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+            for(GraphicSection section :  MainController.getInstance().performGetMovingNode().getGraphicSections().get(0).getSection().getRoad().getGraphicRoad().getSections()) {
+                roadPane.getChildren().remove(section);
+            }
+        }
+    }
+    
+    /**
+     * Method called when the drag event finish to over the element
+     * @param event Drag event
+     */
+    public void dragExited(DragEvent event) {
+        if (event.getGestureSource() != this && event.getDragboard().hasString()) {
+            //Empty for the moment
+        }
+    }
+    
+    /**
+     * Method called when the mouse button is released
+     * @param event Drag event
+     */
+    public void dragDropped(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if (db.hasString()) {
+           success = true;
+        }
+        event.setDropCompleted(success);
+        this.migrateRoad();
+        nodeDrawingPanel.paintFirstAndLast(MainController.getInstance().performGetMovingNode().getGraphicSections().get(0).getSection().getRoad());
     }
     
     /**

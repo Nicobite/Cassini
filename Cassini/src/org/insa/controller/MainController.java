@@ -32,6 +32,7 @@ import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.input.DataFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -90,10 +91,14 @@ public class MainController {
     
     private SimulationController simulationController = null;
     private ConsoleController consoleController = null;
+    
     private boolean isPickingNode = false;
+    private boolean isMovingNode = false;
     
     private int height;
     private int width;
+    
+    private GraphicNode movingNode = null;
     
     /**
      * Default private constructor
@@ -656,7 +661,7 @@ public class MainController {
      */
     public void performCreateNewMap() {
         model.clear();
-        editorPanel.createEditoArea();
+        editorPanel.createEditorArea();
         editorPanel.getEditorArea().setIsWaitingSize(true);
         this.performDisplayMessage(editorPanel, "Veuillez entrer les dimensions de la carte");
         editorPanel.displayResizeMapDock();
@@ -807,5 +812,21 @@ public class MainController {
      */
     public int performGetConsolePeriod() {
         return consoleController.getPeriod();
+    }
+
+    /**
+     * Set moving node
+     * @param node New moving node
+     */
+    public void performSetMovingNode(GraphicNode node) {
+        this.movingNode = node;
+    }
+    
+    /**
+     * Get moving node
+     * @return Moving node
+     */
+    public GraphicNode performGetMovingNode() {
+        return movingNode;
     }
 }
