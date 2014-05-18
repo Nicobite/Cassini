@@ -19,7 +19,6 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import org.insa.controller.MainController;
-import org.insa.view.menuelement.ToolBarButton;
 import org.insa.view.menuelement.ToolBarToggleButton;
 
 /**

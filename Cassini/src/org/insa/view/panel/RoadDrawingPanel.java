@@ -271,30 +271,36 @@ public class RoadDrawingPanel extends StackPane {
         }
     }
     
-    /**
-     * Paint roads into panel
-     */
     public final void paint() {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
-                paint(gSection);
+                paint(gSection,roadPane);
             }
         }
     }
     
-    public void paint(GraphicSection gSection) {
+    /**
+     * Paint roads into panel
+     */
+    public final void paint(Pane pane, Road road) {
+        for(GraphicSection gSection : road.getGraphicRoad().getSections()) { 
+            paint(gSection,pane);
+        }
+    }
+    
+    public void paint(GraphicSection gSection, Pane pane) {
         transform(gSection);
-        roadPane.getChildren().add(gSection);
+        pane.getChildren().add(gSection);
 
         for(GraphicLane lane : gSection.getForwardLanes()) {
             Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
             line.setStroke(Color.WHITE);
-            roadPane.getChildren().add(line);
+            pane.getChildren().add(line);
         }
         for(GraphicLane lane : gSection.getBackwardLanes() ) {
             Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
             line.setStroke(Color.WHITE);
-            roadPane.getChildren().add(line);
+            pane.getChildren().add(line);
         }
     }
     
@@ -304,6 +310,11 @@ public class RoadDrawingPanel extends StackPane {
     public void repaint() {
         roadPane.getChildren().clear();
         this.paint();
+    }
+    
+    public void repaint(Pane pane, Road road) {
+        pane.getChildren().clear();
+        this.paint(pane, road);
     }
     
     /**

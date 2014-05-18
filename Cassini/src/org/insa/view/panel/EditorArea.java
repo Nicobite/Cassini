@@ -1,22 +1,25 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package org.insa.view.panel;
 
 import java.util.ArrayList;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -37,6 +40,7 @@ import org.insa.view.utils.DrawingUtils;
 public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEvent> {
     private final Pane boundPane = new Pane();
     private final NodeDrawingPanel nodeDrawingPanel;
+    private final Pane currentRoadPane = new Pane();
     
     private EditorToolsDock editorToolsDock;
     
@@ -55,7 +59,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
     
     /**
      * Constructor
-     * @param drawingUtils Reference to drawing utils 
+     * @param drawingUtils Reference to drawing utils
      */
     public EditorArea(DrawingUtils drawingUtils) {
         super(drawingUtils);
@@ -63,6 +67,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         this.paint();
         nodeDrawingPanel = new NodeDrawingPanel(drawingUtils);
         this.getChildren().add(boundPane);
+        this.getChildren().add(currentRoadPane);
         this.getChildren().add(nodeDrawingPanel);
         this.setOnMouseClicked(this);
     }
@@ -74,15 +79,15 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
      */
     public void drawVerticalBound(float longitude, boolean isMin) {
         double x = drawingUtils.longToX(longitude);
- 
+        
         if(isMin)
             minLong = new Line(x, 0, x, this.getHeight());
-        else 
+        else
             maxLong = new Line(x, 0, x, this.getHeight());
         
         this.repaintBoundLines();
     }
-
+    
     /**
      * Draw a horizontal line which represent latitude bound (min or max)
      * @param latitude Latitude bound
@@ -90,7 +95,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
      */
     public void drawHorizontalBound(float latitude, boolean isMin) {
         double y = drawingUtils.latToY(latitude);
-                
+        
         if(isMin)
             minLat = new Line(0,y,this.getWidth(),y);
         else
@@ -131,7 +136,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
         this.repaint();
     }
-
+    
     @Override
     public void handle(MouseEvent event) {
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED)
@@ -139,10 +144,10 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
         
         event.consume();
     }
-        
+    
     /**
      * Method called when an user clicks into the editor area
-     * @param event Mouse event 
+     * @param event Mouse event
      */
     public void mouseClicked(MouseEvent event) {
         double x = event.getX();
@@ -162,7 +167,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
     
     /**
      * Draw a road by adding a new section to the current one or creeating a new road
-     * @param node Node to add into a new section 
+     * @param node Node to add into a new section
      */
     public void drawRoad(GraphicNode node) {
         if(isDrawingRoad)
@@ -189,47 +194,65 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
     public void continueDrawRoad(GraphicNode node) {
         targetNode = node;
         GraphicSection section = new GraphicSection(sourceNode, targetNode);
-
+        
         section.addLanes(editorToolsDock.getForwardLaneSizeValue(), Direction.FORWARD, currentDrawingRoad.getLastSection());
         section.addLanes(editorToolsDock.getBackwardLaneSizeValue(), Direction.BACKWARD, currentDrawingRoad.getLastSection());
         section.getSection().setMaxSpeed(editorToolsDock.getMaxSpeedValue());
-
+        
         currentDrawingRoad.getGraphicRoad().addSection(section);
-        this.getChildren().add(section);  
+        this.getChildren().add(section);
         this.init(currentDrawingRoad);
-        this.repaint();
-
+        this.repaint(currentRoadPane,currentDrawingRoad);
+        
         sourceNode = targetNode;
         targetNode = null;
         nodeDrawingPanel.paintFirst(currentDrawingRoad);
     }
     
     /**
-     * Finish to draw a road 
+     * Finish to draw a road
      * @param node Last node of the road
      */
     public void finishDrawRoad(GraphicNode node) {
         targetNode = node;
         GraphicSection section = new GraphicSection(sourceNode, targetNode);
-
+        
         section.addLanes(editorToolsDock.getForwardLaneSizeValue(), Direction.FORWARD, currentDrawingRoad.getLastSection());
         section.addLanes(editorToolsDock.getBackwardLaneSizeValue(), Direction.BACKWARD, currentDrawingRoad.getLastSection());
         currentDrawingRoad.getGraphicRoad().addSection(section);
         isDrawingRoad = false;
-
+        
         this.init(currentDrawingRoad);
-        this.repaint();
+        this.repaint(currentRoadPane,currentDrawingRoad);
+        this.migrateRoad();
+        
         nodeDrawingPanel.paintFirstAndLast(currentDrawingRoad);
     }
-
+    
+    public void migrateRoad() {
+        final ObservableList<Node> nodes = currentRoadPane.getChildren();
+        
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                roadPane.getChildren().addAll(nodes);
+                currentRoadPane.getChildren().clear();
+            }
+        });
+    }
+    
     /**
      * Add a connection between roads if clicking on first source node or last target node
      * @param graphicNode Node to add and liked to other roads
      */
     public void addConnectionBetweenRoads(GraphicNode graphicNode) {
         this.drawRoad(graphicNode);
-        if(isDrawingRoad && currentDrawingRoad.size() > 0)
+        
+        if(isDrawingRoad && currentDrawingRoad.size() > 0) {
             isDrawingRoad = false;
+            this.migrateRoad();
+        }
+        
         //will add connection between road
         ArrayList<GraphicSection> sections = graphicNode.getGraphicSections();
         Section current = currentDrawingRoad.getGraphicRoad().getLastSection();
@@ -277,10 +300,10 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<MouseEv
     public boolean isDrawingRoad() {
         return isDrawingRoad;
     }
-
+    
     /**
      * Set is waiting size
-     * @param isWaitingSize New is waiting size boolean 
+     * @param isWaitingSize New is waiting size boolean
      */
     public void setIsWaitingSize(boolean isWaitingSize) {
         this.isWaitingSize = isWaitingSize;
