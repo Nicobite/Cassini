@@ -86,8 +86,9 @@ public class SimulationTask extends TimerTask {
         updateDrivings();
         
         //report incidents
-        reportIncidents();
-        
+        if (this.simuStep % 10 == 0){
+            reportIncidents();
+        }
         //report collisions
         reportCollisions() ;
         
@@ -118,6 +119,8 @@ public class SimulationTask extends TimerTask {
             }
             veh.getDriving().setPosition(new VehiclePosition(lane, 0));
             model.getDrivingVehiclesModel().addVehicle(veh);
+            veh.getDriving().setSpeed(0);
+            veh.getDriving().setAcceleration(0);
             if(debug)
                 System.out.println("nb vehicles currently driving :"+model.getNbDrivingVehicles());
         }
@@ -129,7 +132,10 @@ public class SimulationTask extends TimerTask {
     private void updateDrivings(){
         Vehicle vehicle;
         for(int i = 0; i< model.getNbDrivingVehicles(); i++){
-            vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);            
+            vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);       
+            
+
+            
             // Make decision
             vehicle.makeDecision();
             

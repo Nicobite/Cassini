@@ -18,6 +18,7 @@ package org.insa.core.driving;
 import java.util.Objects;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
+import org.insa.controller.MainController;
 import org.insa.core.enums.Decision;
 import org.insa.core.enums.StateTrafficLight;
 import org.insa.core.enums.TrafficSignaling;
@@ -145,24 +146,38 @@ public class Vehicle {
         return this.hasMission;
     }
     /*--------------------- driving logic ---------------------*/
-    
+    /**
+     * Distance needed to change the speed of the vehicle to the targetSpeed
+     * @param targetSpeed
+     * @return 
+     */
+    private float distanceToSlowToSpeed(float targetSpeed){
+        float distance ;
+        float speed = this.getDriving().getSpeed() ; 
+        float delta = speed - targetSpeed ;
+        float decceleration = this.getMaxDeceleration();
+        distance = (delta * delta) / ( 2.0f * decceleration) ;
+        return distance ; 
+    }
     /**
      * Compare the speed of the vehicle with the max speed of the road
      * or of the vehicle and set the decision.
      */
-    private void testSpeed(){
+    private void updateTargetSpeedToRoad(){
         float maxSpeedSection = this.getDriving().getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed() ;
         if (maxSpeedSection < this.getMaxSpeed()){
+            // case when the road limits the speed of the vehicle
+            this.getDriving().getBehavior().setTargetSpeed(maxSpeedSection);
             if (this.getDriving().getSpeed() > maxSpeedSection-5){
                 this.getDriving().setSpeed(maxSpeedSection);
-                this.getDriving().setDecision(Decision.GO_STRAIGHT);
             }
-        }else
-        {
-            if (this.getDriving().getSpeed() > this.getMaxSpeed()-0.5){
-                this.getDriving().setDecision(Decision.GO_STRAIGHT);
-            }            
-        } 
+        }else 
+        {            
+            // case when the vehicle's speed limits
+            this.getDriving().getBehavior().setTargetSpeed(this.getMaxSpeed());
+        }
+        this.setDecisionToTargetSpeed();
+         
     }
     /**
      * Return the distance between the vehicle and the next node
@@ -179,11 +194,11 @@ public class Vehicle {
      * @return 
      */
     private float distanceToStop(){
-        float distance ;
+        /*float distance ;
         float speed = this.getDriving().getSpeed() ; 
         float decceleration = this.getMaxDeceleration();
-        distance = (speed * speed) / ( 2.0f * decceleration) ;
-        return distance ;
+        distance = (speed * speed) / ( 2.0f * decceleration) ;*/
+        return this.distanceToSlowToSpeed(0.0f) ;
     }
     /**
      * Change the decision of the vehicle stop to the next node if he is close enough
@@ -195,60 +210,145 @@ public class Vehicle {
             this.getDriving().setDecision(Decision.STOP);
         }
     }
+    /**
+     * behavior for the vehicle in front of a TrafficLight
+     * The vehicle continu until it arrives at the end of the lane where it has to stop
+     * @param targetNode 
+     */
+    private void behaviorAtTrafficLight(Node targetNode){
+        TrafficLight light = TrafficLight.fromNode(targetNode) ;
+        if (light == null){
+            System.out.println("Error TrafficLight null.");
+        }else
+        {
+            switch(light.getState()){
+                case RED :
+                    stopAtNextNode(targetNode) ; 
+                    break ;
+                case ORANGE :   
+                    
+                    break ;
+                case GREEN : 
+                    this.updateTargetSpeedToRoad();                    
+                    break ; 
+                default : 
+                    break ;
+            } 
+        }
+    }
+    /**
+     * Check if there is a vehicle in front of the considered one
+     * @return 
+     */
+    private Vehicle VehicleInFront(){
+        Vehicle vInFront = null ;
+        float myOffset = this.getDriving().getPosition().getOffset() ;
+        float vOffset ; 
+        for (Vehicle v: this.getDriving().getPosition().getLane().getVehicles()){
+            vOffset = v.getDriving().getPosition().getOffset() ;
+            if (vOffset > myOffset){
+                if (vInFront == null){
+                    vInFront = v ; 
+                }else{
+                    if (v.getDriving().getPosition().getOffset() < vInFront.getDriving().getPosition().getOffset()){
+                        vInFront = v ; 
+                    }
+                }
+                    
+            }
+        }
+        return vInFront ; 
+    }
+    /**
+     * Set the decision of the vehicle depending to the speed it is aiming
+     */
+    private void setDecisionToTargetSpeed(){
+        float mySpeed = this.getDriving().getSpeed() ;
+        float targetSpeed = this.getDriving().getBehavior().getTargetSpeed() ;
+        
+        if (targetSpeed == 0){
+            this.getDriving().setDecision(Decision.STOP);
+        } else if (mySpeed > targetSpeed) {
+            this.getDriving().setDecision(Decision.DECELARATE);
+        } else if (mySpeed < targetSpeed){
+            this.getDriving().setDecision(Decision.ACCELERATE);
+        } else
+        {
+            this.getDriving().setDecision(Decision.GO_STRAIGHT) ;
+        }
+    }  
+
     
     /**
+     * ************************************************************************
      * make driving decision
      */
     public void makeDecision(){
         
         GraphicLane currentLane = this.getDriving().getPosition().getLane().getGraphicLane(); 
-        if (currentLane.hasTransition()){
-            NextLane nextLane = this.getDriving().getPosition().getLane().getGraphicLane().getNextLanes().get(0) ; 
-            
-            Node targetNode = currentLane.getSection().getSection().getGraphicSection().getTargetNode().getNode();
-            // if there is a red light at the end of the section
-            switch (targetNode.getSignaling()){
-                case TRAFFIC_LIGHT:
-                    TrafficLight light = TrafficLight.fromNode(targetNode) ;
-                    if (light == null){
-                        System.out.println("Error TrafficLight null.");
-                    }else
-                    {
-                        switch(light.getState()){
-                            case RED :
-                                stopAtNextNode(targetNode) ; 
-                                break ;
-                            case ORANGE :                                 
-                                break ;
-                            case GREEN : 
-                                if (this.getDriving().getSpeed()==0){
-                                    this.getDriving().setDecision(Decision.ACCELERATE);
-                                }else
-                                {
-                                    this.testSpeed();
-                                }
-                                break ; 
-                            default : 
-                                break ;
-                        } 
-                    }
-                    break ; 
-                case STOP : 
-                    stopAtNextNode(targetNode) ;
-                    if (this.getDriving().getSpeed() == 0){
-                        this.getDriving().setDecision(Decision.ACCELERATE);
-                    }
-                default :
-                    this.testSpeed();
-                    break;                    
+        Vehicle vInFront = this.VehicleInFront() ;
+        float speedVInFront, distanceToVInFront ; 
+        
+        
+        if (this.getDriving().getBehavior() == null){
+                Behavior b = new Behavior() ; 
+                this.getDriving().setBehavior(b);
+                // Does not work because of the behavior value that can not be updated
+                //this.getDriving().getBehavior().setSafetyDistance(10.0f);
+        }  
+        
+        if (vInFront != null){       
+            speedVInFront = vInFront.getDriving().getSpeed() ;
+            distanceToVInFront = vInFront.getDriving().getPosition().getOffset() - this.getDriving().getPosition().getOffset() ; 
+            /**
+             * if (this.distanceToSlowToSpeed(speedVInFront) + this.getDriving().getBehavior().getSafetyDistance() < distanceToVInFront ){
+             * Does not work because of the behavior value that can not be updated
+             * 
+            */
+            if (this.distanceToSlowToSpeed(speedVInFront) + 5.0f < distanceToVInFront ){
+                // Adapt the speed of the vehicle to the one in front
+                this.getDriving().getBehavior().setTargetSpeed(vInFront.getDriving().getSpeed());
+                this.setDecisionToTargetSpeed(); 
+            }else{
+                // The vehicle is too far to consider its speed
+                this.updateTargetSpeedToRoad();
+            }                          
+        }
+        else
+        {
+            if (currentLane.hasTransition()){
+                NextLane nextLane = this.getDriving().getPosition().getLane().getGraphicLane().getNextLanes().get(0) ;             
+                Node targetNode = currentLane.getSection().getSection().getGraphicSection().getTargetNode().getNode();
+
+                switch (targetNode.getSignaling()){
+                    case TRAFFIC_LIGHT:
+                        this.behaviorAtTrafficLight(targetNode);
+                        break ; 
+                    case STOP : 
+                        stopAtNextNode(targetNode) ;
+                        /**
+                         * TODO :
+                         * Implement the check if there is vehicles on the lane the vehicle is going to
+                         * here it this wait for the vehicle to stop and then go ahead 
+                         */
+                        if (this.getDriving().getSpeed() == 0){
+                            this.getDriving().setDecision(Decision.ACCELERATE);
+                        }
+                    case CROSSING:
+                        this.updateTargetSpeedToRoad();
+                        break ;
+                    case ROUNDABOUT: 
+                        this.updateTargetSpeedToRoad();
+                        break ; 
+                    case TURN_LOOP:
+                        this.updateTargetSpeedToRoad();
+                        break ;
+                    default :
+                        this.updateTargetSpeedToRoad();
+                        break;                    
+                }
             }
         }
-        
-        /*
-        if (myPosition close to next vehicle (inf to safetyDistance)){
-        this.getDriving().setDecesion(Decision.DECELERATE) ;
-        }
-        */
     }
     
     /**
@@ -346,6 +446,9 @@ public class Vehicle {
                     position.setLane(nextLane.getLane());
                     
                 }
+                //if (this.getDriving().getSpeed() > this.getDriving().getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed()){
+                //    this.getDriving().setSpeed(this.getDriving().getPosition().getLane().getGraphicLane().getSection().getSection().getMaxSpeed());
+                //}
             }
         }
     }
