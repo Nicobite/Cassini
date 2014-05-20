@@ -15,6 +15,7 @@
 */
 package org.insa.core.roadnetwork;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.enums.RoadType;
 import org.insa.view.graphicmodel.GraphicRoad;
@@ -192,6 +193,19 @@ public class Road {
         return gRoad.toString();
     }
     
+    public ArrayList<Node> getNodes(){
+        ArrayList<Node> res = new ArrayList<>(); Node n;
+        for(GraphicSection s : gRoad.getSections()){
+            n = s.getSourceNode().getNode();
+            if(! res.contains(n)){
+                res.add(n);
+            }
+        }
+        n = gRoad.getLastSection().getGraphicSection().getTargetNode().getNode();
+        if(!res.contains(n))
+            res.add(n);
+        return res;
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -201,10 +215,7 @@ public class Road {
             return false;
         }
         final Road other = (Road) obj;
-        if (!Objects.equals(gRoad, other.gRoad)) {
-            return false;
-        }
-        return true;
+        return this.id == other.getId();
     }
 
 }

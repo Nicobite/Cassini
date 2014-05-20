@@ -18,6 +18,8 @@ package org.insa.xml.osm;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
@@ -25,6 +27,7 @@ import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.items.RoadsModel;
+import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmBound;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -65,7 +68,7 @@ public class OsmRoot {
      */
     @ElementList(inline = true)
     private ArrayList<OsmWay> osmWays;
-
+    
     /**
      * build road model from osm data
      * @return the road network
@@ -96,12 +99,69 @@ public class OsmRoot {
                     roadsModel.addRoad(road);
             }
         }
-        addConnections(roadsModel, nodes);
+        iniJunctions(roadsModel, nodes);
+        addConnections(roadsModel);
+        //splitRoadsByJunctions(roadsModel);
         return roadsModel;
+    }
+    public void splitRoadsByJunctions(RoadsModel roadModel){
+        ArrayList <Node> nodes = roadModel.getNodes();
+        System.out.println(nodes.size());
+        int index;
+        Section section;
+        ArrayList<Road> toAdd = new ArrayList<>() ;
+        Road newRoad = new Road();
+        ArrayList<GraphicSection> list1, list2;
+        boolean isBeginJunction, isEndJunction;
+        for(Node node : nodes){
+            if(node.getRoads().size()>1)
+                for(Road road : node.getRoads()){
+                    //split roads
+                    isBeginJunction =
+                            road.getFirstSection().getSourceNode().equals(node.getGraphicNode());
+                    isEndJunction =
+                            road.getLastSection().getTargetNode().equals(node.getGraphicNode());
+                    if(!(isBeginJunction || isEndJunction) && road.size()>1){
+                        //section =  road.findSectionBySourceNode(node.getGraphicNode().getNode());
+                        index = road.getNodes().indexOf(node);
+                        if(index >0){
+                            list1 = new ArrayList<>(road.getGraphicRoad().getSections().subList(0, index));
+                            System.out.println("road size : "+road.size()+";"+index);
+                            list2 = new ArrayList<>(road.getGraphicRoad().getSections().subList(index,road.size()));
+                            newRoad.getGraphicRoad().setSections(list2);
+                            road.getGraphicRoad().setSections(list1);
+                            newRoad.setId(hashCode());
+                            newRoad.setType(road.getType()); newRoad.setOneway(road.isOneway());
+                            roadModel.addRoad(newRoad);
+                            
+                            toAdd.add(newRoad);
+                            
+                            for(Node n : nodes){
+                                n.updateRoad(index, road, newRoad);
+                            }
+                            /* for(Node n : road.getNodes()){
+                            n.updateRoad(newRoad, road);
+                            }
+                            /*
+                            System.out.println("Road 1 : ");
+                            for(GraphicSection s : road.getGraphicRoad().getSections()){
+                            System.out.println(s.getSection().getId());
+                            }
+                            
+                            System.out.println("Road 2 : ");
+                            for(GraphicSection s : newRoad.getGraphicRoad().getSections()){
+                            System.out.println(s.getSection().getId());
+                            s.getSection().setRoad(newRoad);
+                            }*/
+                        }
+                    }
+                }
+            node.getRoads().addAll(toAdd);
+        }
     }
     /**
      * Get all the traffic lights from the roads network
-     * @return 
+     * @return
      */
     public ArrayList<TrafficLight> getTrafficLightFromRoads(){
         ArrayList<TrafficLight> result = new ArrayList<>();
@@ -117,25 +177,24 @@ public class OsmRoot {
      * @param roadModel
      * @param osmNodes
      */
-    public void addConnections(RoadsModel roadModel, HashMap<Long, OsmNode> osmNodes ){
-        Iterator<Long> iter = osmNodes.keySet().iterator();
+    public void addConnections(RoadsModel roadModel){
         Long id;
-        OsmNode osmNode;
-        ArrayList<Road> others = null;
-        while(iter.hasNext()){
-            id = iter.next();
-            // get osm node
-            osmNode = osmNodes.get(id);
-            // get the roads at containing this node and build connections
-            for(Road road : osmNode.getRoads()){
-                others = new ArrayList<>(osmNode.getRoads());
+        Section section;
+        ArrayList<Road> others ;
+        ArrayList <Node> nodes = roadModel.getNodes();
+        for(Node node : nodes){
+            // get the roads containing this node and build connections
+            for(Road road : node.getRoads()){
+                others = new ArrayList<>(node.getRoads());
                 others.remove(road);
                 if(others.size()>0)
-                    connectRoads(osmNode.getGraphicNode().getNode(), road, others);
+                    connectRoads(node.getGraphicNode().getNode(), road, others);
+                
             }
-            
         }
+        
     }
+    
     /**
      * Add connections between a road and it's sucessors roads
      * @param road
@@ -161,7 +220,7 @@ public class OsmRoot {
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherSource.getGraphicSection().getForwardLanes());
                     source.addSuccessor(new NextSection(otherSource, Direction.BACKWARD));
-                   // System.err.println("b-f"+road.getId()+","+r.getId());
+                    // System.err.println("b-f"+road.getId()+","+r.getId());
                 }
             }
             
@@ -178,7 +237,7 @@ public class OsmRoot {
                     source.getGraphicSection().addConnections(source.getGraphicSection().getBackwardLanes(),
                             otherTarget.getGraphicSection().getBackwardLanes());
                     source.addSuccessor(new NextSection(otherTarget, Direction.BACKWARD));
-                   // System.err.println("b-b"+road.getId()+","+r.getId());
+                    // System.err.println("b-b"+road.getId()+","+r.getId());
                 }
             }
         }
@@ -195,6 +254,12 @@ public class OsmRoot {
             map.put(o.getId(), o);
         }
         return map;
+    }
+    private void iniJunctions(RoadsModel model, HashMap<Long, OsmNode> list){
+        ArrayList<Node> nodes = model.getNodes();
+        for(Node n : nodes){
+            n.setRoads(list.get(n.getId()).getRoads());
+        }
     }
     /**
      * infer the road network bounds (min latitude and longitude,\n

@@ -15,11 +15,12 @@
 */
 package org.insa.core.roadnetwork;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import org.insa.core.enums.TrafficSignaling;
 import org.insa.view.graphicmodel.GraphicNode;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Root;
+
 
 /**
  * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
@@ -29,7 +30,6 @@ import org.simpleframework.xml.Root;
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
-@Root(strict = false)
 public class Node {
     
     protected GraphicNode gNode;
@@ -43,6 +43,7 @@ public class Node {
     @Attribute
     private TrafficSignaling signaling;
     
+    private ArrayList<Road> roads;
     /**
      * Constructor
      * @param gNode reference to graphic node
@@ -51,31 +52,56 @@ public class Node {
         this.gNode = gNode;
         this.id = hashCode();
         this.signaling = TrafficSignaling.NONE;
+        roads = new ArrayList<>();
     }
-
+    
     public Node(GraphicNode gNode, long id, TrafficSignaling signaling) {
         this.gNode = gNode;
         this.id = id;
         this.signaling = signaling;
+        roads = new ArrayList<>();
     }
     
     public Node() {
+        roads = new ArrayList<>();
     }
-
+    
     /**
      * Get id
-     * @return Id 
+     * @return Id
      */
     public long getId() {
         return id;
     }
-   
+    
     /**
      * Get signaling
      * @return signaling
      */
     public TrafficSignaling getSignaling() {
         return signaling;
+    }
+    
+    public ArrayList<Road> getRoads() {
+        return roads;
+    }
+    
+    public void setRoads(ArrayList<Road> roads) {
+        this.roads = roads;
+    }
+    public void addRoad(Road road){
+        if(!this.roads.contains(road))
+            this.roads.add(road);
+    }
+    public void updateRoad(int index, Road oldRoad, Road newRoad){
+        int i ;
+        if(this.roads.contains(oldRoad)){
+            i = oldRoad.getNodes().indexOf(this);
+            if(i >= index){
+                roads.set(roads.indexOf(oldRoad), newRoad);
+                System.out.println("index of road "+roads.indexOf(newRoad)+" id:"+newRoad.getId());
+            }
+        }
     }
     
     /**
@@ -85,7 +111,7 @@ public class Node {
     public GraphicNode getGraphicNode() {
         return gNode;
     }
-
+    
     public void setgNode(GraphicNode gNode) {
         this.gNode = gNode;
     }
@@ -100,12 +126,12 @@ public class Node {
     
     /**
      * Set signaling
-     * @param signaling New signaling 
+     * @param signaling New signaling
      */
     public void setSignaling(TrafficSignaling signaling) {
         this.signaling = signaling;
     }
-
+    
     @Override
     public String toString(){
         return gNode.toString();
@@ -125,7 +151,7 @@ public class Node {
         }
         return true;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 7;

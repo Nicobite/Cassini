@@ -139,10 +139,22 @@ public class RoadsModel {
     public String toString(){
         return roads.toString();
     }
+    
+    public ArrayList <Node> getNodes(){
+        ArrayList<Node> res = new ArrayList<>();
+        for(Road r : roads){
+           for(Node n : r.getNodes()){
+               if(!res.contains(n))
+                   res.add(n);
+           }
+        }
+        return res;
+    }
     @Commit
     public void commit(){
         HashMap<String, Section> sectionsMap = new HashMap();
         HashMap<String, GraphicLane> lanesMap = new HashMap();
+        /* Put all the lanes and sections in a map for easy access */
         for(Road road : this.roads){
             for(GraphicSection sect : road.getGraphicRoad().getSections()){
                 sectionsMap.put(sect.getSection().getId(),sect.getSection());
@@ -156,15 +168,17 @@ public class RoadsModel {
         }
         for(Road road : this.roads){
             for(GraphicSection sect : road.getGraphicRoad().getSections()){
-               //System.err.println(sect.getLength());
+               /* Retrieve sections */
                 for(NextSection next : sect.getSection().getSuccessors()){
                     next.setSection(sectionsMap.get(next.getRef()));
                 }
+                /* Retrieve forward lanes */
                 for(GraphicLane lane : sect.getForwardLanes()){
                     for(NextLane next : lane.getNextLanes()){
                         next.setTargetLane(lanesMap.get(next.getRef()));
                     }
                 }
+                /* Retrieve backward lanes */
                 for(GraphicLane lane : sect.getBackwardLanes()){
                     for(NextLane next : lane.getNextLanes()){
                         next.setTargetLane(lanesMap.get(next.getRef()));
@@ -172,9 +186,24 @@ public class RoadsModel {
                 }
             }
         }
-        lanesMap=null; sectionsMap = null;
+        //getJunctions();
     }
-    
+
+    public void getJunctions(){
+        Node node;
+        for(Road r : roads){
+            for(GraphicSection s : r.getGraphicRoad().getSections()){
+                for(NextSection next : s.getSection().getSuccessors()){
+                   node = next.getSection().getGraphicSection().getSourceNode().getNode();
+                   node.addRoad(next.getSection().getRoad());
+                   node = next.getSection().getGraphicSection().getTargetNode().getNode();
+                   node.addRoad(next.getSection().getRoad());
+                }
+            }
+            r.getFirstSection().getTargetNode().getNode().addRoad(r);
+            r.getFirstSection().getSourceNode().getNode().addRoad(r);
+        }
+    }
       /**
      * Get all the traffic lights from the roads network
      * @return 

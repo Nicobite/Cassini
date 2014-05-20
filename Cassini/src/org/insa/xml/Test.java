@@ -16,6 +16,7 @@
 package org.insa.xml;
 
 import java.io.File;
+import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.core.trafficcontrol.TrafficLight;
@@ -35,12 +36,32 @@ public class Test {
     public static void main(String args[]) throws Exception {
         XmlParser parser = new XmlParser();
       
-            OsmRoot r = parser.readOsmData(new File("data/osm/insa.osm"));
-            parser.saveMapData(r.buildRoadModel(), new File("data/maps/insa.map.xml"));
-            for(TrafficLight l : r.getTrafficLightFromRoads()){
+            OsmRoot r = parser.readOsmData(new File("data/osm/map.osm"));
+            //parser.saveMapData(r.buildRoadModel(), new File("data/maps/map.map.xml"));
+            RoadsModel m = parser.readMapData(new File("data/maps/map.map.xml"));
+            System.out.println("Map "+m.getNodes().size()+","+m.getRoads().size());
+            System.out.println("Osm "+r.buildRoadModel().getNodes().size()+","+r.buildRoadModel().getRoads().size());
+            System.err.println("\n\n");
+            System.out.println("...");
+            r.buildRoadModel().getJunctions();
+            Node n1, n2;
+            for(int i=0; i<m.getRoadNumber();i++){
+                //System.err.println(n.getId());
+                n1 = m.getNodes().get(i);
+                n2 = r.buildRoadModel().getNodes().get(i);
+                System.err.println(n1.getId()+" : "+n2.getId());
+                /*for(int j=0; j<n1.getRoads().size();j++)
+                    System.out.println(n1.getRoads().get(j).getId());*/
+                System.out.println("-------");
+                for(int j=0; j<n2.getRoads().size();j++)
+                    System.out.println(n2.getRoads().get(j).getId());
+                System.out.println("Fin N2-------");
+            }
+            
+            /*for(TrafficLight l : r.getTrafficLightFromRoads()){
                 System.out.println(l.getId());
             }
-            System.out.println("Map traffic lights");
+           /* System.out.println("Map traffic lights");
             RoadsModel map = parser.readMapData(new File("data/maps/insa.map.xml"));
              for(TrafficLight l : map.getTrafficLightFromRoads()){
                 System.out.println(l.getId());

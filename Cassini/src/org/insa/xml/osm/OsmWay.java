@@ -20,6 +20,7 @@ import java.util.HashMap;
 import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.NextSection;
+import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmNodeRef;
@@ -63,7 +64,7 @@ public class OsmWay {
      */
     private int getForwardNbLanes(){
         int nbLanes = this.tags.containsKey("lanes:forward")?
-                Integer.parseInt(tags.get("lanes:forward")) : 2;
+                Integer.parseInt(tags.get("lanes:forward")) : 1;
         return nbLanes;
     }
     
@@ -90,7 +91,7 @@ public class OsmWay {
         while(i<this.nodesRef.size()-1){
             refSrc  = this.nodesRef.get(i).getRef();
             refDest = this.nodesRef.get(i+1).getRef();
-            if(osmNodes.containsKey(refSrc) && osmNodes.containsKey(refDest)) {
+            if(osmNodes.containsKey(refSrc) && osmNodes.containsKey(refDest) && refDest!= refSrc) {
                 src = osmNodes.get(refSrc);
                 dest = osmNodes.get(refDest);
                 //Add the current road to the nodes roads membership
@@ -187,7 +188,7 @@ public class OsmWay {
      * @return the number of way if defined, default numbers otherwise
      */
     private int getNbLanes() {
-        int def = this.isOneWay() ? 2 : 4;
+        int def = this.isOneWay() ? 1 : 2;
         int nbLanes = this.tags.containsKey("lanes")?
                 Integer.parseInt(tags.get("lanes")) : def;
         return nbLanes;
