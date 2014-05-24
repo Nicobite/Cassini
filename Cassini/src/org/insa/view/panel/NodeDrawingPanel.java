@@ -28,9 +28,9 @@ import org.insa.view.utils.DrawingUtils;
  * @author Thiebaud Thomas
  */
 public class NodeDrawingPanel extends Pane {
-    protected final DrawingUtils drawingUtils;
-    protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
-    boolean isSourceNode = false;
+    private final DrawingUtils drawingUtils;
+    private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
+    private boolean isSourceNode = false;
 
     /**
      * Constructor

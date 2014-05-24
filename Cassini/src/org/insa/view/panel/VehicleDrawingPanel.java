@@ -37,7 +37,7 @@ import org.insa.view.graphicmodel.GraphicTarget;
  */
 public class VehicleDrawingPanel extends StackPane {
 
-    protected DrawingUtils drawingUtils;
+    private DrawingUtils drawingUtils;
     private RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
     private VehiclesModel vehicles;
     

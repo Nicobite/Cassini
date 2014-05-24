@@ -43,6 +43,7 @@ public class RoadDrawingPanel extends StackPane {
     protected RoadsModel roads = MainController.getInstance().getModel().getRoadModel();
     
     protected Pane roadPane = new Pane();
+    protected Pane lanePane = new Pane();
     protected Pane congestionPane = new Pane();
 
     /**
@@ -53,6 +54,7 @@ public class RoadDrawingPanel extends StackPane {
         this.drawingUtils = drawingUtils;
         drawingUtils.initializeBounds(roads.getMinLon(), roads.getMaxLon(), roads.getMinLat(), roads.getMaxLat());
         this.getChildren().add(roadPane);
+        this.getChildren().add(lanePane);
         this.getChildren().add(congestionPane);
     }
     
@@ -305,12 +307,12 @@ public class RoadDrawingPanel extends StackPane {
         for(GraphicLane lane : gSection.getForwardLanes()) {
             Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
             line.setStroke(Color.WHITE);
-            pane.getChildren().add(line);
+            lanePane.getChildren().add(line);
         }
         for(GraphicLane lane : gSection.getBackwardLanes() ) {
             Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
             line.setStroke(Color.WHITE);
-            pane.getChildren().add(line);
+            lanePane.getChildren().add(line);
         }
     }
     
@@ -319,6 +321,7 @@ public class RoadDrawingPanel extends StackPane {
      */
     public void repaint() {
         roadPane.getChildren().clear();
+        lanePane.getChildren().clear();
         this.paint();
     }
     
@@ -329,6 +332,7 @@ public class RoadDrawingPanel extends StackPane {
      */
     public void repaint(Pane pane, Road road) {
         pane.getChildren().clear();
+        lanePane.getChildren().clear();
         this.paint(pane, road);
     }
     
