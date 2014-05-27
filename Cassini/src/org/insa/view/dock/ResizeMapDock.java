@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -47,7 +47,8 @@ public class ResizeMapDock extends AbstractDock {
     private final VBox layout = new VBox();
     
     /**
-     * Defaul constructor
+     * Constructor
+     * @param editorArea reference to editor area
      */
     public ResizeMapDock(EditorArea editorArea) {
         super(editorArea);
@@ -55,6 +56,7 @@ public class ResizeMapDock extends AbstractDock {
     
     /**
      * Constructor
+     * @param editorArea reference to editor area
      * @param initialBounds Bounds of the current map
      */
     public ResizeMapDock(EditorArea editorArea,GraphicBounds initialBounds) {

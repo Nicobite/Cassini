@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -24,11 +24,9 @@ import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicLane;
-import org.insa.view.graphicmodel.GraphicSection;
 
 /**
- *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Mission
  * Mission for a vehicle : Run from one point to another
  */
@@ -57,6 +55,12 @@ public class Mission {
     
     private int currentSectNum;
     
+    /**
+     * Constructor
+     * @param org Source
+     * @param dest Destination
+     * @throws PathNotFoundException Path not found
+     */
     public Mission(Section org, Section dest) throws PathNotFoundException {
         this.origin = org;
         this.destination = dest;
@@ -68,7 +72,15 @@ public class Mission {
         AStar a = new AStar(org, dest);
         path = a.getShortestPath();
     }
-      public Mission(RoadsModel m, Section org, Section dest) throws PathNotFoundException {
+    
+    /**
+     * Constructor
+     * @param m Road model
+     * @param org Source
+     * @param dest Destination
+     * @throws PathNotFoundException Path not found
+     */
+    public Mission(RoadsModel m, Section org, Section dest) throws PathNotFoundException {
         this.origin = org;
         this.destination = dest;
         this.duration = 0;
@@ -80,58 +92,10 @@ public class Mission {
         path = a.getShortestPath();
     }
     
-    /*     getters and setters */
-    public Section getOrigin() {
-        return origin;
-    }
-    
-    public void setOrigin(Section origin) {
-        this.origin = origin;
-    }
-    
-    public Section getDestination() {
-        return destination;
-    }
-    
-    public void setDestination(Section destination) {
-        this.destination = destination;
-    }
-    
-    public int getDuration() {
-        return duration;
-    }
-    
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-    
-    public Road getPath() {
-        return path;
-    }
-    
-    public void setPath(Road path) {
-        this.path = path;
-    }
-    
-    public MissionStatus getStatus() {
-        return status;
-    }
-    
-    public void setStatus(MissionStatus status) {
-        this.status = status;
-    }
-
-    public void updateCurrentSection() {
-        this.currentSectNum++;
-    }
-
-    public int getCurrentSectNum() {
-        return currentSectNum;
-    }
     /**
      * get the next lane to reach
-     * @param currentLane
-     * @return 
+     * @param currentLane Curent lane
+     * @return Next lane
      */
     public NextLane getNextLane(GraphicLane currentLane){
         NextLane result;
@@ -140,9 +104,10 @@ public class Mission {
         result = currentLane.findNextLaneBySection(nextSection);
         return result;
     }
-  /**
-     * get the initial lane to take
-     * @return 
+    
+    /**
+     * Get the initial lane to take
+     * @return Initial lane 
      */
     public Lane getInitialLane(){
         Lane result; NextSection next = null;
@@ -158,4 +123,109 @@ public class Mission {
                 origin.getGraphicSection().getBackwardLanes().get(0).getLane()       ;
         return result;
     }
+    
+    /**
+     * Increment current section number
+     */
+    public void updateCurrentSectionNum() {
+        this.currentSectNum++;
+    }
+
+    /**
+     * Get origin
+     * @return Origin
+     */
+    public Section getOrigin() {
+        return origin;
+    }
+
+    /**
+     * Get destination
+     * @return Destination
+     */
+    public Section getDestination() {
+        return destination;
+    }
+
+    /**
+     * Get path
+     * @return Path
+     */
+    public Road getPath() {
+        return path;
+    }
+
+    /**
+     * Get duration
+     * @return Duration
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * Get status
+     * @return Status
+     */
+    public MissionStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * Get current section number
+     * @return Current section number
+     */
+    public int getCurrentSectNum() {
+        return currentSectNum;
+    }
+
+    /**
+     * Set origin
+     * @param origin New origin 
+     */
+    public void setOrigin(Section origin) {
+        this.origin = origin;
+    }
+
+    /**
+     * Set destination
+     * @param destination New destination 
+     */
+    public void setDestination(Section destination) {
+        this.destination = destination;
+    }
+
+    /**
+     * Set path
+     * @param path New path
+     */
+    public void setPath(Road path) {
+        this.path = path;
+    }
+
+    /**
+     * Set duration
+     * @param duration New duration 
+     */
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    /**
+     * Set status
+     * @param status New status 
+     */
+    public void setStatus(MissionStatus status) {
+        this.status = status;
+    }
+
+    /**
+     * Set curretn section number
+     * @param currentSectNum New current section number
+     */
+    public void setCurrentSectNum(int currentSectNum) {
+        this.currentSectNum = currentSectNum;
+    }
+    
+    
 }

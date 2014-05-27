@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ public class ToolBarButton extends Button {
 
     /**
      * Get image name
-     * @return 
+     * @return Image name
      */
     public String getImageName() {
         return imageName;

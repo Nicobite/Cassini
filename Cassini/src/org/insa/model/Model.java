@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Model
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
@@ -50,7 +50,9 @@ public class Model {
      */
     private ControlUnitsModel controlUnitsModel;
     
-    
+    /**
+     * default constructor
+     */
     public Model(){
         vehiclesModel = new VehiclesModel();
         drivingVehiclesModel = new VehiclesModel();
@@ -58,10 +60,29 @@ public class Model {
         controlUnitsModel = new ControlUnitsModel();
     }
     
+    /**
+     * Clear the full model
+     */
     public void clear() {
         roadModel.clear();
         vehiclesModel.clear();
         drivingVehiclesModel.clear();
+    }
+    
+    /**
+     * Get the number of vehicles
+     * @return number of vehicles
+     */
+    public int getNbVehicles(){
+        return this.vehiclesModel.getVehicles().size();
+    }
+    
+    /**
+     * Get the number of driving vehicles
+     * @return Number of driving vehicles
+     */
+    public int getNbDrivingVehicles(){
+        return this.drivingVehiclesModel.getVehicles().size();
     }
     
     /**
@@ -73,27 +94,11 @@ public class Model {
     }
     
     /**
-     * Set road model
-     * @param roadModel New road model
-     */
-    public void setRoadModel(RoadsModel roadModel) {
-        this.roadModel = roadModel;
-    }
-    
-    /**
      * Get vehicles model
      * @return Vehicles model
      */
     public VehiclesModel getVehiclesModel() {
         return vehiclesModel;
-    }
-    
-    /**
-     * Set vehicles model
-     * @param vehiclesModel New vehicles model
-     */
-    public void setVehiclesModel(VehiclesModel vehiclesModel) {
-        this.vehiclesModel = vehiclesModel;
     }
     
     /**
@@ -105,6 +110,30 @@ public class Model {
     }
     
     /**
+     * Get driving vehicles model
+     * @return Driving vehicles model
+     */
+    public VehiclesModel getDrivingVehiclesModel() {
+        return drivingVehiclesModel;
+    }
+    
+    /**
+     * Set road model
+     * @param roadModel New road model
+     */
+    public void setRoadModel(RoadsModel roadModel) {
+        this.roadModel = roadModel;
+    }
+
+    /**
+     * Set vehicles model
+     * @param vehiclesModel New vehicles model
+     */
+    public void setVehiclesModel(VehiclesModel vehiclesModel) {
+        this.vehiclesModel = vehiclesModel;
+    }
+    
+    /**
      * Set control units model
      * @param controlUnitsModel New control units model
      */
@@ -112,18 +141,11 @@ public class Model {
         this.controlUnitsModel = controlUnitsModel;
     }
     
-    public VehiclesModel getDrivingVehiclesModel() {
-        return drivingVehiclesModel;
-    }
-    
+    /**
+     * Set driving vehicles model
+     * @param drivingVehiclesModel New driving vehicles model
+     */
     public void setDrivingVehiclesModel(VehiclesModel drivingVehiclesModel) {
         this.drivingVehiclesModel = drivingVehiclesModel;
-    }
-    
-    public int getNbVehicles(){
-        return this.vehiclesModel.getVehicles().size();
-    }
-    public int getNbDrivingVehicles(){
-        return this.drivingVehiclesModel.getVehicles().size();
     }
 }

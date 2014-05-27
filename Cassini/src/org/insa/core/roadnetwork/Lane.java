@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,8 +21,7 @@ import org.insa.core.driving.Vehicle;
 import org.insa.view.graphicmodel.GraphicLane;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Lane
  * A lane is a container of vehicles and is located inside a section.
  * Uses Simple framework for xml serialization.
@@ -48,6 +47,9 @@ public class Lane {
         
     }
 
+    /**
+     * default constructor
+     */
     public Lane() {
         this.vehicles = new ArrayList<>();
     }
@@ -78,7 +80,6 @@ public class Lane {
         return this.vehicles.contains(v);
     }
  
-    
     /**
      * Get vehicles
      * @return Vehicles list
@@ -86,8 +87,6 @@ public class Lane {
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
-    
-    
     
     /**
      * Get graphic lane
@@ -97,8 +96,6 @@ public class Lane {
         return gLane;
     }
 
-    
-    
     /**
      * Set vehicles
      * @param vehicles New vehicles list 
@@ -106,8 +103,6 @@ public class Lane {
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
-    
-    
     
     @Override
     public int hashCode() {
@@ -129,5 +124,4 @@ public class Lane {
         }
         return true;
     }
-    
 }

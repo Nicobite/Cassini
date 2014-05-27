@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,18 +16,17 @@
 package org.insa.core.enums;
 
 /**
- *
  * @author Abel Juste Ouedraogo
- * turning instructions
- * see http://wiki.openstreetmap.org/wiki/Key:turn for further details
+ * Turning instructions
+ * See http://wiki.openstreetmap.org/wiki/Key:turn for further details
  */
 public enum TurningIndication {
-    NONE, //there are no turn indications on this lane
-    LEFT, // left turn (only) 
+    NONE,               //there are no turn indications on this lane
+    LEFT,               // left turn (only) 
     RIGHT,
-    THROUGH, // going straight through (only) 
-    MERGE_TO_LEFT,//this lane merges with the lane to the left of it (only) 
+    THROUGH,            // going straight through (only) 
+    MERGE_TO_LEFT,      //this lane merges with the lane to the left of it (only) 
     MERGE_TO_RIGHT,
     SLIGHT_RIGHT,
-    SLIGHT_LEFT // slight left turn
+    SLIGHT_LEFT         // slight left turn
 }

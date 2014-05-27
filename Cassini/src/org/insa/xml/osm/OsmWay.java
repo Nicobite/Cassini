@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.util.HashMap;
 import org.insa.core.enums.Direction;
 import org.insa.core.enums.RoadType;
 import org.insa.core.roadnetwork.NextSection;
-import org.insa.core.roadnetwork.Node;
 import org.insa.core.roadnetwork.Road;
 import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmNodeRef;
@@ -53,13 +52,16 @@ public class OsmWay {
     @ElementMap(entry="tag", key="k", value = "v", attribute=true, inline=true, required = false)
     private HashMap<String, String> tags;
     
+    /**
+     * Default constructor
+     */
     public OsmWay() {
         this.nodesRef = new ArrayList<>();
         this.tags = new HashMap<>();
     }
     
     /**
-     *  get the number of lanes of this way\n
+     * Get the number of lanes of this way\n
      * @return the number of way if defined, default numbers otherwise
      */
     private int getForwardNbLanes(){
@@ -68,12 +70,7 @@ public class OsmWay {
         return nbLanes;
     }
     
-    @Override
-    public String toString(){
-        String str = this.id+" oneway = "+isOneWay()+ " maxspeed = "+getMaxSpeed()+" nbLanes ="+getNbLanes()+"\n"
-                +"roundabout = "+isRoundabout();
-        return str;
-    }
+    
     
     /**
      * creates a Road from the current Osm way
@@ -119,7 +116,7 @@ public class OsmWay {
     }
     
     /**
-     * create and add road section linking 2 nodes to a given road
+     * Create and add road section linking 2 nodes to a given road
      * @param road the road at which the section will be added
      * @param src
      * @param dest
@@ -139,15 +136,15 @@ public class OsmWay {
     }
     
     /**
-     * checks whether this osm way is a highway (osm way can be building, river,...)
-     * @return
+     * Check whether this osm way is a highway (osm way can be building, river,...)
+     * @return true if is highway, flase otherwise
      */
     public boolean isHighway(){
         return this.tags.containsKey("highway");
     }
     
     /**
-     * checks whether this osm way is one-way
+     * Check whether this osm way is one-way
      * @return
      */
     private boolean isOneWay() {
@@ -155,7 +152,7 @@ public class OsmWay {
     }
     
     /**
-     * check whether this osm way is a roundabout
+     * Check whether this osm way is a roundabout
      * @return
      */
     private boolean isRoundabout() {
@@ -165,7 +162,7 @@ public class OsmWay {
     }
     
     /**
-     * get the max speed of this way
+     * Get the max speed of this way
      * @return
      */
     private float getMaxSpeed() {
@@ -184,7 +181,7 @@ public class OsmWay {
     }
     
     /**
-     * get the number of lanes of this way\n
+     * Get the number of lanes of this way\n
      * @return the number of way if defined, default numbers otherwise
      */
     private int getNbLanes() {
@@ -257,28 +254,58 @@ public class OsmWay {
         return priority;
     }
     
-    /* getters and setters */
+    @Override
+    public String toString(){
+        String str = this.id+" oneway = "+isOneWay()+ " maxspeed = "+getMaxSpeed()+" nbLanes ="+getNbLanes()+"\n"
+                +"roundabout = "+isRoundabout();
+        return str;
+    }
+
+    /**
+     * Get id
+     * @return Id
+     */
     public long getId() {
         return id;
     }
-    
-    public void setId(long id) {
-        this.id = id;
-    }
-    
-    public HashMap<String, String> getTags() {
-        return tags;
-    }
-    
-    public void setTags(HashMap<String, String> tags) {
-        this.tags = tags;
-    }
-    
+
+    /**
+     * Get nodes ref
+     * @return Nodes ref
+     */
     public ArrayList<OsmNodeRef> getNodesRef() {
         return nodesRef;
     }
-    
+
+    /**
+     * Get tags
+     * @return Tags
+     */
+    public HashMap<String, String> getTags() {
+        return tags;
+    }
+
+    /**
+     * Set id
+     * @param id New id
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Set nodes ref
+     * @param nodesRef New nodes ref
+     */
     public void setNodesRef(ArrayList<OsmNodeRef> nodesRef) {
         this.nodesRef = nodesRef;
+    }
+
+    /**
+     * Set tags
+     * @param tags New tags 
+     */
+    public void setTags(HashMap<String, String> tags) {
+        this.tags = tags;
     }
 }

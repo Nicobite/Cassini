@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -34,22 +34,42 @@ public class OsmTag {
     @Attribute(name="v")
     private String value;
     
+    /**
+     * Default constructor
+     */
+    public OsmTag() {
+        //Empty for the moment
+    }
+    
+    /**
+     * Get key
+     * @return Key 
+     */
     public String getKey() {
         return key;
     }
     
-    public void setKey(String key) {
-        this.key = key;
-    }
-    
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
+    /**
+     * Get value
+     * @return Value
+     */
     public String getValue() {
         return value;
     }
     
+    /**
+     * Set key
+     * @param key New key 
+     */
+    public void setKey(String key) {
+        this.key = key;
+    }
     
-    
+    /**
+     * Set value
+     * @param value New value 
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

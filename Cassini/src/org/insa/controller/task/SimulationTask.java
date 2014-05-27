@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -29,7 +29,6 @@ import org.insa.core.enums.Severity;
 import org.insa.core.enums.StateTrafficLight;
 import org.insa.core.roadnetwork.Lane;
 import org.insa.core.roadnetwork.Road;
-import org.insa.core.roadnetwork.Section;
 import org.insa.core.trafficcontrol.Collision;
 import org.insa.core.trafficcontrol.Incident;
 import org.insa.core.trafficcontrol.TrafficLight;
@@ -39,7 +38,7 @@ import org.insa.view.graphicmodel.GraphicSection;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class SimulationTask
  * Execute simulation logic
  */
@@ -61,8 +60,8 @@ public class SimulationTask extends TimerTask {
     /**
      * Constructor
      * @param model Link to general model
-     * @param simuStep
-     * @param debug
+     * @param simuStep Simulation period
+     * @param debug true if debug, flase otherwise
      */
     public SimulationTask(Model model, int simuStep, boolean debug){
         this.model = model;
@@ -108,11 +107,10 @@ public class SimulationTask extends TimerTask {
             veh.getDriving().setDecision(Decision.ACCELERATE);
             
             //vehicle chooses a random road from the road network
-            if(veh.hasMission()){
+            if(veh.hasMission()) {
                 lane = veh.getMission().getInitialLane();
-                 
             }
-            else{
+            else {
                 int indice = new Random().nextInt(model.getRoadModel().getRoads().size());
                 section = model.getRoadModel().getRoads().get(indice).getFirstSection();
                    lane = section.getForwardLanes().get(section.getForwardLanes().size()-1).getLane();
@@ -245,9 +243,7 @@ public class SimulationTask extends TimerTask {
             }
         }
     }
-    
-    
-    
+     
     /**
      * Detects a collision in a lane
      */

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public class VehicleDrawingPanel extends StackPane {
      * Get vehicle point in order to draw it
      * @param lane Lane that contains the vehicle
      * @param offset position of the vehicle into the lane
-     * @return 
+     * @return Points
      */
     public double[] getPoint(GraphicLane lane, double offset) {
         double point[] = new double[2];

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ public abstract class CustomToolBar extends ToolBar implements EventHandler<Mous
     
     /**
      * Add css class to tool bar
-     * @param cssClass 
+     * @param cssClass Css class name
      */
     public void addCssClass(String cssClass) {
         this.getStyleClass().add(cssClass);

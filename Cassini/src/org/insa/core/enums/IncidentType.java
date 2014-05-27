@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,11 @@
 package org.insa.core.enums;
 
 /**
- *
- * @author ouedraog
+ * @author Abel Juste Ouedraogo
  */
 public enum IncidentType {
-   WRONG_DIRECTION, //vehicle running in wrong direction
-   WRONG_SPEED_LIMIT, //speed limit not respected
-   WRONG_PRIORITY, //priority not respected
-   WRONG_STOP //stops not respected (traffic lights, stops, ...)
+   WRONG_DIRECTION,         //vehicle running in wrong direction
+   WRONG_SPEED_LIMIT,       //speed limit not respected
+   WRONG_PRIORITY,          //priority not respected
+   WRONG_STOP               //stops not respected (traffic lights, stops, ...)
 }

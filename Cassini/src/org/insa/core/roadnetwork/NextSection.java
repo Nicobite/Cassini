@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.insa.core.enums.TurnRestriction;
 import org.simpleframework.xml.Attribute;
 
 /**
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class NextSection
  * This class is used to add connections between section\n
  * so that the roads become connected to each other\n
@@ -44,18 +44,23 @@ public class NextSection {
     private Direction direction;
     
     /**
+     * Default constructor
+     */
+    public NextSection(){
+        //Empty for the moment
+    }
+    
+    /**
      * Constructor
      * @param gSection reference to graphic section
-     * @param direction
+     * @param direction Direction
      */
     public NextSection(Section gSection, Direction direction) {
         this.section = gSection;
         this.direction = direction;
         if(ref==null) ref = section.getId();
     }
-    public NextSection(){
-        
-    }
+    
     /**
      * Get restriction
      * @return Restriction
@@ -73,6 +78,22 @@ public class NextSection {
     }  
     
     /**
+     * get ref
+     * @return Ref 
+     */
+    public String getRef() {
+        return ref;
+    }
+    
+    /**
+     * Get direction
+     * @return Direction
+     */
+    public Direction getDirection() {
+        return direction;
+    }
+    
+    /**
      * Set restriction
      * @param restriction New restriction 
      */
@@ -88,21 +109,19 @@ public class NextSection {
         this.section = section;
     }
 
-    public String getRef() {
-        return ref;
-    }
-
+    /**
+     * Set ref
+     * @param ref New ref 
+     */
     public void setRef(String ref) {
         this.ref = ref;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
-
+    /**
+     * set direction
+     * @param direction New direction 
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
-    
-    
 }

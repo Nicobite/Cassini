@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,16 +16,15 @@
 package org.insa.core.enums;
 
 /**
- *
  * @author Abel Juste Ouedraogo
- * see http://wiki.openstreetmap.org/wiki/Restriction for further details
+ * See http://wiki.openstreetmap.org/wiki/Restriction for further details
  */
 public enum TurnRestriction {
     NONE,
     NO_LEFT_TURN,
     NO_RIGHT_TURN,
     NO_U_TURN,
-    NO_ENTRY, //Used for not one-way roads, where entering across some point is prohibited
-    NO_EXIT, // Used for not one-way roads, where exiting across some point is prohibited
-    NO_PRIORITY //lower priority (must wait before getting to the next lane)
+    NO_ENTRY,       //Used for not one-way roads, where entering across some point is prohibited
+    NO_EXIT,        // Used for not one-way roads, where exiting across some point is prohibited
+    NO_PRIORITY     //lower priority (must wait before getting to the next lane)
 }

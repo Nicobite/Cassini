@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,29 +20,11 @@ import org.insa.core.enums.TurnRestriction;
 import org.insa.core.enums.TurningIndication;
 import org.insa.view.graphicmodel.GraphicLane;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class NextLane
- * models movement possibility from current lane
- * section1         section2
- * --------------+------------
- * L1            +   L4
- * --------------+------------
- * +
- * L2            +   L5
- * +
- * --------------+------------
- * L3            +   L6
- * --------------+------------
- *
- * Transistions of L2 : L2->L1 (go to left lane)
- *                      L2->L3 (go to right lane)
- *                      L2->L5 (go straight)
- *
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
  */
@@ -76,6 +58,9 @@ public class NextLane {
     @Attribute
     private String ref;
     
+    /**
+     * Default constructor
+     */
     public NextLane(){
         super();
         this.restriction = TurnRestriction.NONE;
@@ -83,46 +68,85 @@ public class NextLane {
         this.signal = TrafficSignaling.NONE;
     }
     
-    public void setTargetLane(GraphicLane targetLane) {
-        this.targetLane = targetLane;
-        if(ref==null) ref = targetLane.getId();
-    }
-
+    /**
+     * gfet target lane
+     * @return Target lane
+     */
     public GraphicLane getTargetLane() {
         return targetLane;
     }
     
+    /**
+     * Get signal
+     * @return Signal
+     */
     public TrafficSignaling getSignal() {
         return signal;
     }
     
-    public void setSignal(TrafficSignaling signal) {
-        this.signal = signal;
-    }
-    
+    /**
+     * Get indication
+     * @return Indication
+     */
     public TurningIndication getIndication() {
         return indication;
     }
     
-    public void setIndication(TurningIndication indication) {
-        this.indication = indication;
-    }
-    
+    /**
+     * Get restriction
+     * @return restriction
+     */
     public TurnRestriction getRestriction() {
         return restriction;
     }
     
+    /**
+     * Get ref
+     * @return Ref 
+     */
+    public String getRef() {
+        return ref;
+    }
+    
+    /**
+     * Set target lane
+     * @param targetLane New target lane 
+     */
+    public void setTargetLane(GraphicLane targetLane) {
+        this.targetLane = targetLane;
+        if(ref==null) 
+            ref = targetLane.getId();
+    }
+    
+    /**
+     * Set signal
+     * @param signal New signal 
+     */
+    public void setSignal(TrafficSignaling signal) {
+        this.signal = signal;
+    }
+    
+    /**
+     * Set indication
+     * @param indication New indication 
+     */
+    public void setIndication(TurningIndication indication) {
+        this.indication = indication;
+    }
+    
+    /**
+     * Set restriction
+     * @param restriction New restriction
+     */
     public void setRestriction(TurnRestriction restriction) {
         this.restriction = restriction;
     }
 
-    public String getRef() {
-        return ref;
-    }
-
+    /**
+     * Set ref
+     * @param ref New ref 
+     */
     public void setRef(String ref) {
         this.ref = ref;
     }
-    
-    
 }

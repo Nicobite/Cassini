@@ -466,7 +466,7 @@ public class GlobalModel {
 
     /**
      * Get ALL the trafic lights of the globalmodel
-     * @return ArrayList<TraficLights>
+     * @return Traffic lights
      */
     public ArrayList<TraficLight> getTraficLights() {
         return traficLights;

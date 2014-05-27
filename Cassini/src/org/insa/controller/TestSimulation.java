@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ import org.insa.xml.XmlParser;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Thiebaud Class TestSimulation
  */
 public class TestSimulation {
@@ -42,6 +42,11 @@ public class TestSimulation {
 
     }
 
+    /**
+     * Load a model
+     * @return Model loaded
+     * @throws Exception All exceptions
+     */
     public static Model loadModel() throws Exception {
         Model model = new Model();
         Scanner sc = new Scanner(System.in);

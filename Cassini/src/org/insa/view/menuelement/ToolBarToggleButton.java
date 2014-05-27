@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ public class ToolBarToggleButton extends ToggleButton {
      * @param imageName Icon name in the /image directory
      * @param name Button string
      * @param toolBar Reference to tool bar
+     * @param cssClass Css class name
      */
     public ToolBarToggleButton(String imageName, String name, CustomToolBar toolBar, String cssClass) {
         super(name);
@@ -75,7 +76,7 @@ public class ToolBarToggleButton extends ToggleButton {
 
     /**
      * Get image name
-     * @return 
+     * @return image name
      */
     public String getImageName() {
         return imageName;

@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ import org.insa.model.items.RoadsModel;
 import org.insa.view.graphicmodel.GraphicSection;
 
 /**
- *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class AStar
  */
 public class AStar {
@@ -42,6 +41,11 @@ public class AStar {
     private final  HashMap< Section, Label> mapLabels;
     private Label labelDest;
     
+    /**
+     * Constructors
+     * @param src Source
+     * @param dest Destination
+     */
     public AStar(Section src, Section dest) {
         this.roads = MainController.getInstance().getModel().getRoadModel();
         this.destination = dest;
@@ -51,6 +55,12 @@ public class AStar {
         this.mapLabels = new HashMap<>();
     }
     
+    /**
+     * Constructor
+     * @param roads Road model
+     * @param src Source
+     * @param dest Destination
+     */
     public AStar(RoadsModel roads, Section src, Section dest) {
         this.roads = roads;
         this.destination = dest;
@@ -60,20 +70,29 @@ public class AStar {
         this.mapLabels = new HashMap<>();
     }
     
+    /**
+     * get shortest path
+     * @return Shortest path
+     * @throws PathNotFoundException No path found
+     */
     public Road getShortestPath() throws PathNotFoundException{
         run();
-        if(labelDest.getCout() == Float.POSITIVE_INFINITY)
+        if(labelDest.getCost() == Float.POSITIVE_INFINITY)
             throw new PathNotFoundException();
         Road road = new Road();
         road.addSection(destination);
         Label courant = labelDest;
-        while(courant.getPere() != null){
-            road.addSection(courant.getPere());
-            courant = mapLabels.get(courant.getPere());
+        while(courant.getParent() != null){
+            road.addSection(courant.getParent());
+            courant = mapLabels.get(courant.getParent());
         }
         Collections.reverse(road.getGraphicRoad().getSections());
         return road;
     }
+    
+    /**
+     * Initialize
+     */
     private void init(){
         Label label;
         Section section;
@@ -85,7 +104,7 @@ public class AStar {
                 mapLabels.put(section, label);
                 //check if origin section
                 if(section.isEqualTo(origin)){
-                    label.setCout(0);
+                    label.setCost(0);
                     heap.insert(label);
                 }
                 if(section.isEqualTo(destination)){
@@ -94,23 +113,27 @@ public class AStar {
             }
         }
     }
-    private void run(){
-        double newCout=0;
+    
+    /**
+     * Run
+     */
+    private void run() {
+        double newCout = 0;
         Section succ;
         Label min, labSucc;
         init();
-        while(!(heap.isEmpty()|| ((Label) labelDest).isMarque())){
+        while(!(heap.isEmpty()|| ((Label) labelDest).isMark())){
             min= heap.deleteMin();
             //heap.print();
-            min.setMarque(true);
+            min.setMark(true);
             for(NextSection next : min.getCurrent().getSuccessors()){
                 succ = next.getSection();
                 labSucc= mapLabels.get(succ);
-                if(!labSucc.isMarque()){
-                    newCout = min.getCout() + min.getCurrent().getLength();
-                    if(newCout<labSucc.getCout()){
-                        labSucc.setCout(newCout);
-                        labSucc.setPere(min.getCurrent());
+                if(!labSucc.isMark()){
+                    newCout = min.getCost() + min.getCurrent().getLength();
+                    if(newCout<labSucc.getCost()){
+                        labSucc.setCost(newCout);
+                        labSucc.setParent(min.getCurrent());
                     }
                     //si le sommet n'est pas dans le tas on l'y ajoute
                     if(!(heap.getMap().get(labSucc)!=null)){
@@ -124,7 +147,6 @@ public class AStar {
                     }
                 }
             }
-            
         }
     }
 }

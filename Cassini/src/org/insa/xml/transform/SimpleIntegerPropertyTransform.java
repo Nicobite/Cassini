@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import org.simpleframework.xml.transform.Transform;
 
 /**
- * Enable Simple framework to serialize SimpleIntegerProperty
+ * Enable Simple Framework to serialize SimpleIntegerProperty
  * @author Thomas Thiebaud
  */
 public class SimpleIntegerPropertyTransform implements Transform<SimpleIntegerProperty> {

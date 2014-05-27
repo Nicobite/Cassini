@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -87,8 +87,8 @@ public class ResultPanel extends Accordion {
      */
     public ResultPanel() {
         resultChart.setTitle("Résultats de la simulation");
-        simulationXAxis.setLabel("Nombre d'occurences");
-        simulationYAxis.setLabel("Temps (ms)");
+        simulationYAxis.setLabel("Nombre d'occurences");
+        simulationXAxis.setLabel("Temps (ms)");
         
         incidentsData.setName("Incidents");
         collisionsData.setName("Collisions");

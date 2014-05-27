@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -99,8 +99,8 @@ public class GraphicSection extends Polygon {
     
     /**
      * Compute the length between the source node and the target node
-     * @param from
-     * @param to
+     * @param from Source node
+     * @param to target node
      * @return the section length
      */
     public float computeLength(GraphicNode from, GraphicNode to){
@@ -128,9 +128,9 @@ public class GraphicSection extends Polygon {
     /**
      * add a given number of forward and backward lanes to this section \n
      * uses precedingSection to add connections between lanes
-     * @param nbLanes
-     * @param dir
-     * @param precedingSection
+     * @param nbLanes Number of lanes
+     * @param dir Direction
+     * @param precedingSection Previous section
      */
     public void addLanes(int nbLanes, Direction dir, GraphicSection precedingSection){
         GraphicLane gLane = null;
@@ -194,7 +194,7 @@ public class GraphicSection extends Polygon {
     
     /**
      * Add a section to the successor list
-     * @param succ
+     * @param succ Successor
      */
     public void addSuccessor(NextSection succ){
         this.section.addSuccessor(succ);
@@ -202,7 +202,7 @@ public class GraphicSection extends Polygon {
     
     /**
      * Remove a section form the successor list
-     * @param succ
+     * @param succ Successor
      */
     public void removeSuccessor(NextSection succ){
         this.section.removeSuccessor(succ);
@@ -266,7 +266,7 @@ public class GraphicSection extends Polygon {
     
     /**
      * Get target delta x
-     * @return
+     * @return Get target delta X
      */
     public double getTargetDeltaX() {
         return targetDeltaX;

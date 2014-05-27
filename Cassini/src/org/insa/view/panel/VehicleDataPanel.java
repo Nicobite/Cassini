@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,7 @@ public class VehicleDataPanel extends BorderPane {
     
     /**
      * Update table data by asking the controller for new data
+     * @param vehicles Vehicles
      */
     public void performUpdateData(ArrayList<Vehicle> vehicles) {
         table.setItems(FXCollections.observableList(vehicles));

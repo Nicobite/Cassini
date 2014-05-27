@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -29,9 +29,6 @@ import org.simpleframework.xml.Root;
  * @author Juste Abel Ouedraogo
  * Class OsmNode
  * this class maps an osm xml node element
- * <node id="1" lat="1.0" lon="1.0" .....>
- *      <tag k="highway" v="roundabout"></tag>
- * </node>
  * See http://wiki.openstreetmap.org/wiki/Node for details
  */
 @Root(name="node", strict = false)
@@ -63,14 +60,12 @@ public class OsmNode {
      */
     private ArrayList<Road> roads;
     
-    public long getId() {
-        return id;
-    }
-    
+    /**
+     * Default constructor
+     */
     public OsmNode() {
         roads = new ArrayList<>();
     }
-    
     
     /**
      * check wether this node is a rounabout\n
@@ -103,7 +98,7 @@ public class OsmNode {
     
     /**
      * Add a road to the roads list
-     * @param road
+     * @param road Road to add
      */
     public void addRoad(Road road){
         if(!this.roads.contains(road))
@@ -137,44 +132,84 @@ public class OsmNode {
         }
         return res;
     }
-    
-    /* getters and setters */
-    
-    public void setId(long id) {
-        this.id = id;
+
+    /**
+     * Get id
+     * @return Id 
+     */
+    public long getId() {
+        return id;
     }
-    
+
+    /**
+     * Get latitude
+     * @return latitude
+     */
     public float getLat() {
         return lat;
     }
-    
-    public void setLat(float lat) {
-        this.lat = lat;
-    }
-    
+
+    /**
+     * Get longitude
+     * @return Longitude
+     */
     public float getLon() {
         return lon;
     }
-    
-    public void setLon(float lon) {
-        this.lon = lon;
-    }
-    
+
+    /**
+     * Get tags
+     * @return Tags
+     */
     public HashMap<String, String> getTags() {
         return tags;
     }
-    
-    public void setTags(HashMap<String, String> tags) {
-        this.tags = tags;
-    }
-    
+
+    /**
+     * Get roads
+     * @return Roads
+     */
     public ArrayList<Road> getRoads() {
         return roads;
     }
-    
+
+    /**
+     * Set id
+     * @param id New id 
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Set latitude
+     * @param lat New latitude
+     */
+    public void setLat(float lat) {
+        this.lat = lat;
+    }
+
+    /**
+     * Set longitude
+     * @param lon New longitude
+     */
+    public void setLon(float lon) {
+        this.lon = lon;
+    }
+
+    /**
+     * Set tags
+     * @param tags New tags 
+     */
+    public void setTags(HashMap<String, String> tags) {
+        this.tags = tags;
+    }
+
+    /**
+     * Set roads
+     * @param roads New roads 
+     */
     public void setRoads(ArrayList<Road> roads) {
         this.roads = roads;
     }
-    
-    
 }

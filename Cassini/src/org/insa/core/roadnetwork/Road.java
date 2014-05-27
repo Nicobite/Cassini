@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.insa.core.roadnetwork;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import org.insa.core.enums.RoadType;
 import org.insa.view.graphicmodel.GraphicRoad;
 import org.insa.view.graphicmodel.GraphicSection;
@@ -25,8 +24,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Road
  * represent a road way.
  * Uses Simple framework for xml serialization.
@@ -102,7 +100,7 @@ public class Road {
     
     /**
      * Get the section of this road where this node is a target node
-     * @param target
+     * @param target Target node
      * @return the section ;
      */
     public Section findSectionByTargetNode(Node target){
@@ -113,6 +111,24 @@ public class Road {
             }
         }
         return result;
+    }
+    
+    /**
+     * Get nodes
+     * @return Nodes list
+     */
+    public ArrayList<Node> getNodes(){
+        ArrayList<Node> res = new ArrayList<>(); Node n;
+        for(GraphicSection s : gRoad.getSections()){
+            n = s.getSourceNode().getNode();
+            if(! res.contains(n)){
+                res.add(n);
+            }
+        }
+        n = gRoad.getLastSection().getGraphicSection().getTargetNode().getNode();
+        if(!res.contains(n))
+            res.add(n);
+        return res;
     }
 
     /**
@@ -193,19 +209,6 @@ public class Road {
         return gRoad.toString();
     }
     
-    public ArrayList<Node> getNodes(){
-        ArrayList<Node> res = new ArrayList<>(); Node n;
-        for(GraphicSection s : gRoad.getSections()){
-            n = s.getSourceNode().getNode();
-            if(! res.contains(n)){
-                res.add(n);
-            }
-        }
-        n = gRoad.getLastSection().getGraphicSection().getTargetNode().getNode();
-        if(!res.contains(n))
-            res.add(n);
-        return res;
-    }
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

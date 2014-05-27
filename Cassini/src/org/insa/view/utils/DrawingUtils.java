@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -133,10 +133,10 @@ public class DrawingUtils {
     
     /**
      * Get absolute angle between two points
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1 X coordinate of first point
+     * @param y1 Y coordinate of first point
+     * @param x2 X coordinate of second point
+     * @param y2 Y coordinate of second point
      * @return Absolute angle
      */
     public double angle(double x1, double y1, double x2, double y2) {

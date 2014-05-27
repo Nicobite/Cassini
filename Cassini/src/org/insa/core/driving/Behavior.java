@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,10 @@ package org.insa.core.driving;
 
 import javafx.beans.property.SimpleFloatProperty;
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Behavior
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
@@ -40,7 +39,7 @@ public class Behavior {
      * Default constructor
      */
     public Behavior(){
-        
+        //Empty for the moment
     }
 
     /**
@@ -52,20 +51,26 @@ public class Behavior {
     }
 
     /**
+     * Get target speed
+     * @return Target speed
+     */
+    public float getTargetSpeed() {
+        return targetSpeed;
+    }
+    
+    /**
      * Set safety distance
      * @param safetyDistance New safety distance 
      */
     public void setSafetyDistance(float safetyDistance) {
         this.safetyDistance.set(safetyDistance);
     }
-
-    public float getTargetSpeed() {
-        return targetSpeed;
-    }
-
+    
+    /**
+     * Set target speed
+     * @param targetSpeed New target speed 
+     */
     public void setTargetSpeed(float targetSpeed) {
         this.targetSpeed = targetSpeed;
     }
-    
-    
 }

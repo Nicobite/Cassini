@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,17 @@
 package org.insa.core.enums;
 
 /**
- *
  * @author Abel Juste Ouedraogo
- Decision taken by vehicle
+ * Decision taken by vehicle
  */
 public enum Decision {
     ACCELERATE,
     DECELARATE,
-    OFF, //reached destination or got accident
+    OFF,            //reached destination or got accident
     STOP,
-    U_TURN, //go back
+    U_TURN,         //go back
     TURN_LEFT,
-    TURN_RIGHT, //go to the right lane
+    TURN_RIGHT,     //go to the right lane
     GO_STRAIGHT,
-    PARKING //when the vehicle reaches it's destination 
+    PARKING         //when the vehicle reaches it's destination 
 }

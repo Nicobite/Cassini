@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class OsmNodeRef
  * See http://wiki.openstreetmap.org/wiki/Ways for details
  */
@@ -30,12 +30,26 @@ public class OsmNodeRef {
     @Attribute
     private long ref;
     
+    /**
+     * Constructor
+     */
+    public OsmNodeRef() {
+        //Empty for the moment
+    }
+    
+    /**
+     * Get ref
+     * @return Ref
+     */
     public long getRef() {
         return ref;
     }
     
+    /**
+     * Set ref
+     * @param ref New ref 
+     */
     public void setRef(long ref) {
         this.ref = ref;
     }
-    
 }

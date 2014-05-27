@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -174,9 +174,9 @@ public class RoadDrawingPanel extends StackPane {
     }
     
     /**
-     * Get graphic lane points
-     * @param section
-     * @return 
+     * Get graphic lane points from given section
+     * @param section Given section
+     * @return Points
      */
     public ArrayList<Double> getPoints(GraphicSection section) {
         ArrayList<Double> points = new ArrayList<>();
@@ -197,12 +197,12 @@ public class RoadDrawingPanel extends StackPane {
     
     /**
      * Get deltaX depending the (x1,y1) and (x2,y2) points
-     * @param angle
-     * @param width
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param angle Angle
+     * @param width Width
+     * @param x1 X coordinate of first point
+     * @param y1 Y coordinate of firste point
+     * @param x2 X coordinate of second point
+     * @param y2 Y coordinate of second point
      * @return DeltaX
      */
     public double getDeltaX(double angle, double width, double x1, double y1 ,double x2, double y2) {
@@ -228,12 +228,12 @@ public class RoadDrawingPanel extends StackPane {
     
     /**
      * Get deltaY depending the (x1,y1) and (x2,y2) points
-     * @param angle
-     * @param width
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param angle Angle
+     * @param width Width
+     * @param x1 X coordinate of first point
+     * @param y1 Y coordinate of firste point
+     * @param x2 X coordinate of second point
+     * @param y2 Y coordinate of second point
      * @return DeltaY
      */
     public double getDeltaY(double angle, double width, double x1, double y1 ,double x2, double y2) {
@@ -279,30 +279,32 @@ public class RoadDrawingPanel extends StackPane {
     public final void paint() {
         for(Road r : roads.getRoads()) {
             for(GraphicSection gSection : r.getGraphicRoad().getSections()) { 
-                paint(gSection,roadPane);
+                paint(gSection,roadPane,lanePane);
             }
         }
     }
     
     /**
      * Paint given road into given pane
-     * @param pane Given pane
-     * @param road Given pane
+     * @param roadPane Given road pane
+     * @param lanePane Given lane pane
+     * @param road Given road
      */
-    public final void paint(Pane pane, Road road) {
+    public final void paint(Pane roadPane, Pane lanePane, Road road) {
         for(GraphicSection gSection : road.getGraphicRoad().getSections()) { 
-            paint(gSection,pane);
+            paint(gSection,roadPane,lanePane);
         }
     }
     
     /**
      * Paint given section into given pane
      * @param gSection Given section
-     * @param pane Given pane
+     * @param roadPane Given road pane
+     * @param lanePane Given lane pane
      */
-    public void paint(GraphicSection gSection, Pane pane) {
+    public void paint(GraphicSection gSection, Pane roadPane, Pane lanePane) {
         transform(gSection);
-        pane.getChildren().add(gSection);
+        roadPane.getChildren().add(gSection);
 
         for(GraphicLane lane : gSection.getForwardLanes()) {
             Line line = new Line(drawingUtils.longToX(lane.getSourcePoint().getX()), drawingUtils.latToY(lane.getSourcePoint().getY()), drawingUtils.longToX(lane.getTargetPoint().getX()), drawingUtils.latToY(lane.getTargetPoint().getY()));
@@ -327,13 +329,14 @@ public class RoadDrawingPanel extends StackPane {
     
     /**
      * Repaint given road into given pane
-     * @param pane Given pane
+     * @param roadPane Given road pane
+     * @param lanePane Given lane pane
      * @param road Given road
      */
-    public void repaint(Pane pane, Road road) {
-        pane.getChildren().clear();
+    public void repaint(Pane roadPane, Pane lanePane, Road road) {
+        roadPane.getChildren().clear();
         lanePane.getChildren().clear();
-        this.paint(pane, road);
+        this.paint(roadPane, lanePane, road);
     }
     
     /**

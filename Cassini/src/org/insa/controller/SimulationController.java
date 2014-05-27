@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ import org.insa.controller.task.SimulationTask;
 import org.insa.model.Model;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &   Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class SimulationController
  * Manage trafic : priority, trafic lights, and vehicle movement
  */
@@ -50,8 +49,9 @@ public class SimulationController {
     private SimulationTask simulationTask = null;
     
     /**
-     * constructor
-     * @param step
+     * Constructor
+     * @param step Simulation period
+     * @param debug true if debug, false otherwise
      */
     public SimulationController(int step, boolean debug) {
         super();
@@ -89,36 +89,12 @@ public class SimulationController {
         this.start();
     }
     /**
-     * stop simulation
+     * Stop simulation
      */
     public void stop(){
         simulationTask.setTotalTim(0);
         timer.cancel();
         timer.purge();
-    }
-    
-    
-    /*
-    * getters and setters
-    */
-    public void setSimulationStep(int simulationStep) {
-        this.simulationStep = simulationStep;
-    }
-    
-    public int getSimulationStep() {
-        return simulationStep;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
-    }
-    
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public Model getModel() {
-        return model;
     }
     
     /**
@@ -127,5 +103,69 @@ public class SimulationController {
      */
     public int getTotalTime() {
         return simulationTask.getTotalTime();
+    }
+
+    /**
+     * Get simulation step
+     * @return Simulation step
+     */
+    public int getSimulationStep() {
+        return simulationStep;
+    }
+
+    /**
+     * Get timer
+     * @return Timer
+     */
+    public Timer getTimer() {
+        return timer;
+    }
+
+    /**
+     * Get simulation task
+     * @return Simulation task
+     */
+    public SimulationTask getSimulationTask() {
+        return simulationTask;
+    }
+    
+    /**
+     * Get model
+     * @return Model
+     */
+    public Model getModel() {
+        return model;
+    }
+
+    /**
+     * Set simulation step
+     * @param simulationStep New simulation step 
+     */
+    public void setSimulationStep(int simulationStep) {
+        this.simulationStep = simulationStep;
+    }
+
+    /**
+     * Set timer
+     * @param timer New timer 
+     */
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    /**
+     * Set simulation task
+     * @param simulationTask New simulation task 
+     */
+    public void setSimulationTask(SimulationTask simulationTask) {
+        this.simulationTask = simulationTask;
+    }
+    
+    /**
+     * Set model
+     * @param model New model 
+     */
+    public void setModel(Model model) {
+        this.model = model;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,8 @@ public abstract class AbstractDock extends BorderPane {
     protected EditorArea editorArea;
     
     /**
-     * Default constructor
+     * Constructor
+     * @param editorArea reference to editor area
      */
     public AbstractDock(EditorArea editorArea) {
         this.editorArea = editorArea;

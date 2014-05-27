@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import org.simpleframework.xml.Attribute;
 
 
 /**
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Node
  * Represent a graph node
  * The simulation model is based on graph
@@ -44,9 +44,17 @@ public class Node {
     private TrafficSignaling signaling;
     
     private ArrayList<Road> roads;
+    
+    /**
+     * Default constructor
+     */
+    public Node() {
+        roads = new ArrayList<>();
+    }
+    
     /**
      * Constructor
-     * @param gNode reference to graphic node
+     * @param gNode Reference to graphic node
      */
     public Node(GraphicNode gNode) {
         this.gNode = gNode;
@@ -55,14 +63,16 @@ public class Node {
         roads = new ArrayList<>();
     }
     
+    /**
+     * Constructor
+     * @param gNode Reference to graphic node
+     * @param id Id
+     * @param signaling Traffic signaling
+     */
     public Node(GraphicNode gNode, long id, TrafficSignaling signaling) {
         this.gNode = gNode;
         this.id = id;
         this.signaling = signaling;
-        roads = new ArrayList<>();
-    }
-    
-    public Node() {
         roads = new ArrayList<>();
     }
     
@@ -112,7 +122,11 @@ public class Node {
         return gNode;
     }
     
-    public void setgNode(GraphicNode gNode) {
+    /**
+     * Set graphic node
+     * @param gNode New graphic node
+     */
+    public void setGraphicNode(GraphicNode gNode) {
         this.gNode = gNode;
     }
     

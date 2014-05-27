@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,64 +30,105 @@ public class OsmBound {
      * bounds of the road network : minimum longitude
      */
     @Attribute
-    private float minlon;
+    private float minLon;
     /**
      * bounds of the road network : minimum latitude
      */
     @Attribute
-    private float minlat;
+    private float minLat;
     /**
      * bounds of the road network : maximum longitude
      */
     @Attribute
-    private float maxlon;
+    private float maxLon;
     /**
      * bounds of the road network : maximum latitude
      */
     @Attribute
-    private float maxlat;
+    private float maxLat;
 
+    /**
+     * Default constructor
+     */
     public OsmBound(){
-        
+        //Empty for the moment
     }
     
+    /**
+     * Constructor
+     * @param minLat Minimum longitude
+     * @param minLon Minimum latitude
+     * @param maxLat Maximum longitude
+     * @param maxLon Maximum latitude
+     */
     public OsmBound(float minLat, float minLon, float maxLat, float maxLon){
-        this.minlat = minLat;
-        this.minlon = minLon;
-        this.maxlat = maxLat;
-        this.maxlon = maxLon;
-    }
-    public float getMaxlat() {
-        return maxlat;
-    }
-
-    public float getMaxlon() {
-        return maxlon;
-    }
-
-    public float getMinlat() {
-        return minlat;
-    }
-
-    public float getMinlon() {
-        return minlon;
-    }
-
-    public void setMaxlat(float maxlat) {
-        this.maxlat = maxlat;
-    }
-
-    public void setMaxlon(float maxlon) {
-        this.maxlon = maxlon;
-    }
-
-    public void setMinlat(float minlat) {
-        this.minlat = minlat;
-    }
-
-    public void setMinlon(float minlon) {
-        this.minlon = minlon;
+        this.minLat = minLat;
+        this.minLon = minLon;
+        this.maxLat = maxLat;
+        this.maxLon = maxLon;
     }
     
-    
+    /**
+     * Get minimum longitude
+     * @return Minimum longitude
+     */
+    public float getMinLon() {
+        return minLon;
+    }
+
+    /**
+     * Get minimum latitude
+     * @return Minimum latitud
+     */
+    public float getMinLat() {
+        return minLat;
+    }
+
+    /**
+     * Get maximum longitude
+     * @return Maximum longitude
+     */
+    public float getMaxLon() {
+        return maxLon;
+    }
+
+    /**
+     * get maximum latitude
+     * @return Maximum latitude
+     */
+    public float getMaxLat() {
+        return maxLat;
+    }
+
+    /**
+     * Set minimum longitude
+     * @param minLon New minimum longitude
+     */
+    public void setMinLon(float minLon) {
+        this.minLon = minLon;
+    }
+
+    /**
+     * Set minimum latitude
+     * @param minLat New minimum latitude
+     */
+    public void setMinLat(float minLat) {
+        this.minLat = minLat;
+    }
+
+    /**
+     * Set maximum longitude
+     * @param maxLon New maximum longitude
+     */
+    public void setMaxLon(float maxLon) {
+        this.maxLon = maxLon;
+    }
+
+    /**
+     * Set maximum latitude
+     * @param maxLat New maximum latitude
+     */
+    public void setMaxLat(float maxLat) {
+        this.maxLat = maxLat;
+    }
 }

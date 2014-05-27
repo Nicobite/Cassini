@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,9 +17,6 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
@@ -35,18 +32,9 @@ import org.simpleframework.xml.Root;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class OsmRoot
  * Maps Osm xml document root
- * <osm ...>
- *   <bounds ....>      </bounds>
- *   <node.......> .... </node>
- *   .....................
- *   <way .......>.......</way>
- *   ..........................
- *   <relation ..>......</relation>
- *   .......................
- * </osm>
  * See http://wiki.openstreetmap.org/wiki/.osm for details
  */
 @Root(strict = false, name = "osm") //Osm document root (osm relations are not processed)
@@ -70,7 +58,14 @@ public class OsmRoot {
     private ArrayList<OsmWay> osmWays;
     
     /**
-     * build road model from osm data
+     * Default constructor
+     */
+    public OsmRoot() {
+        //Empty for the moment
+    }
+    
+    /**
+     * Build road model from osm data
      * @return the road network
      */
     public RoadsModel buildRoadModel(){
@@ -86,10 +81,10 @@ public class OsmRoot {
         RoadsModel roadsModel = new RoadsModel();
         
         //set map bounds
-        roadsModel.setMaxLat(bounds.getMaxlat());
-        roadsModel.setMaxLon(bounds.getMaxlon());
-        roadsModel.setMinLat(bounds.getMinlat());
-        roadsModel.setMinLon(bounds.getMinlon());
+        roadsModel.setMaxLat(bounds.getMaxLat());
+        roadsModel.setMaxLon(bounds.getMaxLon());
+        roadsModel.setMinLat(bounds.getMinLat());
+        roadsModel.setMinLon(bounds.getMinLon());
         
         //build the road network from Osm xml
         for(OsmWay way : osmWays){
@@ -104,6 +99,11 @@ public class OsmRoot {
         //splitRoadsByJunctions(roadsModel);
         return roadsModel;
     }
+    
+    /**
+     * Split roads in order to create junctions
+     * @param roadModel Road model
+     */
     public void splitRoadsByJunctions(RoadsModel roadModel){
         ArrayList <Node> nodes = roadModel.getNodes();
         System.out.println(nodes.size());
@@ -159,9 +159,10 @@ public class OsmRoot {
             node.getRoads().addAll(toAdd);
         }
     }
+    
     /**
      * Get all the traffic lights from the roads network
-     * @return
+     * @return Traffic lights
      */
     public ArrayList<TrafficLight> getTrafficLightFromRoads(){
         ArrayList<TrafficLight> result = new ArrayList<>();
@@ -172,10 +173,10 @@ public class OsmRoot {
         }
         return result;
     }
+    
     /**
      * Adds connections between roads at network-wide
-     * @param roadModel
-     * @param osmNodes
+     * @param roadModel Road model
      */
     public void addConnections(RoadsModel roadModel){
         Long id;
@@ -197,9 +198,9 @@ public class OsmRoot {
     
     /**
      * Add connections between a road and it's sucessors roads
-     * @param road
-     * @param otherRoads
-     * @param node
+     * @param road Road to connect
+     * @param otherRoads Other roads
+     * @param node Connexion node
      */
     public void connectRoads(Node node, Road road, ArrayList<Road>otherRoads){
         Section target = road.findSectionByTargetNode(node);
@@ -243,8 +244,7 @@ public class OsmRoot {
         }
         
     }
-    
-    
+
     /**
      *  put osm nodes in an hashmap for easy access (referenced by id)
      */
@@ -255,14 +255,21 @@ public class OsmRoot {
         }
         return map;
     }
+    
+    /**
+     * Initialize junstions
+     * @param modelRoad model
+     * @param list OsmNode list
+     */
     private void iniJunctions(RoadsModel model, HashMap<Long, OsmNode> list){
         ArrayList<Node> nodes = model.getNodes();
         for(Node n : nodes){
             n.setRoads(list.get(n.getId()).getRoads());
         }
     }
+    
     /**
-     * infer the road network bounds (min latitude and longitude,\n
+     * Infer the road network bounds (min latitude and longitude,\n
      * and max longitude and latitude
      * @param nodes the list of osm nodes
      * @return the boundary of the road network
@@ -270,49 +277,68 @@ public class OsmRoot {
     public OsmBound buildBounds(ArrayList<OsmNode> nodes){
         OsmBound bound = new OsmBound(1000,1000,0,0);
         for(OsmNode node : nodes){
-            if(node.getLat()> bound.getMaxlat()){
-                bound.setMaxlat(node.getLat());
+            if(node.getLat()> bound.getMaxLat()){
+                bound.setMaxLat(node.getLat());
             }
-            if(node.getLat()< bound.getMinlat()){
-                bound.setMinlat(node.getLat());
+            if(node.getLat()< bound.getMinLat()){
+                bound.setMinLat(node.getLat());
             }
-            if(node.getLon()> bound.getMaxlon()){
-                bound.setMaxlon(node.getLon());
+            if(node.getLon()> bound.getMaxLon()){
+                bound.setMaxLon(node.getLon());
             }
-            if(node.getLon()< bound.getMinlon()){
-                bound.setMinlon(node.getLon());
+            if(node.getLon()< bound.getMinLon()){
+                bound.setMinLon(node.getLon());
             }
             
         }
         return bound;
     }
-    
-    /*
-    * getters and setters
-    */
-    
+
+    /**
+     * Get bounds
+     * @return bounds
+     */
     public OsmBound getBounds() {
         return bounds;
     }
-    
-    public void setBounds(OsmBound bounds) {
-        this.bounds = bounds;
-    }
-    
+
+    /**
+     * Get osm nodes
+     * @return Osm nodes
+     */
     public ArrayList<OsmNode> getOsmNodes() {
         return osmNodes;
     }
-    
-    public void setOsmNodes(ArrayList<OsmNode> osmNodes) {
-        this.osmNodes = osmNodes;
-    }
-    
+
+    /**
+     * Get osm ways
+     * @return Osm ways
+     */
     public ArrayList<OsmWay> getOsmWays() {
         return osmWays;
     }
-    
+
+    /**
+     * Set bounds
+     * @param bounds New bounds 
+     */
+    public void setBounds(OsmBound bounds) {
+        this.bounds = bounds;
+    }
+
+    /**
+     * Set osm nodes
+     * @param osmNodes New osm nodes 
+     */
+    public void setOsmNodes(ArrayList<OsmNode> osmNodes) {
+        this.osmNodes = osmNodes;
+    }
+
+    /**
+     * Set osm ways
+     * @param osmWays New osm ways 
+     */
     public void setOsmWays(ArrayList<OsmWay> osmWays) {
         this.osmWays = osmWays;
     }
-    
 }

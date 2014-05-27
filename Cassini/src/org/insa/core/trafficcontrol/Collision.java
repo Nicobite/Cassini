@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ import org.insa.core.enums.Severity;
 import org.insa.view.graphicmodel.GraphicCollision;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Collision
  * Collision between 2 vehicles 
  */
@@ -56,7 +55,10 @@ public class Collision {
     private final GraphicCollision gCollision;
 
     /**
-     * Default constructor
+     * Constructor
+     * @param guilty Guilty vehicle
+     * @param victim Victim vehicle
+     * @param severity Severity
      */
     public Collision(Vehicle guilty, Vehicle victim, Severity severity) {
         this.guilty = guilty;
@@ -66,54 +68,106 @@ public class Collision {
         gCollision = new GraphicCollision(this);
     }
 
+    /**
+     * Get guilty
+     * @return Guilty vehicle
+     */
     public Vehicle getGuilty() {
         return guilty;
     }
 
+    /**
+     * Get victim
+     * @return Victim vehicle
+     */
     public Vehicle getVictim() {
         return victim;
     }
 
+    /**
+     * Get severity
+     * @return Severity
+     */
     public Severity getSeverity() {
         return severity;
     }
 
+    /**
+     * Get position
+     * @return Position
+     */
     public VehiclePosition getPosition() {
         return position;
     }
 
+    /**
+     * Get time
+     * @return Time
+     */
     public int getTime() {
         return time;
     }
 
+    /**
+     * Is viewed
+     * @return true if viewed, false otherwise
+     */
     public boolean isViewed() {
         return viewed;
     }
 
+    /**
+     * Get graphic collision
+     * @return Graphic collision
+     */
     public GraphicCollision getGraphicCollision() {
         return gCollision;
     }
 
+    /**
+     * Set guilty
+     * @param guilty New guilty 
+     */
     public void setGuilty(Vehicle guilty) {
         this.guilty = guilty;
     }
 
+    /**
+     * Set victim
+     * @param victim New vicim 
+     */
     public void setVictim(Vehicle victim) {
         this.victim = victim;
     }
 
+    /**
+     * Set severity
+     * @param severity New sevirity 
+     */
     public void setSeverity(Severity severity) {
         this.severity = severity;
     }
 
+    /**
+     * Set position
+     * @param position New position 
+     */
     public void setPosition(VehiclePosition position) {
         this.position = position;
     }
 
+    /**
+     * Set time
+     * @param time New time 
+     */
     public void setTime(int time) {
         this.time = time;
     }
 
+    /**
+     * Set viewed
+     * @param viewed New viewed boolean 
+     */
     public void setViewed(boolean viewed) {
         this.viewed = viewed;
     }

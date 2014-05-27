@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,6 +65,34 @@ public class GraphicRoad {
     }
     
     /**
+     * Add new graphic section into list from simple section
+     * @param s Section to add
+     */
+    public void addSection(Section s){
+        if(s.getGraphicSection() == null)
+            this.sections.add(new GraphicSection(null,null));
+        else
+            this.sections.add(s.getGraphicSection()); 
+    }
+    
+    /**
+     * Add new graphic section into list from simple section
+     * @param s Section to add
+     */
+    public void addSection(GraphicSection s) {
+        this.sections.add(s);
+        s.getSection().setRoad(this.road);
+    }
+    
+    /**
+     * Remove section
+     * @param s Section to remove
+     */
+    public void removeSection(Section s){
+        this.sections.remove(s);
+    }
+    
+    /**
      * Get sections
      * @return Graphic sections list
      */
@@ -80,27 +108,4 @@ public class GraphicRoad {
         this.sections = sections;
     }
     
-    /**
-     * Add new graphic section into list from simple section
-     * @param s 
-     */
-    public void addSection(Section s){
-        if(s.getGraphicSection() == null)
-            this.sections.add(new GraphicSection(null,null));
-        else
-            this.sections.add(s.getGraphicSection()); 
-    }
-    
-    public void addSection(GraphicSection s) {
-        this.sections.add(s);
-        s.getSection().setRoad(this.road);
-    }
-    
-    /**
-     * Remove section
-     * @param s Section to remove
-     */
-    public void removeSection(Section s){
-        this.sections.remove(s);
-    }
 }

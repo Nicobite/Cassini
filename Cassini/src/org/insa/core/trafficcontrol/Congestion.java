@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ import org.insa.core.roadnetwork.Lane;
 import org.insa.view.graphicmodel.GraphicCongestion;
 
 /**
- *
- * @author Juste Abel Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Congestion
  */
 public class Congestion {
@@ -55,50 +54,86 @@ public class Congestion {
         this.lanes = new ArrayList<>();
     }
     
+    /**
+     * Add a vehicle
+     * @param v Vehicle to add
+     */
+    public void addVehicle(Vehicle v) {
+        this.vehicles.add(v);
+    }
+    
+    /**
+     * Add a lane
+     * @param l Lane to add
+     */
+    public void addLane(Lane l){
+        this.lanes.add(l);
+    }
+    
+    /**
+     * Get graphic congestion
+     * @return Graphic congestion
+     */
     public GraphicCongestion getGraphicCongestion() {
         return gCongestion;
     }
 
-
+    /**
+     * Get lanes
+     * @return Lanes list
+     */
     public ArrayList<Lane> getLanes() {
         return lanes;
     }
 
+    /**
+     * Get time
+     * @return Time
+     */
     public int getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
-    }
-
+    /**
+     * Get vehicles
+     * @return Vehicles list
+     */
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
     
-    public void setLanes(ArrayList<Lane> lanes) {
-        this.lanes = lanes;
-    }
-
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
-
-    public void setViewed(boolean viewed) {
-        this.viewed = viewed;
-    }
-
+    /**
+     * Is viewed
+     * @return true if viewed, false otherwise
+     */
     public boolean isViewed() {
         return viewed;
     }
     
-    public void addVehicle(Vehicle v){
-        this.vehicles.add(v);
-    }
-    public void addLane(Lane l){
-        this.lanes.add(l);
+    /**
+     * Set lanes
+     * @param lanes New lanes list
+     */
+    public void setLanes(ArrayList<Lane> lanes) {
+        this.lanes = lanes;
     }
 
+    /**
+     * Set vehicles
+     * @param vehicles New vehicles list 
+     */
+    public void setVehicles(ArrayList<Vehicle> vehicles) {
+        this.vehicles = vehicles;
+    }
+
+    /**
+     * Set viewed
+     * @param viewed New viewed boolean 
+     */
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

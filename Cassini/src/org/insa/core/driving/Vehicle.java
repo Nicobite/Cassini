@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,10 +18,7 @@ package org.insa.core.driving;
 import java.util.Objects;
 import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
-import org.insa.controller.MainController;
 import org.insa.core.enums.Decision;
-import org.insa.core.enums.StateTrafficLight;
-import org.insa.core.enums.TrafficSignaling;
 import org.insa.core.roadnetwork.NextLane;
 import org.insa.core.roadnetwork.Node;
 import org.insa.core.trafficcontrol.TrafficLight;
@@ -32,7 +29,7 @@ import org.simpleframework.xml.Element;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Vehicle
  * Uses Simple framework for xml serialization.
  * See http://simple.sourceforge.net/ for further details.
@@ -69,7 +66,6 @@ public class Vehicle {
     @Element(required = false)
     private Driving driving;
     
-    //-----------Mission ---------------
     /**
      * mission assigned to this vehicle
      */
@@ -80,85 +76,33 @@ public class Vehicle {
      */
     private boolean hasMission;
     
-    //------------------------------------
     
+    /**
+     * Default constructor
+     */
     public Vehicle(){
         super();
         driving = new Driving();
     }
     
+    /**
+     * DRIVING LOGIC
+     */
     
-    /* -----------getters and setters ----------------*/
-    
-    public void setMaxAcceleration(int maxAcceleration) {
-        this.maxAcceleration = new SimpleIntegerProperty(maxAcceleration);
-    }
-    
-    public int getMaxAcceleration() {
-        return maxAcceleration.get();
-    }
-    
-    public void setLength(int length) {
-        this.length = new SimpleIntegerProperty(length);
-    }
-    
-    public int getLength() {
-        return length.get();
-    }
-    
-    public void setMaxSpeed(int maxSpeed) {
-        this.maxSpeed = new SimpleIntegerProperty(maxSpeed);
-    }
-    public int getMaxSpeed() {
-        return maxSpeed.get();
-    }
-    
-    public void setMaxDeceleration(int maxDeceleration) {
-        this.maxDeceleration = new SimpleIntegerProperty(maxDeceleration);
-    }
-    
-    public int getMaxDeceleration() {
-        return maxDeceleration.get();
-    }
-    
-    public Driving getDriving() {
-        return driving;
-    }
-    
-    public void setDriving(Driving driving) {
-        this.driving = driving;
-    }
-    
-    public void setMission(Mission mission) {
-        this.mission = mission;
-        this.hasMission = true;
-    }
-    
-    public Mission getMission() {
-        return mission;
-    }
-    
-    public void setHasMission(boolean hasMission) {
-        this.hasMission = hasMission;
-    }
-    
-    public boolean hasMission(){
-        return this.hasMission;
-    }
-    /*--------------------- driving logic ---------------------*/
     /**
      * Distance needed to change the speed of the vehicle to the targetSpeed
      * @param targetSpeed
-     * @return 
+     * @return
      */
     private float distanceToSlowToSpeed(float targetSpeed){
         float distance ;
-        float speed = this.getDriving().getSpeed() ; 
+        float speed = this.getDriving().getSpeed() ;
         float delta = speed - targetSpeed ;
         float decceleration = this.getMaxDeceleration();
         distance = (delta * delta) / ( 2.0f * decceleration) ;
-        return distance ; 
+        return distance ;
     }
+    
     /**
      * Compare the speed of the vehicle with the max speed of the road
      * or of the vehicle and set the decision.
@@ -171,49 +115,53 @@ public class Vehicle {
             if (this.getDriving().getSpeed() > maxSpeedSection-5){
                 this.getDriving().setSpeed(maxSpeedSection);
             }
-        }else 
-        {            
+        }else
+        {
             // case when the vehicle's speed limits
             this.getDriving().getBehavior().setTargetSpeed(this.getMaxSpeed());
         }
         this.setDecisionToTargetSpeed();
-         
+        
     }
+    
     /**
      * Return the distance between the vehicle and the next node
      * @param node
-     * @return 
+     * @return
      */
     private float distanceToNextNode(Node node){
-        float distance ;        
-        distance = this.getDriving().getPosition().getLane().getGraphicLane().getSection().getLength() - this.getDriving().getPosition().getOffset() ;        
+        float distance ;
+        distance = this.getDriving().getPosition().getLane().getGraphicLane().getSection().getLength() - this.getDriving().getPosition().getOffset() ;
         return distance ;
     }
+    
     /**
      * Compute the distance needed for the vehicle to stop
-     * @return 
+     * @return
      */
     private float distanceToStop(){
         /*float distance ;
-        float speed = this.getDriving().getSpeed() ; 
+        float speed = this.getDriving().getSpeed() ;
         float decceleration = this.getMaxDeceleration();
         distance = (speed * speed) / ( 2.0f * decceleration) ;*/
         return this.distanceToSlowToSpeed(0.0f) ;
     }
+    
     /**
      * Change the decision of the vehicle stop to the next node if he is close enough
      * In the other case the vehicle continues to drive
-     * @param node 
+     * @param node
      */
     private void stopAtNextNode(Node node){
         if (this.distanceToNextNode(node) < distanceToStop()+15.0f){
             this.getDriving().setDecision(Decision.STOP);
         }
     }
+    
     /**
      * behavior for the vehicle in front of a TrafficLight
      * The vehicle continu until it arrives at the end of the lane where it has to stop
-     * @param targetNode 
+     * @param targetNode
      */
     private void behaviorAtTrafficLight(Node targetNode){
         TrafficLight light = TrafficLight.fromNode(targetNode) ;
@@ -223,42 +171,44 @@ public class Vehicle {
         {
             switch(light.getState()){
                 case RED :
-                    stopAtNextNode(targetNode) ; 
+                    stopAtNextNode(targetNode) ;
                     break ;
-                case ORANGE :   
+                case ORANGE :
                     
                     break ;
-                case GREEN : 
-                    this.updateTargetSpeedToRoad();                    
-                    break ; 
-                default : 
+                case GREEN :
+                    this.updateTargetSpeedToRoad();
                     break ;
-            } 
+                default :
+                    break ;
+            }
         }
     }
+    
     /**
      * Check if there is a vehicle in front of the considered one
-     * @return 
+     * @return Vehicle in front
      */
     private Vehicle VehicleInFront(){
         Vehicle vInFront = null ;
         float myOffset = this.getDriving().getPosition().getOffset() ;
-        float vOffset ; 
+        float vOffset ;
         for (Vehicle v: this.getDriving().getPosition().getLane().getVehicles()){
             vOffset = v.getDriving().getPosition().getOffset() ;
             if (vOffset > myOffset){
                 if (vInFront == null){
-                    vInFront = v ; 
+                    vInFront = v ;
                 }else{
                     if (v.getDriving().getPosition().getOffset() < vInFront.getDriving().getPosition().getOffset()){
-                        vInFront = v ; 
+                        vInFront = v ;
                     }
                 }
-                    
+                
             }
         }
-        return vInFront ; 
+        return vInFront ;
     }
+    
     /**
      * Set the decision of the vehicle depending to the speed it is aiming
      */
@@ -276,60 +226,59 @@ public class Vehicle {
         {
             this.getDriving().setDecision(Decision.GO_STRAIGHT) ;
         }
-    }  
-
+    }
+    
     
     /**
-     * ************************************************************************
-     * make driving decision
+     * Make driving decision
      */
     public void makeDecision(){
         
-        GraphicLane currentLane = this.getDriving().getPosition().getLane().getGraphicLane(); 
+        GraphicLane currentLane = this.getDriving().getPosition().getLane().getGraphicLane();
         Vehicle vInFront = this.VehicleInFront() ;
-        float speedVInFront, distanceToVInFront ; 
+        float speedVInFront, distanceToVInFront ;
         
         
         if (this.getDriving().getBehavior() == null){
-                Behavior b = new Behavior() ; 
-                this.getDriving().setBehavior(b);
-                // Does not work because of the behavior value that can not be updated
-                //this.getDriving().getBehavior().setSafetyDistance(10.0f);
-        }  
+            Behavior b = new Behavior() ;
+            this.getDriving().setBehavior(b);
+            // Does not work because of the behavior value that can not be updated
+            //this.getDriving().getBehavior().setSafetyDistance(10.0f);
+        }
         
-        if (vInFront != null){       
+        if (vInFront != null){
             speedVInFront = vInFront.getDriving().getSpeed() ;
-            distanceToVInFront = vInFront.getDriving().getPosition().getOffset() - this.getDriving().getPosition().getOffset() ; 
+            distanceToVInFront = vInFront.getDriving().getPosition().getOffset() - this.getDriving().getPosition().getOffset() ;
             /**
              * if (this.distanceToSlowToSpeed(speedVInFront) + this.getDriving().getBehavior().getSafetyDistance() < distanceToVInFront ){
              * Does not work because of the behavior value that can not be updated
-             * 
-            */
+             *
+             */
             if (this.distanceToSlowToSpeed(speedVInFront) + 5.0f < distanceToVInFront ){
                 // Adapt the speed of the vehicle to the one in front
                 this.getDriving().getBehavior().setTargetSpeed(vInFront.getDriving().getSpeed());
-                this.setDecisionToTargetSpeed(); 
+                this.setDecisionToTargetSpeed();
             }else{
                 // The vehicle is too far to consider its speed
                 this.updateTargetSpeedToRoad();
-            }                          
+            }
         }
         else
         {
             if (currentLane.hasTransition()){
-                NextLane nextLane = this.getDriving().getPosition().getLane().getGraphicLane().getNextLanes().get(0) ;             
+                NextLane nextLane = this.getDriving().getPosition().getLane().getGraphicLane().getNextLanes().get(0) ;
                 Node targetNode = currentLane.getSection().getSection().getGraphicSection().getTargetNode().getNode();
-
+                
                 switch (targetNode.getSignaling()){
                     case TRAFFIC_LIGHT:
                         this.behaviorAtTrafficLight(targetNode);
-                        break ; 
-                    case STOP : 
+                        break ;
+                    case STOP :
                         stopAtNextNode(targetNode) ;
                         /**
                          * TODO :
                          * Implement the check if there is vehicles on the lane the vehicle is going to
-                         * here it this wait for the vehicle to stop and then go ahead 
+                         * here it this wait for the vehicle to stop and then go ahead
                          */
                         if (this.getDriving().getSpeed() == 0){
                             this.getDriving().setDecision(Decision.ACCELERATE);
@@ -337,22 +286,22 @@ public class Vehicle {
                     case CROSSING:
                         this.updateTargetSpeedToRoad();
                         break ;
-                    case ROUNDABOUT: 
+                    case ROUNDABOUT:
                         this.updateTargetSpeedToRoad();
-                        break ; 
+                        break ;
                     case TURN_LOOP:
                         this.updateTargetSpeedToRoad();
                         break ;
                     default :
                         this.updateTargetSpeedToRoad();
-                        break;                    
+                        break;
                 }
             }
         }
     }
     
     /**
-     * execute driving decision
+     * Execute driving decision
      */
     public void executeDecision(){
         switch(this.driving.getDecision()){
@@ -383,7 +332,7 @@ public class Vehicle {
     
     /**
      * Update speed
-     * @param simuStep
+     * @param simuStep Simulation period
      */
     public void updateSpeed(int simuStep){
         float speed ;
@@ -396,7 +345,7 @@ public class Vehicle {
     
     /**
      * Update position
-     * @param simuStep
+     * @param simuStep Simulation period
      */
     public void updatePosition(int simuStep){
         float scale =0.50f;
@@ -427,7 +376,7 @@ public class Vehicle {
                     //change section : if mission follow the path
                     GraphicLane nextLane;
                     if(this.hasMission){
-                        this.mission.updateCurrentSection();
+                        this.mission.updateCurrentSectionNum();
                         nextLane = this.mission.getNextLane(previousLane).getTargetLane();
                     }
                     else{
@@ -452,13 +401,13 @@ public class Vehicle {
             }
         }
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 3;
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -483,7 +432,119 @@ public class Vehicle {
         return true;
     }
     
+    /**
+     * Get max speed
+     * @return Max speed
+     */
+    public int getMaxSpeed() {
+        return maxSpeed.get();
+    }
     
+    /**
+     * Get max acceleration
+     * @return Max acceleration
+     */
+    public int getMaxAcceleration() {
+        return maxAcceleration.get();
+    }
+    
+    /**
+     * Get max deceleration
+     * @return Max deceleration
+     */
+    public int getMaxDeceleration() {
+        return maxDeceleration.get();
+    }
+    
+    /**
+     * Get length
+     * @return Length
+     */
+    public int getLength() {
+        return length.get();
+    }
+    
+    /**
+     * Get driving
+     * @return Driving
+     */
+    public Driving getDriving() {
+        return driving;
+    }
+    
+    /**
+     * Get mission
+     * @return Mission
+     */
+    public Mission getMission() {
+        return mission;
+    }
+    
+    /**
+     * Has mission
+     * @return true if mission != null, false otherwise
+     */
+    public boolean hasMission() {
+        return hasMission;
+    }
+    
+    /**
+     * Set max speed
+     * @param maxSpeed New max speed
+     */
+    public void setMaxSpeed(int maxSpeed) {
+        this.maxSpeed = new SimpleIntegerProperty(maxSpeed);
+    }
+    
+    /**
+     * Set max acceleration
+     * @param maxAcceleration New max acceleration
+     */
+    public void setMaxAcceleration(int maxAcceleration) {
+        this.maxAcceleration = new SimpleIntegerProperty(maxAcceleration);
+    }
+    
+    /**
+     * Set max deceleration
+     * @param maxDeceleration New max deceleration
+     */
+    public void setMaxDeceleration(int maxDeceleration) {
+        this.maxDeceleration = new SimpleIntegerProperty(maxDeceleration);
+    }
+    
+    /**
+     * Set length
+     * @param length New length
+     */
+    public void setLength(int length) {
+        this.length = new SimpleIntegerProperty(length);
+    }
+    
+    /**
+     * Set driving
+     * @param driving New driving
+     */
+    public void setDriving(Driving driving) {
+        this.driving = driving;
+    }
+    
+    /**
+     * Set mission
+     * @param mission New mission
+     */
+    public void setMission(Mission mission) {
+        this.mission = mission;
+        if(mission != null)
+            this.hasMission = true;
+    }
+    
+    /**
+     * Set has mission
+     * @param hasMission new has mission
+     */
+    public void setHasMission(boolean hasMission) {
+        this.hasMission = hasMission;
+    }
 }
 
 

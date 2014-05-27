@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import org.insa.core.roadnetwork.Lane;
 
 /**
  *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui &  Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class VehiclePosition
  * vehicle lane in the road represented by a lane
  * and an offset in that lane
@@ -45,7 +45,7 @@ public class VehiclePosition {
     /**
      * Constructor
      * @param lane Reference to lane
-     * @param distance 
+     * @param distance Distance
      */
     public VehiclePosition(Lane lane, float distance){
         this.lane = lane;
@@ -116,6 +116,4 @@ public class VehiclePosition {
         }
         return true;
     }
-    
-    
 }

@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -209,7 +209,7 @@ public class MainController {
             resultPanel = new ResultPanel();
         mainPanel.setCenter(resultPanel);
         
-        int allIncidents = model.getControlUnitsModel().getAllIncidents().size();
+        int allIncidents = model.getControlUnitsModel().getIncidents().size();
         if (allIncidents != 0) {
             int directionsIncidents = model.getControlUnitsModel().getDirectionIncidents().size() * 100 / allIncidents;
             int priorityIncidents = model.getControlUnitsModel().getPriorityIncidents().size() * 100 / allIncidents;
@@ -302,6 +302,7 @@ public class MainController {
     
     /**
      * Open a map
+     * @param isMapEditor true if open into editor, false otherwise
      */
     public void performOpenMap(final boolean isMapEditor) {
         FileChooser fileChooser = new FileChooser();
@@ -628,6 +629,7 @@ public class MainController {
     /**
      * Begin to get a node from the map
      * @param nodePicker Reference to the node picker control
+     * @param isSourceNode true is get source node, false otherwise
      */
     public void performBeginGetNode(NodePicker nodePicker,boolean isSourceNode) {
         if(mapPanel != null) {     
@@ -678,6 +680,7 @@ public class MainController {
 
     /**
      * Add incident into result panel
+     * @param i Incident to add
      */
     public void performAddIncident(Incident i) {
         if(resultPanel == null)
@@ -772,7 +775,7 @@ public class MainController {
     
     /**
      * Get app real width
-     * @return 
+     * @return Width
      */
     public int getWidth() {
         return width;

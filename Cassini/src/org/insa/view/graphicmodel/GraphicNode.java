@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -59,8 +59,8 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent>, Ser
     
     /**
      * Constructor
-     * @param longitude
-     * @param latitude
+     * @param longitude Longitude or X
+     * @param latitude Latitude or Y
      */
     public GraphicNode(float longitude, float latitude) {
         this();
@@ -169,6 +169,6 @@ public class GraphicNode extends Circle implements EventHandler<MouseEvent>, Ser
      */
     @Commit
     private void build(){
-        this.node.setgNode(this);
+        this.node.setGraphicNode(this);
     }
 }

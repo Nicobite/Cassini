@@ -33,6 +33,8 @@ public class Maths {
     
     /**
      * Get absolute distance between two points
+     * @param c1 First point
+     * @param c2 Second point
      * @return int distance (mm)
      */
     static public int distance(Coordinates c1, Coordinates c2){
@@ -44,6 +46,9 @@ public class Maths {
     
     /**
      * Get the arrival coordinates for an initial coordinate translated by a vector given by an angle and a distance 
+     * @param beginCoordinate Coordinate
+     * @param angle Angle
+     * @param distance Distance
      * @return Coordinates
      */
     static public Coordinates findArrivalCoordinateFromVector(Coordinates beginCoordinate, float angle, int distance){
@@ -55,6 +60,10 @@ public class Maths {
     
      /**
      * Get the arrival coordinates for an initial coordinate translated by a vector given by an angle, a distance and a perpendicular offset
+     * @param beginCoordinate Coordinate
+     * @param angle Angle
+     * @param distance Distance
+     * @param offset Offset
      * @return Coordinates
      */
     static public Coordinates findArrivalCoordinateFromVectorAndOffset(Coordinates beginCoordinate, float angle, int distance, int offset){

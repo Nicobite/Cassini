@@ -1,6 +1,6 @@
 
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -24,8 +24,7 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Section
  * road section as represented below
  *
@@ -62,10 +61,14 @@ public class Section {
     @Attribute
     private String id;
     
+    /**
+     * Default constructor
+     */
     public Section() {
         successors = new ArrayList<>();
         id = String.valueOf(hashCode());
     }
+    
     /**
      * Constructor
      * @param gSection Reference to graphic section
@@ -77,13 +80,9 @@ public class Section {
                 +gSection.getTargetNode().getNode().getId();
     }
     
-    public void setSuccessors(ArrayList<NextSection> successors) {
-        this.successors = successors;
-    }
-    
     /**
      * Add a section to the successor list
-     * @param succ
+     * @param succ Successor
      */
     public void addSuccessor(NextSection succ){
         this.successors.add(succ);
@@ -91,7 +90,7 @@ public class Section {
     
     /**
      * Remove a section form the successor list
-     * @param succ
+     * @param succ successor
      */
     public void removeSuccessor(NextSection succ){
         this.successors.remove(succ);
@@ -209,6 +208,14 @@ public class Section {
         this.gSection = gSection;
     }
     
+    /**
+     * Set successors
+     * @param successors New successors list 
+     */
+    public void setSuccessors(ArrayList<NextSection> successors) {
+        this.successors = successors;
+    }
+    
     @Override
     public String toString() {
         return "Section{" + "gSection=" + gSection + '}';
@@ -231,11 +238,11 @@ public class Section {
     
     /**
      * Equals v2
-     * @param b
-     * @return
+     * @param section to compare 
+     * @return true if sections are equal, false otherwise
      */
-    public boolean isEqualTo(Section b){
-        return (id == b.getId());
+    public boolean isEqualTo(Section section){
+        return (id == section.getId());
     }
 
     @Override

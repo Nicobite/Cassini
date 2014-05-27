@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -92,6 +92,45 @@ public class GraphicLane {
     }
     
     /**
+     * Add a transition to the transitions list
+     * @param t Transition to add
+     */
+    public void addTransition(NextLane t){
+        this.nextLanes.add(t);
+    }
+    
+    /**
+     * Remove a transition from the transition list
+     * @param t Transition to remove
+     */
+    public void removeTransition(NextLane t){
+        this.nextLanes.remove(t);
+    }
+    
+    /**
+     * find the transition to the next lane of a given section
+     * @param section Given section
+     * @return Next lane
+     */
+    public NextLane findNextLaneBySection(Section section){
+        NextLane result = null;
+        for(NextLane transition : this.getNextLanes()){
+            if(transition.getTargetLane().getSection().getSection().isEqualTo(section)){
+                result = transition;
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * Check if the transitions list is not empty
+     * @return true if the transitions list is not empty, false otherwise
+     */
+    public boolean hasTransition(){
+        return !this.getNextLanes().isEmpty();
+    }
+    
+    /**
      * Get source point
      * @return Source point
      */
@@ -108,11 +147,35 @@ public class GraphicLane {
     }
     
     /**
+     * Get direction
+     * @return Direction
+     */
+    public Direction getDirection() {
+        return direction;
+    }
+    
+    /**
      * Get section
      * @return Section
      */
     public GraphicSection getSection() {
         return section;
+    }
+    
+    /**
+     * Get id
+     * @return Id 
+     */
+    public String getId() {
+        return id;
+    }
+    
+    /**
+     * Get next lanes
+     * @return Next Lanes
+     */
+    public ArrayList<NextLane> getNextLanes() {
+        return nextLanes;
     }
     
     /**
@@ -131,10 +194,10 @@ public class GraphicLane {
         this.targetPoint = targetPoint;
     }
     
-    public Direction getDirection() {
-        return direction;
-    }
-    
+    /**
+     * Set direction
+     * @param direction New direction
+     */
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -149,6 +212,22 @@ public class GraphicLane {
     }
     
     /**
+     * Set id
+     * @param id New id 
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    /**
+     * Set next lanes
+     * @param nextLanes New next lanes 
+     */
+    public void setNextLanes(ArrayList<NextLane> nextLanes) {
+        this.nextLanes = nextLanes;
+    }
+    
+    /**
      * Set lane
      * @param lane New lane
      */
@@ -156,60 +235,6 @@ public class GraphicLane {
         this.lane = lane;
     }
     
-    
-    /**
-     * Add a transition to the transitions list
-     * @param t Transition to add
-     */
-    public void addTransition(NextLane t){
-        this.nextLanes.add(t);
-    }
-    
-    /**
-     * Remove a transition from the transition list
-     * @param t Transition to remove
-     */
-    public void removeTransition(NextLane t){
-        this.nextLanes.remove(t);
-    }
-    
-    public String getId() {
-        return id;
-    }
-    
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public ArrayList<NextLane> getNextLanes() {
-        return nextLanes;
-    }
-    
-    public void setNextLanes(ArrayList<NextLane> nextLanes) {
-        this.nextLanes = nextLanes;
-    }
-    /**
-     * find the transition to the next lane of a given section
-     * @param section
-     * @return
-     */
-    public NextLane findNextLaneBySection(Section section){
-        NextLane result = null;
-        for(NextLane transition : this.getNextLanes()){
-            if(transition.getTargetLane().getSection().getSection().isEqualTo(section)){
-                result = transition;
-            }
-        }
-        return result;
-    }
-    /**
-     * Check if the transitions list is not empty
-     * @return true if the transitions list is not empty, false otherwise
-     */
-    public boolean hasTransition(){
-        return !this.getNextLanes().isEmpty();
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -227,6 +252,4 @@ public class GraphicLane {
         }
         return true;
     }
-    
-    
 }

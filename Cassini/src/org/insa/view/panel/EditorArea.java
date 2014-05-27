@@ -1,5 +1,5 @@
 /*
-* Copyright 2014 Abel Juste Oueadraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+* Copyright 2014 Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -46,6 +46,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
     private final Pane boundPane = new Pane();
     private final NodeDrawingPanel nodeDrawingPanel;
     private final Pane currentRoadPane = new Pane();
+    private final Pane currentLanePane = new Pane();
     
     private EditorToolsDock editorToolsDock;
     
@@ -73,6 +74,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
         nodeDrawingPanel = new NodeDrawingPanel(drawingUtils);
         this.getChildren().add(boundPane);
         this.getChildren().add(currentRoadPane);
+        this.getChildren().add(currentLanePane);
         this.getChildren().add(nodeDrawingPanel);
         
         this.setOnMouseClicked(this);
@@ -219,9 +221,8 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
             MainController.getInstance().performGetMovingNode().getPoint().setY(drawingUtils.yToLat(y));
 
             Road road = MainController.getInstance().performGetMovingNode().getGraphicSections().get(0).getSection().getRoad();
-            
             super.init(road);
-            this.repaint(currentRoadPane, road);
+            this.repaint(currentRoadPane, currentLanePane, road);
         }  
     }
     
@@ -299,7 +300,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
         currentDrawingRoad.getGraphicRoad().addSection(section);
         this.getChildren().add(section);
         this.init(currentDrawingRoad);
-        this.repaint(currentRoadPane,currentDrawingRoad);
+        this.repaint(currentRoadPane,currentLanePane,currentDrawingRoad);
         
         sourceNode = targetNode;
         targetNode = null;
@@ -320,7 +321,7 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
         isDrawingRoad = false;
         
         this.init(currentDrawingRoad);
-        this.repaint(currentRoadPane,currentDrawingRoad);
+        this.repaint(currentRoadPane,currentLanePane,currentDrawingRoad);
         this.migrateRoad();
         
         nodeDrawingPanel.paintFirstAndLast(currentDrawingRoad);
@@ -328,12 +329,16 @@ public class EditorArea extends RoadDrawingPanel implements EventHandler<InputEv
     
     public void migrateRoad() {
         final ObservableList<Node> nodes = currentRoadPane.getChildren();
+        final ObservableList<Node> lanes = currentLanePane.getChildren();
         
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 roadPane.getChildren().addAll(nodes);
                 currentRoadPane.getChildren().clear();
+                
+                lanePane.getChildren().addAll(lanes);
+                currentLanePane.getChildren().clear();
             }
         });
     }

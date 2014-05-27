@@ -380,7 +380,7 @@ public class MainView extends JFrame implements ActionListener{
     }
 
     /**
-     * @return the time scale in percentage (100% <=> 1)
+     * @return the time scale in percentage
      */
     public float getTimeScale() {
         return timeScale/100f;

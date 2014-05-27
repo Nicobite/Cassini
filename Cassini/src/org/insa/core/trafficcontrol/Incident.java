@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,7 @@ import org.insa.core.enums.IncidentType;
 import org.insa.view.graphicmodel.GraphicIncident;
 
 /**
- *
- * @author Juste Abel Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * @author Abel Juste Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  * Class Incident
  */
 public class Incident {
@@ -50,6 +49,11 @@ public class Incident {
 
     private final GraphicIncident gIncident;
     
+    /**
+     * Constructor
+     * @param vhc Vehicle concerned by the incident
+     * @param type Incident type
+     */
     public Incident(Vehicle vhc, IncidentType type) {
         incident = type;
         this.position = new VehiclePosition(vhc.getDriving().getPosition());
@@ -58,51 +62,94 @@ public class Incident {
         gIncident = new GraphicIncident(this);
     }
 
-    //-----------Getters and setters ---------
-    public IncidentType getIncident() {
+    /**
+     * Get incident type
+     * @return incident type
+     */
+    public IncidentType getIncidentType() {
         return incident;
     }
 
-    public void setIncident(IncidentType incident) {
-        this.incident = incident;
-    }
-
-    public VehiclePosition getPosition() {
-        return position;
-    }
-
-    public void setPosition(VehiclePosition position) {
-        this.position = position;
-    }
-
-    public boolean isViewed() {
-        return viewed;
-    }
-
-    public void setViewed(boolean viewed) {
-        this.viewed = viewed;
-    }
-
+    /**
+     * Get vehicle
+     * @return Vehicle
+     */
     public Vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    /**
+     * Get position
+     * @return Position
+     */
+    public VehiclePosition getPosition() {
+        return position;
     }
 
+    /**
+     * Get time
+     * @return Time
+     */
     public int getTime() {
         return time;
     }
 
-    public void setTime(int time) {
-        this.time = time;
+    /**
+     * Is viewed
+     * @return true if viewed, false otherwise
+     */
+    public boolean isViewed() {
+        return viewed;
     }
-    
+
+    /**
+     * Get graphic incident
+     * @return Graphic incident
+     */
     public GraphicIncident getGraphicIncident() {
         return gIncident;
     }
 
+    /**
+     * Set incident type
+     * @param incident New incident type
+     */
+    public void setIncidentType(IncidentType incident) {
+        this.incident = incident;
+    }
+
+    /**
+     * Set vehicle
+     * @param vehicle New vehicle
+     */
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    /**
+     * Set position
+     * @param position New position 
+     */
+    public void setPosition(VehiclePosition position) {
+        this.position = position;
+    }
+
+    /**
+     * Set time
+     * @param time New time
+     */
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    /**
+     * Set viewed
+     * @param viewed New viewed boolean 
+     */
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -123,6 +170,4 @@ public class Incident {
         }
         return true;
     }
-    
-    
 }

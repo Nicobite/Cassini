@@ -95,7 +95,8 @@ public class TraficView extends Canvas{
     
     
     /**
-     * @wbp.parser.constructor
+     * Constructor
+     * @param globalModel Global model
      */
     public TraficView(GlobalModel globalModel){
         this(globalModel, new Coordinates(0,0),100000,100000);

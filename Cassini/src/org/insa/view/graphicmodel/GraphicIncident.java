@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Abel Juste Ouedraogo & Guillaume Garzone & François Aïssaoui & Thomas Thiebaud
+ * Copyright 2014 Juste Abel Ouedraogo, Guillaume Garzone, François Aïssaoui, Thomas Thiebaud
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ public class GraphicIncident extends AbstractGraphicProblem {
         super("incident");
         this.incident = incident;
         
-        switch(incident.getIncident()) {
+        switch(incident.getIncidentType()) {
             case WRONG_SPEED_LIMIT :
                 this.setImage("speed");
                 break;
