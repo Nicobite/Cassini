@@ -29,22 +29,22 @@ public class OsmBound {
      /**
      * bounds of the road network : minimum longitude
      */
-    @Attribute
+    @Attribute(name="minlon")
     private float minLon;
     /**
      * bounds of the road network : minimum latitude
      */
-    @Attribute
+    @Attribute(name="minlat")
     private float minLat;
     /**
      * bounds of the road network : maximum longitude
      */
-    @Attribute
+    @Attribute(name="maxlon")
     private float maxLon;
     /**
      * bounds of the road network : maximum latitude
      */
-    @Attribute
+    @Attribute(name="maxlat")
     private float maxLat;
 
     /**

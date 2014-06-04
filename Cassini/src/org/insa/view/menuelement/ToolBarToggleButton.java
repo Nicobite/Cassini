@@ -38,6 +38,7 @@ public class ToolBarToggleButton extends ToggleButton {
     public ToolBarToggleButton(String imageName, String name, CustomToolBar toolBar, String cssClass) {
         super(name);
         this.imageName = imageName;
+        System.out.println(imageName);
         this.setGraphic(new ImageView(new Image("/org/insa/view/image/" + imageName + ".png")));
         if(toolBar.getOrientation() == Orientation.HORIZONTAL) {
             this.setPrefHeight(50);
