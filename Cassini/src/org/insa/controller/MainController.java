@@ -300,25 +300,7 @@ public class MainController {
         }
     }
     
-    /**
-     * Open a map
-     * @param isMapEditor true if open into editor, false otherwise
-     */
-    public void performOpenMap(final boolean isMapEditor) {
-        FileChooser fileChooser = new FileChooser();
-        
-        fileChooser.setTitle("Open map");
-        fileChooser.setInitialDirectory(
-                new File(System.getProperty("user.home"))
-        );
-        
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", "*.map.xml"));
-        
-        if(isMapEditor)
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
-        
-        final File file = fileChooser.showOpenDialog(primaryStage);
-        
+    public void performOpenMap(final boolean isMapEditor, final File file) {
         ProgressIndicator pi = new ProgressIndicator();
         pi.setVisible(true);
         pi.setMaxWidth(50);
@@ -327,8 +309,7 @@ public class MainController {
         if(isMapEditor)
             editorPanel.setCenter(pi);
         else
-            mapPanel.setCenter(pi);
-        
+            mapPanel.setCenter(pi);       
         
         model.clear(); 
         simulationPanel = null;
@@ -394,6 +375,28 @@ public class MainController {
             else
                 this.performDisplayMessage(mapPanel, "Erreur lors de l'ouverture de la carte");
         }
+    }
+    
+    /**
+     * Open a map
+     * @param isMapEditor true if open into editor, false otherwise
+     */
+    public void performOpenMap(final boolean isMapEditor) {
+        FileChooser fileChooser = new FileChooser();
+        
+        fileChooser.setTitle("Open map");
+        fileChooser.setInitialDirectory(
+                new File(System.getProperty("user.home"))
+        );
+        
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("map", "*.map.xml"));
+        
+        if(isMapEditor)
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("osm", "*.osm"));
+        
+        final File file = fileChooser.showOpenDialog(primaryStage);
+        
+        this.performOpenMap(isMapEditor,file);
     }
     
     /**

@@ -340,3 +340,115 @@
 .titled-pane:focused > .title > .arrow-button .arrow {
     -fx-background-color: black;
 }
+
+/*******************************************************************************
+ *                                                                             *
+ * ListView and ListCell                                                       *
+ *                                                                             *
+ ******************************************************************************/
+
+.list-view {
+    -fx-background-color: #FFFFFF;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    
+     /* There is some oddness if padding is in em values rather than pixels,
+        in particular, the left border of the control doesn't show. */
+    -fx-padding: 0;
+}
+
+.list-view:focused {
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+
+    /* There is some oddness if padding is in em values rather than pixels,
+       in particular, the left border of the control doesn't show. */
+    -fx-padding: 0;
+}
+
+.list-view .scroll-bar:vertical{
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.list-view .scroll-bar:horizontal{
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.list-view:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+.list-view .corner {
+    -fx-background-color: -fx-box-border, -fx-base;
+    -fx-background-insets: 0, 1 0 0 1;
+}
+
+.list-cell {
+    -fx-background-color: #EFEFEF;
+    -fx-padding: 5;
+    -fx-text-fill: black;
+    -fx-opacity: 1;
+}
+
+.list-cell:odd {
+    -fx-background-color: #FFFFFF;
+}
+
+.list-view:focused .list-cell:focused {
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+}
+
+.list-view:focused .list-cell:focused:odd {
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+}
+
+/* When the list-cell is selected and focused */
+.list-view:focused .list-cell:filled:focused:selected {
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+    -fx-background: -fx-accent;
+    -fx-text-fill: black;
+}
+
+.list-view:focused .list-cell:filled:selected, .list-view:focused .list-cell:filled:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #E2E5E6;
+    -fx-text-fill: black;
+}
+
+.list-view:focused .list-cell:filled:focused:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+/* When the ListView is _not_ focused, we show alternate selection colors */
+.list-cell:filled:selected:focused, .list-cell:filled:selected, .list-view:horizontal .list-cell:filled:selected {
+    -fx-background-color: #E2E5E6;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+
+.list-cell:filled:selected:focused:disabled, .list-cell:filled:selected:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: orange;
+    -fx-text-fill: black;
+}
+
+.list-view:focused .list-cell:filled:focused:hover {
+    -fx-background-color: #E2E5E6;
+    -fx-background-insets: 0;
+    -fx-text-fill: black;
+}
+
+.list-view:horizontal .list-cell:filled:selected, .list-view:horizontal .list-cell:filled:selected:hover {
+    -fx-background-color: -fx-accent;
+}

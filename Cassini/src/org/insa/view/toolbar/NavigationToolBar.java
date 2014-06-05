@@ -61,7 +61,6 @@ public class NavigationToolBar extends CustomToolBar {
                 break;
             case "map" :
                 MainController.getInstance().performDisplayMapPanel();
-                MainController.getInstance().performOpenMap(false);
                 break;
             case "car" :
                 MainController.getInstance().performDisplayVehiclesPanel();
@@ -73,5 +72,8 @@ public class NavigationToolBar extends CustomToolBar {
                 MainController.getInstance().performDisplayResultPanel();
                 break;
         }
+        
+        if(!button.isSelected())
+            button.setSelected(true);
     }
 }
