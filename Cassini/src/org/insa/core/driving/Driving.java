@@ -210,4 +210,9 @@ public class Driving {
     public void setBehavior(Behavior behavior) {
         this.behavior = behavior;
     }
+
+    @Override
+    public String toString() {
+        return "Driving{" + "speed=" + speed + ", acceleration=" + acceleration + ", distanceToLeader=" + distanceToLeader + ", time=" + time + ", position=" + position + ", decision=" + decision + ", behavior=" + behavior + '}';
+    }
 }

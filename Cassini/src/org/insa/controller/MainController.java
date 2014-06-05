@@ -428,11 +428,9 @@ public class MainController {
     /**
      * Add a vehicle o the vehicle model
      * @param vehicle Vehicle to add
-     * @param quantity Number of vehicles to add
      */
-    public void performAddVehicle(Vehicle vehicle, int quantity) {
-        for(int i=0; i<quantity; i++)
-            model.getVehiclesModel().addVehicle(vehicle);
+    public void performAddVehicle(Vehicle vehicle) {
+        model.getVehiclesModel().addVehicle(vehicle);
         MainController.getInstance().performUpdateVehiclesTable();
     }
     
@@ -557,6 +555,7 @@ public class MainController {
      * Start the simulation
      */
     public void performPlaySimulation() {
+        System.out.println(model.getVehiclesModel());
         simulationController.start();
     }
     

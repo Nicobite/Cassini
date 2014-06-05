@@ -81,7 +81,6 @@ public class Vehicle {
      * Default constructor
      */
     public Vehicle(){
-        super();
         driving = new Driving();
     }
     
@@ -544,6 +543,11 @@ public class Vehicle {
      */
     public void setHasMission(boolean hasMission) {
         this.hasMission = hasMission;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" + "maxSpeed=" + maxSpeed + ", maxAcceleration=" + maxAcceleration + ", maxDeceleration=" + maxDeceleration + ", length=" + length + ", driving=" + driving + ", mission=" + mission + ", hasMission=" + hasMission + '}';
     }
 }
 

@@ -66,12 +66,13 @@ public class VehiclesForm extends FormPanel {
     @Override
     public void performSubmitAction() {
         if(formValidator.validate()) {
-            Vehicle vehicle = new Vehicle();
-            vehicle.setMaxSpeed(Integer.valueOf(maxSpeed.getText()));
-            vehicle.setMaxAcceleration(Integer.valueOf(maxAcceleration.getText()));
-            vehicle.setMaxDeceleration(Integer.valueOf(maxDeceleration.getText()));
-            vehicle.setLength(Integer.valueOf(length.getText()));
             
+            int maxSpeedValue = Integer.valueOf(maxSpeed.getText());
+            int maxAccelerationValue = Integer.valueOf(maxAcceleration.getText());
+            int maxDecelerationValue = Integer.valueOf(maxDeceleration.getText());
+            int lengthValue = Integer.valueOf(length.getText());
+            Mission missionValue = null;
+
             try {
                 GraphicNode sourceNode = mission.getSourceNodePicker().getNode().getGraphicNode();
                 GraphicNode targetNode = mission.getTargetNodePicker().getNode().getGraphicNode();
@@ -89,16 +90,24 @@ public class VehiclesForm extends FormPanel {
                         break;
                     }
                 }
-                vehicle.setMission(new Mission(sourceSection.getSection(), targetSection.getSection()));
+                missionValue = new Mission(sourceSection.getSection(), targetSection.getSection());
             } catch (PathNotFoundException ex) {
                 informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
                 Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
             } catch (NullPointerException ex) {
                 //Easy way to allow a null mission
-                
                 //Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
             }
-            MainController.getInstance().performAddVehicle(vehicle, Integer.valueOf(quantity.getText()).intValue());
+            
+            for(int i=0; i< Integer.valueOf(quantity.getText()).intValue(); i++) {
+                Vehicle vehicle = new Vehicle();
+                vehicle.setMaxSpeed(maxSpeedValue);
+                vehicle.setMaxAcceleration(maxAccelerationValue);
+                vehicle.setMaxDeceleration(maxDecelerationValue);
+                vehicle.setLength(lengthValue);
+                vehicle.setMission(missionValue);
+                MainController.getInstance().performAddVehicle(vehicle);
+            }
             informationLabel.setText(formValidator.getSuccess());
         } else {
             informationLabel.setText(formValidator.getError());

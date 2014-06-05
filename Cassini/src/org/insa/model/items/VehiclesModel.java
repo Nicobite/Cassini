@@ -60,11 +60,9 @@ public class VehiclesModel {
     /**
      * Add a vehicle
      * @param v Vehicle to add
-     * @return Vehicles model
      */
-    public VehiclesModel addVehicle(Vehicle v){
+    public void addVehicle(Vehicle v){
         this.vehicles.add(v);
-        return this;
     }
     
     /**
@@ -91,5 +89,14 @@ public class VehiclesModel {
      */
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for(Vehicle v : vehicles) {
+            s += v.toString() + "\n";
+        }
+        return s;
     }
 }
