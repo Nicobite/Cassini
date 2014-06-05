@@ -17,6 +17,7 @@ package org.insa.xml.osm;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import org.insa.core.enums.Direction;
 import org.insa.core.roadnetwork.NextSection;
 import org.insa.core.roadnetwork.Node;
@@ -94,9 +95,7 @@ public class OsmRoot {
                     roadsModel.addRoad(road);
             }
         }
-        iniJunctions(roadsModel, nodes);
-        addConnections(roadsModel);
-        //splitRoadsByJunctions(roadsModel);
+        addConnections(roadsModel, nodes);
         return roadsModel;
     }
     
@@ -162,7 +161,7 @@ public class OsmRoot {
     
     /**
      * Get all the traffic lights from the roads network
-     * @return Traffic lights
+     * @return 
      */
     public ArrayList<TrafficLight> getTrafficLightFromRoads(){
         ArrayList<TrafficLight> result = new ArrayList<>();
@@ -176,26 +175,28 @@ public class OsmRoot {
     
     /**
      * Adds connections between roads at network-wide
-     * @param roadModel Road model
+     * @param roadModel
+     * @param osmNodes
      */
-    public void addConnections(RoadsModel roadModel){
+    public void addConnections(RoadsModel roadModel, HashMap<Long, OsmNode> osmNodes ){
+        Iterator<Long> iter = osmNodes.keySet().iterator();
         Long id;
-        Section section;
-        ArrayList<Road> others ;
-        ArrayList <Node> nodes = roadModel.getNodes();
-        for(Node node : nodes){
-            // get the roads containing this node and build connections
-            for(Road road : node.getRoads()){
-                others = new ArrayList<>(node.getRoads());
+        OsmNode osmNode;
+        ArrayList<Road> others = null;
+        while(iter.hasNext()){
+            id = iter.next();
+            // get osm node
+            osmNode = osmNodes.get(id);
+            // get the roads at containing this node and build connections
+            for(Road road : osmNode.getRoads()){
+                others = new ArrayList<>(osmNode.getRoads());
                 others.remove(road);
                 if(others.size()>0)
-                    connectRoads(node.getGraphicNode().getNode(), road, others);
+                    connectRoads(osmNode.getGraphicNode().getNode(), road, others);
+            }
                 
             }
         }
-        
-    }
-    
     /**
      * Add connections between a road and it's sucessors roads
      * @param road Road to connect
@@ -257,19 +258,7 @@ public class OsmRoot {
     }
     
     /**
-     * Initialize junstions
-     * @param modelRoad model
-     * @param list OsmNode list
-     */
-    private void iniJunctions(RoadsModel model, HashMap<Long, OsmNode> list){
-        ArrayList<Node> nodes = model.getNodes();
-        for(Node n : nodes){
-            n.setRoads(list.get(n.getId()).getRoads());
-        }
-    }
-    
-    /**
-     * Infer the road network bounds (min latitude and longitude,\n
+     * infer the road network bounds (min latitude and longitude,\n
      * and max longitude and latitude
      * @param nodes the list of osm nodes
      * @return the boundary of the road network
