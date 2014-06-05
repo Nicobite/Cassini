@@ -1,0 +1,212 @@
+<roadsModel minLon="0.0" minLat="0.0" maxLon="0.004" maxLat="0.004">
+   <roads>
+      <road id="0">
+         <gRoad>
+            <sections>
+               <graphicSection sourceDeltaX="-4.036849855567877E-6" sourceDeltaY="-1.895300404618737E-7" targetDeltaX="-4.036849855567877E-6" targetDeltaY="-1.895300404618737E-7" length="694.4995">
+                  <section id="-1330478419-1734723709">
+                     <maxSpeed>0.0</maxSpeed>
+                     <successors>
+                        <nextSection ref="-323494444-1734723709" direction="FORWARD"/>
+                        <nextSection ref="-2103504244-1734723709" direction="FORWARD"/>
+                        <nextSection ref="2000038330-1734723709" direction="FORWARD"/>
+                     </successors>
+                  </section>
+                  <longLatPoints>
+                     <double>0.0019277288168163382</double>
+                     <double>0.002826805447542391</double>
+                     <double>0.001942543714256712</double>
+                     <double>0.0020462230195638755</double>
+                     <double>0.0019586911136789836</double>
+                     <double>0.002046981139725723</double>
+                     <double>0.0019438762162386097</double>
+                     <double>0.0028275635677042386</double>
+                  </longLatPoints>
+                  <from>
+                     <node id="-1330478419" signaling="NONE"/>
+                     <point lon="0.001935802516527474" lat="0.002827184507623315"/>
+                  </from>
+                  <to>
+                     <node id="1734723709" signaling="NONE"/>
+                     <point lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                  </to>
+                  <forwardLanes>
+                     <graphicLane direction="FORWARD" id="-1330478419-1734723709F0">
+                        <sourcePoint lon="0.001935802516527474" lat="0.002827184507623315"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-323494444-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-2103504244-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="2000038330-1734723709B0"/>
+                        </nextLanes>
+                     </graphicLane>
+                  </forwardLanes>
+                  <backwardLanes>
+                     <graphicLane direction="BACKWARD" id="-1330478419-1734723709B0">
+                        <sourcePoint lon="0.001935802516527474" lat="0.002827184507623315"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes/>
+                     </graphicLane>
+                  </backwardLanes>
+               </graphicSection>
+            </sections>
+         </gRoad>
+      </road>
+      <road id="0">
+         <gRoad>
+            <sections>
+               <graphicSection sourceDeltaX="-3.481466891684659E-8" sourceDeltaY="6.351812336387753E-6" targetDeltaX="-3.481466891684659E-8" targetDeltaY="6.351812336387753E-6" length="509.6216">
+                  <section id="-323494444-1734723709">
+                     <maxSpeed>50.0</maxSpeed>
+                     <successors>
+                        <nextSection ref="-1330478419-1734723709" direction="FORWARD"/>
+                        <nextSection ref="-2103504244-1734723709" direction="FORWARD"/>
+                        <nextSection ref="2000038330-1734723709" direction="FORWARD"/>
+                     </successors>
+                  </section>
+                  <longLatPoints>
+                     <double>0.0025233873036390082</double>
+                     <double>0.002067072701759224</double>
+                     <double>0.0019505477846300141</double>
+                     <double>0.0020593057043175747</double>
+                     <double>0.0019506870433056815</double>
+                     <double>0.0020338984549720237</double>
+                     <double>0.0025235265623146756</double>
+                     <double>0.002041665452413673</double>
+                  </longLatPoints>
+                  <from>
+                     <node id="-323494444" signaling="NONE"/>
+                     <point lon="0.002523456932976842" lat="0.0020543690770864487"/>
+                  </from>
+                  <to>
+                     <node id="1734723709" signaling="NONE"/>
+                     <point lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                  </to>
+                  <forwardLanes>
+                     <graphicLane direction="FORWARD" id="-323494444-1734723709F0">
+                        <sourcePoint lon="0.002523456932976842" lat="0.0020543690770864487"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-1330478419-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-2103504244-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="2000038330-1734723709B0"/>
+                        </nextLanes>
+                     </graphicLane>
+                  </forwardLanes>
+                  <backwardLanes>
+                     <graphicLane direction="BACKWARD" id="-323494444-1734723709B0">
+                        <sourcePoint lon="0.002523456932976842" lat="0.0020543690770864487"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes/>
+                     </graphicLane>
+                  </backwardLanes>
+               </graphicSection>
+            </sections>
+         </gRoad>
+      </road>
+      <road id="0">
+         <gRoad>
+            <sections>
+               <graphicSection sourceDeltaX="4.03858707047431E-6" sourceDeltaY="3.489965780321784E-8" targetDeltaX="4.03858707047431E-6" targetDeltaY="3.489965780321784E-8" length="628.741">
+                  <section id="-2103504244-1734723709">
+                     <maxSpeed>50.0</maxSpeed>
+                     <successors>
+                        <nextSection ref="-1330478419-1734723709" direction="FORWARD"/>
+                        <nextSection ref="-323494444-1734723709" direction="FORWARD"/>
+                        <nextSection ref="2000038330-1734723709" direction="FORWARD"/>
+                     </successors>
+                  </section>
+                  <longLatPoints>
+                     <double>0.001961163640669424</double>
+                     <double>0.001339875693846916</double>
+                     <double>0.0019586945881087964</double>
+                     <double>0.0020466718789604057</double>
+                     <double>0.0019425402398268992</double>
+                     <double>0.002046532280329193</double>
+                     <double>0.0019450092923875267</double>
+                     <double>0.0013397360952157032</double>
+                  </longLatPoints>
+                  <from>
+                     <node id="-2103504244" signaling="NONE"/>
+                     <point lon="0.0019530864665284753" lat="0.0013398058945313096"/>
+                  </from>
+                  <to>
+                     <node id="1734723709" signaling="NONE"/>
+                     <point lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                  </to>
+                  <forwardLanes>
+                     <graphicLane direction="FORWARD" id="-2103504244-1734723709F0">
+                        <sourcePoint lon="0.0019530864665284753" lat="0.0013398058945313096"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-1330478419-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-323494444-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="2000038330-1734723709B0"/>
+                        </nextLanes>
+                     </graphicLane>
+                  </forwardLanes>
+                  <backwardLanes>
+                     <graphicLane direction="BACKWARD" id="-2103504244-1734723709B0">
+                        <sourcePoint lon="0.0019530864665284753" lat="0.0013398058945313096"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes/>
+                     </graphicLane>
+                  </backwardLanes>
+               </graphicSection>
+            </sections>
+         </gRoad>
+      </road>
+      <road id="0">
+         <gRoad>
+            <sections>
+               <graphicSection sourceDeltaX="1.3918112720927994E-7" sourceDeltaY="-6.34827522639006E-6" targetDeltaX="1.3918112720927994E-7" targetDeltaY="-6.34827522639006E-6" length="510.3237">
+                  <section id="2000038330-1734723709">
+                     <maxSpeed>50.0</maxSpeed>
+                     <successors>
+                        <nextSection ref="-1330478419-1734723709" direction="FORWARD"/>
+                        <nextSection ref="-323494444-1734723709" direction="FORWARD"/>
+                        <nextSection ref="-2103504244-1734723709" direction="FORWARD"/>
+                     </successors>
+                  </section>
+                  <longLatPoints>
+                     <double>0.0013780562572132723</double>
+                     <double>0.0020028375394254214</double>
+                     <double>0.0019508957762222664</double>
+                     <double>0.002033905529192019</double>
+                     <double>0.0019503390517134293</double>
+                     <double>0.0020592986300975794</double>
+                     <double>0.0013774995327044352</double>
+                     <double>0.0020282306403309816</double>
+                  </longLatPoints>
+                  <from>
+                     <node id="2000038330" signaling="NONE"/>
+                     <point lon="0.0013777778949588537" lat="0.0020155340898782015"/>
+                  </from>
+                  <to>
+                     <node id="1734723709" signaling="NONE"/>
+                     <point lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                  </to>
+                  <forwardLanes>
+                     <graphicLane direction="FORWARD" id="2000038330-1734723709F0">
+                        <sourcePoint lon="0.0013777778949588537" lat="0.0020155340898782015"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-1330478419-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-323494444-1734723709B0"/>
+                           <nextLane restriction="NONE" indication="NONE" signal="NONE" ref="-2103504244-1734723709B0"/>
+                        </nextLanes>
+                     </graphicLane>
+                  </forwardLanes>
+                  <backwardLanes>
+                     <graphicLane direction="BACKWARD" id="2000038330-1734723709B0">
+                        <sourcePoint lon="0.0013777778949588537" lat="0.0020155340898782015"/>
+                        <targetPoint lon="0.0019506174139678478" lat="0.0020466020796447992"/>
+                        <nextLanes/>
+                     </graphicLane>
+                  </backwardLanes>
+               </graphicSection>
+            </sections>
+         </gRoad>
+      </road>
+   </roads>
+</roadsModel>
