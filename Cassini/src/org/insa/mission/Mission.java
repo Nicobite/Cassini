@@ -111,8 +111,7 @@ public class Mission {
      */
     public Lane getInitialLane(){
         Lane result; NextSection next = null;
-        Section section = this.getPath().getGraphicRoad().getSections()
-                .get(1).getSection();
+        Section section = this.getPath().getGraphicRoad().getSections().get(1).getSection();
         for(NextSection s : origin.getSuccessors()){
             if(s.getSection().isEqualTo(section)){
                 next = s;
