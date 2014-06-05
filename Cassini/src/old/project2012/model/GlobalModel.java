@@ -432,10 +432,8 @@ public class GlobalModel {
         }
         
         for (Junction j:getJunctions()){
-            j.getVehicules().clear();
-            
-        }
-            
+            j.getVehicules().clear();   
+        }    
     }
 
 

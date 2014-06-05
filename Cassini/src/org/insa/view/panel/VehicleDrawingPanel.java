@@ -110,8 +110,8 @@ public class VehicleDrawingPanel extends StackPane {
         } else if (lane.getDirection() == Direction.BACKWARD) {
             deltaX = drawingUtils.longToX(lane.getSourcePoint().getX()) - drawingUtils.longToX(lane.getTargetPoint().getX());
             deltaY = drawingUtils.latToY(lane.getSourcePoint().getY()) - drawingUtils.latToY(lane.getTargetPoint().getY());
-            point[0] = drawingUtils.longToX(lane.getTargetPoint().getX() + section.getTargetDeltaX()) + ratio * deltaX;
-            point[1] = drawingUtils.latToY(lane.getTargetPoint().getY() + section.getTargetDeltaY()) + ratio * deltaY;
+            point[0] = drawingUtils.longToX(lane.getTargetPoint().getX() - section.getTargetDeltaX()) + ratio * deltaX;
+            point[1] = drawingUtils.latToY(lane.getTargetPoint().getY() - section.getTargetDeltaY()) + ratio * deltaY;
         }
                 
         return point;

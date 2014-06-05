@@ -25,7 +25,6 @@ import org.insa.core.roadnetwork.Road;
 import org.insa.core.roadnetwork.Section;
 import org.insa.core.trafficcontrol.TrafficLight;
 import org.insa.model.items.RoadsModel;
-import org.insa.view.graphicmodel.GraphicSection;
 import org.insa.xml.osm.entities.OsmBound;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -97,66 +96,6 @@ public class OsmRoot {
         }
         addConnections(roadsModel, nodes);
         return roadsModel;
-    }
-    
-    /**
-     * Split roads in order to create junctions
-     * @param roadModel Road model
-     */
-    public void splitRoadsByJunctions(RoadsModel roadModel){
-        ArrayList <Node> nodes = roadModel.getNodes();
-        System.out.println(nodes.size());
-        int index;
-        Section section;
-        ArrayList<Road> toAdd = new ArrayList<>() ;
-        Road newRoad = new Road();
-        ArrayList<GraphicSection> list1, list2;
-        boolean isBeginJunction, isEndJunction;
-        for(Node node : nodes){
-            if(node.getRoads().size()>1)
-                for(Road road : node.getRoads()){
-                    //split roads
-                    isBeginJunction =
-                            road.getFirstSection().getSourceNode().equals(node.getGraphicNode());
-                    isEndJunction =
-                            road.getLastSection().getTargetNode().equals(node.getGraphicNode());
-                    if(!(isBeginJunction || isEndJunction) && road.size()>1){
-                        //section =  road.findSectionBySourceNode(node.getGraphicNode().getNode());
-                        index = road.getNodes().indexOf(node);
-                        if(index >0){
-                            list1 = new ArrayList<>(road.getGraphicRoad().getSections().subList(0, index));
-                            System.out.println("road size : "+road.size()+";"+index);
-                            list2 = new ArrayList<>(road.getGraphicRoad().getSections().subList(index,road.size()));
-                            newRoad.getGraphicRoad().setSections(list2);
-                            road.getGraphicRoad().setSections(list1);
-                            newRoad.setId(hashCode());
-                            newRoad.setType(road.getType()); newRoad.setOneway(road.isOneway());
-                            roadModel.addRoad(newRoad);
-                            
-                            toAdd.add(newRoad);
-                            
-                            for(Node n : nodes){
-                                n.updateRoad(index, road, newRoad);
-                            }
-                            /* for(Node n : road.getNodes()){
-                            n.updateRoad(newRoad, road);
-                            }
-                            /*
-                            System.out.println("Road 1 : ");
-                            for(GraphicSection s : road.getGraphicRoad().getSections()){
-                            System.out.println(s.getSection().getId());
-                            }
-                            
-                            System.out.println("Road 2 : ");
-                            for(GraphicSection s : newRoad.getGraphicRoad().getSections()){
-                            System.out.println(s.getSection().getId());
-                            s.getSection().setRoad(newRoad);
-                            }*/
-                        }
-                    }
-                }
-            node.getRoads().addAll(toAdd);
-        }
     }
     
     /**
