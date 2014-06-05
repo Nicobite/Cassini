@@ -69,8 +69,14 @@ public class Mission {
         this.currentSectNum = 0;
         
         //compute the path
-        AStar a = new AStar(org, dest);
-        path = a.getShortestPath();
+        if(org.equals(dest)){
+            path = new Road();
+            path.addSection(org);
+        }
+        else{
+            AStar a = new AStar(org, dest);
+            path = a.getShortestPath();
+        }
     }
     
     /**
@@ -88,8 +94,14 @@ public class Mission {
         this.currentSectNum = 0;
         
         //compute the path
-        AStar a = new AStar(m, org, dest);
-        path = a.getShortestPath();
+        if(org.equals(dest)){
+            path = new Road();
+            path.addSection(org);
+        }
+        else{
+            AStar a = new AStar(m, org, dest);
+            path = a.getShortestPath();
+        }
     }
     
     /**
@@ -109,7 +121,13 @@ public class Mission {
      * @return Initial lane 
      */
     public Lane getInitialLane(){
-        Lane result; NextSection next = null;
+        Lane result = null; NextSection next = null;
+        //if path.size = 1 (only one section)
+        if(this.getPath().getGraphicRoad().getSections().size() == 1){
+            result = this.getPath().getFirstSection().getForwardLanes().get(0).getLane();
+        }
+        else{  
+        
         Section section = this.getPath().getGraphicRoad().getSections().get(1).getSection();
         for(NextSection s : origin.getSuccessors()){
             if(s.getSection().isEqualTo(section)){
@@ -118,7 +136,8 @@ public class Mission {
         }
         result = (next.getDirection() == Direction.FORWARD) ?
                 origin.getGraphicSection().getForwardLanes().get(0).getLane() :
-                origin.getGraphicSection().getBackwardLanes().get(0).getLane()       ;
+                origin.getGraphicSection().getBackwardLanes().get(0).getLane();
+        }
         return result;
     }
     
