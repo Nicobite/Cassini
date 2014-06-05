@@ -555,7 +555,6 @@ public class MainController {
      * Start the simulation
      */
     public void performPlaySimulation() {
-        System.out.println(model.getVehiclesModel());
         simulationController.start();
     }
     

@@ -72,32 +72,6 @@ public class VehiclesForm extends FormPanel {
             int maxDecelerationValue = Integer.valueOf(maxDeceleration.getText());
             int lengthValue = Integer.valueOf(length.getText());
             Mission missionValue = null;
-
-            try {
-                GraphicNode sourceNode = mission.getSourceNodePicker().getNode().getGraphicNode();
-                GraphicNode targetNode = mission.getTargetNodePicker().getNode().getGraphicNode();
-                GraphicSection sourceSection = null;
-                GraphicSection targetSection = null;
-                for(GraphicSection s : mission.getSourceNodePicker().getNode().getGraphicNode().getGraphicSections()) {
-                    if(s.getSourceNode().equals(sourceNode)) {
-                        sourceSection = s;
-                        break;
-                    }
-                }
-                for(GraphicSection s : mission.getTargetNodePicker().getNode().getGraphicNode().getGraphicSections()) {
-                    if(s.getTargetNode().equals(targetNode)) {
-                        targetSection = s;
-                        break;
-                    }
-                }
-                missionValue = new Mission(sourceSection.getSection(), targetSection.getSection());
-            } catch (PathNotFoundException ex) {
-                informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
-                Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
-            } catch (NullPointerException ex) {
-                //Easy way to allow a null mission
-                //Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
-            }
             
             for(int i=0; i< Integer.valueOf(quantity.getText()).intValue(); i++) {
                 Vehicle vehicle = new Vehicle();
@@ -105,9 +79,38 @@ public class VehiclesForm extends FormPanel {
                 vehicle.setMaxAcceleration(maxAccelerationValue);
                 vehicle.setMaxDeceleration(maxDecelerationValue);
                 vehicle.setLength(lengthValue);
+                
+                try {
+                    GraphicNode sourceNode = mission.getSourceNodePicker().getNode().getGraphicNode();
+                    GraphicNode targetNode = mission.getTargetNodePicker().getNode().getGraphicNode();
+                    GraphicSection sourceSection = null;
+                    GraphicSection targetSection = null;
+                    for(GraphicSection s : mission.getSourceNodePicker().getNode().getGraphicNode().getGraphicSections()) {
+                        if(s.getSourceNode().equals(sourceNode)) {
+                            sourceSection = s;
+                            break;
+                        }
+                    }
+                    for(GraphicSection s : mission.getTargetNodePicker().getNode().getGraphicNode().getGraphicSections()) {
+                        if(s.getTargetNode().equals(targetNode)) {
+                            targetSection = s;
+                            break;
+                        }
+                    }
+                    missionValue = new Mission(sourceSection.getSection(), targetSection.getSection());
+                } catch (PathNotFoundException ex) {
+                    informationLabel.setText("Les points choisis pour la mission ne sont pas joignables");
+                    Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, "mission non réalisable", "Mission non réalisable");
+                } catch (NullPointerException ex) {
+                    //Easy way to allow a null mission
+                    //ex.printStackTrace();
+                    Logger.getLogger(VehiclesForm.class.getName()).log(Level.SEVERE, ex.toString());
+                }
+                
                 vehicle.setMission(missionValue);
                 MainController.getInstance().performAddVehicle(vehicle);
             }
+            
             informationLabel.setText(formValidator.getSuccess());
         } else {
             informationLabel.setText(formValidator.getError());

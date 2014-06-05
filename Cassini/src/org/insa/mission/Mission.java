@@ -99,8 +99,7 @@ public class Mission {
      */
     public NextLane getNextLane(GraphicLane currentLane){
         NextLane result;
-        Section nextSection = this.getPath().getGraphicRoad().getSections()
-                .get(this.getCurrentSectNum()).getSection();
+        Section nextSection = this.getPath().getGraphicRoad().getSections().get(this.getCurrentSectNum()).getSection();
         result = currentLane.findNextLaneBySection(nextSection);
         return result;
     }

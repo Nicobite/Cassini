@@ -16,6 +16,7 @@
 package org.insa.view.graphicmodel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
@@ -399,7 +400,7 @@ public class GraphicSection extends Polygon {
     public String toString() {
         return "GraphicSection{sourceNode=" + sourceNode + ", targetNode=" + targetNode + ", forwardLanes=" + forwardLanes + ", backwardLanes=" + backwardLanes + '}';
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -409,7 +410,13 @@ public class GraphicSection extends Polygon {
             return false;
         }
         final GraphicSection other = (GraphicSection) obj;
-        return (this.getSourceNode().equals(other.getSourceNode())) &&
-                (this.getTargetNode().equals(other.getTargetNode()));
+        if (!Objects.equals(this.sourceNode, other.sourceNode)) {
+            return false;
+        }
+        if (!Objects.equals(this.targetNode, other.targetNode)) {
+            return false;
+        }
+        return true;
     }
+    
 }

@@ -132,8 +132,6 @@ public class SimulationTask extends TimerTask {
         for(int i = 0; i< model.getNbDrivingVehicles(); i++){
             vehicle = model.getDrivingVehiclesModel().getVehicles().get(i);       
             
-
-            
             // Make decision
             vehicle.makeDecision();
             
@@ -151,7 +149,6 @@ public class SimulationTask extends TimerTask {
                 model.getDrivingVehiclesModel().removeVehicle(vehicle);
                 if(vehicle.hasMission()){
                     vehicle.getMission().setStatus(MissionStatus.COMPLETED);
-                    System.out.println("Mission successful");
                 }
                 else{
                     model.getVehiclesModel().addVehicle(vehicle);

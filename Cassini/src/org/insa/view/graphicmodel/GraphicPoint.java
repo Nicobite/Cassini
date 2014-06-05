@@ -95,4 +95,9 @@ public class GraphicPoint implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "GraphicPoint{" + "x=" + x + ", y=" + y + '}';
+    }
 }
