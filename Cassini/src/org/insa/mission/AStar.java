@@ -76,14 +76,17 @@ public class AStar {
      * @throws PathNotFoundException No path found
      */
     public Road getShortestPath() throws PathNotFoundException{
+        if(origin == null || null == destination){
+            throw new PathNotFoundException();
+        }
         run();
         if(labelDest.getCost() == Float.POSITIVE_INFINITY)
             throw new PathNotFoundException();
         Road road = new Road();
-        road.addSection(destination);
+        //road.addSection(destination);
         Label courant = labelDest;
-        while(courant.getParent() != null){
-            road.addSection(courant.getParent());
+        while(courant != null){
+            road.addSection(courant.getCurrent());
             courant = mapLabels.get(courant.getParent());
         }
         Collections.reverse(road.getGraphicRoad().getSections());
